@@ -1,0 +1,80 @@
+/* ── typographic expressions ──────────────────────────────────────────── */
+/* expressions describe compositional intent — what the text is doing in  */
+/* the design. they are orthogonal to variants (structural role).          */
+/* apply via the Text component's expression prop or manually via class.   */
+
+/* ── expression: title-card ──────────────────────────────────────────── */
+/* scene-opening headers. very large, line-height below 1, max-width tight */
+.expr-title-card {
+  font-family: var(--font-body);
+  font-size: clamp(3.4rem, 10vw, 8rem);
+  font-weight: 400;
+  line-height: 0.91;
+  letter-spacing: -0.05em;
+  max-width: 10ch;
+}
+
+/* ── expression: manifesto ───────────────────────────────────────────── */
+/* philosophical statements, pull-quotes, oblique voice */
+.expr-manifesto {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  line-height: 1.45;
+  color: var(--text-soft);
+  max-width: 30rem;
+}
+
+/* ── expression: readout ─────────────────────────────────────────────── */
+/* data labels, system output, status-like content */
+.expr-readout {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── expression: whisper ─────────────────────────────────────────────── */
+/* supporting notes, parenthetical content, secondary metadata */
+.expr-whisper {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--muted-strong);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── expression: command ─────────────────────────────────────────────── */
+/* CTAs, active instructions, call-to-action labels */
+.expr-command {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── expression: chapter ─────────────────────────────────────────────── */
+/* section openers, scene numbers, narrative markers */
+.expr-chapter {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* adds a line after the label */
+.expr-chapter::after {
+  content: '';
+  display: block;
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  max-width: 4rem;
+}

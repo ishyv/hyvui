@@ -1,0 +1,74 @@
+/* ── register system ──────────────────────────────────────────────────── */
+/* registers shift the weight distribution of the design. no new colors   */
+/* or fonts — the same gold, teal, ET Book, and IBM Plex Mono, but their  */
+/* relative presence changes.                                              */
+/*                                                                         */
+/* apply: <body data-register="field-notebook">                            */
+/* or:    applyRegister('field-notebook')                                  */
+
+/* ── base fallbacks (no register declared) ───────────────────────────── */
+:root {
+  --reg-font-primary: var(--font-body);
+  --reg-font-ui: var(--font-mono);
+  --reg-heading-tracking: -0.04em;
+  --reg-heading-lh: 0.94;
+  --reg-body-size: 1rem;
+  --reg-label-size: 0.68rem;
+  --reg-label-tracking: 0.14em;
+  --reg-surface-opacity: 0.8;
+  --reg-ornament-opacity: 0.14;
+  --reg-accent-weight: 1;
+  --reg-signal-weight: 1;
+  --reg-spacing-scale: 1;
+}
+
+/* ── register: field-notebook ────────────────────────────────────────── */
+/* editorial, warm, serif-forward. for portfolios, narrative pages, about */
+[data-register='field-notebook'] {
+  --reg-font-primary: var(--font-body);
+  --reg-font-ui: var(--font-mono);
+  --reg-heading-tracking: -0.05em;
+  --reg-heading-lh: 0.92;
+  --reg-body-size: 1.18rem;
+  --reg-label-size: 0.7rem;
+  --reg-label-tracking: 0.14em;
+  --reg-surface-opacity: 0.72;
+  --reg-ornament-opacity: 0.18;
+  --reg-accent-weight: 1;
+  --reg-signal-weight: 0.6;
+  --reg-spacing-scale: 1.15;
+}
+
+/* ── register: mission-control ───────────────────────────────────────── */
+/* dense, precise, mono-forward. for dashboards, tools, data interfaces  */
+[data-register='mission-control'] {
+  --reg-font-primary: var(--font-mono);
+  --reg-font-ui: var(--font-mono);
+  --reg-heading-tracking: -0.02em;
+  --reg-heading-lh: 1;
+  --reg-body-size: 0.9rem;
+  --reg-label-size: 0.65rem;
+  --reg-label-tracking: 0.18em;
+  --reg-surface-opacity: 0.92;
+  --reg-ornament-opacity: 0.08;
+  --reg-accent-weight: 0.7;
+  --reg-signal-weight: 1;
+  --reg-spacing-scale: 0.9;
+}
+
+/* ── register: archive ───────────────────────────────────────────────── */
+/* cool, ordered, muted. for galleries, indexes, reference collections   */
+[data-register='archive'] {
+  --reg-font-primary: var(--font-body);
+  --reg-font-ui: var(--font-mono);
+  --reg-heading-tracking: -0.03em;
+  --reg-heading-lh: 0.96;
+  --reg-body-size: 1rem;
+  --reg-label-size: 0.66rem;
+  --reg-label-tracking: 0.16em;
+  --reg-surface-opacity: 0.55;
+  --reg-ornament-opacity: 0.04;
+  --reg-accent-weight: 0.4;
+  --reg-signal-weight: 0.4;
+  --reg-spacing-scale: 1.3;
+}

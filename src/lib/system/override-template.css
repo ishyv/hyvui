@@ -1,0 +1,72 @@
+/**
+ * hyvui project override layer
+ * ─────────────────────────────────────────────────────────────────────────
+ * Copy this file into your project as `theme.css` and import it after
+ * `app.css`. Uncomment and adjust properties to tune the library's
+ * presentation for this specific project.
+ *
+ * DO NOT modify tokens.css. This file is the only sanctioned override surface.
+ * DO NOT change color values here. Color lives in tokens.css.
+ * This file controls presence, weight, and scale — not palette.
+ *
+ * Apply a register for broader personality shifts:
+ *   document.body.dataset.register = 'field-notebook' | 'mission-control' | 'archive'
+ */
+
+:root {
+  /* ── type presence ──────────────────────────────────────────────────── */
+  /* Adjust heading compression. More negative = more compressed.         */
+  /* --reg-heading-tracking: -0.05em;  */
+
+  /* Adjust body text size. Range: 0.9rem (dense) to 1.25rem (editorial) */
+  /* --reg-body-size: 1.1rem;          */
+
+  /* ── surface presence ───────────────────────────────────────────────── */
+  /* Lower opacity = cards feel lighter, more atmospheric.                */
+  /* Higher opacity = cards feel heavier, more structured.                */
+  /* Range: 0.4 (ghostly) to 1.0 (fully opaque)                          */
+  /* --reg-surface-opacity: 0.8;       */
+
+  /* ── ornament presence ──────────────────────────────────────────────── */
+  /* Controls ambient component visibility globally.                      */
+  /* 0 = invisible, 1 = full AESTHETICS.md opacity                        */
+  /* --reg-ornament-opacity: 0.14;     */
+
+  /* ── accent balance ─────────────────────────────────────────────────── */
+  /* Gold weight. 1 = full presence, 0.4 = almost invisible.              */
+  /* --reg-accent-weight: 1;           */
+
+  /* Teal weight. Same scale.                                              */
+  /* --reg-signal-weight: 0.8;         */
+
+  /* ── spacing scale ──────────────────────────────────────────────────── */
+  /* Multiplier on spacing. > 1 = more breathing room. < 1 = tighter.     */
+  /* Range: 0.85 (compact) to 1.4 (spacious)                              */
+  /* --reg-spacing-scale: 1;           */
+}
+
+/*
+ * EXAMPLE: Portfolio / narrative project
+ * ──────────────────────────────────────
+ * :root {
+ *   --reg-heading-tracking:  -0.055em;
+ *   --reg-body-size:          1.15rem;
+ *   --reg-surface-opacity:    0.65;
+ *   --reg-ornament-opacity:   0.2;
+ *   --reg-accent-weight:      1;
+ *   --reg-signal-weight:      0.5;
+ *   --reg-spacing-scale:      1.2;
+ * }
+ *
+ * EXAMPLE: Dashboard / tool project
+ * ───────────────────────────────────
+ * :root {
+ *   --reg-heading-tracking:  -0.02em;
+ *   --reg-body-size:          0.9rem;
+ *   --reg-surface-opacity:    0.95;
+ *   --reg-ornament-opacity:   0.06;
+ *   --reg-accent-weight:      0.6;
+ *   --reg-signal-weight:      1;
+ *   --reg-spacing-scale:      0.88;
+ * }
+ */

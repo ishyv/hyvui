@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@config '../tailwind.config.js';
+
+@import './lib/tokens/tokens.css';
+@import './lib/system/register.css';
+@import './lib/system/expressions.css';
+@import './lib/system/depth/depth.css';
+
+@theme {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-signal: var(--signal);
+  --color-status-ok: var(--status-ok);
+  --color-status-pend: var(--status-pend);
+  --color-status-warn: var(--status-warn);
+  --color-status-fail: var(--status-fail);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --shadow-veil: var(--shadow-veil);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* atmospheric layered background — never a flat fill */
+  background:
+    radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
+    radial-gradient(circle at 20% 20%, rgba(121, 166, 163, 0.06), transparent 24%),
+    linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+body > div {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+::selection {
+  background-color: rgba(199, 156, 87, 0.28);
+  color: var(--text);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.3); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* horizontal scan strip — 24% wide, moves left to right */
+@keyframes scan-band {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(520%); }
+}
