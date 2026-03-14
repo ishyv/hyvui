@@ -54,12 +54,12 @@
 `03 / install`
 
 ```sh
-npm install hyvui
+npm install @hyvnt/hyvui
 ```
 
 ```svelte
 <script>
-  import { Button, Text, FloatCard } from 'hyvui';
+  import { Button, Text, FloatCard } from '@hyvnt/hyvui';
 </script>
 ```
 
@@ -67,7 +67,7 @@ import the styles once at the root of your app:
 
 ```ts
 // app.css or root layout
-import 'hyvui/styles';
+import '@hyvnt/hyvui/styles';
 ```
 
 ---
@@ -182,7 +182,7 @@ registers are named aesthetic states. apply one and the ambient properties shift
 
 ```svelte
 <script>
-  import { applyRegister } from 'hyvui';
+  import { applyRegister } from '@hyvnt/hyvui';
   onMount(() => applyRegister('mission-control'));
 </script>
 ```
