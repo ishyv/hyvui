@@ -246,7 +246,7 @@
         {/snippet}
 
         {#snippet actions()}
-          <Button variant="secondary" href="/drifting">[ system pages ]</Button>
+          <Button variant="secondary" href="/system">[ system pages ]</Button>
           <Button variant="ghost" href="/">[ home ]</Button>
         {/snippet}
       </PageHeader>
@@ -776,7 +776,7 @@
     flex-wrap: wrap;
   }
 
-  .docs-block {
+  :global(.docs-block) {
     padding: var(--space-lg);
     border: 1px solid var(--line);
     background: var(--surface-card);
@@ -793,15 +793,15 @@
     text-align: left;
   }
 
-  .docs-card-grid {
+  :global(.docs-card-grid) {
     align-items: stretch;
   }
 
-  .docs-skeleton-stack {
+  :global(.docs-skeleton-stack) {
     flex: 1;
   }
 
-  .docs-state-grid {
+  :global(.docs-state-grid) {
     align-items: stretch;
   }
 
@@ -857,7 +857,7 @@
     z-index: 3;
   }
 
-  .docs-depth-stage {
+  :global(.docs-depth-stage) {
     position: relative;
     min-height: 240px;
     border: 1px solid var(--line);
@@ -865,7 +865,7 @@
     overflow: hidden;
   }
 
-  .docs-depth-layer {
+  :global(.docs-depth-layer) {
     position: absolute;
     inset: 0;
     display: flex;
@@ -892,24 +892,73 @@
     background-color: transparent;
   }
 
-  .docs-scene-canvas {
+  :global(.docs-scene-canvas) {
     min-height: 160px;
   }
 
   @media (max-width: 960px) {
     .docs-shell {
       grid-template-columns: 1fr;
+      padding: var(--space-lg) var(--shell-pad) var(--space-2xl);
+      gap: var(--space-lg);
     }
 
     .docs-sidebar {
       position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .docs-content {
+      gap: var(--space-xl);
     }
   }
 
   @media (max-width: 720px) {
+    .docs-topbar-left,
     .docs-topbar-right {
       flex-wrap: wrap;
       justify-content: flex-start;
+    }
+
+    :global(.docs-search) {
+      width: 100%;
+    }
+
+    .docs-shell {
+      padding: var(--space-md) var(--space-sm) var(--space-xl);
+    }
+
+    .docs-section {
+      gap: var(--space-md);
+    }
+
+    .docs-ambient-preview {
+      min-height: 160px;
+    }
+
+    :global(.docs-depth-stage) {
+      min-height: 180px;
+    }
+
+    .docs-scene :global(.hyvui-stage),
+    .docs-scene :global(.hyvui-narrative),
+    .docs-scene :global(.hyvui-readout),
+    .docs-scene :global(.hyvui-archive),
+    .docs-scene :global(.hyvui-log) {
+      padding: var(--space-md);
+    }
+
+    :global(.docs-scene-canvas) {
+      min-height: 100px;
+    }
+
+    :global(.docs-block) {
+      padding: var(--space-md);
     }
   }
 </style>

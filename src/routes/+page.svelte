@@ -84,7 +84,7 @@
 
         {#snippet actions()}
           <Button variant="secondary" href="/docs">[ docs ]</Button>
-          <Button variant="secondary" href="/drifting">[ system pages ]</Button>
+          <Button variant="secondary" href="/system">[ system pages ]</Button>
           <Button variant="ghost" href="https://github.com/edwardtufte/et-book">[ font source ]</Button>
         {/snippet}
       </PageHeader>

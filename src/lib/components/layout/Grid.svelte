@@ -7,6 +7,8 @@
     cols?: number | string;
     /** Gap between grid items. */
     gap?: string;
+    /** If true, collapses to a single column on mobile viewports (≤768px). Default true. */
+    responsive?: boolean;
     /** HTML tag to render. */
     as?: string;
     /** Additional CSS classes. */
@@ -18,6 +20,7 @@
   let {
     cols = 1,
     gap = 'var(--space-md)',
+    responsive = true,
     as = 'div',
     class: className = '',
     children,
@@ -28,8 +31,8 @@
 
 <svelte:element
   this={as}
-  class={cn('hyvui-grid', className)}
-  style:grid-template-columns={gridCols}
+  class={cn('hyvui-grid', responsive && 'hyvui-grid-responsive', className)}
+  style:--hyv-grid-cols={gridCols}
   style:gap={gap}
 >
   {#if children}{@render children()}{/if}
@@ -39,5 +42,12 @@
   .hyvui-grid {
     display: grid;
     min-width: 0;
+    grid-template-columns: var(--hyv-grid-cols);
+  }
+
+  @media (max-width: 768px) {
+    .hyvui-grid-responsive {
+      grid-template-columns: 1fr !important;
+    }
   }
 </style>
