@@ -2,6 +2,10 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Blockquote>the signal arrives before the message.</Blockquote>
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

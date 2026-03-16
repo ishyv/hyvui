@@ -4,6 +4,16 @@
 	import Label from '../primitives/Label.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use on any multi-select list or table. Fixed, bottom-center. Renders nothing when count is 0.
+	 * @example
+	 * <ActionBar count={selected.length} onclear={() => selected = []}>
+	 *   {#snippet actions()}
+	 *     <Button variant="ghost" size="sm" onclick={exportSelected}>export</Button>
+	 *     <Button variant="destructive" size="sm" onclick={deleteSelected}>delete</Button>
+	 *   {/snippet}
+	 * </ActionBar>
+	 */
 	interface Props {
 		/** Number of selected items. Bar is visible when count > 0. */
 		count?: number;

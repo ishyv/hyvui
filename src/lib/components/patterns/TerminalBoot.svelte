@@ -8,6 +8,18 @@
 		message: string;
 	}
 
+	/**
+	 * @remarks Use in LogScene or as a standalone loading sequence for system init screens.
+	 * @example
+	 * <TerminalBoot
+	 *   lines={[
+	 *     { status: 'ok', message: 'database connected' },
+	 *     { status: 'pend', message: 'loading modules...' },
+	 *     { status: 'ok', message: 'system ready' }
+	 *   ]}
+	 *   oncomplete={() => ready = true}
+	 * />
+	 */
 	interface Props {
 		/** Lines to display in sequence. */
 		lines?: BootLine[];

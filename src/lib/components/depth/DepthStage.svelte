@@ -3,6 +3,14 @@
 	import type { PerspectivePreset } from '../../system/depth/depth.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * Establishes CSS 3D perspective context. Wrap any 3D composition in this.
+	 * @example
+	 * <DepthStage perspective="mid">
+	 *   <DepthLayer level="ground"><HorizonGrid /></DepthLayer>
+	 *   <DepthLayer level="raised"><FloatCard>content</FloatCard></DepthLayer>
+	 * </DepthStage>
+	 */
 	interface Props {
 		/** Perspective distance preset. */
 		perspective?: PerspectivePreset;

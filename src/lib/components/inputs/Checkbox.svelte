@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <Checkbox label="accept terms" bind:checked={accepted} />
+	 * <Checkbox label="notify me" bind:checked={notify} onchange={handleChange} />
+	 */
 	interface Props {
 		/** Whether the checkbox is checked (bindable). */
 		checked?: boolean;

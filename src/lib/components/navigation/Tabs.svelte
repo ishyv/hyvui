@@ -6,6 +6,14 @@
 		label: string;
 	}
 
+	/**
+	 * @example
+	 * <Tabs
+	 *   tabs={[{ id: 'data', label: 'data' }, { id: 'logs', label: 'logs' }]}
+	 *   active={activeTab}
+	 *   onchange={(id) => activeTab = id}
+	 * />
+	 */
 	interface Props {
 		/** Available tabs. */
 		tabs?: TabItem[];

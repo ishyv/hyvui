@@ -17,6 +17,15 @@
 	const _fui = [autoUpdate, computePosition, flip, fuiOffset, shift, fuiSize];
 	void _fui;
 
+	/**
+	 * Typically used via DropdownMenu. Use directly only when you need full positioning control.
+	 * Requires an `anchor` HTMLElement ref and a controlled `open` boolean.
+	 * @example
+	 * <button bind:this={anchorEl} onclick={() => open = true}>open</button>
+	 * <Popover {open} anchor={anchorEl} placement="bottom-start" onclose={() => open = false}>
+	 *   <Text variant="caption">popover content</Text>
+	 * </Popover>
+	 */
 	interface Props {
 		/** Controls popover visibility. */
 		open?: boolean;

@@ -3,6 +3,17 @@
 	import ScanBand from '../ambient/ScanBand.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use for dashboards, data views, log monitors. Dense, mono-forward with optional right sidebar.
+	 * @example
+	 * <ReadoutScene title="mission control">
+	 *   {#snippet header()}<StatusDot status="ok" /><Label>all systems nominal</Label>{/snippet}
+	 *   <Grid minColWidth="14rem" maxCols={4}>
+	 *     <MetricCard label="uptime" value="99.9%" />
+	 *   </Grid>
+	 *   {#snippet sidebar()}<SidebarNav items={navItems} />{/snippet}
+	 * </ReadoutScene>
+	 */
 	interface Props {
 		/** Optional title rendered as a readout expression label. */
 		title?: string;

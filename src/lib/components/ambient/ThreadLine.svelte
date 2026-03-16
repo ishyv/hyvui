@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative SVG line with an optional traveling dot. Parent must have `position: relative`. Renders `aria-hidden`.
+	 * @example
+	 * <div style="position: relative; height: 200px;">
+	 *   <ThreadLine x1="0%" y1="0%" x2="100%" y2="100%" animated />
+	 * </div>
+	 */
 	interface Props {
 		/** Start x position (CSS value). */
 		x1?: string;

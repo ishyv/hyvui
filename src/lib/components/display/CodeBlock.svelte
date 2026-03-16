@@ -2,6 +2,11 @@
 	import { cn } from '../../utils/cn.js';
 	import Button from '../inputs/Button.svelte';
 
+	/**
+	 * @example
+	 * <CodeBlock code="npm install @hyvnt/hyvui" language="bash" />
+	 * <CodeBlock code={snippetString} language="typescript" copyable={false} />
+	 */
 	interface Props {
 		/** Code string to display. */
 		code?: string;

@@ -7,6 +7,15 @@
 		active?: boolean;
 	}
 
+	/**
+	 * @see reveal — add `use:reveal={{ target: '.badge' }}` on items for hover metadata.
+	 * @example
+	 * <SidebarNav items={[
+	 *   { label: 'overview', href: '/', active: true },
+	 *   { label: 'settings', href: '/settings' },
+	 *   { label: 'archive', href: '/archive' }
+	 * ]} />
+	 */
 	interface Props {
 		/** Navigation items. */
 		items?: NavItem[];

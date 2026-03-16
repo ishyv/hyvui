@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <StatusLine status="ok" message="database connected" visible={true} />
+	 * <StatusLine status="pend" message="waiting for signal" visible={show} cursor />
+	 * <StatusLine status="fail" message="stream interrupted" visible={true} tone="line" />
+	 */
 	interface Props {
 		/** Status determining the glyph and color. */
 		status?: 'ok' | 'pend' | 'warn' | 'fail';

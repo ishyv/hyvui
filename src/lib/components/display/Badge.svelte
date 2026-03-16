@@ -2,6 +2,12 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Badge variant="ok">online</Badge>
+	 * <Badge variant="warn">degraded</Badge>
+	 * <Badge variant="accent">new</Badge>
+	 */
 	interface Props {
 		/** Badge color variant. */
 		variant?: 'default' | 'accent' | 'signal' | 'ok' | 'warn' | 'fail';

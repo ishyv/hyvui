@@ -23,3 +23,45 @@ export const tokens = {
 		fast: '0.16s cubic-bezier(0.4, 0, 0.2, 1)'
 	}
 } as const;
+
+/**
+ * Typed Tailwind class names for all hyvui token colors.
+ * Use these instead of writing class strings by hand to get full IDE autocomplete.
+ *
+ * @example
+ * import { themeClasses } from '@hyvnt/hyvui';
+ * // themeClasses.text.accent  → 'text-accent'
+ * // themeClasses.bg.elevated  → 'bg-bg-elev'
+ */
+export const themeClasses = {
+	bg: {
+		base: 'bg-bg',
+		elevated: 'bg-bg-elev'
+	},
+	text: {
+		primary: 'text-text',
+		soft: 'text-text-soft',
+		muted: 'text-muted',
+		mutedStrong: 'text-muted-strong',
+		accent: 'text-accent',
+		accentStrong: 'text-accent-strong',
+		signal: 'text-signal'
+	},
+	border: {
+		default: 'border-line',
+		strong: 'border-line-strong'
+	},
+	font: {
+		body: 'font-body',
+		mono: 'font-mono'
+	},
+	shadow: {
+		veil: 'shadow-veil'
+	},
+	status: {
+		ok: 'text-status-ok',
+		pend: 'text-status-pend',
+		warn: 'text-status-warn',
+		fail: 'text-status-fail'
+	}
+} as const;

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <Divider />
+	 * <Divider strength="strong" />
+	 */
 	interface Props {
 		/** Line visibility strength. */
 		strength?: 'default' | 'strong';

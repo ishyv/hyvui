@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <Avatar name="Jane Doe" size={40} />
+	 * <Avatar src="/avatars/user.jpg" name="Jane Doe" size={32} />
+	 */
 	interface Props {
 		/** Image source URL. */
 		src?: string;

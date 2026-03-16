@@ -62,8 +62,11 @@ export { default as SearchBar } from './components/patterns/SearchBar.svelte';
 export { default as TerminalBoot } from './components/patterns/TerminalBoot.svelte';
 export { default as ActionBar } from './components/patterns/ActionBar.svelte';
 
+// system — shell
+export { default as AppShell } from './components/system/AppShell.svelte';
+
 // tokens
-export { tokens } from './tokens/tokens.js';
+export { tokens, themeClasses } from './tokens/tokens.js';
 
 // system — register
 export { applyRegister, clearRegister, registers } from './system/register.js';

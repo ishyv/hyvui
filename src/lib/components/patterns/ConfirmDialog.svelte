@@ -4,6 +4,18 @@
 	import Stack from '../layout/Stack.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use instead of building Modal + Button manually for any irreversible or destructive action.
+	 * @example
+	 * <ConfirmDialog
+	 *   open={showConfirm}
+	 *   title="delete report"
+	 *   description="this action cannot be undone."
+	 *   destructive
+	 *   onconfirm={deleteReport}
+	 *   oncancel={() => showConfirm = false}
+	 * />
+	 */
 	interface Props {
 		/** Controls dialog visibility. */
 		open?: boolean;

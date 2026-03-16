@@ -2,6 +2,12 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Alert variant="warn" title="rate limited">requests paused for 60 seconds</Alert>
+	 * <Alert variant="error">connection refused</Alert>
+	 * <Alert variant="ok" title="deployment complete">all services nominal</Alert>
+	 */
 	interface Props {
 		/** Alert variant determining accent color. */
 		variant?: 'info' | 'warn' | 'error' | 'ok';

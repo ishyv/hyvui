@@ -2,6 +2,15 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Topbar>
+	 *   {#snippet left()}<Text variant="caption" color="accent">hyvui</Text>{/snippet}
+	 *   {#snippet right()}
+	 *     <Button variant="ghost" size="sm">sign in</Button>
+	 *   {/snippet}
+	 * </Topbar>
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

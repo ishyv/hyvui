@@ -11,6 +11,18 @@
 		destructive?: boolean;
 	}
 
+	/**
+	 * @example
+	 * <DropdownMenu
+	 *   items={[
+	 *     { label: 'edit', value: 'edit' },
+	 *     { label: 'delete', value: 'delete', destructive: true }
+	 *   ]}
+	 *   onselect={(val) => handleAction(val)}
+	 * >
+	 *   {#snippet trigger()}<Button variant="ghost" size="sm">actions</Button>{/snippet}
+	 * </DropdownMenu>
+	 */
 	interface Props {
 		/** Menu items. */
 		items?: MenuItem[];

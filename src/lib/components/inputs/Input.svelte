@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @see resolve — wrap parent `<form>` with `use:resolve` to flash status on submit.
+	 * @example
+	 * <Input label="api key" bind:value={key} placeholder="sk-..." />
+	 * <Input label="email" type="email" bind:value={email} error={emailError} />
+	 * <Input label="search" type="search" bind:value={query} hint="press enter to search" />
+	 */
 	interface Props {
 		/** Input type. */
 		type?: 'text' | 'number' | 'password' | 'email' | 'search';

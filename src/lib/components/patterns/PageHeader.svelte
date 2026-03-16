@@ -2,6 +2,14 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use at the top of any content page: dashboards, settings, detail views.
+	 * @see surface — add `use:surface` for an entrance animation on mount.
+	 * @example
+	 * <PageHeader title="field reports" subtitle="recent observations from the network">
+	 *   {#snippet actions()}<Button variant="primary">new report</Button>{/snippet}
+	 * </PageHeader>
+	 */
 	interface Props {
 		/** Page title. */
 		title?: string;

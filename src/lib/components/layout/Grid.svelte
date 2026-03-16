@@ -2,6 +2,16 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Grid minColWidth="18rem" maxCols={3}>
+	 *   {#each items as item}<Card>{item.name}</Card>{/each}
+	 * </Grid>
+	 * <Grid mode="template" cols="1fr 2fr">
+	 *   <aside>sidebar</aside>
+	 *   <main>content</main>
+	 * </Grid>
+	 */
 	interface Props {
 		/** Grid mode. `auto` computes columns from container width. */
 		mode?: 'auto' | 'template';

@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @see resolve — wrap parent `<form>` with `use:resolve` to flash status on submit.
+	 * @example
+	 * <Textarea label="notes" bind:value={notes} placeholder="enter notes..." />
+	 * <Textarea label="message" rows={6} bind:value={msg} autoresize error={msgError} />
+	 */
 	interface Props {
 		/** Current value (bindable). */
 		value?: string;

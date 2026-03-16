@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative SVG glyph. Renders `aria-hidden`.
+	 * @example
+	 * <GlyphMark variant="reticle" size={32} />
+	 * <GlyphMark variant="cross" color="var(--accent)" />
+	 */
 	interface Props {
 		/** Glyph variant. */
 		variant?: 'cross' | 'reticle' | 'coord' | 'mark';

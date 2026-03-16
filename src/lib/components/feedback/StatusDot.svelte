@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <StatusDot status="ok" />
+	 * <StatusDot status="pend" pulse={false} />
+	 * <StatusDot status="fail" size={8} />
+	 */
 	interface Props {
 		/** Status state determining the dot color. */
 		status?: 'ok' | 'pend' | 'warn' | 'fail';

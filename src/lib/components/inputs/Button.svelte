@@ -3,6 +3,14 @@
 	import type { Snippet } from 'svelte';
 	import { echo as echoAction } from '../../system/actions/echo.js';
 
+	/**
+	 * @see echo — add `echo` prop (or `use:echo` directly) for a gold click-pulse ripple.
+	 * @example
+	 * <Button variant="primary" onclick={handleSubmit}>submit</Button>
+	 * <Button variant="ghost" href="/back">go back</Button>
+	 * <Button variant="destructive" loading>deleting...</Button>
+	 * <Button variant="primary" echo onclick={confirm}>confirm</Button>
+	 */
 	interface Props {
 		/** Button visual style. */
 		variant?: 'primary' | 'secondary' | 'ghost' | 'destructive';

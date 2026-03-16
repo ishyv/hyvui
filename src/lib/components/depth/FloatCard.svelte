@@ -5,6 +5,14 @@
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 
+	/**
+	 * Self-contained pointer-tilt card. Works standalone or inside a DepthStage.
+	 * @example
+	 * <FloatCard tiltMax={6}>
+	 *   <Text variant="heading">floating content</Text>
+	 *   <Text>card body</Text>
+	 * </FloatCard>
+	 */
 	interface Props {
 		/** Maximum tilt angle in degrees. */
 		tiltMax?: number;

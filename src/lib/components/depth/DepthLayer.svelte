@@ -3,6 +3,14 @@
 	import type { DepthLevel } from '../../system/depth/depth.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * Places children at a named z-level within a DepthStage.
+	 * @example
+	 * <DepthStage>
+	 *   <DepthLayer level="ground"><HorizonGrid /></DepthLayer>
+	 *   <DepthLayer level="foreground"><Text variant="heading">in front</Text></DepthLayer>
+	 * </DepthStage>
+	 */
 	interface Props {
 		/** Z-level within a parent DepthStage. */
 		level?: DepthLevel;

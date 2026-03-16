@@ -3,6 +3,13 @@
 	import type { Snippet } from 'svelte';
 	import type { Expression } from './text.js';
 
+	/**
+	 * @example
+	 * <Text variant="heading" as="h1">signal acquired</Text>
+	 * <Text variant="body" color="muted">supporting prose here.</Text>
+	 * <Text expression="title-card" as="h1">deep signal</Text>
+	 * <Text expression="readout">sys.uptime: 99.9%</Text>
+	 */
 	interface Props {
 		/** HTML tag to render. */
 		as?: string;

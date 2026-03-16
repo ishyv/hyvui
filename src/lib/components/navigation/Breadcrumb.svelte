@@ -6,6 +6,14 @@
 		href?: string;
 	}
 
+	/**
+	 * @example
+	 * <Breadcrumb items={[
+	 *   { label: 'home', href: '/' },
+	 *   { label: 'projects', href: '/projects' },
+	 *   { label: 'alpha' }
+	 * ]} />
+	 */
 	interface Props {
 		/** Breadcrumb trail items. */
 		items?: BreadcrumbItem[];

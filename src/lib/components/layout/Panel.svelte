@@ -3,6 +3,15 @@
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @see surface — add `use:surface` on Panel for an entrance animation on mount.
+	 * @example
+	 * <Panel>
+	 *   {#snippet header()}<Label color="accent">system status</Label>{/snippet}
+	 *   <StatusDot status="ok" />
+	 * </Panel>
+	 * <Panel withInset>panel with teal inset border</Panel>
+	 */
 	interface Props {
 		/** Adds a pseudoelement teal inset border. */
 		withInset?: boolean;

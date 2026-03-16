@@ -6,6 +6,14 @@
 		label: string;
 	}
 
+	/**
+	 * @example
+	 * <Select label="region" bind:value={region} options={[
+	 *   { value: 'us', label: 'united states' },
+	 *   { value: 'eu', label: 'europe' }
+	 * ]} />
+	 * <Select label="status" bind:value={status} options={statusOptions} error={statusError} />
+	 */
 	interface Props {
 		/** Available options. */
 		options?: SelectOption[];

@@ -4,6 +4,16 @@
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Modal open={showModal} title="confirm action" onclose={() => showModal = false}>
+	 *   <Text>are you sure you want to proceed?</Text>
+	 *   {#snippet footer()}
+	 *     <Button variant="primary" onclick={confirm}>proceed</Button>
+	 *     <Button variant="ghost" onclick={() => showModal = false}>cancel</Button>
+	 *   {/snippet}
+	 * </Modal>
+	 */
 	interface Props {
 		/** Controls modal visibility. */
 		open?: boolean;

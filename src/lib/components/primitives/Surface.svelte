@@ -2,6 +2,13 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @see surface — add `use:surface` for an entrance animation on mount.
+	 * @example
+	 * <Surface variant="card">card content</Surface>
+	 * <Surface variant="panel" withInset>panel with teal inset border</Surface>
+	 * <Surface variant="base" as="section">base container</Surface>
+	 */
 	interface Props {
 		/** Surface visual style. */
 		variant?: 'base' | 'card' | 'panel';

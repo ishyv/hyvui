@@ -2,6 +2,15 @@
 	import { cn } from '../../utils/cn.js';
 	import { onMount } from 'svelte';
 
+	/**
+	 * Canvas-drawn perspective grid with gold-to-teal gradient. Typically placed at ground level in a DepthStage.
+	 * @example
+	 * <DepthStage>
+	 *   <DepthLayer level="ground">
+	 *     <HorizonGrid rows={16} cols={10} vanishY={0.4} animated />
+	 *   </DepthLayer>
+	 * </DepthStage>
+	 */
 	interface Props {
 		/** Number of horizontal lines receding toward the vanishing point. */
 		rows?: number;

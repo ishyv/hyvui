@@ -3,6 +3,17 @@
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @see surface — add `use:surface` on Card for an entrance animation on mount.
+	 * @see reveal — add `use:reveal={{ target: '.meta' }}` on the Card for hover-reveal of child elements.
+	 * @example
+	 * <Card>
+	 *   {#snippet header()}<Label>project alpha</Label>{/snippet}
+	 *   <Text>card body content here.</Text>
+	 *   {#snippet footer()}<Button variant="ghost" size="sm">view details</Button>{/snippet}
+	 * </Card>
+	 * <Card staggerOffset="1.2rem">offset card in a grid</Card>
+	 */
 	interface Props {
 		/** TranslateY offset for staggered card grids. */
 		staggerOffset?: string;

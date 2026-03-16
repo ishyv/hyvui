@@ -3,6 +3,11 @@
 	import Input from '../inputs/Input.svelte';
 	import StatusDot from '../feedback/StatusDot.svelte';
 
+	/**
+	 * @remarks Use in PageHeader actions slot or ArchiveScene filter slot.
+	 * @example
+	 * <SearchBar bind:value={query} onsearch={handleSearch} loading={isSearching} />
+	 */
 	interface Props {
 		/** Current search value (bindable). */
 		value?: string;

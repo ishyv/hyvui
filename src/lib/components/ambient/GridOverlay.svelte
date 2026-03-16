@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative. Parent must have `position: relative`. Renders `aria-hidden`.
+	 * @example
+	 * <div style="position: relative;">
+	 *   <GridOverlay />
+	 *   content here
+	 * </div>
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Fixed-position dark vignette overlay. Place once in root layout. Renders `aria-hidden`.
+	 * @example
+	 * <!-- in +layout.svelte (or use AppShell which adds it automatically) -->
+	 * <Vignette />
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

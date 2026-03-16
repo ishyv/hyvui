@@ -4,6 +4,20 @@
 	import GridOverlay from '../ambient/GridOverlay.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use for process output, system boot sequences, build logs. Full-width terminal layout.
+	 * @example
+	 * <LogScene>
+	 *   {#snippet header()}
+	 *     <Label color="signal">deployment log</Label>
+	 *     <StatusDot status="pend" />
+	 *   {/snippet}
+	 *   <TerminalBoot lines={bootLines} oncomplete={() => deployed = true} />
+	 *   {#snippet footer()}
+	 *     {#if deployed}<Button variant="primary">view deployment</Button>{/if}
+	 *   {/snippet}
+	 * </LogScene>
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

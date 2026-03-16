@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <FileUpload accept="image/*" onfiles={handleImages} />
+	 * <FileUpload multiple accept=".csv,.json" onfiles={handleData} label="drop data files here" />
+	 */
 	interface Props {
 		/** Accepted file types (e.g. "image/*"). */
 		accept?: string;

@@ -2,6 +2,12 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Label>version 2.0</Label>
+	 * <Label color="accent">active</Label>
+	 * <Label color="signal" as="div">system ready</Label>
+	 */
 	interface Props {
 		/** HTML tag to render. */
 		as?: string;

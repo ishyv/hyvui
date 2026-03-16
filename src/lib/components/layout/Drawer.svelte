@@ -4,6 +4,12 @@
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Drawer open={showDrawer} side="right" onclose={() => showDrawer = false}>
+	 *   <SidebarNav items={navItems} />
+	 * </Drawer>
+	 */
 	interface Props {
 		/** Controls drawer visibility. */
 		open?: boolean;

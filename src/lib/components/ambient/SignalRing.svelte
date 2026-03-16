@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative pulsing sonar rings. Renders `aria-hidden`.
+	 * @example
+	 * <SignalRing size={160} color="var(--signal)" />
+	 * <SignalRing active={isLive} size={200} />
+	 */
 	interface Props {
 		/** Enable the pulsing animation. */
 		active?: boolean;

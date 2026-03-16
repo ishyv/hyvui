@@ -1,0 +1,306 @@
+# hyvui
+
+> Svelte 5 component library. Dark operator aesthetic. 40+ components across primitives, inputs, feedback, layout, navigation, display, ambient, patterns, depth, and scenes. Tokens via CSS custom properties and Tailwind v4 @theme.
+
+## install
+
+```
+npm install @hyvnt/hyvui
+```
+
+## setup
+
+Import the base stylesheet once in your app entry point:
+
+```js
+import '@hyvnt/hyvui/styles.css';
+```
+
+Fonts must be loaded by the consuming app:
+- ET Book (serif) — self-hosted from https://github.com/edwardtufte/et-book — used for headings and body
+- IBM Plex Mono — Google Fonts or self-hosted — used for labels, metadata, UI strings
+
+Use AppShell to handle fonts, register, and vignette automatically:
+
+```svelte
+<script>
+  import { AppShell } from '@hyvnt/hyvui';
+</script>
+<AppShell register="mission-control">
+  <!-- page content -->
+</AppShell>
+```
+
+## import pattern
+
+```svelte
+<script lang="ts">
+  import { Button, Card, StageScene, toastStore, surface, tokens, themeClasses } from '@hyvnt/hyvui';
+</script>
+```
+
+## critical rules
+
+- NEVER use hex colors. Use CSS custom properties: `var(--accent)`, `var(--text-soft)`, etc.
+- NEVER use Tailwind built-in colors (`text-blue-500`). Use token classes: `text-accent`, `bg-bg`, `border-line`.
+- ALWAYS use lowercase for UI strings, labels, button text, copy.
+- NEVER use em-dashes. Use commas or periods instead.
+- Font weight is almost always 400. Use size, tracking, and color for hierarchy — not weight.
+- NEVER use "Error" or "Warning" as title text. Describe the condition: "signal lost", "connection refused".
+- No border-radius without intent — the default is no rounding.
+- Only two accent hues exist: gold (`--accent: #c79c57`) and teal (`--signal: #79a6a3`). No other hues.
+
+## token classes (Tailwind)
+
+Available via `themeClasses` import or as class strings:
+
+```
+Background:  bg-bg, bg-bg-elev
+Text:        text-text, text-text-soft, text-muted, text-muted-strong,
+             text-accent, text-accent-strong, text-signal
+Border:      border-line, border-line-strong
+Font:        font-body, font-mono
+Shadow:      shadow-veil
+Status text: text-status-ok, text-status-pend, text-status-warn, text-status-fail
+```
+
+TypeScript reference:
+
+```ts
+import { themeClasses } from '@hyvnt/hyvui';
+themeClasses.text.accent     // 'text-accent'
+themeClasses.bg.elevated     // 'bg-bg-elev'
+themeClasses.border.strong   // 'border-line-strong'
+```
+
+## token CSS custom properties
+
+```
+Color:      --bg, --bg-elev, --text, --text-soft, --muted, --muted-strong,
+            --accent, --accent-strong, --signal
+Status:     --status-ok, --status-pend, --status-warn, --status-fail
+Lines:      --line, --line-strong
+Font:       --font-body, --font-mono
+Space:      --space-xs, --space-sm, --space-md, --space-lg, --space-xl,
+            --space-scene, --space-card, --space-inline
+Shadow:     --shadow-veil, --shadow-card
+Transition: --transition-smooth, --transition-fast
+```
+
+## components
+
+### primitives
+- **Text** — typographic element. Props: `as`, `variant` (heading|body|caption|italic), `color`, `expression`.
+- **Label** — mono uppercase label. Props: `as`, `color` (muted|accent|signal).
+- **Icon** — SVG icon wrapper. Props: `size`, `color`. Pass SVG as children.
+- **Divider** — horizontal rule. Props: `strength` (default|strong).
+- **Surface** — styled container. Props: `variant` (base|card|panel), `as`, `withInset`.
+
+### inputs
+- **Button** — action element. Props: `variant` (primary|secondary|ghost|destructive), `size` (sm|md), `disabled`, `loading`, `echo`, `href`, `type`, `onclick`.
+- **Input** — text field. Props: `type`, `value` (bindable), `placeholder`, `disabled`, `error`, `hint`, `label`.
+- **Textarea** — multiline field. Props: `value` (bindable), `rows`, `placeholder`, `autoresize`, `disabled`, `error`, `hint`, `label`.
+- **Select** — dropdown. Props: `options` [{value, label}], `value` (bindable), `label`, `error`, `disabled`.
+- **Checkbox** — checkbox. Props: `checked` (bindable), `label`, `disabled`.
+- **Toggle** — boolean switch. Props: `checked` (bindable), `label`, `disabled`.
+- **FileUpload** — drag-drop zone. Props: `accept`, `multiple`, `disabled`, `label`, `onfiles`.
+
+### feedback
+- **Toast** — notification stack. Place once in layout. Use `toastStore.push(message, variant, duration)`.
+- **Alert** — inline persistent message. Props: `variant` (info|warn|error|ok), `title`.
+- **Skeleton** — loading placeholder. Props: `width`, `height`, `variant` (text|card|circle|custom).
+- **StatusDot** — colored status indicator. Props: `status` (ok|pend|warn|fail), `pulse`, `size`.
+- **StatusLine** — terminal-style status row. Props: `status`, `message`, `visible`, `tone` (split|line), `cursor`.
+- **EmptyState** — zero-data state. Props: `title`, `description`. children = CTA slot.
+- **ErrorState** — failure state. Props: `title`, `description`, `retry`, `onretry`.
+
+### layout
+- **Stack** — flexbox wrapper. Props: `direction` (vertical|horizontal), `gap`, `align`, `justify`, `wrap`, `as`.
+- **Grid** — responsive/template grid. Props: `mode` (auto|template), `cols`, `minColWidth`, `maxCols`, `gap`, `as`.
+- **Card** — surface card. Slots: `header`, `children`, `footer`. Props: `staggerOffset`.
+- **Panel** — heavier surface. Props: `withInset`. Slots: `header`, `children`.
+- **Modal** — dialog overlay. Props: `open`, `title`, `onclose`. Slots: `header`, `children`, `footer`.
+- **Drawer** — slide-in panel. Props: `open`, `side` (left|right), `width`, `onclose`.
+- **Popover** — floating element via @floating-ui. Props: `open`, `anchor`, `placement`, `offset`, `portal`, `onclose`.
+
+### navigation
+- **Topbar** — sticky header. Slots: `left`, `center`, `right`.
+- **SidebarNav** — vertical nav list. Props: `items` [{label, href, active?}], `onnavigate`.
+- **Tabs** — tab bar. Props: `tabs` [{id, label}], `active`, `onchange`.
+- **Breadcrumb** — trail navigation. Props: `items` [{label, href?}].
+- **DropdownMenu** — floating menu. Props: `items` [{label, value, disabled?, destructive?}], `open`, `placement`, `onselect`. Slots: `trigger`.
+
+### display
+- **Badge** — inline status chip. Props: `variant` (default|accent|signal|ok|warn|fail).
+- **Avatar** — user avatar with initials fallback. Props: `src`, `name`, `size`.
+- **Table** — data table. Props: `columns` [{key, label, align?}], `rows` [objects].
+- **CodeBlock** — code display with copy. Props: `code`, `language`, `copyable`.
+- **MetricCard** — KPI card. Props: `label`, `value`, `trend` (up|down|neutral), `trendValue`.
+- **Blockquote** — styled pull quote.
+
+### ambient (all aria-hidden, parent needs position:relative except Vignette)
+- **GridOverlay** — faint grid pattern overlay.
+- **CornerBrackets** — four-corner bracket decoration. Props: `size`, `color`.
+- **ScanBand** — animated scan line. Props: `active`, `axis` (x|y), `size`, `duration`.
+- **Vignette** — fixed dark vignette overlay. Place once in layout (or use AppShell).
+- **ParallaxLayer** — reads `--px`/`--py` CSS vars for pointer parallax. Props: `strength`.
+- **SignalRing** — pulsing sonar rings. Props: `active`, `size`, `color`.
+- **GlyphMark** — small SVG glyph. Props: `variant` (cross|reticle|coord|mark), `size`, `color`.
+- **DataStream** — scrolling hex char column. Props: `active`, `width`, `speed`.
+- **ThreadLine** — SVG line with traveling dot. Props: `x1`, `y1`, `x2`, `y2`, `animated`.
+
+### patterns (pre-wired compositions — check before building from primitives)
+- **PageHeader** — title + subtitle + breadcrumb + actions.
+- **ConfirmDialog** — Modal pre-wired for confirm/cancel. Props: `open`, `title`, `description`, `confirmLabel`, `cancelLabel`, `destructive`, `onconfirm`, `oncancel`.
+- **SearchBar** — Input with loading indicator. Props: `value` (bindable), `placeholder`, `loading`, `onsearch`.
+- **ActionBar** — fixed bulk selection bar (renders when count > 0). Props: `count`, `onclear`. Slots: `actions`.
+- **TerminalBoot** — orchestrated StatusLine sequence. Props: `lines` [{status, message}], `delay`, `interval`, `instant`, `oncomplete`.
+
+### depth (CSS 3D system)
+- **DepthStage** — establishes perspective context. Props: `perspective` (near|mid|far), `originX`, `originY`.
+- **DepthLayer** — places content at z-level. Props: `level` (ground|raised|foreground).
+- **FloatCard** — pointer-tilt card. Props: `tiltMax`, `elevation` (raised|foreground).
+- **HorizonGrid** — canvas perspective grid. Props: `rows`, `cols`, `vanishY`, `animated`.
+- **Plinth** — receding surface under floating elements. Props: `width`, `depth`, `color`.
+
+### scenes (full-viewport page templates — always check before building a page layout)
+- **StageScene** — centered, theatrical. Use for: hero, landing, feature reveal.
+- **NarrativeScene** — asymmetric copy+canvas. Use for: about, portfolio, story.
+- **ReadoutScene** — dense, data-forward with optional sidebar. Use for: dashboards, logs.
+- **ArchiveScene** — responsive card grid with filter. Use for: galleries, catalogs, indexes.
+- **LogScene** — terminal output layout. Use for: boot sequences, build logs, process output.
+
+## scene selection
+
+| need | scene |
+|------|-------|
+| hero / landing / product reveal | StageScene |
+| about / story / feature narrative | NarrativeScene |
+| dashboard / data / metrics | ReadoutScene |
+| gallery / catalog / index | ArchiveScene |
+| boot log / process output | LogScene |
+
+## feedback component decision tree
+
+```
+temporary non-blocking notification  →  Toast (toastStore.push)
+persistent inline system message     →  Alert
+content loading, shape unknown       →  Skeleton
+system alive / idle / processing     →  StatusDot
+multi-line terminal status           →  StatusLine or TerminalBoot
+zero data, no error                  →  EmptyState
+request failed                       →  ErrorState
+irreversible action confirmation     →  ConfirmDialog
+```
+
+## actions
+
+Four composable behaviors. Apply to any element with `use:`.
+
+```svelte
+<script>
+  import { surface, echo, reveal, resolve } from '@hyvnt/hyvui';
+  let resolveAction;
+</script>
+
+<!-- entrance animation on mount -->
+<div use:surface={{ delay: 100 }}>content appears</div>
+
+<!-- gold pulse on click -->
+<button use:echo onclick={submit}>confirm</button>
+
+<!-- reveal hidden content on hover -->
+<div use:reveal={{ target: '.meta' }}>
+  <span>main content</span>
+  <span class="meta">shown on hover</span>
+</div>
+
+<!-- status flash on state change — call resolveAction.trigger('ok') or ('fail') -->
+<form use:resolve={(a) => resolveAction = a}>...</form>
+```
+
+All actions respect `prefers-reduced-motion`.
+
+## registers
+
+Apply to body or any root container. Shifts font weighting and surface density. Non-breaking.
+
+```svelte
+<svelte:body data-register="mission-control" />
+<!-- or -->
+<AppShell register="mission-control">...</AppShell>
+<!-- or -->
+<script>import { applyRegister } from '@hyvnt/hyvui';</script>
+```
+
+| register | character | use for |
+|----------|-----------|---------|
+| field-notebook | warm, serif-forward, editorial | portfolios, narrative, about |
+| mission-control | dense, mono-forward, precise | dashboards, tools, data |
+| archive | cool, spacious, muted | galleries, indexes, catalogs |
+
+No register = base styles.
+
+## typographic expressions
+
+Apply to `Text` via the `expression` prop. Declares compositional intent.
+
+| expression | feel | use for |
+|------------|------|---------|
+| title-card | very large, line-height 0.91, max 10ch | scene-opening headers |
+| manifesto | italic, calm, oblique | philosophical statements, pull-quotes |
+| readout | mono, subdued | data output, system status text |
+| whisper | small, muted, italic | supporting notes, parenthetical |
+| command | mono, uppercase, gold | CTAs, action labels |
+| chapter | mono, uppercase, line after | section openers, scene numbers |
+
+```svelte
+<Text expression="title-card" as="h1">deep signal</Text>
+<Text expression="manifesto">a quiet tool for deliberate work.</Text>
+<Text expression="readout">sys.uptime: 99.9%</Text>
+```
+
+## complete working page example
+
+```svelte
+<script lang="ts">
+  import {
+    AppShell, StageScene, ReadoutScene,
+    Text, Label, Button, Stack, Grid,
+    MetricCard, StatusDot, GridOverlay,
+    toastStore
+  } from '@hyvnt/hyvui';
+</script>
+
+<AppShell register="mission-control">
+  <StageScene>
+    {#snippet label()}<Label color="signal">system online</Label>{/snippet}
+    {#snippet heading()}
+      <Text expression="title-card" as="h1">deep signal</Text>
+    {/snippet}
+    {#snippet subheading()}
+      <Text expression="manifesto">a quiet tool for deliberate work.</Text>
+    {/snippet}
+    {#snippet actions()}
+      <Stack direction="horizontal" gap="0.75rem">
+        <Button variant="primary" onclick={() => toastStore.push('welcome', 'ok')}>enter</Button>
+        <Button variant="ghost" href="/docs">learn more</Button>
+      </Stack>
+    {/snippet}
+    {#snippet ambient()}<GridOverlay />{/snippet}
+  </StageScene>
+
+  <ReadoutScene title="mission status">
+    {#snippet header()}
+      <StatusDot status="ok" />
+      <Label color="signal">all systems nominal</Label>
+    {/snippet}
+    <Grid minColWidth="14rem" maxCols={4}>
+      <MetricCard label="uptime" value="99.9%" trend="up" trendValue="+0.1%" />
+      <MetricCard label="active nodes" value="1,284" trend="neutral" />
+      <MetricCard label="error rate" value="0.02%" trend="down" trendValue="-0.01%" />
+      <MetricCard label="latency" value="12ms" trend="up" />
+    </Grid>
+  </ReadoutScene>
+</AppShell>
+```

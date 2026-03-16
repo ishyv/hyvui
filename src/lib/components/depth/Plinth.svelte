@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Near-invisible receding surface for anchoring floating elements in a DepthStage.
+	 * @example
+	 * <DepthStage>
+	 *   <DepthLayer level="raised">
+	 *     <FloatCard>content</FloatCard>
+	 *     <Plinth width="80%" depth="30px" />
+	 *   </DepthLayer>
+	 * </DepthStage>
+	 */
 	interface Props {
 		/** Width of the plinth surface. */
 		width?: string;

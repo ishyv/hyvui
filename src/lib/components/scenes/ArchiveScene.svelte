@@ -3,6 +3,16 @@
 	import Grid from '../layout/Grid.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use for galleries, catalogs, index pages. Responsive card grid with optional filter controls.
+	 * @example
+	 * <ArchiveScene title="all projects" minCardWidth="22rem" maxCols={3}>
+	 *   {#snippet filter()}<SearchBar bind:value={query} />{/snippet}
+	 *   {#each filtered as item}
+	 *     <Card><Text variant="heading">{item.name}</Text></Card>
+	 *   {/each}
+	 * </ArchiveScene>
+	 */
 	interface Props {
 		/** Optional scene title. */
 		title?: string;

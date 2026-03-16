@@ -2,6 +2,12 @@
 	import { cn } from '../../utils/cn.js';
 	import { onMount } from 'svelte';
 
+	/**
+	 * Decorative scrolling hex character column. Renders `aria-hidden`.
+	 * @example
+	 * <DataStream width="1.4rem" speed="slow" />
+	 * <DataStream active={isConnected} />
+	 */
 	interface Props {
 		/** Enable the scrolling animation. */
 		active?: boolean;

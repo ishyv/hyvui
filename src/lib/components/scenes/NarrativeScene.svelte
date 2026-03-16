@@ -3,6 +3,15 @@
 	import GridOverlay from '../ambient/GridOverlay.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use for about pages, portfolio storytelling, feature narratives. Asymmetric: copy left, canvas right.
+	 * @example
+	 * <NarrativeScene chapter="our story">
+	 *   {#snippet heading()}<Text variant="heading" as="h2">the long signal</Text>{/snippet}
+	 *   {#snippet copy()}<Text>prose content describing the narrative here.</Text>{/snippet}
+	 *   {#snippet canvas()}<FloatCard><img src="/feature.jpg" alt="" /></FloatCard>{/snippet}
+	 * </NarrativeScene>
+	 */
 	interface Props {
 		/** Section label rendered as a chapter expression above the heading. */
 		chapter?: string;

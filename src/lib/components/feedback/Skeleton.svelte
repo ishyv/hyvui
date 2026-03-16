@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <Skeleton height="1.2rem" width="60%" />
+	 * <Skeleton variant="circle" width="32px" height="32px" />
+	 * <Skeleton variant="card" height="120px" />
+	 */
 	interface Props {
 		/** Width of the skeleton element. */
 		width?: string;

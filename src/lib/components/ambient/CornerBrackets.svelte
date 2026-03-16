@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative. Parent must have `position: relative`. Renders `aria-hidden`.
+	 * @example
+	 * <div style="position: relative; padding: 2rem;">
+	 *   <CornerBrackets size={24} />
+	 *   content framed by brackets
+	 * </div>
+	 */
 	interface Props {
 		/** Bracket arm length in pixels. */
 		size?: number;

@@ -9,6 +9,13 @@
 		align?: 'left' | 'center' | 'right';
 	}
 
+	/**
+	 * @example
+	 * <Table
+	 *   columns={[{ key: 'name', label: 'name' }, { key: 'status', label: 'status' }]}
+	 *   rows={[{ name: 'alpha', status: 'active' }, { name: 'beta', status: 'pending' }]}
+	 * />
+	 */
 	interface Props {
 		/** Column definitions. */
 		columns?: TableColumn[];

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * @example
+	 * <Toggle label="enable notifications" bind:checked={enabled} />
+	 * <Toggle label="dark mode" bind:checked={dark} onchange={applyTheme} />
+	 */
 	interface Props {
 		/** Whether the toggle is on (bindable). */
 		checked?: boolean;

@@ -29,6 +29,16 @@
 	import { cn } from '../../utils/cn.js';
 	import { flip } from 'svelte/animate';
 
+	/**
+	 * Place once in your root layout. Trigger toasts anywhere via `toastStore.push(message, variant)`.
+	 * Variants: 'ok' | 'pend' | 'warn' | 'fail'
+	 * @example
+	 * <Toast position="bottom-right" />
+	 * @example
+	 * toastStore.push('file saved', 'ok');
+	 * toastStore.push('connection lost', 'fail');
+	 * toastStore.push('uploading...', 'pend', 8000);
+	 */
 	interface Props {
 		/** Position of the toast stack. */
 		position?: 'bottom-right' | 'bottom-center';

@@ -2,6 +2,13 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * Reads `--px` and `--py` CSS custom properties for pointer-driven parallax. Set these on a parent via JS.
+	 * @example
+	 * <div onpointermove={trackPointer} style="position:relative;">
+	 *   <ParallaxLayer strength={12}><GlyphMark /></ParallaxLayer>
+	 * </div>
+	 */
 	interface Props {
 		/** Motion multiplier applied to --px/--py custom properties. */
 		strength?: number;

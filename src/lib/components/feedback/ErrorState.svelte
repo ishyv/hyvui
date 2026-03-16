@@ -3,6 +3,11 @@
 	import StatusDot from './StatusDot.svelte';
 	import Button from '../inputs/Button.svelte';
 
+	/**
+	 * @example
+	 * <ErrorState title="signal lost" description="the connection dropped unexpectedly" retry onretry={reload} />
+	 * <ErrorState title="the signal needs rest" />
+	 */
 	interface Props {
 		/** Error condition title. Describes the condition, not the cause. */
 		title?: string;

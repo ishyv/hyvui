@@ -3,6 +3,20 @@
 	import CornerBrackets from '../ambient/CornerBrackets.svelte';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @remarks Use for hero, landing, or feature reveal pages. Centered, theatrical, full-viewport.
+	 * @example
+	 * <StageScene>
+	 *   {#snippet label()}<Label color="signal">v2.0 released</Label>{/snippet}
+	 *   {#snippet heading()}<Text expression="title-card" as="h1">deep signal</Text>{/snippet}
+	 *   {#snippet subheading()}<Text expression="manifesto">a quiet tool for deliberate work.</Text>{/snippet}
+	 *   {#snippet actions()}
+	 *     <Button variant="primary">get started</Button>
+	 *     <Button variant="ghost">learn more</Button>
+	 *   {/snippet}
+	 *   {#snippet ambient()}<GridOverlay />{/snippet}
+	 * </StageScene>
+	 */
 	interface Props {
 		/** Additional CSS classes. */
 		class?: string;

@@ -2,6 +2,18 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @see surface — add `use:surface` on Stack for an entrance animation on mount.
+	 * @example
+	 * <Stack gap="var(--space-lg)">
+	 *   <Text variant="heading">title</Text>
+	 *   <Text>body text here.</Text>
+	 * </Stack>
+	 * <Stack direction="horizontal" align="center" gap="0.75rem">
+	 *   <Button variant="primary">confirm</Button>
+	 *   <Button variant="ghost">cancel</Button>
+	 * </Stack>
+	 */
 	interface Props {
 		/** Stack direction. */
 		direction?: 'vertical' | 'horizontal';

@@ -2,6 +2,15 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <Icon size={20}>
+	 *   <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z" /></svg>
+	 * </Icon>
+	 * <Icon size={16} color="var(--accent)">
+	 *   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg>
+	 * </Icon>
+	 */
 	interface Props {
 		/** Icon size in pixels. */
 		size?: number;

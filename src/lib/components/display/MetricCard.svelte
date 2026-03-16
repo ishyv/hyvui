@@ -2,6 +2,12 @@
 	import { cn } from '../../utils/cn.js';
 	import Surface from '../primitives/Surface.svelte';
 
+	/**
+	 * @see surface — add `use:surface` on MetricCard for an entrance animation on mount.
+	 * @example
+	 * <MetricCard label="active sessions" value="1,284" trend="up" trendValue="+8%" />
+	 * <MetricCard label="error rate" value="0.02%" trend="down" trendValue="-0.01%" />
+	 */
 	interface Props {
 		/** Metric label. */
 		label?: string;

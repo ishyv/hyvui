@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 
+	/**
+	 * Decorative. Parent must have `position: relative`. Renders `aria-hidden`.
+	 * @example
+	 * <div style="position: relative;">
+	 *   <ScanBand axis="x" duration="6s" />
+	 *   content with scan line
+	 * </div>
+	 */
 	interface Props {
 		/** Enable the scan animation. */
 		active?: boolean;

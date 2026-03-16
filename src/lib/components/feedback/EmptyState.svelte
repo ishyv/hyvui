@@ -2,6 +2,13 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 
+	/**
+	 * @example
+	 * <EmptyState title="no records found" description="adjust your filters to see results" />
+	 * <EmptyState title="nothing here yet">
+	 *   <Button variant="primary" onclick={create}>create one</Button>
+	 * </EmptyState>
+	 */
 	interface Props {
 		/** Primary message. */
 		title?: string;
