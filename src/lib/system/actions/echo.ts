@@ -11,6 +11,10 @@ import type { ActionReturn } from 'svelte/action';
 export function echo(node: HTMLElement): ActionReturn {
 	const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+	let frame = 0;
+	let t1 = 0;
+	let t2 = 0;
+
 	function handleClick(e: MouseEvent) {
 		if (prefersReduced) return;
 
@@ -35,11 +39,15 @@ export function echo(node: HTMLElement): ActionReturn {
 		node.style.overflow = 'hidden';
 		node.appendChild(overlay);
 
-		requestAnimationFrame(() => {
+		cancelAnimationFrame(frame);
+		clearTimeout(t1);
+		clearTimeout(t2);
+
+		frame = requestAnimationFrame(() => {
 			overlay.style.opacity = '1';
-			setTimeout(() => {
+			t1 = setTimeout(() => {
 				overlay.style.opacity = '0';
-				setTimeout(() => overlay.remove(), 200);
+				t2 = setTimeout(() => overlay.remove(), 200);
 			}, 200);
 		});
 	}
@@ -48,6 +56,9 @@ export function echo(node: HTMLElement): ActionReturn {
 	return {
 		destroy() {
 			node.removeEventListener('click', handleClick);
+			cancelAnimationFrame(frame);
+			clearTimeout(t1);
+			clearTimeout(t2);
 		}
 	};
 }

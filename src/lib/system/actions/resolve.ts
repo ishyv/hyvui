@@ -39,6 +39,10 @@ export function resolve(
 	const position = getComputedStyle(node).position;
 	if (position === 'static') node.style.position = 'relative';
 
+	let frame = 0;
+	let t1 = 0;
+	let t2 = 0;
+
 	function trigger(status: ResolveStatus) {
 		node.dispatchEvent(new CustomEvent('resolve:start', { detail: status }));
 
@@ -59,12 +63,16 @@ export function resolve(
     `;
 		node.appendChild(overlay);
 
-		requestAnimationFrame(() => {
+		cancelAnimationFrame(frame);
+		clearTimeout(t1);
+		clearTimeout(t2);
+
+		frame = requestAnimationFrame(() => {
 			overlay.style.opacity = '0.12';
-			setTimeout(() => {
+			t1 = setTimeout(() => {
 				overlay.style.transition = 'opacity 0.4s ease-out';
 				overlay.style.opacity = '0';
-				setTimeout(() => {
+				t2 = setTimeout(() => {
 					overlay.remove();
 					node.dispatchEvent(new CustomEvent('resolve:end', { detail: status }));
 				}, 450);
@@ -74,5 +82,12 @@ export function resolve(
 
 	register({ trigger });
 
-	return {};
+	return {
+		destroy() {
+			cancelAnimationFrame(frame);
+			clearTimeout(t1);
+			clearTimeout(t2);
+			if (position === 'static') node.style.position = '';
+		}
+	};
 }

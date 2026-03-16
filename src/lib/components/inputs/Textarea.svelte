@@ -67,13 +67,14 @@
 		{rows}
 		{placeholder}
 		{disabled}
+		aria-describedby={(error || hint) ? `${textareaId}-desc` : undefined}
 		class={cn('hyvui-textarea', error && 'hyvui-textarea-error')}
 		oninput={handleInput}
 	></textarea>
 	{#if error}
-		<span class="hyvui-textarea-message hyvui-textarea-message-error">{error}</span>
+		<span id="{textareaId}-desc" class="hyvui-textarea-message hyvui-textarea-message-error">{error}</span>
 	{:else if hint}
-		<span class="hyvui-textarea-message">{hint}</span>
+		<span id="{textareaId}-desc" class="hyvui-textarea-message">{hint}</span>
 	{/if}
 </div>
 

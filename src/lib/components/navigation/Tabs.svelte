@@ -26,16 +26,33 @@
 	}
 
 	let { tabs = [], active = '', class: className = '', onchange }: Props = $props();
+
+	let tabEls: HTMLButtonElement[] = [];
+
+	function handleKeyDown(e: KeyboardEvent, idx: number) {
+		let next = -1;
+		if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+		else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+		else if (e.key === 'Home') next = 0;
+		else if (e.key === 'End') next = tabs.length - 1;
+		if (next === -1) return;
+		e.preventDefault();
+		onchange?.(tabs[next].id);
+		tabEls[next]?.focus();
+	}
 </script>
 
 <div class={cn('hyvui-tabs', className)} role="tablist">
-	{#each tabs as tab}
+	{#each tabs as tab, i}
 		<button
+			bind:this={tabEls[i]}
 			type="button"
 			role="tab"
 			aria-selected={tab.id === active}
+			tabindex={tab.id === active ? 0 : -1}
 			class={cn('hyvui-tab', tab.id === active && 'hyvui-tab-active')}
 			onclick={() => onchange?.(tab.id)}
+			onkeydown={(e) => handleKeyDown(e, i)}
 		>
 			{tab.label}
 		</button>

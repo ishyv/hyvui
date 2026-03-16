@@ -50,8 +50,11 @@
 
 	let items: ToastItem[] = $state([]);
 
-	toastStore.subscribe((v) => {
-		items = v;
+	$effect(() => {
+		const unsub = toastStore.subscribe((v) => {
+			items = v;
+		});
+		return unsub;
 	});
 
 	const statusColorMap: Record<string, string> = {

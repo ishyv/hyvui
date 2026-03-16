@@ -5,6 +5,7 @@ export type Register = 'field-notebook' | 'mission-control' | 'archive';
  * Call with a DOM element reference or 'body' to set globally.
  */
 export function applyRegister(register: Register, target: HTMLElement | 'body' = 'body') {
+	if (typeof document === 'undefined') return;
 	const el = target === 'body' ? document.body : target;
 	el.dataset.register = register;
 }
@@ -13,6 +14,7 @@ export function applyRegister(register: Register, target: HTMLElement | 'body' =
  * Removes the register from an element, restoring default behavior.
  */
 export function clearRegister(target: HTMLElement | 'body' = 'body') {
+	if (typeof document === 'undefined') return;
 	const el = target === 'body' ? document.body : target;
 	delete el.dataset.register;
 }

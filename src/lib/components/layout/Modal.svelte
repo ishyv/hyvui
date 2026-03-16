@@ -42,13 +42,17 @@
 	}: Props = $props();
 
 	let dialogEl: HTMLDialogElement | undefined = $state();
+	let previousFocus: Element | null = null;
 
 	$effect(() => {
 		if (!dialogEl) return;
 		if (open) {
+			previousFocus = document.activeElement;
 			if (!dialogEl.open) dialogEl.showModal();
 		} else {
 			if (dialogEl.open) dialogEl.close();
+			if (previousFocus instanceof HTMLElement) previousFocus.focus();
+			previousFocus = null;
 		}
 	});
 

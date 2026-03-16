@@ -57,14 +57,15 @@
 		bind:value
 		{placeholder}
 		{disabled}
+		aria-describedby={(error || hint) ? `${inputId}-desc` : undefined}
 		class={cn('hyvui-input', error && 'hyvui-input-error')}
 		{oninput}
 		{onchange}
 	/>
 	{#if error}
-		<span class="hyvui-input-message hyvui-input-message-error">{error}</span>
+		<span id="{inputId}-desc" class="hyvui-input-message hyvui-input-message-error">{error}</span>
 	{:else if hint}
-		<span class="hyvui-input-message">{hint}</span>
+		<span id="{inputId}-desc" class="hyvui-input-message">{hint}</span>
 	{/if}
 </div>
 
