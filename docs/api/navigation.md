@@ -12,45 +12,42 @@ Wayfinding components. they orient the user and enable movement through the appl
 
 ```svelte
 <script lang="ts">
-  import { Topbar } from '$lib';
+	import { Topbar } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default | required | description            |
+| ------- | -------- | ------- | -------- | ---------------------- |
+| `class` | `string` | `''`    | no       | additional CSS classes |
 
 ### Slots
 
-| slot | description |
-|---|---|
-| `left` | left-aligned content — logo, wordmark, back button |
-| `center` | centered content — title, breadcrumb, search bar |
-| `right` | right-aligned content — actions, avatar, status indicators |
+| slot     | description                                                |
+| -------- | ---------------------------------------------------------- |
+| `left`   | left-aligned content — logo, wordmark, back button         |
+| `center` | centered content — title, breadcrumb, search bar           |
+| `right`  | right-aligned content — actions, avatar, status indicators |
 
 ### Examples
 
 ```svelte
 <Topbar>
-  {#snippet left()}
-    <Label color="accent">hyvnt</Label>
-  {/snippet}
+	{#snippet left()}
+		<Label color="accent">hyvnt</Label>
+	{/snippet}
 
-  {#snippet center()}
-    <Breadcrumb items={[
-      { label: 'mission control', href: '/' },
-      { label: 'field log' }
-    ]} />
-  {/snippet}
+	{#snippet center()}
+		<Breadcrumb items={[{ label: 'mission control', href: '/' }, { label: 'field log' }]} />
+	{/snippet}
 
-  {#snippet right()}
-    <Stack direction="horizontal" align="center" gap="var(--space-sm)">
-      <StatusDot status="ok" />
-      <Button variant="ghost" size="sm">settings</Button>
-    </Stack>
-  {/snippet}
+	{#snippet right()}
+		<Stack direction="horizontal" align="center" gap="var(--space-sm)">
+			<StatusDot status="ok" />
+			<Button variant="ghost" size="sm">settings</Button>
+		</Stack>
+	{/snippet}
 </Topbar>
 ```
 
@@ -64,39 +61,37 @@ Wayfinding components. they orient the user and enable movement through the appl
 
 ```svelte
 <script lang="ts">
-  import { SidebarNav } from '$lib';
+	import { SidebarNav } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `items` | `{ label: string; href: string; active?: boolean }[]` | `[]` | yes | navigation items |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type                                                  | default | required | description            |
+| ------- | ----------------------------------------------------- | ------- | -------- | ---------------------- |
+| `items` | `{ label: string; href: string; active?: boolean }[]` | `[]`    | yes      | navigation items       |
+| `class` | `string`                                              | `''`    | no       | additional CSS classes |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event        | payload                           | when                   |
+| ------------ | --------------------------------- | ---------------------- |
 | `onnavigate` | `{ label: string; href: string }` | user clicks a nav item |
 
 ### Examples
 
 ```svelte
 <script lang="ts">
-  import { page } from '$app/stores';
+	import { page } from '$app/stores';
 
-  const items = [
-    { label: 'overview', href: '/' },
-    { label: 'field log', href: '/log' },
-    { label: 'archive', href: '/archive' },
-    { label: 'settings', href: '/settings' },
-  ];
+	const items = [
+		{ label: 'overview', href: '/' },
+		{ label: 'field log', href: '/log' },
+		{ label: 'archive', href: '/archive' },
+		{ label: 'settings', href: '/settings' }
+	];
 
-  let navItems = $derived(
-    items.map(i => ({ ...i, active: $page.url.pathname === i.href }))
-  );
+	let navItems = $derived(items.map((i) => ({ ...i, active: $page.url.pathname === i.href })));
 </script>
 
 <SidebarNav items={navItems} />
@@ -112,22 +107,22 @@ Wayfinding components. they orient the user and enable movement through the appl
 
 ```svelte
 <script lang="ts">
-  import { Tabs } from '$lib';
+	import { Tabs } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `tabs` | `{ id: string; label: string }[]` | `[]` | yes | tab definitions |
-| `active` | `string` | — | yes | the `id` of the currently active tab |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop     | type                              | default | required | description                          |
+| -------- | --------------------------------- | ------- | -------- | ------------------------------------ |
+| `tabs`   | `{ id: string; label: string }[]` | `[]`    | yes      | tab definitions                      |
+| `active` | `string`                          | —       | yes      | the `id` of the currently active tab |
+| `class`  | `string`                          | `''`    | no       | additional CSS classes               |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload  | when                                             |
+| ---------- | -------- | ------------------------------------------------ |
 | `onchange` | `string` | user clicks a tab; payload is the new tab's `id` |
 
 ### Accessibility
@@ -138,22 +133,22 @@ Each tab is a `<button>` with `role="tab"`. the tab list has `role="tablist"`. a
 
 ```svelte
 <script lang="ts">
-  const tabs = [
-    { id: 'log', label: 'mission log' },
-    { id: 'map', label: 'coordinates' },
-    { id: 'comm', label: 'transmissions' },
-  ];
-  let activeTab = $state('log');
+	const tabs = [
+		{ id: 'log', label: 'mission log' },
+		{ id: 'map', label: 'coordinates' },
+		{ id: 'comm', label: 'transmissions' }
+	];
+	let activeTab = $state('log');
 </script>
 
 <Tabs {tabs} active={activeTab} onchange={(id) => (activeTab = id)} />
 
 {#if activeTab === 'log'}
-  <MissionLog />
+	<MissionLog />
 {:else if activeTab === 'map'}
-  <CoordinateMap />
+	<CoordinateMap />
 {:else if activeTab === 'comm'}
-  <Transmissions />
+	<Transmissions />
 {/if}
 ```
 
@@ -167,16 +162,16 @@ Each tab is a `<button>` with `role="tab"`. the tab list has `role="tablist"`. a
 
 ```svelte
 <script lang="ts">
-  import { Breadcrumb } from '$lib';
+	import { Breadcrumb } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `items` | `{ label: string; href?: string }[]` | `[]` | yes | breadcrumb segments; last item is rendered as plain text (no link) |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type                                 | default | required | description                                                        |
+| ------- | ------------------------------------ | ------- | -------- | ------------------------------------------------------------------ |
+| `items` | `{ label: string; href?: string }[]` | `[]`    | yes      | breadcrumb segments; last item is rendered as plain text (no link) |
+| `class` | `string`                             | `''`    | no       | additional CSS classes                                             |
 
 ### Accessibility
 
@@ -186,17 +181,19 @@ Rendered as a `<nav>` with `aria-label="breadcrumb"`. the last item has `aria-cu
 
 ```svelte
 <!-- basic breadcrumb -->
-<Breadcrumb items={[
-  { label: 'mission control', href: '/' },
-  { label: 'archive', href: '/archive' },
-  { label: 'entry 003' }
-]} />
+<Breadcrumb
+	items={[
+		{ label: 'mission control', href: '/' },
+		{ label: 'archive', href: '/archive' },
+		{ label: 'entry 003' }
+	]}
+/>
 
 <!-- inside a Topbar center slot -->
 <Topbar>
-  {#snippet center()}
-    <Breadcrumb items={crumbs} />
-  {/snippet}
+	{#snippet center()}
+		<Breadcrumb items={crumbs} />
+	{/snippet}
 </Topbar>
 ```
 
@@ -204,28 +201,33 @@ Rendered as a `<nav>` with `aria-label="breadcrumb"`. the last item has `aria-cu
 
 ## DropdownMenu
 
-> an anchored list of selectable options. triggered by external open state. used for context menus, action menus, and option pickers.
+> an anchored list of selectable actions positioned with Floating UI. requires a `trigger` snippet so the menu can always create a stable anchor.
 
 ### Import
 
 ```svelte
 <script lang="ts">
-  import { DropdownMenu } from '$lib';
+	import { DropdownMenu } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `open` | `boolean` | `false` | yes | controls dropdown visibility |
-| `items` | `{ label: string; value: string; disabled?: boolean; destructive?: boolean }[]` | `[]` | yes | menu items |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop           | type                                                                            | default        | required | description                                            |
+| -------------- | ------------------------------------------------------------------------------- | -------------- | -------- | ------------------------------------------------------ |
+| `items`        | `{ label: string; value: string; disabled?: boolean; destructive?: boolean }[]` | `[]`           | no       | menu items                                             |
+| `open`         | `boolean \| undefined`                                                          | `undefined`    | no       | controlled open state (omit to let the menu manage it) |
+| `placement`    | `Placement`                                                                     | `'bottom-end'` | no       | Floating UI placement                                  |
+| `offset`       | `number`                                                                        | `8`            | no       | distance from trigger in pixels                        |
+| `trigger`      | `Snippet`                                                                       | `undefined`    | yes      | trigger content (required)                             |
+| `class`        | `string`                                                                        | `''`           | no       | additional CSS classes                                 |
+| `onselect`     | `(value: string) => void`                                                       | `undefined`    | no       | fires when a non-disabled item is selected             |
+| `onopenchange` | `(open: boolean) => void`                                                       | `undefined`    | no       | fires when open state changes                          |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload  | when                                               |
+| ---------- | -------- | -------------------------------------------------- |
 | `onselect` | `string` | user clicks an item; payload is the item's `value` |
 
 ### The `destructive` Flag
@@ -234,7 +236,7 @@ items with `destructive: true` render in `--status-fail` color. use for actions 
 
 ### Accessibility
 
-Renders as a `role="menu"` with `role="menuitem"` children. keyboard navigation: up/down arrows, Enter to select, Escape to close.
+Renders as a `role="menu"` with `role="menuitem"` children. `Escape` closes. focus navigation is via Tab/Shift+Tab (no roving focus / arrow-key nav).
 
 ### Do Not Use When
 
@@ -245,31 +247,25 @@ Renders as a `role="menu"` with `role="menuitem"` children. keyboard navigation:
 
 ```svelte
 <script lang="ts">
-  let menuOpen = $state(false);
-
-  function handleSelect(value: string) {
-    menuOpen = false;
-    if (value === 'delete') confirmDelete();
-    else if (value === 'export') exportRecord();
-  }
+	function handleSelect(value: string) {
+		if (value === 'delete') confirmDelete();
+		else if (value === 'export') exportRecord();
+	}
 </script>
 
-<div style="position: relative; display: inline-block;">
-  <Button variant="ghost" size="sm" onclick={() => (menuOpen = !menuOpen)}>
-    actions
-  </Button>
-
-  <DropdownMenu
-    open={menuOpen}
-    items={[
-      { label: 'export record', value: 'export' },
-      { label: 'duplicate', value: 'duplicate' },
-      { label: 'archive', value: 'archive' },
-      { label: 'delete', value: 'delete', destructive: true },
-    ]}
-    onselect={handleSelect}
-  />
-</div>
+<DropdownMenu
+	items={[
+		{ label: 'export record', value: 'export' },
+		{ label: 'duplicate', value: 'duplicate' },
+		{ label: 'archive', value: 'archive' },
+		{ label: 'delete', value: 'delete', destructive: true }
+	]}
+	onselect={handleSelect}
+>
+	{#snippet trigger()}
+		<Button variant="ghost" size="sm">actions</Button>
+	{/snippet}
+</DropdownMenu>
 ```
 
 ---

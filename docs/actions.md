@@ -16,9 +16,9 @@ all four actions are exported from `$lib` and respect `prefers-reduced-motion`.
 
 ### Parameters
 
-| param | type | default | description |
-|---|---|---|---|
-| `delay` | `number` | `0` | milliseconds to wait before the animation starts |
+| param   | type     | default | description                                      |
+| ------- | -------- | ------- | ------------------------------------------------ |
+| `delay` | `number` | `0`     | milliseconds to wait before the animation starts |
 
 ### Events Dispatched
 
@@ -32,20 +32,16 @@ when `prefers-reduced-motion: reduce` is set, the element is immediately visible
 
 ```svelte
 <!-- basic mount animation -->
-<div use:surface>
-  content appears on mount
-</div>
+<div use:surface>content appears on mount</div>
 
 <!-- with delay -->
-<div use:surface={{ delay: 200 }}>
-  delayed entrance
-</div>
+<div use:surface={{ delay: 200 }}>delayed entrance</div>
 
 <!-- staggered children — compute delay from index -->
 {#each items as item, i}
-  <Card use:surface={{ delay: i * 120 }}>
-    {item.title}
-  </Card>
+	<Card use:surface={{ delay: i * 120 }}>
+		{item.title}
+	</Card>
 {/each}
 ```
 
@@ -56,14 +52,15 @@ elements that are conditionally rendered with `{#if}` inside a frequently-toggli
 ```svelte
 <!-- this replays the animation every time shown becomes true -->
 {#if shown}
-  <div use:surface>content</div>  <!-- fires on every mount -->
+	<div use:surface>content</div>
+	<!-- fires on every mount -->
 {/if}
 
 <!-- better: outer container persists; control visibility inside -->
 <div use:surface>
-  {#if shown}
-    <div>content</div>
-  {/if}
+	{#if shown}
+		<div>content</div>
+	{/if}
 </div>
 ```
 
@@ -100,13 +97,11 @@ the overlay is not added when `prefers-reduced-motion: reduce` is set.
 <Button variant="primary" echo>deploy</Button>
 
 <!-- on a custom interactive element -->
-<div use:echo role="button" tabindex="0" onclick={handleClick}>
-  click me
-</div>
+<div use:echo role="button" tabindex="0" onclick={handleClick}>click me</div>
 
 <!-- on a card to give it a tactile click response -->
 <Card use:echo onclick={selectCard}>
-  {entry.title}
+	{entry.title}
 </Card>
 ```
 
@@ -124,9 +119,9 @@ elements with `overflow: visible` that need to show content outside their bounds
 
 ### Parameters
 
-| param | type | default | description |
-|---|---|---|---|
-| `target` | `string` | — | **required.** CSS selector for the child element to reveal |
+| param    | type     | default | description                                                |
+| -------- | -------- | ------- | ---------------------------------------------------------- |
+| `target` | `string` | —       | **required.** CSS selector for the child element to reveal |
 
 ### Events Dispatched
 
@@ -145,21 +140,21 @@ when `prefers-reduced-motion: reduce`, the transform is omitted — opacity stil
 ```svelte
 <!-- reveal an overlay action row on hover -->
 <div use:reveal={{ target: '.card-actions' }}>
-  <Text as="h3" variant="heading">{entry.title}</Text>
-  <Text variant="body">{entry.excerpt}</Text>
+	<Text as="h3" variant="heading">{entry.title}</Text>
+	<Text variant="body">{entry.excerpt}</Text>
 
-  <div class="card-actions">
-    <Button variant="ghost" size="sm">view</Button>
-    <Button variant="ghost" size="sm">archive</Button>
-  </div>
+	<div class="card-actions">
+		<Button variant="ghost" size="sm">view</Button>
+		<Button variant="ghost" size="sm">archive</Button>
+	</div>
 </div>
 
 <!-- reveal a metadata footer on hover -->
 <Card use:reveal={{ target: '.meta' }}>
-  <Text as="h3" variant="heading">{item.title}</Text>
-  <div class="meta">
-    <Text variant="caption" color="muted">{item.date}</Text>
-  </div>
+	<Text as="h3" variant="heading">{item.title}</Text>
+	<div class="meta">
+		<Text variant="caption" color="muted">{item.date}</Text>
+	</div>
 </Card>
 ```
 
@@ -180,22 +175,23 @@ when `prefers-reduced-motion: reduce`, the transform is omitted — opacity stil
 `use:resolve` has an unusual signature compared to the other actions. instead of an options object, it takes a **callback function** that receives an action object. you call the action's `trigger` method programmatically when a status change occurs.
 
 ```ts
-use:resolve={fn}
+use: resolve = { fn };
 // where fn is: (action: { trigger: (status: 'ok' | 'warn' | 'fail' | 'pend') => void }) => void
 ```
 
 ### Events Dispatched
 
-| event | detail | when |
-|---|---|---|
-| `resolve:start` | `ResolveStatus` | the flash animation begins |
-| `resolve:end` | `ResolveStatus` | the flash animation completes |
+| event           | detail          | when                          |
+| --------------- | --------------- | ----------------------------- |
+| `resolve:start` | `ResolveStatus` | the flash animation begins    |
+| `resolve:end`   | `ResolveStatus` | the flash animation completes |
 
 these are custom DOM events dispatched on the node. you can listen with `addEventListener` if needed.
 
 ### How It Works
 
 when `trigger(status)` is called:
+
 1. a `<span>` is absolutely positioned inside the element with a background color matching the status (`--status-ok`, `--status-warn`, etc.)
 2. the span fades to `opacity: 0.12` over 0.12s
 3. after 200ms, it fades back to 0 over 0.4s
@@ -212,39 +208,36 @@ the overlay is skipped entirely. `resolve:start` and `resolve:end` both fire syn
 ```svelte
 <!-- basic resolve — a form that flashes green on success -->
 <script lang="ts">
-  import { resolve } from '$lib';
-  import type { ResolveAction } from '$lib';
+	import { resolve } from '$lib';
+	import type { ResolveAction } from '$lib';
 
-  let resolveAction: ResolveAction;
-  let isSubmitting = $state(false);
+	let resolveAction: ResolveAction;
+	let isSubmitting = $state(false);
 
-  async function handleSubmit() {
-    isSubmitting = true;
-    try {
-      await saveRecord();
-      resolveAction.trigger('ok');
-    } catch {
-      resolveAction.trigger('fail');
-    } finally {
-      isSubmitting = false;
-    }
-  }
+	async function handleSubmit() {
+		isSubmitting = true;
+		try {
+			await saveRecord();
+			resolveAction.trigger('ok');
+		} catch {
+			resolveAction.trigger('fail');
+		} finally {
+			isSubmitting = false;
+		}
+	}
 </script>
 
 <form
-  use:resolve={(action) => { resolveAction = action; }}
-  onsubmit|preventDefault={handleSubmit}
+	use:resolve={(action) => {
+		resolveAction = action;
+	}}
+	onsubmit|preventDefault={handleSubmit}
 >
-  <Input bind:value={name} label="callsign" />
-  <Textarea bind:value={notes} label="field notes" />
-  <Button
-    type="submit"
-    variant="primary"
-    loading={isSubmitting}
-    disabled={isSubmitting}
-  >
-    {isSubmitting ? 'archiving' : 'archive entry'}
-  </Button>
+	<Input bind:value={name} label="callsign" />
+	<Textarea bind:value={notes} label="field notes" />
+	<Button type="submit" variant="primary" loading={isSubmitting} disabled={isSubmitting}>
+		{isSubmitting ? 'archiving' : 'archive entry'}
+	</Button>
 </form>
 ```
 
@@ -252,46 +245,41 @@ the overlay is skipped entirely. `resolve:start` and `resolve:end` both fire syn
 
 ```svelte
 <script lang="ts">
-  import { resolve, toastStore } from '$lib';
-  import type { ResolveAction } from '$lib';
+	import { resolve, toastStore } from '$lib';
+	import type { ResolveAction } from '$lib';
 
-  let resolveAction: ResolveAction;
-  let submitting = $state(false);
+	let resolveAction: ResolveAction;
+	let submitting = $state(false);
 
-  async function handleSubmit() {
-    submitting = true;
-    resolveAction.trigger('pend'); // signal start
+	async function handleSubmit() {
+		submitting = true;
+		resolveAction.trigger('pend'); // signal start
 
-    try {
-      await sendTransmission(formData);
-      resolveAction.trigger('ok');
-      toastStore.push('transmission sent', 'ok');
-    } catch (err) {
-      resolveAction.trigger('fail');
-      toastStore.push('the channel interrupted — try again', 'fail');
-    } finally {
-      submitting = false;
-    }
-  }
+		try {
+			await sendTransmission(formData);
+			resolveAction.trigger('ok');
+			toastStore.push('transmission sent', 'ok');
+		} catch (err) {
+			resolveAction.trigger('fail');
+			toastStore.push('the channel interrupted — try again', 'fail');
+		} finally {
+			submitting = false;
+		}
+	}
 </script>
 
 <Panel use:resolve={(a) => (resolveAction = a)}>
-  {#snippet header()}
-    <Text as="h2" variant="heading">send transmission</Text>
-  {/snippet}
+	{#snippet header()}
+		<Text as="h2" variant="heading">send transmission</Text>
+	{/snippet}
 
-  <Stack gap="var(--space-md)">
-    <Input bind:value={subject} label="subject" />
-    <Textarea bind:value={body} label="message" autoresize />
-    <Button
-      variant="primary"
-      loading={submitting}
-      disabled={submitting}
-      onclick={handleSubmit}
-    >
-      {submitting ? 'transmitting' : 'send'}
-    </Button>
-  </Stack>
+	<Stack gap="var(--space-md)">
+		<Input bind:value={subject} label="subject" />
+		<Textarea bind:value={body} label="message" autoresize />
+		<Button variant="primary" loading={submitting} disabled={submitting} onclick={handleSubmit}>
+			{submitting ? 'transmitting' : 'send'}
+		</Button>
+	</Stack>
 </Panel>
 ```
 

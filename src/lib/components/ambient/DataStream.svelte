@@ -1,94 +1,111 @@
 <script lang="ts">
-  import { cn } from '../../utils/cn.js';
-  import { onMount } from 'svelte';
+	import { cn } from '../../utils/cn.js';
+	import { onMount } from 'svelte';
 
-  interface Props {
-    /** Enable the scrolling animation. */
-    active?: boolean;
-    /** Width of the stream column. */
-    width?: string;
-    /** Scroll speed. */
-    speed?: 'slow' | 'medium';
-    /** Additional CSS classes. */
-    class?: string;
-  }
+	interface Props {
+		/** Enable the scrolling animation. */
+		active?: boolean;
+		/** Width of the stream column. */
+		width?: string;
+		/** Scroll speed. */
+		speed?: 'slow' | 'medium';
+		/** Additional CSS classes. */
+		class?: string;
+	}
 
-  let {
-    active = true,
-    width = '1.2rem',
-    speed = 'slow',
-    class: className = '',
-  }: Props = $props();
+	let { active = true, width = '1.2rem', speed = 'slow', class: className = '' }: Props = $props();
 
-  const chars = '0123456789ABCDEF.:+-';
-  const lineCount = 32;
-  let lines = $state<string[]>([]);
-  let intervalId: ReturnType<typeof setInterval> | undefined;
+	const chars = '0123456789ABCDEF.:+-';
+	const lineCount = 32;
+	let rootEl: HTMLDivElement | undefined = $state();
+	let visible = $state(true);
+	let lines = $state<string[]>([]);
+	let intervalId: ReturnType<typeof setInterval> | undefined;
 
-  const prefersReduced =
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false;
+	const prefersReduced =
+		typeof window !== 'undefined'
+			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+			: false;
 
-  function randomChar(): string {
-    return chars[Math.floor(Math.random() * chars.length)];
-  }
+	function randomChar(): string {
+		return chars[Math.floor(Math.random() * chars.length)];
+	}
 
-  function generateLines(): string[] {
-    return Array.from({ length: lineCount }, () => randomChar());
-  }
+	function generateLines(): string[] {
+		return Array.from({ length: lineCount }, () => randomChar());
+	}
 
-  onMount(() => {
-    lines = generateLines();
+	function stop() {
+		if (!intervalId) return;
+		clearInterval(intervalId);
+		intervalId = undefined;
+	}
 
-    if (active && !prefersReduced) {
-      const ms = speed === 'slow' ? 600 : 350;
-      intervalId = setInterval(() => {
-        lines = [randomChar(), ...lines.slice(0, lineCount - 1)];
-      }, ms);
-    }
+	function start() {
+		stop();
+		if (!active || prefersReduced || !visible) return;
+		const ms = speed === 'slow' ? 600 : 350;
+		intervalId = setInterval(() => {
+			// Unkeyed each blocks update in-place, so this is stable DOM churn.
+			lines = [randomChar(), ...lines.slice(0, lineCount - 1)];
+		}, ms);
+	}
 
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  });
+	onMount(() => {
+		lines = generateLines();
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				const entry = entries[0];
+				if (!entry) return;
+				visible = entry.isIntersecting;
+			},
+			{ root: null, threshold: 0 }
+		);
+
+		if (rootEl) io.observe(rootEl);
+
+		return () => {
+			io.disconnect();
+			stop();
+		};
+	});
+
+	$effect(() => {
+		// Restart interval when relevant inputs change.
+		start();
+		return stop;
+	});
 </script>
 
-<div
-  class={cn('hyvui-data-stream', className)}
-  style:width={width}
-  aria-hidden="true"
->
-  {#each lines as char, i}
-    <span
-      class="hyvui-data-stream-char"
-      style:opacity={0.18 - (i / lineCount) * 0.14}
-    >{char}</span>
-  {/each}
+<div bind:this={rootEl} class={cn('hyvui-data-stream', className)} style:width aria-hidden="true">
+	{#each lines as char, i}
+		<span class="hyvui-data-stream-char" style:opacity={0.18 - (i / lineCount) * 0.14}>{char}</span>
+	{/each}
 </div>
 
 <style>
-  .hyvui-data-stream {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    line-height: 1.4;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    pointer-events: none;
-    overflow: hidden;
-  }
+	.hyvui-data-stream {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-family: var(--font-mono);
+		font-size: 0.6rem;
+		line-height: 1.4;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		pointer-events: none;
+		overflow: hidden;
+	}
 
-  .hyvui-data-stream-char {
-    display: block;
-    transition: opacity 0.3s ease-out;
-  }
+	.hyvui-data-stream-char {
+		display: block;
+		transition: opacity 0.3s ease-out;
+	}
 
-  @media (prefers-reduced-motion: reduce) {
-    .hyvui-data-stream-char {
-      transition: none;
-    }
-  }
+	@media (prefers-reduced-motion: reduce) {
+		.hyvui-data-stream-char {
+			transition: none;
+		}
+	}
 </style>

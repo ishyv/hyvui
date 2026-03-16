@@ -12,49 +12,43 @@ Pre-composed, opinionated components for common high-level UI scenarios. each pa
 
 ```svelte
 <script lang="ts">
-  import { PageHeader } from '$lib';
+	import { PageHeader } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `title` | `string` | — | yes | the page or section title |
-| `subtitle` | `string` | `undefined` | no | supporting text below the title |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type     | default     | required | description                     |
+| ---------- | -------- | ----------- | -------- | ------------------------------- |
+| `title`    | `string` | —           | yes      | the page or section title       |
+| `subtitle` | `string` | `undefined` | no       | supporting text below the title |
+| `class`    | `string` | `''`        | no       | additional CSS classes          |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot         | description                                                       |
+| ------------ | ----------------------------------------------------------------- |
 | `breadcrumb` | rendered above the title — for `Breadcrumb` or navigation context |
-| `actions` | rendered to the right of the title — for `Button`, `Badge`, etc. |
+| `actions`    | rendered to the right of the title — for `Button`, `Badge`, etc.  |
 
 ### Examples
 
 ```svelte
 <!-- basic page header -->
-<PageHeader
-  title="field log"
-  subtitle="entries from the active mission period"
-/>
+<PageHeader title="field log" subtitle="entries from the active mission period" />
 
 <!-- with breadcrumb and actions -->
 <PageHeader title="signal archive">
-  {#snippet breadcrumb()}
-    <Breadcrumb items={[
-      { label: 'mission control', href: '/' },
-      { label: 'archive' }
-    ]} />
-  {/snippet}
+	{#snippet breadcrumb()}
+		<Breadcrumb items={[{ label: 'mission control', href: '/' }, { label: 'archive' }]} />
+	{/snippet}
 
-  {#snippet actions()}
-    <Stack direction="horizontal" gap="var(--space-xs)">
-      <Button variant="ghost" size="sm">filter</Button>
-      <Button variant="primary" size="sm">new entry</Button>
-    </Stack>
-  {/snippet}
+	{#snippet actions()}
+		<Stack direction="horizontal" gap="var(--space-xs)">
+			<Button variant="ghost" size="sm">filter</Button>
+			<Button variant="primary" size="sm">new entry</Button>
+		</Stack>
+	{/snippet}
 </PageHeader>
 ```
 
@@ -68,28 +62,28 @@ Pre-composed, opinionated components for common high-level UI scenarios. each pa
 
 ```svelte
 <script lang="ts">
-  import { ConfirmDialog } from '$lib';
+	import { ConfirmDialog } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `open` | `boolean` | `false` | yes | controls dialog visibility |
-| `title` | `string` | — | yes | what is being confirmed |
-| `description` | `string` | `undefined` | no | consequence or context |
-| `confirmLabel` | `string` | `'confirm'` | no | label for the confirm button |
-| `cancelLabel` | `string` | `'cancel'` | no | label for the cancel button |
-| `destructive` | `boolean` | `false` | no | styles the confirm button as `destructive` variant |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop           | type      | default     | required | description                                        |
+| -------------- | --------- | ----------- | -------- | -------------------------------------------------- |
+| `open`         | `boolean` | `false`     | yes      | controls dialog visibility                         |
+| `title`        | `string`  | —           | yes      | what is being confirmed                            |
+| `description`  | `string`  | `undefined` | no       | consequence or context                             |
+| `confirmLabel` | `string`  | `'confirm'` | no       | label for the confirm button                       |
+| `cancelLabel`  | `string`  | `'cancel'`  | no       | label for the cancel button                        |
+| `destructive`  | `boolean` | `false`     | no       | styles the confirm button as `destructive` variant |
+| `class`        | `string`  | `''`        | no       | additional CSS classes                             |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
-| `onconfirm` | `void` | user clicks the confirm button |
-| `oncancel` | `void` | user clicks cancel, presses Escape, or clicks the backdrop |
+| event       | payload | when                                                       |
+| ----------- | ------- | ---------------------------------------------------------- |
+| `onconfirm` | `void`  | user clicks the confirm button                             |
+| `oncancel`  | `void`  | user clicks cancel, presses Escape, or clicks the backdrop |
 
 ### Accessibility
 
@@ -104,27 +98,25 @@ Inherits the `Modal` focus trap and keyboard behavior. the confirm button receiv
 
 ```svelte
 <script lang="ts">
-  let confirmOpen = $state(false);
+	let confirmOpen = $state(false);
 
-  async function handleDelete() {
-    confirmOpen = false;
-    await deleteRecord(recordId);
-    toastStore.push('record removed', 'ok');
-  }
+	async function handleDelete() {
+		confirmOpen = false;
+		await deleteRecord(recordId);
+		toastStore.push('record removed', 'ok');
+	}
 </script>
 
-<Button variant="destructive" onclick={() => (confirmOpen = true)}>
-  delete record
-</Button>
+<Button variant="destructive" onclick={() => (confirmOpen = true)}>delete record</Button>
 
 <ConfirmDialog
-  open={confirmOpen}
-  title="delete this record?"
-  description="this cannot be undone. the entry will be permanently removed."
-  confirmLabel="delete"
-  destructive
-  onconfirm={handleDelete}
-  oncancel={() => (confirmOpen = false)}
+	open={confirmOpen}
+	title="delete this record?"
+	description="this cannot be undone. the entry will be permanently removed."
+	confirmLabel="delete"
+	destructive
+	onconfirm={handleDelete}
+	oncancel={() => (confirmOpen = false)}
 />
 ```
 
@@ -138,45 +130,40 @@ Inherits the `Modal` focus trap and keyboard behavior. the confirm button receiv
 
 ```svelte
 <script lang="ts">
-  import { SearchBar } from '$lib';
+	import { SearchBar } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `value` | `string` | `''` | no | bindable search value |
-| `placeholder` | `string` | `'search'` | no | placeholder text |
-| `loading` | `boolean` | `false` | no | shows a loading indicator while results are fetching |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop          | type      | default    | required | description                                          |
+| ------------- | --------- | ---------- | -------- | ---------------------------------------------------- |
+| `value`       | `string`  | `''`       | no       | bindable search value                                |
+| `placeholder` | `string`  | `'search'` | no       | placeholder text                                     |
+| `loading`     | `boolean` | `false`    | no       | shows a loading indicator while results are fetching |
+| `class`       | `string`  | `''`       | no       | additional CSS classes                               |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload  | when                            |
+| ---------- | -------- | ------------------------------- |
 | `onsearch` | `string` | user submits search (Enter key) |
 
 ### Examples
 
 ```svelte
 <script lang="ts">
-  let query = $state('');
-  let loading = $state(false);
+	let query = $state('');
+	let loading = $state(false);
 
-  async function handleSearch(term: string) {
-    loading = true;
-    results = await searchRecords(term);
-    loading = false;
-  }
+	async function handleSearch(term: string) {
+		loading = true;
+		results = await searchRecords(term);
+		loading = false;
+	}
 </script>
 
-<SearchBar
-  bind:value={query}
-  {loading}
-  placeholder="search the archive"
-  onsearch={handleSearch}
-/>
+<SearchBar bind:value={query} {loading} placeholder="search the archive" onsearch={handleSearch} />
 ```
 
 ---
@@ -189,50 +176,48 @@ Inherits the `Modal` focus trap and keyboard behavior. the confirm button receiv
 
 ```svelte
 <script lang="ts">
-  import { ActionBar } from '$lib';
+	import { ActionBar } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `count` | `number` | `0` | yes | number of currently selected items |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default | required | description                        |
+| ------- | -------- | ------- | -------- | ---------------------------------- |
+| `count` | `number` | `0`     | yes      | number of currently selected items |
+| `class` | `string` | `''`    | no       | additional CSS classes             |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description                                             |
+| --------- | ------------------------------------------------------- |
 | `actions` | bulk action buttons (e.g. delete selected, export, tag) |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
-| `onclear` | `void` | user clicks the clear/deselect button |
+| event     | payload | when                                  |
+| --------- | ------- | ------------------------------------- |
+| `onclear` | `void`  | user clicks the clear/deselect button |
 
 ### Examples
 
 ```svelte
 <script lang="ts">
-  let selected = $state<string[]>([]);
+	let selected = $state<string[]>([]);
 
-  function handleBulkDelete() {
-    deleteManyRecords(selected);
-    selected = [];
-  }
+	function handleBulkDelete() {
+		deleteManyRecords(selected);
+		selected = [];
+	}
 </script>
 
 {#if selected.length > 0}
-  <ActionBar count={selected.length} onclear={() => (selected = [])}>
-    {#snippet actions()}
-      <Button variant="ghost" size="sm">export</Button>
-      <Button variant="destructive" size="sm" onclick={handleBulkDelete}>
-        delete selected
-      </Button>
-    {/snippet}
-  </ActionBar>
+	<ActionBar count={selected.length} onclear={() => (selected = [])}>
+		{#snippet actions()}
+			<Button variant="ghost" size="sm">export</Button>
+			<Button variant="destructive" size="sm" onclick={handleBulkDelete}>delete selected</Button>
+		{/snippet}
+	</ActionBar>
 {/if}
 ```
 
@@ -246,27 +231,27 @@ Inherits the `Modal` focus trap and keyboard behavior. the confirm button receiv
 
 ```svelte
 <script lang="ts">
-  import { TerminalBoot } from '$lib';
+	import { TerminalBoot } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `lines` | `{ status: 'ok' \| 'pend' \| 'warn' \| 'fail'; message: string }[]` | `[]` | yes | the sequence of lines to display |
-| `delay` | `number` | `600` | no | ms to wait before starting the sequence |
-| `interval` | `number` | `700` | no | ms between each line appearing |
-| `instant` | `boolean` | `false` | no | shows all lines immediately, skipping animation |
-| `showCursor` | `boolean` | `true` | no | shows a blinking cursor on the last line while it is active |
-| `tone` | `'split' \| 'line'` | `'line'` | no | passed to `StatusLine` for each row — layout style |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop         | type                                                                | default  | required | description                                                 |
+| ------------ | ------------------------------------------------------------------- | -------- | -------- | ----------------------------------------------------------- |
+| `lines`      | `{ status: 'ok' \| 'pend' \| 'warn' \| 'fail'; message: string }[]` | `[]`     | yes      | the sequence of lines to display                            |
+| `delay`      | `number`                                                            | `600`    | no       | ms to wait before starting the sequence                     |
+| `interval`   | `number`                                                            | `700`    | no       | ms between each line appearing                              |
+| `instant`    | `boolean`                                                           | `false`  | no       | shows all lines immediately, skipping animation             |
+| `showCursor` | `boolean`                                                           | `true`   | no       | shows a blinking cursor on the last line while it is active |
+| `tone`       | `'split' \| 'line'`                                                 | `'line'` | no       | passed to `StatusLine` for each row — layout style          |
+| `class`      | `string`                                                            | `''`     | no       | additional CSS classes                                      |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
-| `oncomplete` | `void` | all lines have been displayed |
+| event        | payload | when                          |
+| ------------ | ------- | ----------------------------- |
+| `oncomplete` | `void`  | all lines have been displayed |
 
 ### The `oncomplete` Pattern
 
@@ -276,18 +261,15 @@ the canonical pattern:
 
 ```svelte
 <script lang="ts">
-  let booted = $state(false);
+	let booted = $state(false);
 </script>
 
 {#if !booted}
-  <TerminalBoot
-    lines={bootLines}
-    oncomplete={() => (booted = true)}
-  />
+	<TerminalBoot lines={bootLines} oncomplete={() => (booted = true)} />
 {:else}
-  <main use:surface>
-    <!-- your actual content -->
-  </main>
+	<main use:surface>
+		<!-- your actual content -->
+	</main>
 {/if}
 ```
 
@@ -309,37 +291,32 @@ when `prefers-reduced-motion: reduce` is set, all lines appear instantly and `on
 ```svelte
 <!-- typical boot sequence gate -->
 <script lang="ts">
-  import { TerminalBoot } from '$lib';
-  import { surface } from '$lib';
+	import { TerminalBoot } from '$lib';
+	import { surface } from '$lib';
 
-  let booted = $state(false);
+	let booted = $state(false);
 
-  const bootLines = [
-    { status: 'ok', message: 'token layer initialized' },
-    { status: 'ok', message: 'register system mounted' },
-    { status: 'ok', message: 'depth context established' },
-    { status: 'pend', message: 'awaiting confirmation' },
-    { status: 'ok', message: 'signal acquired — all systems nominal' },
-  ] as const;
+	const bootLines = [
+		{ status: 'ok', message: 'token layer initialized' },
+		{ status: 'ok', message: 'register system mounted' },
+		{ status: 'ok', message: 'depth context established' },
+		{ status: 'pend', message: 'awaiting confirmation' },
+		{ status: 'ok', message: 'signal acquired — all systems nominal' }
+	] as const;
 </script>
 
 {#if !booted}
-  <div style="padding: var(--space-scene); min-height: 100dvh; display: flex; align-items: center;">
-    <TerminalBoot
-      lines={bootLines}
-      delay={400}
-      interval={600}
-      oncomplete={() => (booted = true)}
-    />
-  </div>
+	<div style="padding: var(--space-scene); min-height: 100dvh; display: flex; align-items: center;">
+		<TerminalBoot lines={bootLines} delay={400} interval={600} oncomplete={() => (booted = true)} />
+	</div>
 {:else}
-  <div use:surface>
-    <StageScene>
-      {#snippet heading()}
-        <Text as="h1" variant="heading" expression="title-card">field station</Text>
-      {/snippet}
-    </StageScene>
-  </div>
+	<div use:surface>
+		<StageScene>
+			{#snippet heading()}
+				<Text as="h1" variant="heading" expression="title-card">field station</Text>
+			{/snippet}
+		</StageScene>
+	</div>
 {/if}
 
 <!-- instant mode for testing or reduced-motion users -->

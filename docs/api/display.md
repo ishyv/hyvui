@@ -12,21 +12,21 @@ Components that present data. they display information — they don't control it
 
 ```svelte
 <script lang="ts">
-  import { Badge } from '$lib';
+	import { Badge } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'default' \| 'accent' \| 'signal' \| 'ok' \| 'warn' \| 'fail'` | `'default'` | no | color and semantic meaning |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                                            | default     | required | description                |
+| --------- | --------------------------------------------------------------- | ----------- | -------- | -------------------------- |
+| `variant` | `'default' \| 'accent' \| 'signal' \| 'ok' \| 'warn' \| 'fail'` | `'default'` | no       | color and semantic meaning |
+| `class`   | `string`                                                        | `''`        | no       | additional CSS classes     |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description      |
+| --------- | ---------------- |
 | `default` | badge label text |
 
 ### Variants
@@ -68,8 +68,8 @@ Subtle teal background, `--signal` text. use for active, connected, or live cate
 
 <!-- inline with text -->
 <Stack direction="horizontal" align="center" gap="var(--space-xs)">
-  <Text as="h3" variant="heading">mission report</Text>
-  <Badge variant="accent">priority</Badge>
+	<Text as="h3" variant="heading">mission report</Text>
+	<Badge variant="accent">priority</Badge>
 </Stack>
 ```
 
@@ -83,18 +83,18 @@ Subtle teal background, `--signal` text. use for active, connected, or live cate
 
 ```svelte
 <script lang="ts">
-  import { Avatar } from '$lib';
+	import { Avatar } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `src` | `string` | `undefined` | no | image URL; if omitted or fails to load, initials are shown |
-| `name` | `string` | `''` | no | used to generate initials when `src` is absent (first letter of each word, max 2) |
-| `size` | `number` | `32` | no | avatar diameter in pixels |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default     | required | description                                                                       |
+| ------- | -------- | ----------- | -------- | --------------------------------------------------------------------------------- |
+| `src`   | `string` | `undefined` | no       | image URL; if omitted or fails to load, initials are shown                        |
+| `name`  | `string` | `''`        | no       | used to generate initials when `src` is absent (first letter of each word, max 2) |
+| `size`  | `number` | `32`        | no       | avatar diameter in pixels                                                         |
+| `class` | `string` | `''`        | no       | additional CSS classes                                                            |
 
 ### Accessibility
 
@@ -111,8 +111,8 @@ Subtle teal background, `--signal` text. use for active, connected, or live cate
 
 <!-- small avatar in a list item -->
 <Stack direction="horizontal" align="center" gap="var(--space-sm)">
-  <Avatar name={entry.author} size={24} />
-  <Text variant="caption" color="muted">{entry.author}</Text>
+	<Avatar name={entry.author} size={24} />
+	<Text variant="caption" color="muted">{entry.author}</Text>
 </Stack>
 ```
 
@@ -126,31 +126,31 @@ Subtle teal background, `--signal` text. use for active, connected, or live cate
 
 ```svelte
 <script lang="ts">
-  import { Table } from '$lib';
+	import { Table } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `columns` | `{ key: string; label: string; align?: 'left' \| 'center' \| 'right' }[]` | `[]` | yes | column definitions |
-| `rows` | `Record<string, any>[]` | `[]` | yes | row data; each object's keys must match column `key` values |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                                                      | default | required | description                                                 |
+| --------- | ------------------------------------------------------------------------- | ------- | -------- | ----------------------------------------------------------- |
+| `columns` | `{ key: string; label: string; align?: 'left' \| 'center' \| 'right' }[]` | `[]`    | yes      | column definitions                                          |
+| `rows`    | `Record<string, any>[]`                                                   | `[]`    | yes      | row data; each object's keys must match column `key` values |
+| `class`   | `string`                                                                  | `''`    | no       | additional CSS classes                                      |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot    | description                                                     |
+| ------- | --------------------------------------------------------------- |
 | `empty` | overrides the automatic `EmptyState` shown when `rows` is empty |
 
 ### Column Definition
 
 ```ts
 interface Column {
-  key: string;       // matches the property name in each row object
-  label: string;     // header text
-  align?: 'left' | 'center' | 'right';  // defaults to 'left'
+	key: string; // matches the property name in each row object
+	label: string; // header text
+	align?: 'left' | 'center' | 'right'; // defaults to 'left'
 }
 ```
 
@@ -160,14 +160,14 @@ each row must be a plain object with keys matching the `key` values defined in `
 
 ```ts
 const columns = [
-  { key: 'callsign', label: 'callsign' },
-  { key: 'sector', label: 'sector', align: 'center' as const },
-  { key: 'status', label: 'status', align: 'right' as const },
+	{ key: 'callsign', label: 'callsign' },
+	{ key: 'sector', label: 'sector', align: 'center' as const },
+	{ key: 'status', label: 'status', align: 'right' as const }
 ];
 
 const rows = [
-  { callsign: 'echo-7', sector: 'north', status: 'active' },
-  { callsign: 'foxtrot-2', sector: 'transit', status: 'standby' },
+	{ callsign: 'echo-7', sector: 'north', status: 'active' },
+	{ callsign: 'foxtrot-2', sector: 'transit', status: 'standby' }
 ];
 ```
 
@@ -177,9 +177,9 @@ when `rows` is empty, `Table` auto-renders `EmptyState` with a default message. 
 
 ```svelte
 <Table {columns} rows={[]}>
-  {#snippet empty()}
-    <EmptyState title="no transmissions logged" description="the channel is clear." />
-  {/snippet}
+	{#snippet empty()}
+		<EmptyState title="no transmissions logged" description="the channel is clear." />
+	{/snippet}
 </Table>
 ```
 
@@ -187,9 +187,9 @@ for error states (failed fetch), render `ErrorState` in place of the Table entir
 
 ```svelte
 {#if error}
-  <ErrorState title="the signal interrupted" retry onretry={reload} />
+	<ErrorState title="the signal interrupted" retry onretry={reload} />
 {:else}
-  <Table {columns} {rows} />
+	<Table {columns} {rows} />
 {/if}
 ```
 
@@ -206,27 +206,27 @@ Renders as a `<table>` with `<thead>` and `<tbody>`. column headers use `<th sco
 
 ```svelte
 <script lang="ts">
-  const columns = [
-    { key: 'callsign', label: 'callsign' },
-    { key: 'sector', label: 'sector', align: 'center' as const },
-    { key: 'last_seen', label: 'last contact', align: 'right' as const },
-  ];
+	const columns = [
+		{ key: 'callsign', label: 'callsign' },
+		{ key: 'sector', label: 'sector', align: 'center' as const },
+		{ key: 'last_seen', label: 'last contact', align: 'right' as const }
+	];
 
-  let rows = $state([
-    { callsign: 'echo-7', sector: 'north', last_seen: '14:23 UTC' },
-    { callsign: 'foxtrot-2', sector: 'transit', last_seen: '09:11 UTC' },
-  ]);
+	let rows = $state([
+		{ callsign: 'echo-7', sector: 'north', last_seen: '14:23 UTC' },
+		{ callsign: 'foxtrot-2', sector: 'transit', last_seen: '09:11 UTC' }
+	]);
 </script>
 
 <Table {columns} {rows} />
 
 <!-- with custom empty state -->
 <Table {columns} rows={[]}>
-  {#snippet empty()}
-    <EmptyState title="no agents in this sector">
-      <Button variant="secondary" size="sm">deploy first agent</Button>
-    </EmptyState>
-  {/snippet}
+	{#snippet empty()}
+		<EmptyState title="no agents in this sector">
+			<Button variant="secondary" size="sm">deploy first agent</Button>
+		</EmptyState>
+	{/snippet}
 </Table>
 ```
 
@@ -240,26 +240,26 @@ Renders as a `<table>` with `<thead>` and `<tbody>`. column headers use `<th sco
 
 ```svelte
 <script lang="ts">
-  import { CodeBlock } from '$lib';
+	import { CodeBlock } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `code` | `string` | — | yes | the code string to display |
-| `language` | `string` | `'text'` | no | language identifier for syntax highlighting |
-| `copyable` | `boolean` | `true` | no | shows a copy button in the top-right corner |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type      | default  | required | description                                 |
+| ---------- | --------- | -------- | -------- | ------------------------------------------- |
+| `code`     | `string`  | —        | yes      | the code string to display                  |
+| `language` | `string`  | `'text'` | no       | language identifier for syntax highlighting |
+| `copyable` | `boolean` | `true`   | no       | shows a copy button in the top-right corner |
+| `class`    | `string`  | `''`     | no       | additional CSS classes                      |
 
 ### Examples
 
 ```svelte
 <!-- TypeScript example -->
 <CodeBlock
-  language="ts"
-  code={`import { Button } from '$lib';\n\nconsole.log('signal acquired');`}
+	language="ts"
+	code={`import { Button } from '$lib';\n\nconsole.log('signal acquired');`}
 />
 
 <!-- no copy button -->
@@ -276,19 +276,19 @@ Renders as a `<table>` with `<thead>` and `<tbody>`. column headers use `<th sco
 
 ```svelte
 <script lang="ts">
-  import { MetricCard } from '$lib';
+	import { MetricCard } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `label` | `string` | — | yes | metric name |
-| `value` | `string` | — | yes | primary value to display |
-| `trend` | `'up' \| 'down' \| 'neutral'` | `'neutral'` | no | trend direction |
-| `trendValue` | `string` | `undefined` | no | trend delta label (e.g. `'+12%'`, `'-3'`) |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop         | type                          | default     | required | description                               |
+| ------------ | ----------------------------- | ----------- | -------- | ----------------------------------------- |
+| `label`      | `string`                      | —           | yes      | metric name                               |
+| `value`      | `string`                      | —           | yes      | primary value to display                  |
+| `trend`      | `'up' \| 'down' \| 'neutral'` | `'neutral'` | no       | trend direction                           |
+| `trendValue` | `string`                      | `undefined` | no       | trend delta label (e.g. `'+12%'`, `'-3'`) |
+| `class`      | `string`                      | `''`        | no       | additional CSS classes                    |
 
 ### Trend Variants
 
@@ -309,9 +309,9 @@ trend direction is visual only — up is not always good, down is not always bad
 
 ```svelte
 <Grid cols={3} gap="var(--space-md)">
-  <MetricCard label="active signals" value="142" trend="up" trendValue="+12" />
-  <MetricCard label="failed contacts" value="3" trend="down" trendValue="-1" />
-  <MetricCard label="coverage" value="94%" trend="neutral" />
+	<MetricCard label="active signals" value="142" trend="up" trendValue="+12" />
+	<MetricCard label="failed contacts" value="3" trend="down" trendValue="-1" />
+	<MetricCard label="coverage" value="94%" trend="neutral" />
 </Grid>
 ```
 
@@ -325,20 +325,20 @@ trend direction is visual only — up is not always good, down is not always bad
 
 ```svelte
 <script lang="ts">
-  import { Blockquote } from '$lib';
+	import { Blockquote } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default | required | description            |
+| ------- | -------- | ------- | -------- | ---------------------- |
+| `class` | `string` | `''`    | no       | additional CSS classes |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description        |
+| --------- | ------------------ |
 | `default` | the quoted content |
 
 ### Examples
@@ -346,15 +346,13 @@ trend direction is visual only — up is not always good, down is not always bad
 ```svelte
 <!-- pull quote -->
 <Blockquote>
-  <Text variant="italic">
-    the signal persists. coordinates shift, but the pattern holds.
-  </Text>
+	<Text variant="italic">the signal persists. coordinates shift, but the pattern holds.</Text>
 </Blockquote>
 
 <!-- with attribution -->
 <Blockquote>
-  <Text variant="italic">nothing is lost. only relocated.</Text>
-  <Text variant="caption" color="muted">— field log, entry 7</Text>
+	<Text variant="italic">nothing is lost. only relocated.</Text>
+	<Text variant="caption" color="muted">— field log, entry 7</Text>
 </Blockquote>
 ```
 

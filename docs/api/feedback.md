@@ -12,18 +12,18 @@ Components that communicate state, progress, and outcomes to the user. choose ba
 
 ```svelte
 <script lang="ts">
-  import { StatusDot } from '$lib';
+	import { StatusDot } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `status` | `'ok' \| 'pend' \| 'warn' \| 'fail'` | — | yes | the system state to represent |
-| `pulse` | `boolean` | `true` | no | enables the pulsing opacity animation |
-| `size` | `number` | `6` | no | dot diameter in pixels |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop     | type                                 | default | required | description                           |
+| -------- | ------------------------------------ | ------- | -------- | ------------------------------------- |
+| `status` | `'ok' \| 'pend' \| 'warn' \| 'fail'` | —       | yes      | the system state to represent         |
+| `pulse`  | `boolean`                            | `true`  | no       | enables the pulsing opacity animation |
+| `size`   | `number`                             | `6`     | no       | dot diameter in pixels                |
+| `class`  | `string`                             | `''`    | no       | additional CSS classes                |
 
 ### Variants
 
@@ -59,8 +59,8 @@ Components that communicate state, progress, and outcomes to the user. choose ba
 ```svelte
 <!-- inline with a label -->
 <div style="display: flex; align-items: center; gap: 0.5rem;">
-  <StatusDot status="ok" />
-  <Label>system nominal</Label>
+	<StatusDot status="ok" />
+	<Label>system nominal</Label>
 </div>
 
 <!-- larger dot, no pulse -->
@@ -83,20 +83,20 @@ Components that communicate state, progress, and outcomes to the user. choose ba
 
 ```svelte
 <script lang="ts">
-  import { StatusLine } from '$lib';
+	import { StatusLine } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `status` | `'ok' \| 'pend' \| 'warn' \| 'fail'` | — | yes | determines the glyph and color |
-| `message` | `string` | `''` | yes | the status message text |
-| `visible` | `boolean` | `true` | no | controls visibility — use for staggered reveal |
-| `tone` | `'split' \| 'line'` | `'split'` | no | layout style for the glyph |
-| `cursor` | `boolean` | `false` | no | shows a blinking cursor after the message |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                 | default   | required | description                                    |
+| --------- | ------------------------------------ | --------- | -------- | ---------------------------------------------- |
+| `status`  | `'ok' \| 'pend' \| 'warn' \| 'fail'` | —         | yes      | determines the glyph and color                 |
+| `message` | `string`                             | `''`      | yes      | the status message text                        |
+| `visible` | `boolean`                            | `true`    | no       | controls visibility — use for staggered reveal |
+| `tone`    | `'split' \| 'line'`                  | `'split'` | no       | layout style for the glyph                     |
+| `cursor`  | `boolean`                            | `false`   | no       | shows a blinking cursor after the message      |
+| `class`   | `string`                             | `''`      | no       | additional CSS classes                         |
 
 ### Tone Variants
 
@@ -140,22 +140,22 @@ Each status maps to a bracketed ASCII glyph displayed in the status color:
 
 ```svelte
 <script lang="ts">
-  import { Alert } from '$lib';
+	import { Alert } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'info' \| 'warn' \| 'error' \| 'ok'` | `'info'` | no | semantic variant and border color |
-| `title` | `string` | `undefined` | no | bold title line above the body content |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                  | default     | required | description                            |
+| --------- | ------------------------------------- | ----------- | -------- | -------------------------------------- |
+| `variant` | `'info' \| 'warn' \| 'error' \| 'ok'` | `'info'`    | no       | semantic variant and border color      |
+| `title`   | `string`                              | `undefined` | no       | bold title line above the body content |
+| `class`   | `string`                              | `''`        | no       | additional CSS classes                 |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description        |
+| --------- | ------------------ |
 | `default` | alert body content |
 
 ### Variants
@@ -192,18 +192,16 @@ Renders with `role="alert"` so screen readers announce the message immediately o
 ```svelte
 <!-- info alert -->
 <Alert variant="info" title="mission parameters">
-  coordinates are estimated based on last known position.
+	coordinates are estimated based on last known position.
 </Alert>
 
 <!-- error alert below a form -->
 <Alert variant="error" title="submission failed">
-  the signal was interrupted. verify your connection and try again.
+	the signal was interrupted. verify your connection and try again.
 </Alert>
 
 <!-- success confirmation -->
-<Alert variant="ok" title="record sealed">
-  the field report has been archived successfully.
-</Alert>
+<Alert variant="ok" title="record sealed">the field report has been archived successfully.</Alert>
 ```
 
 ---
@@ -216,7 +214,7 @@ Renders with `role="alert"` so screen readers announce the message immediately o
 
 ```svelte
 <script lang="ts">
-  import { Toast, toastStore } from '$lib';
+	import { Toast, toastStore } from '$lib';
 </script>
 ```
 
@@ -227,8 +225,8 @@ mount `Toast` once in `src/routes/+layout.svelte`. do not mount it on individual
 ```svelte
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
-  import { Toast } from '$lib';
-  let { children } = $props();
+	import { Toast } from '$lib';
+	let { children } = $props();
 </script>
 
 {@render children()}
@@ -251,10 +249,10 @@ toastStore.push(message: string, status: 'ok' | 'pend' | 'warn' | 'fail', durati
 
 ### Props (on the Toast container)
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `position` | `'bottom-right' \| 'bottom-center'` | `'bottom-right'` | no | where toasts stack on screen |
-| `class` | `string` | `''` | no | additional CSS classes on the container |
+| prop       | type                                | default          | required | description                             |
+| ---------- | ----------------------------------- | ---------------- | -------- | --------------------------------------- |
+| `position` | `'bottom-right' \| 'bottom-center'` | `'bottom-right'` | no       | where toasts stack on screen            |
+| `class`    | `string`                            | `''`             | no       | additional CSS classes on the container |
 
 ### Status Variants
 
@@ -318,18 +316,18 @@ Each toast is announced to screen readers via an `aria-live` region. toasts do n
 
 ```svelte
 <script lang="ts">
-  import { Skeleton } from '$lib';
+	import { Skeleton } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'text' \| 'card' \| 'circle' \| 'custom'` | `'text'` | no | shape preset |
-| `width` | `string` | `undefined` | no | CSS width value — required for `custom` variant |
-| `height` | `string` | `undefined` | no | CSS height value — required for `custom` variant |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                       | default     | required | description                                      |
+| --------- | ------------------------------------------ | ----------- | -------- | ------------------------------------------------ |
+| `variant` | `'text' \| 'card' \| 'circle' \| 'custom'` | `'text'`    | no       | shape preset                                     |
+| `width`   | `string`                                   | `undefined` | no       | CSS width value — required for `custom` variant  |
+| `height`  | `string`                                   | `undefined` | no       | CSS height value — required for `custom` variant |
+| `class`   | `string`                                   | `''`        | no       | additional CSS classes                           |
 
 ### Variants
 
@@ -350,11 +348,11 @@ Set `width` and `height` explicitly. use for anything that doesn't fit the prese
 ```svelte
 <!-- text placeholder for a loading paragraph -->
 {#if loading}
-  <Skeleton variant="text" />
-  <Skeleton variant="text" class="w-3/4" />
-  <Skeleton variant="text" class="w-1/2" />
+	<Skeleton variant="text" />
+	<Skeleton variant="text" class="w-3/4" />
+	<Skeleton variant="text" class="w-1/2" />
 {:else}
-  <Text variant="body">{content}</Text>
+	<Text variant="body">{content}</Text>
 {/if}
 
 <!-- card placeholder -->
@@ -374,22 +372,22 @@ Set `width` and `height` explicitly. use for anything that doesn't fit the prese
 
 ```svelte
 <script lang="ts">
-  import { EmptyState } from '$lib';
+	import { EmptyState } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `title` | `string` | — | yes | the primary empty state message |
-| `description` | `string` | `undefined` | no | supporting explanation text |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop          | type     | default     | required | description                     |
+| ------------- | -------- | ----------- | -------- | ------------------------------- |
+| `title`       | `string` | —           | yes      | the primary empty state message |
+| `description` | `string` | `undefined` | no       | supporting explanation text     |
+| `class`       | `string` | `''`        | no       | additional CSS classes          |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description                                           |
+| --------- | ----------------------------------------------------- |
 | `default` | optional CTA (e.g. a Button to create the first item) |
 
 ### Examples
@@ -397,13 +395,13 @@ Set `width` and `height` explicitly. use for anything that doesn't fit the prese
 ```svelte
 <!-- basic empty state -->
 <EmptyState
-  title="no records in this sector"
-  description="begin a new entry to populate this archive."
+	title="no records in this sector"
+	description="begin a new entry to populate this archive."
 />
 
 <!-- with a CTA -->
 <EmptyState title="no signals detected">
-  <Button variant="secondary">open scanner</Button>
+	<Button variant="secondary">open scanner</Button>
 </EmptyState>
 ```
 
@@ -417,24 +415,24 @@ Set `width` and `height` explicitly. use for anything that doesn't fit the prese
 
 ```svelte
 <script lang="ts">
-  import { ErrorState } from '$lib';
+	import { ErrorState } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `title` | `string` | `'the signal needs rest'` | no | primary error message |
-| `description` | `string` | `undefined` | no | detail or suggested action |
-| `retry` | `boolean` | `false` | no | shows a retry button |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop          | type      | default                   | required | description                |
+| ------------- | --------- | ------------------------- | -------- | -------------------------- |
+| `title`       | `string`  | `'the signal needs rest'` | no       | primary error message      |
+| `description` | `string`  | `undefined`               | no       | detail or suggested action |
+| `retry`       | `boolean` | `false`                   | no       | shows a retry button       |
+| `class`       | `string`  | `''`                      | no       | additional CSS classes     |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
-| `onretry` | `void` | user clicks the retry button (only fires when `retry` is true) |
+| event     | payload | when                                                           |
+| --------- | ------- | -------------------------------------------------------------- |
+| `onretry` | `void`  | user clicks the retry button (only fires when `retry` is true) |
 
 ### Accessibility
 
@@ -443,33 +441,33 @@ Rendered with `role="alert"` so screen readers announce it immediately. the retr
 ### Examples
 
 ```svelte
-<!-- basic error state -->
-<ErrorState
-  title="the channel interrupted"
-  description="coordinates could not be resolved. check your connection."
-/>
-
 <!-- with retry -->
 <script lang="ts">
-  let error = $state<Error | null>(null);
+	let error = $state<Error | null>(null);
 
-  async function load() {
-    error = null;
-    try {
-      data = await fetchData();
-    } catch (e) {
-      error = e as Error;
-    }
-  }
+	async function load() {
+		error = null;
+		try {
+			data = await fetchData();
+		} catch (e) {
+			error = e as Error;
+		}
+	}
 </script>
 
+<!-- basic error state -->
+<ErrorState
+	title="the channel interrupted"
+	description="coordinates could not be resolved. check your connection."
+/>
+
 {#if error}
-  <ErrorState
-    title="the signal needs rest"
-    description="the fetch didn't complete."
-    retry
-    onretry={load}
-  />
+	<ErrorState
+		title="the signal needs rest"
+		description="the fetch didn't complete."
+		retry
+		onretry={load}
+	/>
 {/if}
 ```
 
@@ -477,15 +475,15 @@ Rendered with `role="alert"` so screen readers announce it immediately. the retr
 
 ## Feedback Decision Guide
 
-| condition | use |
-|---|---|
-| persistent status that users must see and act on | `Alert` |
-| transient outcome after user action | `Toast` |
-| system health at a glance (icon only) | `StatusDot` |
-| system health with message text | `StatusLine` |
-| loading state — placeholder for content | `Skeleton` |
-| list or table is empty | `EmptyState` |
-| data load failed | `ErrorState` |
+| condition                                        | use          |
+| ------------------------------------------------ | ------------ |
+| persistent status that users must see and act on | `Alert`      |
+| transient outcome after user action              | `Toast`      |
+| system health at a glance (icon only)            | `StatusDot`  |
+| system health with message text                  | `StatusLine` |
+| loading state — placeholder for content          | `Skeleton`   |
+| list or table is empty                           | `EmptyState` |
+| data load failed                                 | `ErrorState` |
 
 ---
 

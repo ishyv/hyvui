@@ -34,9 +34,9 @@ The base background is built from stacked radial and linear gradients — never 
 
 ```css
 background:
-  radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
-  radial-gradient(circle at 20% 20%, rgba(121, 166, 163, 0.06), transparent 24%),
-  linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
+	radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
+	radial-gradient(circle at 20% 20%, rgba(121, 166, 163, 0.06), transparent 24%),
+	linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
 ```
 
 ### Text
@@ -106,11 +106,13 @@ Avoid drop shadows on text or interactive elements.
 ### Fonts
 
 **Display / Body:** ET Book (self-hosted)
+
 - A revival of the Monotype Bembo used in Edward Tufte's books
 - Use for all headings, body copy, and manifesto/italic passages
 - Fallbacks: `'Iowan Old Style', 'Palatino Linotype', serif`
 
 **Monospace:** IBM Plex Mono
+
 - Use for all labels, status lines, metadata, nav items, and code
 - Loaded from Google Fonts at weights 400, 500, 600
 - Fallbacks: `'Menlo', 'Consolas', monospace`
@@ -118,10 +120,11 @@ Avoid drop shadows on text or interactive elements.
 ### Heading Styles
 
 Large display headings:
+
 ```css
 font-family: var(--font-body);
-font-size: clamp(2.4rem, 5vw, 4.7rem);   /* scene section headings */
-font-size: clamp(3.4rem, 10vw, 8rem);    /* hero h1 */
+font-size: clamp(2.4rem, 5vw, 4.7rem); /* scene section headings */
+font-size: clamp(3.4rem, 10vw, 8rem); /* hero h1 */
 font-weight: 400;
 line-height: 0.92–0.96;
 letter-spacing: -0.04em to -0.05em;
@@ -140,7 +143,7 @@ font-family: var(--font-mono);
 font-size: 0.62rem–0.78rem;
 letter-spacing: 0.12em–0.18em;
 text-transform: uppercase;
-color: var(--muted-strong);  /* or --accent for highlighted labels */
+color: var(--muted-strong); /* or --accent for highlighted labels */
 ```
 
 This style says "this is a datum, not prose." Use it for anything that serves as metadata:
@@ -149,7 +152,7 @@ timestamps, categories, section numbers, field names.
 ### Body Copy
 
 ```css
-font-family: var(--font-body);   /* implicit from root */
+font-family: var(--font-body); /* implicit from root */
 font-size: 1rem–1.24rem;
 line-height: 1.55–1.65;
 color: var(--text-soft);
@@ -162,11 +165,14 @@ like a considered statement, not a fill.
 ### Italic / Manifesto Voice
 
 Pull-quotes and philosophical statements use:
+
 ```css
 font-style: italic;
 font-family: var(--font-body);
 ```
+
 Often placed in a left-bordered block:
+
 ```css
 border-left: 1px solid var(--line-strong);
 background: linear-gradient(90deg, rgba(199, 156, 87, 0.08), transparent 72%);
@@ -184,23 +190,24 @@ Cards have near-invisible borders, a dark fill, and a soft warm gradient from th
 ```css
 border: 1px solid rgba(255, 255, 255, 0.05);
 background:
-  linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%),
-  rgba(10, 12, 14, 0.8);
+	linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%), rgba(10, 12, 14, 0.8);
 box-shadow: var(--shadow-veil);
 backdrop-filter: blur(8px);
 ```
 
 For more prominent containers (like the hero stage frame), layer in teal:
+
 ```css
 background:
-  linear-gradient(180deg, rgba(121, 166, 163, 0.08), transparent 18%),
-  linear-gradient(135deg, rgba(199, 156, 87, 0.08), rgba(10, 12, 14, 0.82) 42%),
-  rgba(9, 11, 13, 0.74);
+	linear-gradient(180deg, rgba(121, 166, 163, 0.08), transparent 18%),
+	linear-gradient(135deg, rgba(199, 156, 87, 0.08), rgba(10, 12, 14, 0.82) 42%),
+	rgba(9, 11, 13, 0.74);
 ```
 
 ### Inner Frames
 
 Framed elements often carry a second, inset border as a decorative element:
+
 ```css
 /* pseudoelement inner border */
 position: absolute;
@@ -213,6 +220,7 @@ This creates a quiet depth — two layers of structure rather than one.
 ### Left-Accent Highlight
 
 For interactive list items that gain focus or active state:
+
 ```css
 border-left: 1px solid var(--line-strong);
 background: linear-gradient(90deg, rgba(199, 156, 87, 0.14), transparent 70%);
@@ -224,10 +232,21 @@ The translateX + gradient combination signals selection without a harsh highligh
 ### Grid Overlays
 
 Background grids use crossing 1px rules at very low opacity:
+
 ```css
 background-image:
-  linear-gradient(to right, transparent 0, transparent calc(100% - 1px), rgba(199, 156, 87, 0.07) calc(100% - 1px)),
-  linear-gradient(to bottom, transparent 0, transparent calc(100% - 1px), rgba(121, 166, 163, 0.06) calc(100% - 1px));
+	linear-gradient(
+		to right,
+		transparent 0,
+		transparent calc(100% - 1px),
+		rgba(199, 156, 87, 0.07) calc(100% - 1px)
+	),
+	linear-gradient(
+		to bottom,
+		transparent 0,
+		transparent calc(100% - 1px),
+		rgba(121, 166, 163, 0.06) calc(100% - 1px)
+	);
 background-size: 72px 72px;
 mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
 ```
@@ -242,42 +261,59 @@ These are ambient, non-functional decorations that establish the aesthetic regis
 They appear globally in the page shell.
 
 ### Corner Brackets
+
 ```css
 /* Four absolute spans at the four corners of a container */
-width: 2rem; height: 2rem;
+width: 2rem;
+height: 2rem;
 border-color: rgba(199, 156, 87, 0.24);
 border-style: solid;
-/* top-left */    border-width: 1px 0 0 1px;
-/* top-right */   border-width: 1px 1px 0 0;
-/* bottom-right */border-width: 0 1px 1px 0;
-/* bottom-left */ border-width: 0 0 1px 1px;
+/* top-left */
+border-width: 1px 0 0 1px;
+/* top-right */
+border-width: 1px 1px 0 0;
+/* bottom-right */
+border-width: 0 1px 1px 0;
+/* bottom-left */
+border-width: 0 0 1px 1px;
 ```
 
 ### Scan Band
+
 A horizontal sweep animation that reads as "active system":
+
 ```css
 .scan-band {
-  position: absolute;
-  width: 24%;
-  background: linear-gradient(90deg, transparent, rgba(199, 156, 87, 0.08), transparent);
-  animation: scan 5s linear infinite;
+	position: absolute;
+	width: 24%;
+	background: linear-gradient(90deg, transparent, rgba(199, 156, 87, 0.08), transparent);
+	animation: scan 5s linear infinite;
 }
 
 @keyframes scan {
-  from { transform: translateX(-120%); }
-  to   { transform: translateX(520%); }
+	from {
+		transform: translateX(-120%);
+	}
+	to {
+		transform: translateX(520%);
+	}
 }
 ```
 
 ### Scene Numbering
+
 Every major section is prefaced with its index in monospace:
+
 ```
 01 / section-name
 ```
+
 This establishes the page as a sequence, not a stack of unrelated sections.
 
 ### Clip-Path Geometry
+
 Asymmetric cuts on containers add edge without decoration:
+
 ```css
 /* angled top-right / bottom-left crop */
 clip-path: polygon(0 0, 84% 0, 100% 18%, 100% 100%, 16% 100%, 0 82%);
@@ -304,12 +340,14 @@ star.z ≤ 0.4  →  rgba(240, 232, 218, opacity)     // off-white: distant, coo
 ```
 
 Trail effect instead of a hard clear — low-opacity fill each frame creates motion blur:
+
 ```js
 ctx.fillStyle = 'rgba(8, 9, 11, 0.12)'; // partial clear
 ctx.fillRect(0, 0, w, h);
 ```
 
 Bright stars (size > 1.4, twinkle peak) get a soft radial halo:
+
 ```js
 // 3× the star radius, gold, fades to transparent
 const grad = ctx.createRadialGradient(x, y, 0, x, y, star.size * 3);
@@ -318,11 +356,12 @@ grad.addColorStop(1, 'transparent');
 ```
 
 Canvas parallax moves each star by its `z` depth relative to the mouse position:
+
 ```js
-const px = (mouseX - 0.5) * 18;  // normalized mouse -0.5..0.5, scaled
+const px = (mouseX - 0.5) * 18; // normalized mouse -0.5..0.5, scaled
 const py = (mouseY - 0.5) * 12;
 
-drawX = star.x + px * star.z;    // near stars move more
+drawX = star.x + px * star.z; // near stars move more
 drawY = star.y + py * star.z;
 ```
 
@@ -335,13 +374,13 @@ A large, pulsing radial gradient anchors the composition — neither a planet no
 just a warm absence of darkness. It implies something without depicting it.
 
 ```js
-const pulse = Math.sin(time * 0.008) * 0.15 + 0.85;  // slow 0.7–1.0 oscillation
+const pulse = Math.sin(time * 0.008) * 0.15 + 0.85; // slow 0.7–1.0 oscillation
 const radius = Math.min(w, h) * 0.28 * pulse;
 
 const nebula = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-nebula.addColorStop(0,   `rgba(199, 156, 87, ${0.04 * pulse})`);   // gold core
+nebula.addColorStop(0, `rgba(199, 156, 87, ${0.04 * pulse})`); // gold core
 nebula.addColorStop(0.4, `rgba(121, 166, 163, ${0.025 * pulse})`); // teal mid
-nebula.addColorStop(1,   'transparent');
+nebula.addColorStop(1, 'transparent');
 ```
 
 Opacity values are very low — 0.04 at the center. The nebula should be felt, not seen.
@@ -354,16 +393,16 @@ mechanical motion without any obvious mechanical source.
 ```js
 ctx.save();
 ctx.translate(cx, cy);
-ctx.rotate(time * 0.003);  // primary ring, slow clockwise
-ctx.scale(1, 0.35);        // flatten to ellipse
+ctx.rotate(time * 0.003); // primary ring, slow clockwise
+ctx.scale(1, 0.35); // flatten to ellipse
 
 ctx.arc(0, 0, ringRadius, 0, Math.PI * 2);
 ctx.strokeStyle = `rgba(199, 156, 87, ${0.08 * pulse})`;
 ctx.lineWidth = 1;
 ctx.stroke();
 
-ctx.rotate(-time * 0.003 * 2.4);  // counter-rotate relative to primary
-ctx.scale(1.3, 1.1);               // slightly larger, slightly rounder
+ctx.rotate(-time * 0.003 * 2.4); // counter-rotate relative to primary
+ctx.scale(1.3, 1.1); // slightly larger, slightly rounder
 ctx.arc(0, 0, ringRadius * 0.7, 0, Math.PI * 2);
 ctx.strokeStyle = `rgba(121, 166, 163, ${0.06 * pulse})`;
 ctx.lineWidth = 0.7;
@@ -382,12 +421,8 @@ the texture of the air between things.
 ```js
 // Lifecycle-based opacity: ease in over first 10%, ease out over last 20%
 const lifeRatio = p.life / p.maxLife;
-const fade = lifeRatio < 0.1
-  ? lifeRatio / 0.1
-  : lifeRatio > 0.8
-    ? (1 - lifeRatio) / 0.2
-    : 1;
-const alpha = fade * 0.35;  // max alpha is low — these are background texture
+const fade = lifeRatio < 0.1 ? lifeRatio / 0.1 : lifeRatio > 0.8 ? (1 - lifeRatio) / 0.2 : 1;
+const alpha = fade * 0.35; // max alpha is low — these are background texture
 ```
 
 Particles are gold or teal only. No third color. They follow the same parallax offset
@@ -428,20 +463,27 @@ Each line slides up from 6px below and fades in — not a scroll, a surface:
 
 ```css
 .status-line {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+	opacity: 0;
+	transform: translateY(6px);
+	transition:
+		opacity 0.5s ease-out,
+		transform 0.5s ease-out;
 }
 .status-line.visible {
-  opacity: 1;
-  transform: translateY(0);
+	opacity: 1;
+	transform: translateY(0);
 }
 ```
 
 ```js
 // Stagger: 600ms initial delay, 700ms between each line
 lines.forEach((_, i) => {
-  setTimeout(() => { lines[i].visible = true; }, 600 + i * 700);
+	setTimeout(
+		() => {
+			lines[i].visible = true;
+		},
+		600 + i * 700
+	);
 });
 ```
 
@@ -455,22 +497,30 @@ presence indicator — not a loading spinner, just proof the page is alive:
 
 ```css
 .status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--status-fail);  /* or --status-ok depending on state */
-  animation: pulse-dot 2s ease-in-out infinite;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--status-fail); /* or --status-ok depending on state */
+	animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.3); }
+	0%,
+	100% {
+		opacity: 0.4;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.3);
+	}
 }
 ```
 
 ### Parallax
 
 Background layers respond to pointer position via CSS custom properties:
+
 ```css
 /* set on pointer move */
 --px: <normalized -0.5..0.5>;
@@ -490,6 +540,7 @@ Navigation is never ambient scroll — it always resolves to a scene boundary.
 ### Reduced Motion
 
 Always provide a `@media (prefers-reduced-motion: reduce)` block that:
+
 - Removes all animations
 - Removes all transitions
 - Collapses translate offsets to `none`
@@ -502,6 +553,7 @@ Always provide a `@media (prefers-reduced-motion: reduce)` block that:
 ### Two-Column Asymmetry
 
 Most scenes use an asymmetric grid — copy on the narrower left, visual/content on the wider right:
+
 ```css
 grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
 /* or */
@@ -513,6 +565,7 @@ The split is never 50/50. Asymmetry is compositional.
 ### Padding
 
 All scene containers use fluid padding:
+
 ```css
 padding: clamp(2rem, 7vw, 6rem);
 ```
@@ -522,10 +575,17 @@ Consistent inset logic. Never hard-coded pixel padding on full-bleed containers.
 ### Staggered Cards
 
 Card grids use small per-card vertical offsets to break the rigid grid:
+
 ```css
-.card-1 { transform: translateY(0.6rem); }
-.card-2 { transform: translateY(2.2rem); }
-.card-3 { transform: translateY(-0.2rem); }
+.card-1 {
+	transform: translateY(0.6rem);
+}
+.card-2 {
+	transform: translateY(2.2rem);
+}
+.card-3 {
+	transform: translateY(-0.2rem);
+}
 ```
 
 This creates a loose, hand-arranged feel within a structured layout.
@@ -533,10 +593,11 @@ This creates a loose, hand-arranged feel within a structured layout.
 ### Vignette
 
 A fixed-position vignette layer sits over the full page:
+
 ```css
 background:
-  radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.48) 100%),
-  radial-gradient(circle at top, rgba(199, 156, 87, 0.06), transparent 30%);
+	radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.48) 100%),
+	radial-gradient(circle at top, rgba(199, 156, 87, 0.06), transparent 30%);
 ```
 
 This darkens edges and adds warmth to the top of the viewport. Always present.
@@ -580,41 +641,41 @@ For porting to a new project, this is the minimum viable set:
 
 ```css
 :root {
-  /* backgrounds */
-  --bg: #08090b;
-  --bg-elev: #12151a;
+	/* backgrounds */
+	--bg: #08090b;
+	--bg-elev: #12151a;
 
-  /* text */
-  --text: #f0e8da;
-  --text-soft: #d8cdb9;
-  --muted: #a79d8b;
-  --muted-strong: #7e7568;
+	/* text */
+	--text: #f0e8da;
+	--text-soft: #d8cdb9;
+	--muted: #a79d8b;
+	--muted-strong: #7e7568;
 
-  /* accent */
-  --accent: #c79c57;
-  --accent-strong: #e2ba74;
-  --signal: #79a6a3;
+	/* accent */
+	--accent: #c79c57;
+	--accent-strong: #e2ba74;
+	--signal: #79a6a3;
 
-  /* lines */
-  --line: rgba(186, 157, 108, 0.16);
-  --line-strong: rgba(198, 166, 112, 0.28);
+	/* lines */
+	--line: rgba(186, 157, 108, 0.16);
+	--line-strong: rgba(198, 166, 112, 0.28);
 
-  /* status */
-  --status-ok: #79a6a3;
-  --status-pend: #8b8476;
-  --status-warn: #c79c57;
-  --status-fail: #b66a48;
+	/* status */
+	--status-ok: #79a6a3;
+	--status-pend: #8b8476;
+	--status-warn: #c79c57;
+	--status-fail: #b66a48;
 
-  /* shadows */
-  --shadow-veil: 0 40px 120px rgba(0, 0, 0, 0.45);
+	/* shadows */
+	--shadow-veil: 0 40px 120px rgba(0, 0, 0, 0.45);
 
-  /* transitions */
-  --transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+	/* transitions */
+	--transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+	--transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* fonts */
-  --font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
-  --font-body: 'ET Book', 'Iowan Old Style', 'Palatino Linotype', serif;
+	/* fonts */
+	--font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+	--font-body: 'ET Book', 'Iowan Old Style', 'Palatino Linotype', serif;
 }
 ```
 

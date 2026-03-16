@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SignalLost from '$lib/examples/SignalLost.svelte';
+	import SignalLost from '$lib/examples/SignalLost.svelte';
 </script>
 
 <SignalLost />

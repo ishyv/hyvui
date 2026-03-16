@@ -21,6 +21,7 @@ the reference frame is somewhere between a field notebook, a navigation instrume
 ## The Lowercase Rule
 
 **always lowercase:**
+
 - body copy and paragraphs
 - error messages
 - empty state titles and descriptions
@@ -32,11 +33,13 @@ the reference frame is somewhere between a field notebook, a navigation instrume
 - toast notification text
 
 **title case is acceptable for:**
+
 - page-level section headings where formal structure is needed
 - document titles in reference contexts (archive register)
 - proper nouns (product names, people, places)
 
 **uppercase only for:**
+
 - `Label` components — uppercase is applied by CSS automatically, not in the copy itself
 - expressions like `expr-command` and `expr-chapter` — uppercase is CSS
 - the bracket-convention CTA (see below)
@@ -47,26 +50,26 @@ the reference frame is somewhere between a field notebook, a navigation instrume
 
 errors describe the **condition**, not the **cause**. they never blame the user and never reveal raw technical strings.
 
-the pattern: *something happened* → *what that means for the user* → *what they can do.*
+the pattern: _something happened_ → _what that means for the user_ → _what they can do._
 
 write for someone who is calm and oriented, not panicked and lost.
 
-| do not write | write instead |
-|---|---|
-| `Error: server returned 500` | `the signal didn't complete` |
-| `Not Found` | `nothing at these coordinates` |
-| `You don't have permission` | `this space requires clearance` |
-| `Loading...` | `resolving` |
-| `Please wait` | (nothing, or: `standing by`) |
-| `Something went wrong` | `the channel interrupted` |
-| `Failed to fetch data` | `the connection didn't hold` |
-| `Invalid input` | `this field needs a different format` |
-| `You must be logged in` | `a session is required to continue` |
-| `Request timeout` | `the signal timed out — try again when you're ready` |
-| `404 — Page Not Found` | `nothing was found at these coordinates` |
-| `403 — Forbidden` | `this route requires authorization` |
-| `Unauthorized` | `this area requires clearance` |
-| `Session expired` | `your session has closed — sign in again to continue` |
+| do not write                 | write instead                                         |
+| ---------------------------- | ----------------------------------------------------- |
+| `Error: server returned 500` | `the signal didn't complete`                          |
+| `Not Found`                  | `nothing at these coordinates`                        |
+| `You don't have permission`  | `this space requires clearance`                       |
+| `Loading...`                 | `resolving`                                           |
+| `Please wait`                | (nothing, or: `standing by`)                          |
+| `Something went wrong`       | `the channel interrupted`                             |
+| `Failed to fetch data`       | `the connection didn't hold`                          |
+| `Invalid input`              | `this field needs a different format`                 |
+| `You must be logged in`      | `a session is required to continue`                   |
+| `Request timeout`            | `the signal timed out — try again when you're ready`  |
+| `404 — Page Not Found`       | `nothing was found at these coordinates`              |
+| `403 — Forbidden`            | `this route requires authorization`                   |
+| `Unauthorized`               | `this area requires clearance`                        |
+| `Session expired`            | `your session has closed — sign in again to continue` |
 
 **retry language:**
 do not write `Try again`. write `try again when you're ready`, or just surface a retry button with a plain label like `retry` or `try again`.
@@ -81,6 +84,7 @@ empty is a neutral condition. write it with quiet curiosity, not apology. `no re
 hyvnt-ui headings are oblique noun phrases, not declarative sentences. they name a thing or a place — they don't describe it, celebrate it, or explain it.
 
 **correct heading patterns:**
+
 - `signal archive`
 - `field notes — vol. 3`
 - `approach`
@@ -89,6 +93,7 @@ hyvnt-ui headings are oblique noun phrases, not declarative sentences. they name
 - `transmission log`
 
 **do not write headings that:**
+
 - start with a verb: `View Your Records`, `Manage Settings`, `Get Started`
 - make promises: `Everything You Need`, `The Complete Solution`
 - use exclamation: `Welcome!`, `You're All Set!`
@@ -105,12 +110,14 @@ one or two words is often better than five. `signal log` over `your recent signa
 `Label` components are IBM Plex Mono, uppercase, tracked, small. they are the system's way of identifying things — category tags, section markers, field identifiers, system state labels.
 
 write labels as:
+
 - single nouns or noun phrases: `archive`, `active`, `priority`, `field-notebook`
 - status identifiers: `live`, `connected`, `pending`, `sealed`
 - structural identifiers: `entry 003`, `vol. 3`, `part two`
 - system labels: `mission control`, `field station`
 
 do not write labels as:
+
 - full sentences
 - questions
 - anything that requires punctuation (except the em dash for range labels: `entry 001 — 007`)
@@ -124,11 +131,13 @@ do not write labels as:
 `[ action ]` is the standard CTA format for primary calls-to-action in this system. the brackets are rendered as part of the button label text when you want the button to feel like a terminal command rather than a UI button.
 
 use the bracket convention for:
+
 - landing page primary actions
 - gate-crossing moments: `[ enter ]`, `[ proceed ]`, `[ initialize ]`
 - final confirmation actions: `[ seal record ]`, `[ transmit ]`
 
 do not use brackets for:
+
 - secondary or ghost buttons — `view archive`, `cancel`, `go back`
 - destructive buttons — `delete`, `revoke` (the gravity should come from the variant, not typography)
 - buttons inside forms — plain labels are clearer in dense contexts
@@ -136,9 +145,11 @@ do not use brackets for:
 ### plain button labels
 
 for most buttons, write plain lowercase action verbs:
+
 - `deploy`, `archive`, `transmit`, `verify`, `cancel`, `confirm`, `delete`, `export`, `retry`
 
 do not write:
+
 - `Submit` (write `submit`, or the specific action: `archive entry`)
 - `Click here` or `Learn more` (write what specifically will happen)
 - `OK` (write `confirm` or the specific positive action)
@@ -150,12 +161,14 @@ do not write:
 in this system, incomplete sentences are correct — not sloppy.
 
 fragments are acceptable and often preferred for:
+
 - empty state descriptions: `nothing in this sector yet.`
 - status messages: `signal acquired.`, `coordinates locked.`, `standing by.`
 - tooltip content: `last updated 14 minutes ago.`
 - subheadings that complete a heading: heading `approach` + subheading `coordinates pending verification.`
 
 fragments become a problem when:
+
 - the user needs explicit instructions (error recovery steps should be complete sentences)
 - the context is formal (terms of service, legal notices, accessibility labels)
 - the reader needs to understand cause and effect (`the connection timed out because the server did not respond in time.`)

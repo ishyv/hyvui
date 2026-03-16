@@ -14,15 +14,15 @@ do not rely on ambient components to communicate meaning — they are supplement
 
 ```svelte
 <script lang="ts">
-  import { GridOverlay } from '$lib';
+	import { GridOverlay } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default | required | description            |
+| ------- | -------- | ------- | -------- | ---------------------- |
+| `class` | `string` | `''`    | no       | additional CSS classes |
 
 ### Positioning
 
@@ -33,22 +33,22 @@ GridOverlay is `position: absolute; inset: 0`. the parent must have `position: r
 ```svelte
 <!-- full-section grid background -->
 <section style="position: relative; min-height: 100vh;">
-  <GridOverlay />
-  <div style="position: relative; z-index: 1;">
-    <Text as="h1" variant="heading">field station</Text>
-  </div>
+	<GridOverlay />
+	<div style="position: relative; z-index: 1;">
+		<Text as="h1" variant="heading">field station</Text>
+	</div>
 </section>
 
 <!-- inside a StageScene's ambient slot -->
 <StageScene>
-  {#snippet ambient()}
-    <GridOverlay />
-    <Vignette />
-  {/snippet}
+	{#snippet ambient()}
+		<GridOverlay />
+		<Vignette />
+	{/snippet}
 
-  {#snippet heading()}
-    <Text as="h1" variant="heading" expression="title-card">coordinates</Text>
-  {/snippet}
+	{#snippet heading()}
+		<Text as="h1" variant="heading" expression="title-card">coordinates</Text>
+	{/snippet}
 </StageScene>
 ```
 
@@ -62,17 +62,17 @@ GridOverlay is `position: absolute; inset: 0`. the parent must have `position: r
 
 ```svelte
 <script lang="ts">
-  import { CornerBrackets } from '$lib';
+	import { CornerBrackets } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `size` | `number` | `32` | no | arm length of each bracket in pixels |
-| `color` | `string` | `'var(--line-strong)'` | no | bracket color (any CSS color value) |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default                | required | description                          |
+| ------- | -------- | ---------------------- | -------- | ------------------------------------ |
+| `size`  | `number` | `32`                   | no       | arm length of each bracket in pixels |
+| `color` | `string` | `'var(--line-strong)'` | no       | bracket color (any CSS color value)  |
+| `class` | `string` | `''`                   | no       | additional CSS classes               |
 
 ### Positioning
 
@@ -83,15 +83,15 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 ```svelte
 <!-- framing a card -->
 <div style="position: relative; padding: 2rem;">
-  <CornerBrackets />
-  <Text as="h2" variant="heading">coordinates locked</Text>
+	<CornerBrackets />
+	<Text as="h2" variant="heading">coordinates locked</Text>
 </div>
 
 <!-- accent-colored brackets for emphasis -->
 <div style="position: relative; padding: 1.5rem;">
-  <CornerBrackets color="var(--accent)" size={24} />
-  <StatusDot status="ok" />
-  <Text variant="caption">signal acquired</Text>
+	<CornerBrackets color="var(--accent)" size={24} />
+	<StatusDot status="ok" />
+	<Text variant="caption">signal acquired</Text>
 </div>
 ```
 
@@ -105,20 +105,20 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 
 ```svelte
 <script lang="ts">
-  import { ScanBand } from '$lib';
+	import { ScanBand } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `active` | `boolean` | `true` | no | toggles the animation on/off |
-| `axis` | `'x' \| 'y'` | `'x'` | no | sweep direction |
-| `size` | `string` | `undefined` | no | CSS width (x-axis) or height (y-axis) of the band |
-| `duration` | `string` | `undefined` | no | animation duration (e.g. `'4s'`, `'8s'`) |
-| `gradient` | `string` | `undefined` | no | custom CSS gradient for the band |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type         | default     | required | description                                       |
+| ---------- | ------------ | ----------- | -------- | ------------------------------------------------- |
+| `active`   | `boolean`    | `true`      | no       | toggles the animation on/off                      |
+| `axis`     | `'x' \| 'y'` | `'x'`       | no       | sweep direction                                   |
+| `size`     | `string`     | `undefined` | no       | CSS width (x-axis) or height (y-axis) of the band |
+| `duration` | `string`     | `undefined` | no       | animation duration (e.g. `'4s'`, `'8s'`)          |
+| `gradient` | `string`     | `undefined` | no       | custom CSS gradient for the band                  |
+| `class`    | `string`     | `''`        | no       | additional CSS classes                            |
 
 ### Positioning
 
@@ -129,15 +129,15 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 ```svelte
 <!-- horizontal scan on a panel -->
 <div style="position: relative; overflow: hidden;">
-  <ScanBand axis="x" duration="6s" />
-  <Panel>
-    <Text as="h2" variant="heading">scanner active</Text>
-  </Panel>
+	<ScanBand axis="x" duration="6s" />
+	<Panel>
+		<Text as="h2" variant="heading">scanner active</Text>
+	</Panel>
 </div>
 
 <!-- vertical scan, paused -->
 <div style="position: relative; overflow: hidden;">
-  <ScanBand axis="y" active={isScanning} />
+	<ScanBand axis="y" active={isScanning} />
 </div>
 ```
 
@@ -151,15 +151,15 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 
 ```svelte
 <script lang="ts">
-  import { Vignette } from '$lib';
+	import { Vignette } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default | required | description            |
+| ------- | -------- | ------- | -------- | ---------------------- |
+| `class` | `string` | `''`    | no       | additional CSS classes |
 
 ### Positioning
 
@@ -171,7 +171,7 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 <!-- in a page layout, before the main content -->
 <Vignette />
 <main>
-  <StageScene>...</StageScene>
+	<StageScene>...</StageScene>
 </main>
 ```
 
@@ -185,21 +185,21 @@ CornerBrackets is `position: absolute; inset: 0; pointer-events: none`. the pare
 
 ```svelte
 <script lang="ts">
-  import { ParallaxLayer } from '$lib';
+	import { ParallaxLayer } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `strength` | `number` | `18` | no | parallax movement multiplier in pixels. higher = more movement |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type     | default | required | description                                                    |
+| ---------- | -------- | ------- | -------- | -------------------------------------------------------------- |
+| `strength` | `number` | `18`    | no       | parallax movement multiplier in pixels. higher = more movement |
+| `class`    | `string` | `''`    | no       | additional CSS classes                                         |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description                       |
+| --------- | --------------------------------- |
 | `default` | content to move with the parallax |
 
 ### Critical: The `--px` / `--py` Requirement
@@ -210,29 +210,25 @@ these properties are normalized pointer coordinates (0–1) within the container
 
 ```svelte
 <script lang="ts">
-  let container: HTMLElement;
+	let container: HTMLElement;
 
-  function handlePointerMove(e: PointerEvent) {
-    const rect = container.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width;
-    const py = (e.clientY - rect.top) / rect.height;
-    container.style.setProperty('--px', px.toString());
-    container.style.setProperty('--py', py.toString());
-  }
+	function handlePointerMove(e: PointerEvent) {
+		const rect = container.getBoundingClientRect();
+		const px = (e.clientX - rect.left) / rect.width;
+		const py = (e.clientY - rect.top) / rect.height;
+		container.style.setProperty('--px', px.toString());
+		container.style.setProperty('--py', py.toString());
+	}
 </script>
 
-<div
-  bind:this={container}
-  onpointermove={handlePointerMove}
-  style="position: relative;"
->
-  <ParallaxLayer strength={20}>
-    <GridOverlay />
-  </ParallaxLayer>
+<div bind:this={container} onpointermove={handlePointerMove} style="position: relative;">
+	<ParallaxLayer strength={20}>
+		<GridOverlay />
+	</ParallaxLayer>
 
-  <ParallaxLayer strength={10}>
-    <CornerBrackets />
-  </ParallaxLayer>
+	<ParallaxLayer strength={10}>
+		<CornerBrackets />
+	</ParallaxLayer>
 </div>
 ```
 
@@ -243,7 +239,7 @@ different `strength` values on different layers create depth. higher strength mo
 ```svelte
 <ParallaxLayer strength={30}><!-- foreground --></ParallaxLayer>
 <ParallaxLayer strength={15}><!-- midground --></ParallaxLayer>
-<ParallaxLayer strength={5}> <!-- background --></ParallaxLayer>
+<ParallaxLayer strength={5}><!-- background --></ParallaxLayer>
 ```
 
 ### Reduced Motion
@@ -260,31 +256,31 @@ when `prefers-reduced-motion: reduce` is set, the transition on ParallaxLayer is
 ```svelte
 <!-- full parallax hero section -->
 <script lang="ts">
-  let hero: HTMLElement;
+	let hero: HTMLElement;
 
-  function onPointerMove(e: PointerEvent) {
-    const r = hero.getBoundingClientRect();
-    hero.style.setProperty('--px', ((e.clientX - r.left) / r.width).toString());
-    hero.style.setProperty('--py', ((e.clientY - r.top) / r.height).toString());
-  }
+	function onPointerMove(e: PointerEvent) {
+		const r = hero.getBoundingClientRect();
+		hero.style.setProperty('--px', ((e.clientX - r.left) / r.width).toString());
+		hero.style.setProperty('--py', ((e.clientY - r.top) / r.height).toString());
+	}
 </script>
 
 <section
-  bind:this={hero}
-  onpointermove={onPointerMove}
-  style="position: relative; min-height: 100vh; overflow: hidden;"
+	bind:this={hero}
+	onpointermove={onPointerMove}
+	style="position: relative; min-height: 100vh; overflow: hidden;"
 >
-  <ParallaxLayer strength={8}>
-    <GridOverlay />
-  </ParallaxLayer>
+	<ParallaxLayer strength={8}>
+		<GridOverlay />
+	</ParallaxLayer>
 
-  <ParallaxLayer strength={20}>
-    <CornerBrackets size={48} />
-  </ParallaxLayer>
+	<ParallaxLayer strength={20}>
+		<CornerBrackets size={48} />
+	</ParallaxLayer>
 
-  <div style="position: relative; z-index: 10; padding: var(--space-scene);">
-    <Text as="h1" variant="heading" expression="title-card">field station</Text>
-  </div>
+	<div style="position: relative; z-index: 10; padding: var(--space-scene);">
+		<Text as="h1" variant="heading" expression="title-card">field station</Text>
+	</div>
 </section>
 ```
 
@@ -298,18 +294,18 @@ when `prefers-reduced-motion: reduce` is set, the transition on ParallaxLayer is
 
 ```svelte
 <script lang="ts">
-  import { SignalRing } from '$lib';
+	import { SignalRing } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `active` | `boolean` | `true` | no | enables the pulse animation |
-| `size` | `number` | `200` | no | outer diameter of the ring in pixels |
-| `color` | `string` | `'var(--signal)'` | no | ring color |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop     | type      | default           | required | description                          |
+| -------- | --------- | ----------------- | -------- | ------------------------------------ |
+| `active` | `boolean` | `true`            | no       | enables the pulse animation          |
+| `size`   | `number`  | `200`             | no       | outer diameter of the ring in pixels |
+| `color`  | `string`  | `'var(--signal)'` | no       | ring color                           |
+| `class`  | `string`  | `''`              | no       | additional CSS classes               |
 
 ### Examples
 
@@ -334,18 +330,18 @@ when `prefers-reduced-motion: reduce` is set, the transition on ParallaxLayer is
 
 ```svelte
 <script lang="ts">
-  import { GlyphMark } from '$lib';
+	import { GlyphMark } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'cross' \| 'reticle' \| 'coord' \| 'mark'` | `'cross'` | no | glyph shape |
-| `size` | `number` | `16` | no | glyph size in pixels |
-| `color` | `string` | `'var(--line-strong)'` | no | glyph color |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop      | type                                        | default                | required | description            |
+| --------- | ------------------------------------------- | ---------------------- | -------- | ---------------------- |
+| `variant` | `'cross' \| 'reticle' \| 'coord' \| 'mark'` | `'cross'`              | no       | glyph shape            |
+| `size`    | `number`                                    | `16`                   | no       | glyph size in pixels   |
+| `color`   | `string`                                    | `'var(--line-strong)'` | no       | glyph color            |
+| `class`   | `string`                                    | `''`                   | no       | additional CSS classes |
 
 ### Variants
 
@@ -370,9 +366,9 @@ A diamond or chevron mark. use as a section separator or list marker.
 
 <!-- as a decorative divider element -->
 <Stack direction="horizontal" align="center" gap="var(--space-sm)">
-  <Divider />
-  <GlyphMark variant="mark" />
-  <Divider />
+	<Divider />
+	<GlyphMark variant="mark" />
+	<Divider />
 </Stack>
 ```
 
@@ -386,7 +382,7 @@ A diamond or chevron mark. use as a section separator or list marker.
 
 ```svelte
 <script lang="ts">
-  import { DataStream } from '$lib';
+	import { DataStream } from '$lib';
 </script>
 ```
 
@@ -409,7 +405,7 @@ DataStream is a purely decorative visual element with no user-facing content. us
 
 ```svelte
 <script lang="ts">
-  import { ThreadLine } from '$lib';
+	import { ThreadLine } from '$lib';
 </script>
 ```
 

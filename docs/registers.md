@@ -14,11 +14,11 @@ registers operate through CSS custom properties (`--reg-*` variables) that compo
 
 ## Available Registers
 
-| name | character | primary font | use for |
-|---|---|---|---|
-| `field-notebook` | warm, editorial, serif-forward | ET Book | portfolios, articles, field journals, personal projects |
-| `mission-control` | dense, precise, mono-forward | IBM Plex Mono | dashboards, admin panels, data-heavy applications, operational interfaces |
-| `archive` | cool, spacious, muted | ET Book (lighter) | galleries, collections, reference documentation, archival interfaces |
+| name              | character                      | primary font      | use for                                                                   |
+| ----------------- | ------------------------------ | ----------------- | ------------------------------------------------------------------------- |
+| `field-notebook`  | warm, editorial, serif-forward | ET Book           | portfolios, articles, field journals, personal projects                   |
+| `mission-control` | dense, precise, mono-forward   | IBM Plex Mono     | dashboards, admin panels, data-heavy applications, operational interfaces |
+| `archive`         | cool, spacious, muted          | ET Book (lighter) | galleries, collections, reference documentation, archival interfaces      |
 
 ---
 
@@ -35,19 +35,19 @@ registers operate through CSS custom properties (`--reg-*` variables) that compo
 
 ```svelte
 <script lang="ts">
-  import { applyRegister, clearRegister } from '$lib';
-  import type { Register } from '$lib';
+	import { applyRegister, clearRegister } from '$lib';
+	import type { Register } from '$lib';
 
-  // apply on mount
-  applyRegister('mission-control');
+	// apply on mount
+	applyRegister('mission-control');
 
-  // switch registers dynamically
-  function switchRegister(r: Register) {
-    applyRegister(r);
-  }
+	// switch registers dynamically
+	function switchRegister(r: Register) {
+		applyRegister(r);
+	}
 
-  // return to defaults
-  clearRegister();
+	// return to defaults
+	clearRegister();
 </script>
 ```
 
@@ -61,9 +61,9 @@ registers can be applied to any element, not just `body`. the register variables
 
 <!-- but this section uses archive -->
 <section data-register="archive">
-  <ArchiveScene title="reference documents">
-    <!-- content here renders with archive register variables -->
-  </ArchiveScene>
+	<ArchiveScene title="reference documents">
+		<!-- content here renders with archive register variables -->
+	</ArchiveScene>
 </section>
 ```
 
@@ -75,20 +75,20 @@ scoped registers compose correctly — children of a scoped element see that reg
 
 all `--reg-*` variables are defined in `src/lib/system/register.css`. the `:root` defaults are the "no register" fallbacks.
 
-| variable | `:root` default | `field-notebook` | `mission-control` | `archive` |
-|---|---|---|---|---|
-| `--reg-font-heading` | ET Book | ET Book | IBM Plex Mono | ET Book |
-| `--reg-font-body` | ET Book | ET Book | ET Book | ET Book |
-| `--reg-heading-tracking` | `-0.02em` | `-0.03em` | `0.05em` | `0em` |
-| `--reg-heading-line-height` | `1.1` | `1.05` | `1.2` | `1.15` |
-| `--reg-body-size` | `1.1rem` | `1.15rem` | `0.95rem` | `1rem` |
-| `--reg-label-size` | `0.72rem` | `0.72rem` | `0.7rem` | `0.68rem` |
-| `--reg-label-tracking` | `0.12em` | `0.1em` | `0.18em` | `0.14em` |
-| `--reg-surface-opacity` | `1` | `0.95` | `1` | `0.9` |
-| `--reg-ornament-opacity` | `0.6` | `0.7` | `0.4` | `0.5` |
-| `--reg-accent-weight` | `normal` | `normal` | `600` | `normal` |
-| `--reg-signal-weight` | `normal` | `normal` | `500` | `normal` |
-| `--reg-space-scale` | `1` | `1.05` | `0.9` | `1.1` |
+| variable                    | `:root` default | `field-notebook` | `mission-control` | `archive` |
+| --------------------------- | --------------- | ---------------- | ----------------- | --------- |
+| `--reg-font-heading`        | ET Book         | ET Book          | IBM Plex Mono     | ET Book   |
+| `--reg-font-body`           | ET Book         | ET Book          | ET Book           | ET Book   |
+| `--reg-heading-tracking`    | `-0.02em`       | `-0.03em`        | `0.05em`          | `0em`     |
+| `--reg-heading-line-height` | `1.1`           | `1.05`           | `1.2`             | `1.15`    |
+| `--reg-body-size`           | `1.1rem`        | `1.15rem`        | `0.95rem`         | `1rem`    |
+| `--reg-label-size`          | `0.72rem`       | `0.72rem`        | `0.7rem`          | `0.68rem` |
+| `--reg-label-tracking`      | `0.12em`        | `0.1em`          | `0.18em`          | `0.14em`  |
+| `--reg-surface-opacity`     | `1`             | `0.95`           | `1`               | `0.9`     |
+| `--reg-ornament-opacity`    | `0.6`           | `0.7`            | `0.4`             | `0.5`     |
+| `--reg-accent-weight`       | `normal`        | `normal`         | `600`             | `normal`  |
+| `--reg-signal-weight`       | `normal`        | `normal`         | `500`             | `normal`  |
+| `--reg-space-scale`         | `1`             | `1.05`           | `0.9`             | `1.1`     |
 
 ---
 
@@ -106,8 +106,8 @@ if you want register-relative overrides, set the `--reg-*` variables directly in
 
 ```css
 /* theme.css */
-[data-register="mission-control"] {
-  --reg-body-size: 0.875rem; /* tighter than default mission-control */
+[data-register='mission-control'] {
+	--reg-body-size: 0.875rem; /* tighter than default mission-control */
 }
 ```
 

@@ -12,19 +12,19 @@ Foundational building blocks. used inside other components and directly in layou
 
 ```svelte
 <script lang="ts">
-  import { Text } from '$lib';
+	import { Text } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `as` | `string` | `'p'` | no | the HTML element to render (`h1`, `h2`, `h3`, `p`, `span`, `div`, etc.) |
-| `variant` | `'heading' \| 'body' \| 'caption' \| 'italic'` | `'body'` | no | base typographic role |
-| `color` | `'primary' \| 'soft' \| 'muted' \| 'muted-strong' \| 'accent' \| 'signal'` | `'primary'` | no | text color from the token palette |
-| `expression` | `string` | `undefined` | no | compositional expression class (see `docs/expressions.md`) |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop         | type                                                                       | default     | required | description                                                             |
+| ------------ | -------------------------------------------------------------------------- | ----------- | -------- | ----------------------------------------------------------------------- |
+| `as`         | `string`                                                                   | `'p'`       | no       | the HTML element to render (`h1`, `h2`, `h3`, `p`, `span`, `div`, etc.) |
+| `variant`    | `'heading' \| 'body' \| 'caption' \| 'italic'`                             | `'body'`    | no       | base typographic role                                                   |
+| `color`      | `'primary' \| 'soft' \| 'muted' \| 'muted-strong' \| 'accent' \| 'signal'` | `'primary'` | no       | text color from the token palette                                       |
+| `expression` | `string`                                                                   | `undefined` | no       | compositional expression class (see `docs/expressions.md`)              |
+| `class`      | `string`                                                                   | `''`        | no       | additional CSS classes                                                  |
 
 ### Variants
 
@@ -58,16 +58,14 @@ Renders as the element specified in `as`. always use a semantically correct elem
 
 <!-- body copy with muted color -->
 <Text variant="body" color="muted">
-  the connection resolved after three attempts. coordinates locked.
+	the connection resolved after three attempts. coordinates locked.
 </Text>
 
 <!-- caption beneath a figure -->
 <Text as="span" variant="caption" color="muted">fig. 3 — signal decay over time</Text>
 
 <!-- with expression for large editorial heading -->
-<Text as="h1" variant="heading" expression="title-card">
-  field notes
-</Text>
+<Text as="h1" variant="heading" expression="title-card">field notes</Text>
 ```
 
 ---
@@ -80,17 +78,17 @@ Renders as the element specified in `as`. always use a semantically correct elem
 
 ```svelte
 <script lang="ts">
-  import { Label } from '$lib';
+	import { Label } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `as` | `string` | `'span'` | no | the HTML element to render |
-| `color` | `'muted' \| 'accent' \| 'signal'` | `'muted'` | no | label color |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type                              | default   | required | description                |
+| ------- | --------------------------------- | --------- | -------- | -------------------------- |
+| `as`    | `string`                          | `'span'`  | no       | the HTML element to render |
+| `color` | `'muted' \| 'accent' \| 'signal'` | `'muted'` | no       | label color                |
+| `class` | `string`                          | `''`      | no       | additional CSS classes     |
 
 ### Color Variants
 
@@ -139,22 +137,22 @@ Renders as the element in `as`. for screen readers, labels are read as plain tex
 
 ```svelte
 <script lang="ts">
-  import { Icon } from '$lib';
+	import { Icon } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `size` | `number` | `16` | no | icon width and height in pixels |
-| `color` | `string` | `'currentColor'` | no | any CSS color value or custom property |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop    | type     | default          | required | description                            |
+| ------- | -------- | ---------------- | -------- | -------------------------------------- |
+| `size`  | `number` | `16`             | no       | icon width and height in pixels        |
+| `color` | `string` | `'currentColor'` | no       | any CSS color value or custom property |
+| `class` | `string` | `''`             | no       | additional CSS classes                 |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description             |
+| --------- | ----------------------- |
 | `default` | the SVG element content |
 
 ### Accessibility
@@ -171,16 +169,16 @@ Icon is a presentational wrapper. for meaningful icons, add `aria-label` directl
 ```svelte
 <!-- basic icon at default size -->
 <Icon>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <path d="M12 3v18M3 12h18" />
-  </svg>
+	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+		<path d="M12 3v18M3 12h18" />
+	</svg>
 </Icon>
 
 <!-- larger icon with accent color -->
 <Icon size={24} color="var(--accent)">
-  <svg viewBox="0 0 24 24" fill="currentColor">
-    <circle cx="12" cy="12" r="4" />
-  </svg>
+	<svg viewBox="0 0 24 24" fill="currentColor">
+		<circle cx="12" cy="12" r="4" />
+	</svg>
 </Icon>
 ```
 
@@ -194,16 +192,16 @@ Icon is a presentational wrapper. for meaningful icons, add `aria-label` directl
 
 ```svelte
 <script lang="ts">
-  import { Divider } from '$lib';
+	import { Divider } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `strength` | `'default' \| 'strong'` | `'default'` | no | border opacity — `--line` or `--line-strong` |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type                    | default     | required | description                                  |
+| ---------- | ----------------------- | ----------- | -------- | -------------------------------------------- |
+| `strength` | `'default' \| 'strong'` | `'default'` | no       | border opacity — `--line` or `--line-strong` |
+| `class`    | `string`                | `''`        | no       | additional CSS classes                       |
 
 ### Variants
 
@@ -244,18 +242,18 @@ Renders as `<hr>` with `role="separator"`. screen readers announce it as a thema
 
 ```svelte
 <script lang="ts">
-  import { Surface } from '$lib';
+	import { Surface } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'base' \| 'card' \| 'panel'` | `'base'` | no | background gradient style |
-| `as` | `string` | `'div'` | no | the HTML element to render |
-| `withInset` | `boolean` | `false` | no | adds an inset teal accent line along the top edge |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop        | type                          | default  | required | description                                       |
+| ----------- | ----------------------------- | -------- | -------- | ------------------------------------------------- |
+| `variant`   | `'base' \| 'card' \| 'panel'` | `'base'` | no       | background gradient style                         |
+| `as`        | `string`                      | `'div'`  | no       | the HTML element to render                        |
+| `withInset` | `boolean`                     | `false`  | no       | adds an inset teal accent line along the top edge |
+| `class`     | `string`                      | `''`     | no       | additional CSS classes                            |
 
 ### Variants
 
@@ -275,11 +273,13 @@ Renders as `<hr>` with `role="separator"`. screen readers announce it as a thema
 **critical requirement:** the parent element must have a stable, non-`auto` height, or `position: relative` must be set on the Surface itself. if the element has `height: auto` with no explicit height context, the pseudoelement may not render correctly. this is the most common misuse of this prop.
 
 use `withInset` for:
+
 - panels that need a distinctive top accent
 - cards that are the primary focus of a section
 - active or selected states where the teal accent communicates selection
 
 do not use `withInset` for:
+
 - every card in a grid — reserve it for emphasis
 - surfaces inside other surfaces — the accent stacks poorly
 
@@ -298,21 +298,21 @@ Surface renders as the element in `as` with no implicit ARIA role. add `role`, `
 ```svelte
 <!-- base surface wrapping a content region -->
 <Surface variant="base" as="section">
-  <Text as="h2" variant="heading">field notes</Text>
-  <Text variant="body">collected observations from the last dispatch.</Text>
+	<Text as="h2" variant="heading">field notes</Text>
+	<Text variant="body">collected observations from the last dispatch.</Text>
 </Surface>
 
 <!-- card surface for a discrete content unit -->
 <Surface variant="card">
-  <Label color="accent">entry 003</Label>
-  <Text as="h3" variant="heading">signal decay model</Text>
-  <Text variant="body" color="soft">the readings aligned after recalibration.</Text>
+	<Label color="accent">entry 003</Label>
+	<Text as="h3" variant="heading">signal decay model</Text>
+	<Text variant="body" color="soft">the readings aligned after recalibration.</Text>
 </Surface>
 
 <!-- panel with teal inset accent -->
 <Surface variant="panel" withInset>
-  <Label>mission control</Label>
-  <Text as="h2" variant="heading">system status</Text>
+	<Label>mission control</Label>
+	<Text as="h2" variant="heading">system status</Text>
 </Surface>
 ```
 

@@ -14,35 +14,35 @@
  */
 
 :root {
-  /* ── type presence ──────────────────────────────────────────────────── */
-  /* Adjust heading compression. More negative = more compressed.         */
-  /* --reg-heading-tracking: -0.05em;  */
+	/* ── type presence ──────────────────────────────────────────────────── */
+	/* Adjust heading compression. More negative = more compressed.         */
+	/* --reg-heading-tracking: -0.05em;  */
 
-  /* Adjust body text size. Range: 0.9rem (dense) to 1.25rem (editorial) */
-  /* --reg-body-size: 1.1rem;          */
+	/* Adjust body text size. Range: 0.9rem (dense) to 1.25rem (editorial) */
+	/* --reg-body-size: 1.1rem;          */
 
-  /* ── surface presence ───────────────────────────────────────────────── */
-  /* Lower opacity = cards feel lighter, more atmospheric.                */
-  /* Higher opacity = cards feel heavier, more structured.                */
-  /* Range: 0.4 (ghostly) to 1.0 (fully opaque)                          */
-  /* --reg-surface-opacity: 0.8;       */
+	/* ── surface presence ───────────────────────────────────────────────── */
+	/* Lower opacity = cards feel lighter, more atmospheric.                */
+	/* Higher opacity = cards feel heavier, more structured.                */
+	/* Range: 0.4 (ghostly) to 1.0 (fully opaque)                          */
+	/* --reg-surface-opacity: 0.8;       */
 
-  /* ── ornament presence ──────────────────────────────────────────────── */
-  /* Controls ambient component visibility globally.                      */
-  /* 0 = invisible, 1 = full AESTHETICS.md opacity                        */
-  /* --reg-ornament-opacity: 0.14;     */
+	/* ── ornament presence ──────────────────────────────────────────────── */
+	/* Controls ambient component visibility globally.                      */
+	/* 0 = invisible, 1 = full AESTHETICS.md opacity                        */
+	/* --reg-ornament-opacity: 0.14;     */
 
-  /* ── accent balance ─────────────────────────────────────────────────── */
-  /* Gold weight. 1 = full presence, 0.4 = almost invisible.              */
-  /* --reg-accent-weight: 1;           */
+	/* ── accent balance ─────────────────────────────────────────────────── */
+	/* Gold weight. 1 = full presence, 0.4 = almost invisible.              */
+	/* --reg-accent-weight: 1;           */
 
-  /* Teal weight. Same scale.                                              */
-  /* --reg-signal-weight: 0.8;         */
+	/* Teal weight. Same scale.                                              */
+	/* --reg-signal-weight: 0.8;         */
 
-  /* ── spacing scale ──────────────────────────────────────────────────── */
-  /* Multiplier on spacing. > 1 = more breathing room. < 1 = tighter.     */
-  /* Range: 0.85 (compact) to 1.4 (spacious)                              */
-  /* --reg-spacing-scale: 1;           */
+	/* ── spacing scale ──────────────────────────────────────────────────── */
+	/* Multiplier on spacing. > 1 = more breathing room. < 1 = tighter.     */
+	/* Range: 0.85 (compact) to 1.4 (spacious)                              */
+	/* --reg-spacing-scale: 1;           */
 }
 
 /*

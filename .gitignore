@@ -28,3 +28,7 @@ vite.config.ts.timestamp-*
 
 .prettier*
 bun.lock
+
+# Playwright
+/test-results
+/playwright-report

@@ -9,17 +9,17 @@ import type { ActionReturn } from 'svelte/action';
  * <button use:echo>confirm</button>
  */
 export function echo(node: HTMLElement): ActionReturn {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function handleClick(e: MouseEvent) {
-    if (prefersReduced) return;
+	function handleClick(e: MouseEvent) {
+		if (prefersReduced) return;
 
-    const rect = node.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
+		const rect = node.getBoundingClientRect();
+		const x = ((e.clientX - rect.left) / rect.width) * 100;
+		const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    const overlay = document.createElement('span');
-    overlay.style.cssText = `
+		const overlay = document.createElement('span');
+		overlay.style.cssText = `
       position: absolute;
       inset: 0;
       border-radius: inherit;
@@ -29,25 +29,25 @@ export function echo(node: HTMLElement): ActionReturn {
       transition: opacity 0.15s ease-out;
     `;
 
-    const position = getComputedStyle(node).position;
-    if (position === 'static') node.style.position = 'relative';
+		const position = getComputedStyle(node).position;
+		if (position === 'static') node.style.position = 'relative';
 
-    node.style.overflow = 'hidden';
-    node.appendChild(overlay);
+		node.style.overflow = 'hidden';
+		node.appendChild(overlay);
 
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '1';
-      setTimeout(() => {
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.remove(), 200);
-      }, 200);
-    });
-  }
+		requestAnimationFrame(() => {
+			overlay.style.opacity = '1';
+			setTimeout(() => {
+				overlay.style.opacity = '0';
+				setTimeout(() => overlay.remove(), 200);
+			}, 200);
+		});
+	}
 
-  node.addEventListener('click', handleClick);
-  return {
-    destroy() {
-      node.removeEventListener('click', handleClick);
-    },
-  };
+	node.addEventListener('click', handleClick);
+	return {
+		destroy() {
+			node.removeEventListener('click', handleClick);
+		}
+	};
 }

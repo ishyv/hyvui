@@ -1,49 +1,49 @@
 /* ── perspective tokens ──────────────────────────────────────────────── */
 :root {
-  --perspective-near: 600px;
-  --perspective-mid: 1000px;
-  --perspective-far: 1800px;
+	--perspective-near: 600px;
+	--perspective-mid: 1000px;
+	--perspective-far: 1800px;
 
-  --depth-ground: 0px;
-  --depth-raised: 60px;
-  --depth-foreground: 140px;
+	--depth-ground: 0px;
+	--depth-raised: 60px;
+	--depth-foreground: 140px;
 
-  --depth-tilt-max: 8deg;
-  --depth-tilt-subtle: 3deg;
+	--depth-tilt-max: 8deg;
+	--depth-tilt-subtle: 3deg;
 
-  --depth-transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+	--depth-transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ── perspective container ───────────────────────────────────────────── */
 .depth-stage {
-  perspective: var(--perspective-mid);
-  perspective-origin: 50% 40%;
-  transform-style: preserve-3d;
+	perspective: var(--perspective-mid);
+	perspective-origin: 50% 40%;
+	transform-style: preserve-3d;
 }
 
 /* ── depth level utilities ───────────────────────────────────────────── */
 .depth-ground {
-  transform: translateZ(var(--depth-ground));
+	transform: translateZ(var(--depth-ground));
 }
 
 .depth-raised {
-  transform: translateZ(var(--depth-raised));
+	transform: translateZ(var(--depth-raised));
 }
 
 .depth-foreground {
-  transform: translateZ(var(--depth-foreground));
+	transform: translateZ(var(--depth-foreground));
 }
 
 /* ── reduced motion override ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .depth-ground,
-  .depth-raised,
-  .depth-foreground {
-    transform: none;
-  }
+	.depth-ground,
+	.depth-raised,
+	.depth-foreground {
+		transform: none;
+	}
 
-  .depth-stage {
-    perspective: none;
-    transform-style: flat;
-  }
+	.depth-stage {
+		perspective: none;
+		transform-style: flat;
+	}
 }

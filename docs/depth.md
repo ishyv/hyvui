@@ -7,12 +7,14 @@
 the depth system adds CSS 3D perspective to layouts. it is not WebGL, not canvas rendering, not actual 3D modeling. it uses CSS `perspective`, `transform-style: preserve-3d`, and `translateZ` to create the visual impression that content exists at different distances from the viewer.
 
 what it adds:
+
 - layered z-depth between elements in the same layout
 - a 3D tilt response to pointer movement (via `FloatCard`)
 - a vanishing-point grid background (via `HorizonGrid`)
 - parallax-like depth when combined with `ParallaxLayer`
 
 what it doesn't do:
+
 - it won't create complex 3D geometry or camera movement
 - it won't work inside scrollable overflow containers
 - it won't compose with other `perspective` contexts without breaking
@@ -23,11 +25,11 @@ what it doesn't do:
 
 the depth system defines three named z-levels. components use CSS custom properties to position themselves:
 
-| level | CSS variable | visual position | use for |
-|---|---|---|---|
-| `ground` | `var(--depth-ground)` | base plane — 0 or slightly negative translateZ | background elements: grids, decorative layers, textures |
-| `raised` | `var(--depth-raised)` | primary content plane — ~20–40px forward | main UI: cards, data, primary layout |
-| `foreground` | `var(--depth-foreground)` | prominent plane — ~60–100px forward | featured elements, hero text, focal content |
+| level        | CSS variable              | visual position                                | use for                                                 |
+| ------------ | ------------------------- | ---------------------------------------------- | ------------------------------------------------------- |
+| `ground`     | `var(--depth-ground)`     | base plane — 0 or slightly negative translateZ | background elements: grids, decorative layers, textures |
+| `raised`     | `var(--depth-raised)`     | primary content plane — ~20–40px forward       | main UI: cards, data, primary layout                    |
+| `foreground` | `var(--depth-foreground)` | prominent plane — ~60–100px forward            | featured elements, hero text, focal content             |
 
 the exact pixel values are defined in `src/lib/system/depth/depth.css`.
 
@@ -37,11 +39,11 @@ the exact pixel values are defined in `src/lib/system/depth/depth.css`.
 
 `DepthStage` accepts three perspective presets that control how dramatic the 3D effect appears:
 
-| preset | effect | use for |
-|---|---|---|
-| `near` | close perspective — strong 3D distortion, elements appear to advance dramatically | hero sections, dramatic single-focus moments |
-| `mid` | moderate perspective — balanced depth without strong distortion | dashboards, card grids, most general-purpose depth layouts |
-| `far` | distant perspective — very subtle depth, nearly flat | backgrounds, very large layouts, contexts where strong distortion would be disorienting |
+| preset | effect                                                                            | use for                                                                                 |
+| ------ | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `near` | close perspective — strong 3D distortion, elements appear to advance dramatically | hero sections, dramatic single-focus moments                                            |
+| `mid`  | moderate perspective — balanced depth without strong distortion                   | dashboards, card grids, most general-purpose depth layouts                              |
+| `far`  | distant perspective — very subtle depth, nearly flat                              | backgrounds, very large layouts, contexts where strong distortion would be disorienting |
 
 ---
 
@@ -65,17 +67,17 @@ the fundamental pattern. layer your content at different z-levels:
 
 ```svelte
 <DepthStage perspective="mid">
-  <DepthLayer level="ground">
-    <HorizonGrid />
-  </DepthLayer>
+	<DepthLayer level="ground">
+		<HorizonGrid />
+	</DepthLayer>
 
-  <DepthLayer level="raised">
-    <Grid cols={3} gap="var(--space-md)">
-      <MetricCard label="signals" value="142" trend="up" />
-      <MetricCard label="coverage" value="94%" trend="neutral" />
-      <MetricCard label="errors" value="3" trend="down" />
-    </Grid>
-  </DepthLayer>
+	<DepthLayer level="raised">
+		<Grid cols={3} gap="var(--space-md)">
+			<MetricCard label="signals" value="142" trend="up" />
+			<MetricCard label="coverage" value="94%" trend="neutral" />
+			<MetricCard label="errors" value="3" trend="down" />
+		</Grid>
+	</DepthLayer>
 </DepthStage>
 ```
 
@@ -85,11 +87,11 @@ FloatCard is self-contained — no DepthStage needed. use it directly in any lay
 
 ```svelte
 <Grid cols={3} gap="var(--space-lg)">
-  {#each metrics as m}
-    <FloatCard>
-      <MetricCard label={m.label} value={m.value} trend={m.trend} />
-    </FloatCard>
-  {/each}
+	{#each metrics as m}
+		<FloatCard>
+			<MetricCard label={m.label} value={m.value} trend={m.trend} />
+		</FloatCard>
+	{/each}
 </Grid>
 ```
 
@@ -99,19 +101,19 @@ a typical data dashboard layout — HorizonGrid at ground, metric cards at raise
 
 ```svelte
 <ReadoutScene title="mission control">
-  <DepthStage perspective="far">
-    <DepthLayer level="ground">
-      <HorizonGrid rows={8} cols={6} vanishY={0.5} />
-    </DepthLayer>
+	<DepthStage perspective="far">
+		<DepthLayer level="ground">
+			<HorizonGrid rows={8} cols={6} vanishY={0.5} />
+		</DepthLayer>
 
-    <DepthLayer level="raised">
-      <Grid cols="repeat(auto-fill, minmax(200px, 1fr))" gap="var(--space-md)">
-        {#each kpis as kpi}
-          <MetricCard label={kpi.label} value={kpi.value} trend={kpi.trend} />
-        {/each}
-      </Grid>
-    </DepthLayer>
-  </DepthStage>
+		<DepthLayer level="raised">
+			<Grid cols="repeat(auto-fill, minmax(200px, 1fr))" gap="var(--space-md)">
+				{#each kpis as kpi}
+					<MetricCard label={kpi.label} value={kpi.value} trend={kpi.trend} />
+				{/each}
+			</Grid>
+		</DepthLayer>
+	</DepthStage>
 </ReadoutScene>
 ```
 
@@ -121,31 +123,29 @@ a cinematic landing layout:
 
 ```svelte
 <StageScene>
-  {#snippet ambient()}
-    <DepthStage perspective="far">
-      <DepthLayer level="ground">
-        <HorizonGrid animated vanishY={0.35} />
-      </DepthLayer>
-    </DepthStage>
-    <Vignette />
-    <CornerBrackets size={48} />
-  {/snippet}
+	{#snippet ambient()}
+		<DepthStage perspective="far">
+			<DepthLayer level="ground">
+				<HorizonGrid animated vanishY={0.35} />
+			</DepthLayer>
+		</DepthStage>
+		<Vignette />
+		<CornerBrackets size={48} />
+	{/snippet}
 
-  {#snippet heading()}
-    <Text as="h1" variant="heading" expression="title-card">
-      field station
-    </Text>
-  {/snippet}
+	{#snippet heading()}
+		<Text as="h1" variant="heading" expression="title-card">field station</Text>
+	{/snippet}
 
-  {#snippet subheading()}
-    <Text variant="body" color="soft">signal acquired.</Text>
-  {/snippet}
+	{#snippet subheading()}
+		<Text variant="body" color="soft">signal acquired.</Text>
+	{/snippet}
 
-  {#snippet actions()}
-    <FloatCard elevation="foreground">
-      <Button variant="primary">enter</Button>
-    </FloatCard>
-  {/snippet}
+	{#snippet actions()}
+		<FloatCard elevation="foreground">
+			<Button variant="primary">enter</Button>
+		</FloatCard>
+	{/snippet}
 </StageScene>
 ```
 
@@ -155,31 +155,27 @@ combine `ParallaxLayer` with DepthStage for pointer-responsive depth:
 
 ```svelte
 <script lang="ts">
-  let stage: HTMLElement;
+	let stage: HTMLElement;
 
-  function onPointerMove(e: PointerEvent) {
-    const r = stage.getBoundingClientRect();
-    stage.style.setProperty('--px', ((e.clientX - r.left) / r.width).toString());
-    stage.style.setProperty('--py', ((e.clientY - r.top) / r.height).toString());
-  }
+	function onPointerMove(e: PointerEvent) {
+		const r = stage.getBoundingClientRect();
+		stage.style.setProperty('--px', ((e.clientX - r.left) / r.width).toString());
+		stage.style.setProperty('--py', ((e.clientY - r.top) / r.height).toString());
+	}
 </script>
 
-<div
-  bind:this={stage}
-  onpointermove={onPointerMove}
-  style="position: relative; min-height: 100vh;"
->
-  <ParallaxLayer strength={5}>
-    <GridOverlay />
-  </ParallaxLayer>
+<div bind:this={stage} onpointermove={onPointerMove} style="position: relative; min-height: 100vh;">
+	<ParallaxLayer strength={5}>
+		<GridOverlay />
+	</ParallaxLayer>
 
-  <ParallaxLayer strength={15}>
-    <CornerBrackets size={64} />
-  </ParallaxLayer>
+	<ParallaxLayer strength={15}>
+		<CornerBrackets size={64} />
+	</ParallaxLayer>
 
-  <ParallaxLayer strength={30}>
-    <Text as="h1" variant="heading" expression="title-card">approach</Text>
-  </ParallaxLayer>
+	<ParallaxLayer strength={30}>
+		<Text as="h1" variant="heading" expression="title-card">approach</Text>
+	</ParallaxLayer>
 </div>
 ```
 
@@ -189,14 +185,14 @@ content resting on a 3D base:
 
 ```svelte
 <DepthStage perspective="near">
-  <DepthLayer level="ground">
-    <Plinth width="300px" depth="24px" />
-  </DepthLayer>
-  <DepthLayer level="raised">
-    <FloatCard>
-      <MetricCard label="altitude" value="3,400m" trend="neutral" />
-    </FloatCard>
-  </DepthLayer>
+	<DepthLayer level="ground">
+		<Plinth width="300px" depth="24px" />
+	</DepthLayer>
+	<DepthLayer level="raised">
+		<FloatCard>
+			<MetricCard label="altitude" value="3,400m" trend="neutral" />
+		</FloatCard>
+	</DepthLayer>
 </DepthStage>
 ```
 
@@ -211,19 +207,22 @@ content resting on a 3D base:
 ```svelte
 <!-- this is broken — FloatCard inside DepthStage -->
 <DepthStage>
-  <DepthLayer level="raised">
-    <FloatCard>...</FloatCard>  <!-- conflict: two perspective contexts -->
-  </DepthLayer>
+	<DepthLayer level="raised">
+		<FloatCard>...</FloatCard>
+		<!-- conflict: two perspective contexts -->
+	</DepthLayer>
 </DepthStage>
 
 <!-- correct: use them separately -->
 <DepthStage>
-  <DepthLayer level="raised">
-    <Card>...</Card>  <!-- regular card inside depth stage -->
-  </DepthLayer>
+	<DepthLayer level="raised">
+		<Card>...</Card>
+		<!-- regular card inside depth stage -->
+	</DepthLayer>
 </DepthStage>
 
-<FloatCard>...</FloatCard>  <!-- float card stands alone -->
+<FloatCard>...</FloatCard>
+<!-- float card stands alone -->
 ```
 
 ### 2. Do Not Use Depth Inside Scrollable Overflow Containers
@@ -239,14 +238,14 @@ ensure the depth container and its scroll ancestors have `overflow: visible`.
 ```svelte
 <!-- useless — no perspective context -->
 <DepthLayer level="foreground">
-  <Text as="h1">this appears flat</Text>
+	<Text as="h1">this appears flat</Text>
 </DepthLayer>
 
 <!-- correct: DepthLayer always inside DepthStage -->
 <DepthStage>
-  <DepthLayer level="foreground">
-    <Text as="h1">this appears forward</Text>
-  </DepthLayer>
+	<DepthLayer level="foreground">
+		<Text as="h1">this appears forward</Text>
+	</DepthLayer>
 </DepthStage>
 ```
 

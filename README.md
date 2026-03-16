@@ -46,6 +46,7 @@
 <sub>the palette is two colors and they do not negotiate.</sub>
 
     </td>
+
   </tr>
 </table>
 
@@ -59,7 +60,7 @@ npm install @hyvnt/hyvui
 
 ```svelte
 <script>
-  import { Button, Text, FloatCard } from '@hyvnt/hyvui';
+	import { Button, Text, FloatCard } from '@hyvnt/hyvui';
 </script>
 ```
 
@@ -67,7 +68,7 @@ import the styles once at the root of your app:
 
 ```ts
 // app.css or root layout
-import '@hyvnt/hyvui/styles';
+import '@hyvnt/hyvui/styles.css';
 ```
 
 ---
@@ -79,6 +80,7 @@ import '@hyvnt/hyvui/styles';
     <td valign="top" width="33%">
 
 **primitives**
+
 ```
 Text        Label
 Icon        Divider
@@ -86,6 +88,7 @@ Surface
 ```
 
 **inputs**
+
 ```
 Button      Input
 Textarea    Select
@@ -94,6 +97,7 @@ FileUpload
 ```
 
 **feedback**
+
 ```
 Alert       Toast
 StatusDot   StatusLine
@@ -105,6 +109,7 @@ ErrorState
     <td valign="top" width="33%">
 
 **layout**
+
 ```
 Stack       Grid
 Card        Panel
@@ -113,6 +118,7 @@ Popover
 ```
 
 **navigation**
+
 ```
 Topbar      SidebarNav
 Tabs        Breadcrumb
@@ -120,6 +126,7 @@ DropdownMenu
 ```
 
 **display**
+
 ```
 Badge       Avatar
 Table       CodeBlock
@@ -130,6 +137,7 @@ MetricCard  Blockquote
     <td valign="top" width="33%">
 
 **ambient**
+
 ```
 GridOverlay   CornerBrackets
 ScanBand      Vignette
@@ -139,6 +147,7 @@ ThreadLine
 ```
 
 **depth**
+
 ```
 DepthStage  DepthLayer
 FloatCard   HorizonGrid
@@ -146,6 +155,7 @@ Plinth
 ```
 
 **scenes**
+
 ```
 NarrativeScene  ReadoutScene
 StageScene      ArchiveScene
@@ -153,6 +163,7 @@ LogScene
 ```
 
     </td>
+
   </tr>
 </table>
 
@@ -182,16 +193,16 @@ registers are named aesthetic states. apply one and the ambient properties shift
 
 ```svelte
 <script>
-  import { applyRegister } from '@hyvnt/hyvui';
-  onMount(() => applyRegister('mission-control'));
+	import { applyRegister } from '@hyvnt/hyvui';
+	onMount(() => applyRegister('mission-control'));
 </script>
 ```
 
-| register | character |
-|---|---|
-| `field-notebook` | warm, worn, analog |
-| `mission-control` | cold, precise, dense |
-| `archive` | flat, institutional, drained |
+| register          | character                    |
+| ----------------- | ---------------------------- |
+| `field-notebook`  | warm, worn, analog           |
+| `mission-control` | cold, precise, dense         |
+| `archive`         | flat, institutional, drained |
 
 ---
 
@@ -211,15 +222,15 @@ text expressions carry intent beyond variant. pass them to any `Text` component.
 
 ```svelte
 <DepthStage perspective="mid">
-  <DepthLayer level="ground">
-    <HorizonGrid rows={16} cols={10} vanishY={0.35} />
-  </DepthLayer>
-  <DepthLayer level="raised">
-    <FloatCard tiltMax={6}>
-      <Label color="muted">signal strength</Label>
-      <Text variant="heading" color="primary">–42 dbm</Text>
-    </FloatCard>
-  </DepthLayer>
+	<DepthLayer level="ground">
+		<HorizonGrid rows={16} cols={10} vanishY={0.35} />
+	</DepthLayer>
+	<DepthLayer level="raised">
+		<FloatCard tiltMax={6}>
+			<Label color="muted">signal strength</Label>
+			<Text variant="heading" color="primary">–42 dbm</Text>
+		</FloatCard>
+	</DepthLayer>
 </DepthStage>
 ```
 
@@ -244,10 +255,10 @@ override per-section with `--reg-*` properties. documented in `override-template
   <summary><code>10 / notes</code></summary>
   <br/>
 
-  the library assumes you want the interface to have a mood.
-  <br/>
-  if you do not want that, it will still work. it will just feel a little contained.
-  <br/><br/>
-  svelte 5 only. no compatibility shims.
+the library assumes you want the interface to have a mood.
+<br/>
+if you do not want that, it will still work. it will just feel a little contained.
+<br/><br/>
+svelte 5 only. no compatibility shims.
 
 </details>

@@ -5,12 +5,12 @@ export type PerspectivePreset = 'near' | 'mid' | 'far';
  * Returns the CSS translateZ value for a given depth level.
  */
 export function depthZ(level: DepthLevel): string {
-  const map: Record<DepthLevel, string> = {
-    ground: 'var(--depth-ground)',
-    raised: 'var(--depth-raised)',
-    foreground: 'var(--depth-foreground)',
-  };
-  return map[level];
+	const map: Record<DepthLevel, string> = {
+		ground: 'var(--depth-ground)',
+		raised: 'var(--depth-raised)',
+		foreground: 'var(--depth-foreground)'
+	};
+	return map[level];
 }
 
 /**
@@ -22,7 +22,7 @@ export function depthZ(level: DepthLevel): string {
  * @param maxDeg - maximum tilt angle in degrees (default: 8)
  */
 export function tiltTransform(x: number, y: number, maxDeg = 8): string {
-  const rx = (y - 0.5) * -maxDeg * 2;
-  const ry = (x - 0.5) * maxDeg * 2;
-  return `rotateX(${rx}deg) rotateY(${ry}deg)`;
+	const rx = (y - 0.5) * -maxDeg * 2;
+	const ry = (x - 0.5) * maxDeg * 2;
+	return `rotateX(${rx}deg) rotateY(${ry}deg)`;
 }

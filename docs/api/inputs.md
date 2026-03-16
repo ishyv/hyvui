@@ -12,35 +12,35 @@ Form controls and interactive elements. all input components support a `disabled
 
 ```svelte
 <script lang="ts">
-  import { Button } from '$lib';
+	import { Button } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'destructive'` | `'secondary'` | no | visual weight and semantic role |
-| `size` | `'sm' \| 'md'` | `'md'` | no | button height and padding |
-| `disabled` | `boolean` | `false` | no | disables the button; prevents clicks and applies reduced opacity |
-| `loading` | `boolean` | `false` | no | shows a pulsing dot animation; does not automatically disable the button |
-| `echo` | `boolean` | `false` | no | adds a gold radial ripple on click via `use:echo` |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | no | HTML button type |
-| `href` | `string` | `undefined` | no | if set, renders as an `<a>` element instead of `<button>` |
-| `target` | `string` | `undefined` | no | anchor target (`_blank`, etc.) — only used when `href` is set |
-| `rel` | `string` | `undefined` | no | anchor rel attribute — only used when `href` is set |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type                                                   | default       | required | description                                                              |
+| ---------- | ------------------------------------------------------ | ------------- | -------- | ------------------------------------------------------------------------ |
+| `variant`  | `'primary' \| 'secondary' \| 'ghost' \| 'destructive'` | `'secondary'` | no       | visual weight and semantic role                                          |
+| `size`     | `'sm' \| 'md'`                                         | `'md'`        | no       | button height and padding                                                |
+| `disabled` | `boolean`                                              | `false`       | no       | disables the button; prevents clicks and applies reduced opacity         |
+| `loading`  | `boolean`                                              | `false`       | no       | shows a pulsing dot animation; does not automatically disable the button |
+| `echo`     | `boolean`                                              | `false`       | no       | adds a gold radial ripple on click via `use:echo`                        |
+| `type`     | `'button' \| 'submit' \| 'reset'`                      | `'button'`    | no       | HTML button type                                                         |
+| `href`     | `string`                                               | `undefined`   | no       | if set, renders as an `<a>` element instead of `<button>`                |
+| `target`   | `string`                                               | `undefined`   | no       | anchor target (`_blank`, etc.) — only used when `href` is set            |
+| `rel`      | `string`                                               | `undefined`   | no       | anchor rel attribute — only used when `href` is set                      |
+| `class`    | `string`                                               | `''`          | no       | additional CSS classes                                                   |
 
 ### Slots
 
-| slot | description |
-|---|---|
+| slot      | description          |
+| --------- | -------------------- |
 | `default` | button label content |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event     | payload      | when                                             |
+| --------- | ------------ | ------------------------------------------------ |
 | `onclick` | `MouseEvent` | user clicks the button (not fired when disabled) |
 
 ### Variants
@@ -87,7 +87,7 @@ during form submission, **both `loading` and `disabled` should be true simultane
 
 ```svelte
 <Button variant="primary" loading={isSubmitting} disabled={isSubmitting}>
-  {isSubmitting ? 'deploying' : 'deploy'}
+	{isSubmitting ? 'deploying' : 'deploy'}
 </Button>
 ```
 
@@ -111,36 +111,29 @@ Buttons rendered as `<button>` receive focus, respond to Enter and Space, and an
 ### Examples
 
 ```svelte
+<!-- async submission with loading + disabled state -->
+<script lang="ts">
+	let isSubmitting = $state(false);
+
+	async function handleSubmit() {
+		isSubmitting = true;
+		try {
+			await submitForm();
+		} finally {
+			isSubmitting = false;
+		}
+	}
+</script>
+
 <!-- primary CTA -->
 <Button variant="primary">deploy</Button>
 
-<!-- async submission with loading + disabled state -->
-<script lang="ts">
-  let isSubmitting = $state(false);
-
-  async function handleSubmit() {
-    isSubmitting = true;
-    try {
-      await submitForm();
-    } finally {
-      isSubmitting = false;
-    }
-  }
-</script>
-
-<Button
-  variant="primary"
-  loading={isSubmitting}
-  disabled={isSubmitting}
-  onclick={handleSubmit}
->
-  {isSubmitting ? 'deploying' : 'deploy'}
+<Button variant="primary" loading={isSubmitting} disabled={isSubmitting} onclick={handleSubmit}>
+	{isSubmitting ? 'deploying' : 'deploy'}
 </Button>
 
 <!-- destructive action paired with confirm dialog -->
-<Button variant="destructive" onclick={() => (confirmOpen = true)}>
-  delete record
-</Button>
+<Button variant="destructive" onclick={() => (confirmOpen = true)}>delete record</Button>
 
 <!-- ghost button as a navigation action inside a card -->
 <Button variant="ghost" href="/archive">view archive</Button>
@@ -159,28 +152,28 @@ Buttons rendered as `<button>` receive focus, respond to Enter and Space, and an
 
 ```svelte
 <script lang="ts">
-  import { Input } from '$lib';
+	import { Input } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `type` | `'text' \| 'number' \| 'password' \| 'email' \| 'search'` | `'text'` | no | HTML input type |
-| `value` | `string` | `''` | no | bindable input value |
-| `placeholder` | `string` | `''` | no | placeholder text |
-| `label` | `string` | `undefined` | no | visible label above the input |
-| `error` | `string` | `undefined` | no | error message displayed below; applies error styling to the border |
-| `hint` | `string` | `undefined` | no | helper text displayed below the input (hidden when `error` is set) |
-| `disabled` | `boolean` | `false` | no | disables the input |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop          | type                                                      | default     | required | description                                                        |
+| ------------- | --------------------------------------------------------- | ----------- | -------- | ------------------------------------------------------------------ |
+| `type`        | `'text' \| 'number' \| 'password' \| 'email' \| 'search'` | `'text'`    | no       | HTML input type                                                    |
+| `value`       | `string`                                                  | `''`        | no       | bindable input value                                               |
+| `placeholder` | `string`                                                  | `''`        | no       | placeholder text                                                   |
+| `label`       | `string`                                                  | `undefined` | no       | visible label above the input                                      |
+| `error`       | `string`                                                  | `undefined` | no       | error message displayed below; applies error styling to the border |
+| `hint`        | `string`                                                  | `undefined` | no       | helper text displayed below the input (hidden when `error` is set) |
+| `disabled`    | `boolean`                                                 | `false`     | no       | disables the input                                                 |
+| `class`       | `string`                                                  | `''`        | no       | additional CSS classes                                             |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
-| `oninput` | `Event` | user types (every keystroke) |
+| event      | payload | when                            |
+| ---------- | ------- | ------------------------------- |
+| `oninput`  | `Event` | user types (every keystroke)    |
 | `onchange` | `Event` | value committed (blur or Enter) |
 
 ### Accessibility
@@ -198,18 +191,18 @@ Input is associated with its label via a generated `id`/`for` pair. error messag
 ```svelte
 <!-- basic bound input -->
 <script lang="ts">
-  let callsign = $state('');
+	let callsign = $state('');
 </script>
 
 <Input bind:value={callsign} label="callsign" placeholder="enter designation" />
 
 <!-- with error state -->
 <Input
-  value={email}
-  type="email"
-  label="contact address"
-  error={emailError}
-  hint="used for mission updates only"
+	value={email}
+	type="email"
+	label="contact address"
+	error={emailError}
+	hint="used for mission updates only"
 />
 ```
 
@@ -223,28 +216,28 @@ Input is associated with its label via a generated `id`/`for` pair. error messag
 
 ```svelte
 <script lang="ts">
-  import { Textarea } from '$lib';
+	import { Textarea } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `value` | `string` | `''` | no | bindable textarea value |
-| `rows` | `number` | `4` | no | initial number of visible rows |
-| `placeholder` | `string` | `''` | no | placeholder text |
-| `label` | `string` | `undefined` | no | visible label above the textarea |
-| `error` | `string` | `undefined` | no | error message; applies error border styling |
-| `hint` | `string` | `undefined` | no | helper text below the textarea |
-| `autoresize` | `boolean` | `false` | no | automatically expands to fit content as the user types |
-| `disabled` | `boolean` | `false` | no | disables the textarea |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop          | type      | default     | required | description                                            |
+| ------------- | --------- | ----------- | -------- | ------------------------------------------------------ |
+| `value`       | `string`  | `''`        | no       | bindable textarea value                                |
+| `rows`        | `number`  | `4`         | no       | initial number of visible rows                         |
+| `placeholder` | `string`  | `''`        | no       | placeholder text                                       |
+| `label`       | `string`  | `undefined` | no       | visible label above the textarea                       |
+| `error`       | `string`  | `undefined` | no       | error message; applies error border styling            |
+| `hint`        | `string`  | `undefined` | no       | helper text below the textarea                         |
+| `autoresize`  | `boolean` | `false`     | no       | automatically expands to fit content as the user types |
+| `disabled`    | `boolean` | `false`     | no       | disables the textarea                                  |
+| `class`       | `string`  | `''`        | no       | additional CSS classes                                 |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event     | payload | when       |
+| --------- | ------- | ---------- |
 | `oninput` | `Event` | user types |
 
 ### Accessibility
@@ -256,23 +249,13 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 ```svelte
 <!-- auto-resizing notes field -->
 <script lang="ts">
-  let notes = $state('');
+	let notes = $state('');
 </script>
 
-<Textarea
-  bind:value={notes}
-  label="field notes"
-  placeholder="record observations..."
-  autoresize
-/>
+<Textarea bind:value={notes} label="field notes" placeholder="record observations..." autoresize />
 
 <!-- fixed-height with error -->
-<Textarea
-  bind:value={report}
-  rows={8}
-  label="mission report"
-  error={reportError}
-/>
+<Textarea bind:value={report} rows={8} label="mission report" error={reportError} />
 ```
 
 ---
@@ -285,37 +268,37 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 
 ```svelte
 <script lang="ts">
-  import { Select } from '$lib';
+	import { Select } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `options` | `{ value: string; label: string }[]` | `[]` | yes | array of selectable options |
-| `value` | `string` | `''` | no | bindable selected value |
-| `label` | `string` | `undefined` | no | visible label above the select |
-| `error` | `string` | `undefined` | no | error message; applies error border styling |
-| `disabled` | `boolean` | `false` | no | disables the select |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type                                 | default     | required | description                                 |
+| ---------- | ------------------------------------ | ----------- | -------- | ------------------------------------------- |
+| `options`  | `{ value: string; label: string }[]` | `[]`        | yes      | array of selectable options                 |
+| `value`    | `string`                             | `''`        | no       | bindable selected value                     |
+| `label`    | `string`                             | `undefined` | no       | visible label above the select              |
+| `error`    | `string`                             | `undefined` | no       | error message; applies error border styling |
+| `disabled` | `boolean`                            | `false`     | no       | disables the select                         |
+| `class`    | `string`                             | `''`        | no       | additional CSS classes                      |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload | when                   |
+| ---------- | ------- | ---------------------- |
 | `onchange` | `Event` | user selects an option |
 
 ### Examples
 
 ```svelte
 <script lang="ts">
-  const regions = [
-    { value: 'north', label: 'northern sector' },
-    { value: 'south', label: 'southern sector' },
-    { value: 'transit', label: 'transit corridor' },
-  ];
-  let region = $state('north');
+	const regions = [
+		{ value: 'north', label: 'northern sector' },
+		{ value: 'south', label: 'southern sector' },
+		{ value: 'transit', label: 'transit corridor' }
+	];
+	let region = $state('north');
 </script>
 
 <Select options={regions} bind:value={region} label="deployment region" />
@@ -331,23 +314,23 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 
 ```svelte
 <script lang="ts">
-  import { Checkbox } from '$lib';
+	import { Checkbox } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `checked` | `boolean` | `false` | no | bindable checked state |
-| `label` | `string` | `undefined` | no | visible label beside the checkbox |
-| `disabled` | `boolean` | `false` | no | disables the checkbox |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type      | default     | required | description                       |
+| ---------- | --------- | ----------- | -------- | --------------------------------- |
+| `checked`  | `boolean` | `false`     | no       | bindable checked state            |
+| `label`    | `string`  | `undefined` | no       | visible label beside the checkbox |
+| `disabled` | `boolean` | `false`     | no       | disables the checkbox             |
+| `class`    | `string`  | `''`        | no       | additional CSS classes            |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload | when                  |
+| ---------- | ------- | --------------------- |
 | `onchange` | `Event` | checked state changes |
 
 ### Accessibility
@@ -358,7 +341,7 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ```svelte
 <script lang="ts">
-  let acknowledged = $state(false);
+	let acknowledged = $state(false);
 </script>
 
 <Checkbox bind:checked={acknowledged} label="acknowledge risk" />
@@ -377,23 +360,23 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ```svelte
 <script lang="ts">
-  import { Toggle } from '$lib';
+	import { Toggle } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `checked` | `boolean` | `false` | no | bindable checked state |
-| `label` | `string` | `undefined` | no | visible label beside the toggle |
-| `disabled` | `boolean` | `false` | no | disables the toggle |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type      | default     | required | description                     |
+| ---------- | --------- | ----------- | -------- | ------------------------------- |
+| `checked`  | `boolean` | `false`     | no       | bindable checked state          |
+| `label`    | `string`  | `undefined` | no       | visible label beside the toggle |
+| `disabled` | `boolean` | `false`     | no       | disables the toggle             |
+| `class`    | `string`  | `''`        | no       | additional CSS classes          |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event      | payload | when                 |
+| ---------- | ------- | -------------------- |
 | `onchange` | `Event` | toggle state changes |
 
 ### Do Not Use When
@@ -405,7 +388,7 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ```svelte
 <script lang="ts">
-  let alertsEnabled = $state(true);
+	let alertsEnabled = $state(true);
 </script>
 
 <Toggle bind:checked={alertsEnabled} label="enable alerts" />
@@ -421,24 +404,24 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ```svelte
 <script lang="ts">
-  import { FileUpload } from '$lib';
+	import { FileUpload } from '$lib';
 </script>
 ```
 
 ### Props
 
-| prop | type | default | required | description |
-|---|---|---|---|---|
-| `accept` | `string` | `undefined` | no | MIME types or file extensions to accept (e.g. `'image/*'`, `'.pdf,.doc'`) |
-| `multiple` | `boolean` | `false` | no | allow selecting multiple files |
-| `label` | `string` | `undefined` | no | visible label above the drop zone |
-| `disabled` | `boolean` | `false` | no | disables the file picker |
-| `class` | `string` | `''` | no | additional CSS classes |
+| prop       | type      | default     | required | description                                                               |
+| ---------- | --------- | ----------- | -------- | ------------------------------------------------------------------------- |
+| `accept`   | `string`  | `undefined` | no       | MIME types or file extensions to accept (e.g. `'image/*'`, `'.pdf,.doc'`) |
+| `multiple` | `boolean` | `false`     | no       | allow selecting multiple files                                            |
+| `label`    | `string`  | `undefined` | no       | visible label above the drop zone                                         |
+| `disabled` | `boolean` | `false`     | no       | disables the file picker                                                  |
+| `class`    | `string`  | `''`        | no       | additional CSS classes                                                    |
 
 ### Events
 
-| event | payload | when |
-|---|---|---|
+| event     | payload  | when                        |
+| --------- | -------- | --------------------------- |
 | `onfiles` | `File[]` | user selects or drops files |
 
 ### Accessibility
@@ -449,24 +432,19 @@ The drop zone is keyboard accessible — Tab to focus, Enter or Space to open th
 
 ```svelte
 <script lang="ts">
-  let attachments: File[] = $state([]);
+	let attachments: File[] = $state([]);
 
-  function handleFiles(files: File[]) {
-    attachments = files;
-  }
+	function handleFiles(files: File[]) {
+		attachments = files;
+	}
 </script>
 
-<FileUpload
-  accept="image/*,.pdf"
-  multiple
-  label="attach documents"
-  onfiles={handleFiles}
-/>
+<FileUpload accept="image/*,.pdf" multiple label="attach documents" onfiles={handleFiles} />
 
 {#if attachments.length}
-  <Text variant="caption" color="muted">
-    {attachments.length} file(s) selected
-  </Text>
+	<Text variant="caption" color="muted">
+		{attachments.length} file(s) selected
+	</Text>
 {/if}
 ```
 
