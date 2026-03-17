@@ -92,6 +92,7 @@
 		z-index: var(--z-modal);
 		inline-size: min(var(--hyvui-drawer-w, 320px), 100dvw);
 		max-inline-size: 100dvw;
+		backface-visibility: hidden;
 	}
 
 	.hyvui-drawer-left {

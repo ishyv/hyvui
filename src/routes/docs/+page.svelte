@@ -208,7 +208,7 @@
 		{#snippet left()}
 			<div class="docs-topbar-left">
 				<GlyphMark variant="coord" size={16} color="var(--accent)" />
-				<Label color="accent">hyvui docs</Label>
+				<Label color="accent">hyv<span style="color:var(--accent)">u</span><span style="color:var(--signal)">i</span> docs</Label>
 			</div>
 		{/snippet}
 		{#snippet center()}

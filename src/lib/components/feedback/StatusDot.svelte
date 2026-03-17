@@ -44,7 +44,7 @@
 	}
 
 	.hyvui-status-dot-pulse {
-		animation: pulse-dot 2s ease-in-out infinite;
+		animation: pulse-dot 2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

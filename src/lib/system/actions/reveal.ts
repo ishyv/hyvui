@@ -29,7 +29,7 @@ export function reveal(node: HTMLElement, options: RevealOptions): ActionReturn<
 		target.style.opacity = '0';
 		target.style.transform = prefersReduced ? 'none' : 'translateY(4px)';
 		if (!prefersReduced) {
-			target.style.transition = 'opacity 0.25s ease-out, transform 0.25s ease-out';
+			target.style.transition = 'opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)';
 		}
 	}
 

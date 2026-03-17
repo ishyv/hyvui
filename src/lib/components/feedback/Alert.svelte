@@ -56,6 +56,24 @@
 	.hyvui-alert {
 		border-left: 2px solid;
 		padding: 0.75rem 1rem;
+		animation: alert-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	@keyframes alert-in {
+		from {
+			opacity: 0;
+			transform: translateX(-6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hyvui-alert {
+			animation: none;
+		}
 	}
 
 	.hyvui-alert-title {

@@ -135,6 +135,7 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 0;
+		backface-visibility: hidden;
 		animation: modal-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 

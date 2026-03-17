@@ -32,7 +32,8 @@
 <style>
 	.hyvui-parallax {
 		will-change: transform;
-		transition: transform 0.15s ease-out;
+		backface-visibility: hidden;
+		transition: transform 0.15s var(--ease-smooth);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

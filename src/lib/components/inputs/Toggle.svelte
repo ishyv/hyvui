@@ -100,7 +100,7 @@
 		border-radius: 50%;
 		background-color: var(--muted);
 		transition:
-			transform var(--transition-fast),
+			transform var(--transition-smooth),
 			background-color var(--transition-fast);
 	}
 

@@ -22,10 +22,9 @@ export function surface(
 
 	if (prefersReduced) return {};
 
-	node.style.willChange = 'opacity, transform';
 	node.style.opacity = '0';
 	node.style.transform = 'translateY(6px)';
-	node.style.transition = `opacity 0.5s ease-out ${delay}ms, transform 0.5s ease-out ${delay}ms`;
+	node.style.transition = `opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`;
 
 	function onEnd(e: TransitionEvent) {
 		if (e.propertyName !== 'transform') return;
@@ -33,7 +32,6 @@ export function surface(
 		// Clear transforms to avoid creating containing blocks for fixed/floating UI.
 		node.style.transform = 'none';
 		node.style.transition = '';
-		node.style.willChange = '';
 	}
 
 	node.addEventListener('transitionend', onEnd);

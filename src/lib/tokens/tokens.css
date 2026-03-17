@@ -27,12 +27,14 @@
 
 	/* ── shadow ──────────────────────────────────── */
 	--shadow-veil: 0 40px 120px rgba(0, 0, 0, 0.45);
-	--shadow-card: 0 28px 72px rgba(0, 0, 0, 0.34);
+	--shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
 	--focus-ring: 0 0 0 1px rgba(226, 186, 116, 0.3), 0 0 0 4px rgba(199, 156, 87, 0.08);
 
 	/* ── motion ──────────────────────────────────── */
 	--transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 	--transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-fast: cubic-bezier(0.4, 0, 0.2, 1);
 
 	/* ── fonts ───────────────────────────────────── */
 	--font-body: 'ET Book', 'Iowan Old Style', 'Palatino Linotype', serif;
@@ -68,11 +70,11 @@
 
 	/* ── surface gradients ───────────────────────── */
 	--surface-card:
-		linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%), rgba(10, 12, 14, 0.8);
+		linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%), #0a0c0e;
 	--surface-panel:
 		linear-gradient(180deg, rgba(121, 166, 163, 0.08), transparent 18%),
-		linear-gradient(135deg, rgba(199, 156, 87, 0.08), rgba(10, 12, 14, 0.82) 42%),
-		rgba(9, 11, 13, 0.74);
+		linear-gradient(135deg, rgba(199, 156, 87, 0.08), #0a0c0e 42%),
+		#09090d;
 	--surface-soft:
 		linear-gradient(180deg, rgba(240, 232, 218, 0.015), transparent 38%),
 		linear-gradient(135deg, rgba(199, 156, 87, 0.05), transparent 48%), rgba(11, 13, 16, 0.9);

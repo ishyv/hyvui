@@ -76,14 +76,12 @@
 		background: var(--surface-card);
 		border: 1px solid rgba(255, 255, 255, 0.05);
 		box-shadow: var(--surface-stroke), var(--shadow-card);
-		backdrop-filter: blur(8px);
 	}
 
 	.hyvui-surface-panel {
 		background: var(--surface-panel);
 		border: 1px solid var(--line);
 		box-shadow: var(--surface-stroke), var(--shadow-veil);
-		backdrop-filter: blur(10px);
 	}
 
 	.hyvui-surface-inset::after {

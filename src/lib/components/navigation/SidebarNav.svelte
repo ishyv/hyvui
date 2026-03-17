@@ -74,6 +74,7 @@
 	.hyvui-sidebar-link:hover {
 		color: var(--text-soft);
 		background: linear-gradient(90deg, rgba(199, 156, 87, 0.08), transparent 76%);
+		transform: translateX(2px);
 	}
 
 	.hyvui-sidebar-link-active {

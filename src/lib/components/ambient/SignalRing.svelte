@@ -62,7 +62,7 @@
 		border-radius: 50%;
 		border: 1px solid;
 		opacity: 0;
-		animation: signal-ring-expand 3.6s ease-out infinite;
+		animation: signal-ring-expand 3.6s var(--ease-smooth) infinite;
 	}
 
 	.hyvui-signal-ring-1 {

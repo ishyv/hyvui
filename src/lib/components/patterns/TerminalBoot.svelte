@@ -58,7 +58,9 @@
 			return;
 		}
 
-		if (instant) {
+		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (instant || prefersReduced) {
 			visibleCount = lines.length;
 			oncomplete?.();
 			return;

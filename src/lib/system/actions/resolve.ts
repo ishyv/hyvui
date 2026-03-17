@@ -59,7 +59,7 @@ export function resolve(
       background: ${statusColors[status]};
       opacity: 0;
       border-radius: inherit;
-      transition: opacity 0.12s ease-out;
+      transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1);
     `;
 		node.appendChild(overlay);
 
@@ -70,7 +70,7 @@ export function resolve(
 		frame = requestAnimationFrame(() => {
 			overlay.style.opacity = '0.12';
 			t1 = setTimeout(() => {
-				overlay.style.transition = 'opacity 0.4s ease-out';
+				overlay.style.transition = 'opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1)';
 				overlay.style.opacity = '0';
 				t2 = setTimeout(() => {
 					overlay.remove();

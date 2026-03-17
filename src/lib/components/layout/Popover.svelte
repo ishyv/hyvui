@@ -153,6 +153,7 @@
 		z-index: var(--z-overlay);
 		left: 0;
 		top: 0;
+		backface-visibility: hidden;
 		animation: popover-in 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 		max-inline-size: min(90dvw, 28rem);
 	}

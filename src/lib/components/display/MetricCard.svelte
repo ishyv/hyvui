@@ -52,6 +52,23 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-sm);
+		transition:
+			transform var(--transition-smooth),
+			border-color var(--transition-fast);
+	}
+
+	:global(.hyvui-metric:hover) {
+		transform: translateY(-1px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.hyvui-metric) {
+			transition: none;
+		}
+
+		:global(.hyvui-metric:hover) {
+			transform: none;
+		}
 	}
 
 	.hyvui-metric-label {

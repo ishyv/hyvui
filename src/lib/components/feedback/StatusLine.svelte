@@ -75,8 +75,8 @@
 		opacity: 0;
 		transform: translateY(6px);
 		transition:
-			opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-			transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+			opacity var(--transition-smooth),
+			transform var(--transition-smooth);
 	}
 
 	.hyvui-status-line-visible {

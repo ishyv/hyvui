@@ -114,6 +114,10 @@
 		}
 
 		const dt = lastT ? t - lastT : 16;
+		if (lastT && dt < 32) {
+			animFrame = requestAnimationFrame(tick);
+			return;
+		}
 		lastT = t;
 
 		// Drift speed tuned to roughly match the previous "0.003 per frame" feel.
@@ -177,10 +181,22 @@
 			else if (animated && !prefersReduced && isVisible) start();
 		}
 
+		let scrollTimer = 0;
+		function onScroll() {
+			stop();
+			clearTimeout(scrollTimer);
+			scrollTimer = window.setTimeout(() => {
+				if (animated && !prefersReduced && isVisible && !document.hidden) start();
+			}, 150);
+		}
+
 		document.addEventListener('visibilitychange', onVisibility);
+		window.addEventListener('scroll', onScroll, { passive: true });
 
 		return () => {
 			document.removeEventListener('visibilitychange', onVisibility);
+			window.removeEventListener('scroll', onScroll);
+			clearTimeout(scrollTimer);
 			io.disconnect();
 			ro.disconnect();
 			stop();

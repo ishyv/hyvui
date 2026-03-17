@@ -54,6 +54,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.05);
 		box-shadow: var(--shadow-veil);
 		padding: 0.625rem 1.25rem;
+		backface-visibility: hidden;
 		animation: actionbar-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 

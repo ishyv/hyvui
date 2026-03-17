@@ -108,6 +108,7 @@
 		align-items: center;
 		gap: 0.625rem;
 		pointer-events: auto;
+		backface-visibility: hidden;
 		animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 

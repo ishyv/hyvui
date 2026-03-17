@@ -106,7 +106,7 @@
 
 	.hyvui-data-stream-char {
 		display: block;
-		transition: opacity 0.3s ease-out;
+		transition: opacity 0.3s var(--ease-fast);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

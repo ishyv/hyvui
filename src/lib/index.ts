@@ -61,6 +61,11 @@ export { default as ConfirmDialog } from './components/patterns/ConfirmDialog.sv
 export { default as SearchBar } from './components/patterns/SearchBar.svelte';
 export { default as TerminalBoot } from './components/patterns/TerminalBoot.svelte';
 export { default as ActionBar } from './components/patterns/ActionBar.svelte';
+export { default as Manifesto } from './components/patterns/Manifesto.svelte';
+export { default as ChapterMark } from './components/patterns/ChapterMark.svelte';
+export { default as PullQuote } from './components/patterns/PullQuote.svelte';
+export { default as ShowcaseFrame } from './components/patterns/ShowcaseFrame.svelte';
+export { default as DepthPortal } from './components/patterns/DepthPortal.svelte';
 
 // system — shell
 export { default as AppShell } from './components/system/AppShell.svelte';
@@ -103,3 +108,4 @@ export { default as ReadoutScene } from './components/scenes/ReadoutScene.svelte
 export { default as StageScene } from './components/scenes/StageScene.svelte';
 export { default as ArchiveScene } from './components/scenes/ArchiveScene.svelte';
 export { default as LogScene } from './components/scenes/LogScene.svelte';
+export { default as DepthScene } from './components/scenes/DepthScene.svelte';

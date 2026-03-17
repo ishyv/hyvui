@@ -58,10 +58,6 @@
 		position: relative;
 	}
 
-	.hyvui-depth-stage > :global(*) {
-		transform-style: preserve-3d;
-	}
-
 	@media (prefers-reduced-motion: reduce) {
 		.hyvui-depth-stage {
 			perspective: none !important;

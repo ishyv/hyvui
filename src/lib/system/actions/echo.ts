@@ -30,7 +30,7 @@ export function echo(node: HTMLElement): ActionReturn {
       pointer-events: none;
       background: radial-gradient(circle at ${x}% ${y}%, rgba(199, 156, 87, 0.22), transparent 70%);
       opacity: 0;
-      transition: opacity 0.15s ease-out;
+      transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     `;
 
 		const position = getComputedStyle(node).position;

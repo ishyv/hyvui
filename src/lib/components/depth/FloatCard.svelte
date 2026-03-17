@@ -49,6 +49,7 @@
 		lastX = (e.clientX - rect.left) / rect.width;
 		lastY = (e.clientY - rect.top) / rect.height;
 
+		if (!innerEl.style.willChange) innerEl.style.willChange = 'transform';
 		innerEl.classList.remove('hyvui-float-card-leaving');
 		if (frame) return;
 		frame = requestAnimationFrame(() => {
@@ -65,6 +66,13 @@
 		frame = 0;
 		innerEl.classList.add('hyvui-float-card-leaving');
 		innerEl.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+		innerEl.addEventListener(
+			'transitionend',
+			() => {
+				if (innerEl) innerEl.style.willChange = '';
+			},
+			{ once: true }
+		);
 	}
 </script>
 
@@ -93,7 +101,7 @@
 
 	.hyvui-float-card-inner {
 		transform-style: preserve-3d;
-		will-change: transform;
+		backface-visibility: hidden;
 	}
 
 	.hyvui-float-card-leaving {

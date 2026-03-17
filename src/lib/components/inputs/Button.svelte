@@ -131,9 +131,10 @@
 		justify-content: center;
 		gap: var(--control-gap);
 		transition:
-			color var(--transition-smooth),
-			border-color var(--transition-smooth),
-			background var(--transition-smooth),
+			color var(--transition-fast),
+			border-color var(--transition-fast),
+			background var(--transition-fast),
+			filter var(--transition-fast),
 			transform var(--transition-smooth),
 			box-shadow var(--transition-smooth);
 		white-space: nowrap;
@@ -229,7 +230,7 @@
 		height: 6px;
 		border-radius: 50%;
 		background-color: var(--status-pend);
-		animation: pulse-dot 2s ease-in-out infinite;
+		animation: pulse-dot 2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
