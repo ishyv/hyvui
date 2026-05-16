@@ -33,7 +33,11 @@
 			"svelte": "./dist/index.js"
 		},
 		"./styles.css": "./dist/styles.css",
-		"./styles": "./dist/styles.css"
+		"./styles": "./dist/styles.css",
+		"./tokens/hextech.css": "./dist/tokens/hextech.css",
+		"./tokens/arcane.css": "./dist/tokens/arcane.css",
+		"./tokens/base.css": "./dist/tokens/tokens.css",
+		"./register.css": "./dist/system/register.css"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"

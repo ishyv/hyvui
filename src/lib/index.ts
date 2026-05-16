@@ -61,6 +61,7 @@ export { default as ConfirmDialog } from './components/patterns/ConfirmDialog.sv
 export { default as SearchBar } from './components/patterns/SearchBar.svelte';
 export { default as TerminalBoot } from './components/patterns/TerminalBoot.svelte';
 export { default as ActionBar } from './components/patterns/ActionBar.svelte';
+export { default as RegisterSwitcher } from './components/patterns/RegisterSwitcher.svelte';
 export { default as Manifesto } from './components/patterns/Manifesto.svelte';
 export { default as ChapterMark } from './components/patterns/ChapterMark.svelte';
 export { default as PullQuote } from './components/patterns/PullQuote.svelte';
@@ -101,6 +102,12 @@ export { default as SignalRing } from './components/ambient/SignalRing.svelte';
 export { default as GlyphMark } from './components/ambient/GlyphMark.svelte';
 export { default as DataStream } from './components/ambient/DataStream.svelte';
 export { default as ThreadLine } from './components/ambient/ThreadLine.svelte';
+export { default as HexGrid } from './components/ambient/HexGrid.svelte';
+export { default as BrassFiligree } from './components/ambient/BrassFiligree.svelte';
+export { default as CrystalShard } from './components/ambient/CrystalShard.svelte';
+export { default as ArcaneVein } from './components/ambient/ArcaneVein.svelte';
+export { default as EnergyArc } from './components/ambient/EnergyArc.svelte';
+export { default as ShimmerCloud } from './components/ambient/ShimmerCloud.svelte';
 
 // scenes
 export { default as NarrativeScene } from './components/scenes/NarrativeScene.svelte';

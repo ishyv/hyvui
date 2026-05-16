@@ -51,6 +51,24 @@
 			description: 'a failure page that tells a story. terminal boot sequence, ambient noise, calm about being broken.',
 			status: 'warn' as const,
 			tag: 'error state'
+		},
+		{
+			href: '/examples/hextech-forge',
+			id: '04',
+			name: 'hextech forge',
+			register: 'hextech',
+			description: 'piltover-refined dashboard. hex-grid infrastructure, brass fittings, crystal energy readouts.',
+			status: 'ok' as const,
+			tag: 'hextech'
+		},
+		{
+			href: '/examples/arcane-shard',
+			id: '05',
+			name: 'arcane shard',
+			register: 'arcane',
+			description: 'zaun-unstable layout. shimmer drift, shard shapes, vein-glow connectors — barely contained.',
+			status: 'warn' as const,
+			tag: 'arcane'
 		}
 	];
 
@@ -84,6 +102,20 @@
 			character: 'cool. ordered. muted.',
 			body: 'space as structure. ornament near absent. galleries, indexes, reference collections.',
 			accent: 'var(--muted)'
+		},
+		{
+			id: 'hextech',
+			label: 'hextech',
+			character: 'brass. crystal. mechanical.',
+			body: 'field-notebook etched onto piltover hardware. hex-grid precision, cyan-glow accents, brass-stamped corners.',
+			accent: 'var(--htx-cyan-glow, #5dd9f0)'
+		},
+		{
+			id: 'arcane',
+			label: 'arcane',
+			character: 'shimmer. shards. organic.',
+			body: 'zaun instability leaked into the notebook. irregular crystal forms, violet vein-glow, particle drift.',
+			accent: 'var(--arc-shimmer, #e94cbc)'
 		}
 	];
 </script>
@@ -132,7 +164,7 @@
 					<StatusDot status="ok" size={6} />
 					<Label color="muted">svelte 5</Label>
 					<span class="hero-sep" aria-hidden="true">·</span>
-					<Label color="muted">68 components</Label>
+					<Label color="muted">75 components</Label>
 					<span class="hero-sep" aria-hidden="true">·</span>
 					<Label color="muted">three layers</Label>
 				</div>
@@ -147,7 +179,7 @@
 <!-- ── 2. REGISTER SYSTEM ──────────────────────────────────────────────── -->
 <section class="section" use:surface={{ delay: 0 }}>
 	<div class="shell">
-		<ChapterMark index="01" title="registers" descriptor="three design characters. same palette, same type. different weight distribution." />
+		<ChapterMark index="01" title="registers" descriptor="five design characters. same structural DNA. different material." />
 
 		<div class="reg-grid">
 			{#each registers as reg, i}
@@ -265,7 +297,7 @@
 <!-- ── 5. EXAMPLES INDEX ───────────────────────────────────────────────── -->
 <section class="section" use:surface={{ delay: 0 }}>
 	<div class="shell">
-		<ChapterMark index="04" title="built with this" descriptor="three scenes. each one uses the system differently." />
+		<ChapterMark index="04" title="built with this" descriptor="five scenes. each one uses the system differently." />
 
 		<div class="examples-list">
 			{#each examples as ex, i}

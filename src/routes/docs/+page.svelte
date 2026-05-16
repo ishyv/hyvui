@@ -63,11 +63,19 @@
 		Toggle,
 		Topbar,
 		Vignette,
-		toastStore
+		toastStore,
+		ArcaneVein,
+		BrassFiligree,
+		CrystalShard,
+		EnergyArc,
+		HexGrid,
+		RegisterSwitcher,
+		ShimmerCloud
 	} from '$lib/index.js';
 
 	const sections = [
 		{ id: 'overview', label: 'overview' },
+		{ id: 'registers', label: 'registers' },
 		{ id: 'primitives', label: 'primitives' },
 		{ id: 'layout', label: 'layout' },
 		{ id: 'display', label: 'display' },
@@ -273,6 +281,30 @@
 						decorative.
 					</Alert>
 				</Stack>
+			</section>
+
+			<Divider />
+
+			<section id="registers" class="docs-section">
+				<div class="docs-section-head">
+					<Label color="accent">registers</Label>
+					<Text variant="heading" as="h2">five aesthetic states</Text>
+					<Text variant="body" color="soft">
+						switch registers to see how components and tokens respond. each register shifts
+						palette, motion, ornament density, and typography weight.
+					</Text>
+				</div>
+				<div class="docs-registers-demo">
+					<RegisterSwitcher />
+					<p class="docs-registers-note">
+						apply one and everything beneath it shifts. no component changes required — the
+						tokens do the work. hextech and arcane require their respective css imports.
+					</p>
+					<div class="docs-registers-tokens">
+						<code class="docs-reg-code">import '@hyvnt/hyvui/tokens/hextech.css'</code>
+						<code class="docs-reg-code">import '@hyvnt/hyvui/tokens/arcane.css'</code>
+					</div>
+				</div>
 			</section>
 
 			<Divider />
@@ -574,6 +606,44 @@
 					<div class="docs-ambient-streams">
 						<DataStream />
 						<DataStream />
+					</div>
+				</div>
+
+				<div class="docs-section-subhead">
+					<Label color="muted">hextech + arcane ambient</Label>
+				</div>
+				<div class="docs-new-ambient-grid">
+					<div class="docs-new-ambient-item" data-register="hextech">
+						<div class="docs-new-ambient-canvas"><HexGrid /></div>
+						<Label color="muted">HexGrid</Label>
+					</div>
+					<div class="docs-new-ambient-item" data-register="hextech">
+						<div class="docs-new-ambient-canvas"><BrassFiligree size={32} /></div>
+						<Label color="muted">BrassFiligree</Label>
+					</div>
+					<div class="docs-new-ambient-item" data-register="arcane">
+						<div class="docs-new-ambient-canvas docs-new-ambient-canvas--center">
+							<CrystalShard size={60} />
+						</div>
+						<Label color="muted">CrystalShard</Label>
+					</div>
+					<div class="docs-new-ambient-item" data-register="arcane">
+						<div class="docs-new-ambient-canvas">
+							<ArcaneVein x1="10%" y1="50%" x2="90%" y2="50%" />
+						</div>
+						<Label color="muted">ArcaneVein</Label>
+					</div>
+					<div class="docs-new-ambient-item" data-register="hextech">
+						<div class="docs-new-ambient-canvas">
+							<EnergyArc x1="15%" y1="75%" x2="85%" y2="25%" />
+						</div>
+						<Label color="muted">EnergyArc</Label>
+					</div>
+					<div class="docs-new-ambient-item" data-register="arcane">
+						<div class="docs-new-ambient-canvas">
+							<ShimmerCloud />
+						</div>
+						<Label color="muted">ShimmerCloud</Label>
 					</div>
 				</div>
 			</section>
@@ -887,6 +957,71 @@
 		display: flex;
 		gap: 0.6rem;
 		z-index: 3;
+	}
+
+	.docs-section-subhead {
+		margin-top: var(--space-lg);
+		padding-bottom: var(--space-xs);
+		border-bottom: 1px solid var(--line);
+	}
+
+	.docs-new-ambient-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-sm);
+		margin-top: var(--space-sm);
+	}
+
+	.docs-new-ambient-item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		border: 1px solid var(--line);
+		background: var(--surface-panel);
+		padding: var(--space-sm);
+	}
+
+	.docs-new-ambient-canvas {
+		position: relative;
+		height: 80px;
+		overflow: hidden;
+	}
+
+	.docs-new-ambient-canvas--center {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.docs-registers-demo {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		padding: var(--space-lg);
+		border: 1px solid var(--line);
+		background: var(--surface-panel);
+	}
+
+	.docs-registers-note {
+		margin: 0;
+		font-size: 0.82rem;
+		color: var(--muted);
+		line-height: 1.6;
+	}
+
+	.docs-registers-tokens {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.docs-reg-code {
+		font-family: var(--font-mono);
+		font-size: 0.76rem;
+		color: var(--signal);
+		background: rgba(121, 166, 163, 0.08);
+		padding: 0.25em 0.5em;
+		border: 1px solid rgba(121, 166, 163, 0.18);
 	}
 
 	:global(.docs-depth-stage) {

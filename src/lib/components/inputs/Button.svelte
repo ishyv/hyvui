@@ -246,4 +246,65 @@
 			animation: none;
 		}
 	}
+
+	/* ── hextech ornament ─────────────────────────────────────────────── */
+	:global([data-register='hextech']) .hyvui-btn {
+		border-radius: var(--radius-sm);
+	}
+
+	/* brass corner pip — top-left notch */
+	:global([data-register='hextech']) .hyvui-btn::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 7px;
+		height: 7px;
+		border-top: 1.5px solid rgba(212, 165, 116, 0.55);
+		border-left: 1.5px solid rgba(212, 165, 116, 0.55);
+		pointer-events: none;
+	}
+
+	:global([data-register='hextech']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-register='hextech']) .hyvui-btn-primary:focus-visible {
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.2),
+			0 0 18px rgba(93, 217, 240, 0.3),
+			0 14px 26px rgba(184, 115, 51, 0.18);
+	}
+
+	:global([data-register='hextech']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-register='hextech']) .hyvui-btn-secondary:focus-visible {
+		box-shadow: 0 0 12px rgba(93, 217, 240, 0.2);
+		border-color: rgba(93, 217, 240, 0.4);
+	}
+
+	/* ── arcane ornament ──────────────────────────────────────────────── */
+
+	/* crystal accent — top-right shard corner */
+	:global([data-register='arcane']) .hyvui-btn::after {
+		content: '';
+		position: absolute;
+		top: -1px;
+		right: -1px;
+		width: 8px;
+		height: 8px;
+		background: rgba(233, 76, 188, 0.55);
+		clip-path: polygon(100% 0, 100% 100%, 0 0);
+		pointer-events: none;
+	}
+
+	:global([data-register='arcane']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-register='arcane']) .hyvui-btn-primary:focus-visible {
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.14),
+			0 0 22px rgba(184, 69, 201, 0.38),
+			0 14px 26px rgba(184, 69, 201, 0.14);
+	}
+
+	:global([data-register='arcane']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-register='arcane']) .hyvui-btn-secondary:focus-visible {
+		box-shadow: 0 0 14px rgba(184, 69, 201, 0.28);
+		border-color: rgba(184, 69, 201, 0.5);
+	}
 </style>

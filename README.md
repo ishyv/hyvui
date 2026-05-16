@@ -143,7 +143,10 @@ GridOverlay   CornerBrackets
 ScanBand      Vignette
 ParallaxLayer SignalRing
 GlyphMark     DataStream
-ThreadLine
+ThreadLine    HexGrid
+BrassFiligree CrystalShard
+ArcaneVein    EnergyArc
+ShimmerCloud
 ```
 
 **depth**
@@ -174,7 +177,7 @@ LogScene
 the library is organized in three additive layers. each one works without the next.
 
 <pre lang="txt">
-[ base ]       42 components. tokens. css custom properties throughout.
+[ base ]       75 components. tokens. css custom properties throughout.
                nothing hardcoded. nothing fighting your cascade.
 
 [ expressive ] registers shift the ambient mood of a section.
@@ -198,11 +201,38 @@ registers are named aesthetic states. apply one and the ambient properties shift
 </script>
 ```
 
-| register          | character                    |
-| ----------------- | ---------------------------- |
-| `field-notebook`  | warm, worn, analog           |
-| `mission-control` | cold, precise, dense         |
-| `archive`         | flat, institutional, drained |
+| register          | character                                    |
+| ----------------- | -------------------------------------------- |
+| `field-notebook`  | warm, worn, analog                           |
+| `mission-control` | cold, precise, dense                         |
+| `archive`         | flat, institutional, drained                 |
+| `hextech`         | piltover-refined. brass, crystal, mechanical |
+| `arcane`          | zaun-unstable. shimmer, shards, organic glow |
+
+the hextech and arcane registers ship their own palette and motif token files. import the ones you use:
+
+```ts
+import '@hyvnt/hyvui/styles.css';              // base tokens + all 5 register weights
+import '@hyvnt/hyvui/tokens/hextech.css';      // --htx-* palette + motif tokens
+import '@hyvnt/hyvui/tokens/arcane.css';       // --arc-* palette + motif tokens
+```
+
+**motif tokens** (hextech + arcane only):
+
+```css
+--orn-hex-density     /* hex grid tile density */
+--orn-vein-intensity  /* arcane crack-vein strength, 0–1 */
+--orn-shimmer-rate    /* particle drift / shimmer speed */
+```
+
+use `RegisterSwitcher` from the patterns layer to let users toggle at runtime:
+
+```svelte
+<script>
+	import { RegisterSwitcher } from '@hyvnt/hyvui';
+</script>
+<RegisterSwitcher />
+```
 
 ---
 

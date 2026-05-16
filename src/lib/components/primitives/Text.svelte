@@ -102,4 +102,29 @@
 		line-height: 1.64;
 		text-wrap: pretty;
 	}
+
+	/* ── hextech: `command` expression gets cyan underline glow ───────── */
+	:global([data-register='hextech']) .expr-command {
+		text-decoration: underline;
+		text-decoration-color: rgba(93, 217, 240, 0.45);
+		text-underline-offset: 3px;
+		text-decoration-thickness: 1px;
+	}
+
+	/* ── arcane: `command` expression gets violet text-shadow shimmer ─── */
+	:global([data-register='arcane']) .expr-command {
+		text-shadow: 0 0 12px rgba(184, 69, 201, 0.55);
+		animation: text-shimmer 3s var(--orn-pulse-rhythm, ease-in-out) infinite;
+	}
+
+	@keyframes text-shimmer {
+		0%, 100% { text-shadow: 0 0 12px rgba(184, 69, 201, 0.55); }
+		50%       { text-shadow: 0 0 20px rgba(233, 76, 188, 0.7), 0 0 8px rgba(184, 69, 201, 0.35); }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global([data-register='arcane']) .expr-command {
+			animation: none;
+		}
+	}
 </style>

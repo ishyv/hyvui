@@ -62,4 +62,14 @@
 		border-color: currentColor;
 		opacity: 0.8;
 	}
+
+	/* ── hextech: clipped top-left corner (hex gem cut) ───────────────── */
+	:global([data-register='hextech']) .hyvui-badge {
+		clip-path: polygon(6px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 6px);
+	}
+
+	/* ── arcane: diagonal parallelogram cut ───────────────────────────── */
+	:global([data-register='arcane']) .hyvui-badge {
+		clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+	}
 </style>

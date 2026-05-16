@@ -1,4 +1,4 @@
-export type Register = 'field-notebook' | 'mission-control' | 'archive';
+export type Register = 'field-notebook' | 'mission-control' | 'archive' | 'hextech' | 'arcane';
 
 /**
  * Applies a register to an element by setting data-register.
@@ -19,4 +19,4 @@ export function clearRegister(target: HTMLElement | 'body' = 'body') {
 	delete el.dataset.register;
 }
 
-export const registers: Register[] = ['field-notebook', 'mission-control', 'archive'];
+export const registers: Register[] = ['field-notebook', 'mission-control', 'archive', 'hextech', 'arcane'];

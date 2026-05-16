@@ -8,6 +8,8 @@
  */
 
 @import './tokens/tokens.css';
+@import './tokens/hextech.css';
+@import './tokens/arcane.css';
 @import './system/register.css';
 @import './system/expressions.css';
 @import './system/depth/depth.css';
