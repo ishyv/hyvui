@@ -31,9 +31,7 @@
 
 <span
 	class={cn('hyvui-avatar', className)}
-	style:width="{size}px"
-	style:height="{size}px"
-	style:font-size="{size * 0.38}px"
+	style:--avatar-size="{size}px"
 >
 	{#if src}
 		<img {src} alt={name} class="hyvui-avatar-img" />
@@ -47,6 +45,9 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		width: var(--avatar-size);
+		height: var(--avatar-size);
+		font-size: calc(var(--avatar-size) * 0.38);
 		border-radius: 50%;
 		background-color: var(--bg-elev);
 		border: 1px solid var(--line);

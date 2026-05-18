@@ -113,6 +113,6 @@
 	.hyvui-terminal-boot {
 		display: flex;
 		flex-direction: column;
-		gap: 0.375rem;
+		gap: var(--space-2xs);
 	}
 </style>

@@ -108,7 +108,7 @@
 		bottom: 0.65rem;
 		left: 0.8rem;
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);
 		line-height: 1.6;

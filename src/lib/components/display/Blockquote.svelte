@@ -28,8 +28,8 @@
 		color: var(--text-soft);
 		line-height: 1.6;
 		margin: 0;
-		padding: 1rem 1.25rem;
+		padding: var(--space-md) var(--space-lg);
 		border-left: 2px solid var(--line-strong);
-		background: linear-gradient(135deg, rgba(199, 156, 87, 0.06), transparent 60%);
+		background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%);
 	}
 </style>

@@ -1,884 +1,531 @@
 <script lang="ts">
-	import {
-		Button,
-		ChapterMark,
-		CornerBrackets,
-		DepthLayer,
-		DepthPortal,
-		DepthScene,
-		DepthStage,
-		FloatCard,
-		GlyphMark,
-		GridOverlay,
-		HorizonGrid,
-		Label,
-		Manifesto,
-		MetricCard,
-		PullQuote,
-		ScanBand,
-		ShowcaseFrame,
-		SignalRing,
-		StatusDot,
-		Text,
-		Vignette,
-		surface
-	} from '$lib/index.js';
-
-	const examples = [
-		{
-			href: '/examples/observation-deck',
-			id: '01',
-			name: 'observation deck',
-			register: 'mission-control',
-			description: 'a dense monitoring dashboard. layered readouts, depth grid, live operator posture.',
-			status: 'ok' as const,
-			tag: 'dashboard'
-		},
-		{
-			href: '/examples/field-report',
-			id: '02',
-			name: 'field report',
-			register: 'field-notebook',
-			description: 'editorial work in the field-notebook register. warm, serif-forward, reads like a found document.',
-			status: 'ok' as const,
-			tag: 'editorial'
-		},
-		{
-			href: '/examples/signal-lost',
-			id: '03',
-			name: 'signal lost',
-			register: 'field-notebook',
-			description: 'a failure page that tells a story. terminal boot sequence, ambient noise, calm about being broken.',
-			status: 'warn' as const,
-			tag: 'error state'
-		},
-		{
-			href: '/examples/hextech-forge',
-			id: '04',
-			name: 'hextech forge',
-			register: 'hextech',
-			description: 'piltover-refined dashboard. hex-grid infrastructure, brass fittings, crystal energy readouts.',
-			status: 'ok' as const,
-			tag: 'hextech'
-		},
-		{
-			href: '/examples/arcane-shard',
-			id: '05',
-			name: 'arcane shard',
-			register: 'arcane',
-			description: 'zaun-unstable layout. shimmer drift, shard shapes, vein-glow connectors — barely contained.',
-			status: 'warn' as const,
-			tag: 'arcane'
-		}
-	];
-
-	const expressions = [
-		{ name: 'title-card', sample: 'deep signal', desc: 'scene-opening header. very large, line-height below 1.' },
-		{ name: 'manifesto', sample: 'quiet confidence. technical depth. no ornamental sludge.', desc: 'philosophical statement. italic, full measure.' },
-		{ name: 'readout', sample: 'SYSTEM.STATUS / OPERATIONAL', desc: 'data label. monospace, muted, small tracking.' },
-		{ name: 'command', sample: 'INITIALIZE', desc: 'active instruction. mono caps, gold, sparse.' },
-		{ name: 'whisper', sample: 'and here, the unsaid things', desc: 'parenthetical. serif italic, muted, secondary.' },
-		{ name: 'chapter', sample: '04', desc: 'section marker. mono caps with decorative rule.' }
-	];
-
-	const registers = [
-		{
-			id: 'field-notebook',
-			label: 'field-notebook',
-			character: 'warm. editorial. serif-forward.',
-			body: 'at ease with long lines of copy. reads like a found document. portfolios, narrative pages.',
-			accent: 'var(--accent)'
-		},
-		{
-			id: 'mission-control',
-			label: 'mission-control',
-			character: 'dense. mono. precise.',
-			body: 'every character earns its space. dashboards, tools, operator interfaces.',
-			accent: 'var(--signal)'
-		},
-		{
-			id: 'archive',
-			label: 'archive',
-			character: 'cool. ordered. muted.',
-			body: 'space as structure. ornament near absent. galleries, indexes, reference collections.',
-			accent: 'var(--muted)'
-		},
-		{
-			id: 'hextech',
-			label: 'hextech',
-			character: 'brass. crystal. mechanical.',
-			body: 'field-notebook etched onto piltover hardware. hex-grid precision, cyan-glow accents, brass-stamped corners.',
-			accent: 'var(--htx-cyan-glow, #5dd9f0)'
-		},
-		{
-			id: 'arcane',
-			label: 'arcane',
-			character: 'shimmer. shards. organic.',
-			body: 'zaun instability leaked into the notebook. irregular crystal forms, violet vein-glow, particle drift.',
-			accent: 'var(--arc-shimmer, #e94cbc)'
-		}
-	];
+  import {
+    Badge,
+    Button,
+    CornerBrackets,
+    DataStream,
+    DepthScene,
+    FloatCard,
+    GridOverlay,
+    HorizonGrid,
+    Label,
+    ScanBand,
+    SignalRing,
+    StatusDot,
+    Surface,
+    Text,
+    Vignette,
+    surface,
+  } from "$lib/index.js";
+  import { showcaseScenes } from "$lib/examples/sceneCatalog.js";
 </script>
 
 <svelte:head>
-	<title>hyvui</title>
+  <title>hyvui</title>
 </svelte:head>
 
-<!-- ── 1. HERO ─────────────────────────────────────────────────────────── -->
-<div class="hero-wrap">
-	<DepthScene perspective="far">
-		{#snippet ambient()}
-			<GridOverlay class="hero-grid" />
-			<Vignette class="hero-vignette" />
-		{/snippet}
+<main class="home">
+  <section class="hero">
+    <DepthScene perspective="far" class="hero-depth">
+      {#snippet ambient()}
+        <GridOverlay class="hero-grid" />
+        <Vignette class="hero-vignette" />
+        <ScanBand active class="hero-scan" />
+      {/snippet}
 
-		{#snippet ground()}
-			<HorizonGrid animated rows={22} cols={16} vanishY={0.44} />
-		{/snippet}
+      {#snippet ground()}
+        <HorizonGrid rows={24} cols={18} vanishY={0.44} animated />
+      {/snippet}
 
-		{#snippet stage()}
-			<div class="hero-content" use:surface={{ delay: 0 }}>
-				<div class="hero-kicker">
-					<GlyphMark variant="reticle" size={13} color="var(--signal)" />
-					<Label color="signal">component library / phase 4</Label>
-				</div>
+      {#snippet stage()}
+        <div class="hero-stage" use:surface>
+          <div class="hero-copy">
+            <div class="hero-kicker">
+              <StatusDot status="ok" size={7} pulse />
+              <Label color="signal">scene anthology</Label>
+            </div>
+            <h1>hyvui</h1>
+            <Text expression="manifesto">
+              a component library for finished creative interfaces. not a box of
+              parts. a visual system with enough spine to carry the whole page.
+            </Text>
+            <div class="hero-actions">
+              <Button variant="secondary" href="/examples/studio-console"
+                >enter anthology</Button
+              >
+              <Button variant="ghost" href="/docs">open reference</Button>
+            </div>
+          </div>
 
-				<h1 class="hero-title">hyv<span style="color:var(--accent)">u</span><span style="color:var(--signal)">i</span></h1>
+          <FloatCard tiltMax={5} class="hero-console">
+            <div class="hero-console-inner">
+              <CornerBrackets size={28} color="var(--signal)" />
+              <div class="hero-console-top">
+                <Label color="muted">creative signal</Label>
+                <Badge variant="default">live</Badge>
+              </div>
+              <div class="hero-console-frame">
+                <div class="hero-console-bars">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <SignalRing active size={132} color="var(--accent)" />
+                <DataStream active speed="slow" />
+              </div>
+              <div class="hero-console-bottom">
+                <Label color="signal">six scenes</Label>
+                <Label color="muted">weight plus theme split</Label>
+              </div>
+            </div>
+          </FloatCard>
+        </div>
+      {/snippet}
+    </DepthScene>
+    <div class="hero-next" aria-hidden="true">
+      <span>studio console</span>
+      <span>field report</span>
+      <span>archive gallery</span>
+    </div>
+  </section>
 
-				<Manifesto
-					statement="dark aesthetic. intentional layout. no startup gloss. every detail should look placed, not merely present."
-					accent="signal"
-					class="hero-manifesto"
-				/>
+  <section class="anthology">
+    <div class="shell">
+      <div class="section-head" use:surface>
+        <Label color="accent">built with this</Label>
+        <h2>six scenes. one system.</h2>
+        <p>
+          the homepage now points at finished surfaces instead of explaining the
+          library from the outside. each scene shows a different posture for the
+          same component language.
+        </p>
+      </div>
 
-				<div class="hero-actions" use:surface={{ delay: 180 }}>
-					<Button variant="secondary" href="/docs">[ explore docs ]</Button>
-					<Button variant="ghost" href="/examples/observation-deck">[ examples ]</Button>
-				</div>
-			</div>
-		{/snippet}
+      <div class="scene-grid">
+        {#each showcaseScenes as scene, index}
+          <a
+            href={`/examples/${scene.slug}`}
+            class="scene-card"
+            data-weight={scene.weight}
+            data-theme={scene.theme}
+            use:surface={{ delay: index * 60 }}
+          >
+            <Surface variant="card" class="scene-surface">
+              <div class="scene-preview" aria-hidden="true">
+                {#if scene.theme === "hextech"}
+                  <div class="scene-hex"></div>
+                {:else if scene.theme === "arcane"}
+                  <div class="scene-shard"></div>
+                {:else}
+                  <div class="scene-lines">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                {/if}
+              </div>
+              <div class="scene-copy">
+                <div class="scene-meta">
+                  <Label color="muted">{scene.kicker}</Label>
+                  <Badge variant="default">{scene.registerNote}</Badge>
+                </div>
+                <h3>{scene.title}</h3>
+                <p>{scene.description}</p>
+              </div>
+              <div class="scene-foot">
+                {#each scene.components.slice(0, 3) as component}
+                  <code>{component}</code>
+                {/each}
+              </div>
+            </Surface>
+          </a>
+        {/each}
+      </div>
+    </div>
+  </section>
 
-		{#snippet foreground()}
-			<div class="hero-floor">
-				<div class="hero-status">
-					<StatusDot status="ok" size={6} />
-					<Label color="muted">svelte 5</Label>
-					<span class="hero-sep" aria-hidden="true">·</span>
-					<Label color="muted">75 components</Label>
-					<span class="hero-sep" aria-hidden="true">·</span>
-					<Label color="muted">three layers</Label>
-				</div>
-				<div class="hero-scroll-cue" aria-hidden="true">
-					<span class="hero-scroll-line"></span>
-				</div>
-			</div>
-		{/snippet}
-	</DepthScene>
-</div>
+  <section class="split-proof">
+    <div class="shell split-proof-inner">
+      <div class="proof-copy" use:surface>
+        <Label color="signal">new contract</Label>
+        <h2>weight and theme are separate now.</h2>
+        <p>
+          `field-notebook`, `mission-control`, and `archive` decide density and
+          voice. `hextech` and `arcane` decide motif and palette. no silent
+          structural drift.
+        </p>
+        <div class="proof-actions">
+          <Button variant="secondary" href="/examples/hextech-forge"
+            >see hextech</Button
+          >
+          <Button variant="ghost" href="/examples/arcane-shard"
+            >see arcane</Button
+          >
+        </div>
+      </div>
 
-<!-- ── 2. REGISTER SYSTEM ──────────────────────────────────────────────── -->
-<section class="section" use:surface={{ delay: 0 }}>
-	<div class="shell">
-		<ChapterMark index="01" title="registers" descriptor="five design characters. same structural DNA. different material." />
-
-		<div class="reg-grid">
-			{#each registers as reg, i}
-				<div class="reg-col" data-register={reg.id} use:surface={{ delay: i * 60 }}>
-					<div class="reg-col-top">
-						<span class="reg-col-label">{reg.label}</span>
-						<span class="reg-col-dot" style:background={reg.accent}></span>
-					</div>
-					<p class="reg-col-character">{reg.character}</p>
-					<p class="reg-col-body">{reg.body}</p>
-					<div class="reg-col-foot">
-						<span class="reg-col-meta">a tool for deliberate work</span>
-					</div>
-				</div>
-			{/each}
-		</div>
-
-		<p class="reg-note">
-			<span class="reg-note-label">apply:</span>
-			<code class="reg-note-code">{'<body data-register="mission-control">'}</code>
-		</p>
-	</div>
-</section>
-
-<!-- ── 3. DEPTH SYSTEM ────────────────────────────────────────────────── -->
-<section class="section" use:surface={{ delay: 0 }}>
-	<div class="shell">
-		<ChapterMark index="02" title="spatial depth" descriptor="css 3d perspective. pointer-tracked tilt. ground grid recedes to vanishing point." />
-	</div>
-
-	<div class="depth-demo">
-		<ShowcaseFrame animated perspective="mid" minHeight="32rem" class="depth-frame">
-			{#snippet label()}
-				pointer / tilt active — move your cursor
-			{/snippet}
-			<FloatCard tiltMax={10} class="depth-card">
-				<div class="depth-card-inner">
-					<div class="depth-card-top">
-						<StatusDot status="ok" size={6} />
-						<Label color="signal">sensor array</Label>
-					</div>
-					<div class="depth-metrics">
-						<div class="depth-metric">
-							<span class="depth-metric-value">94.2</span>
-							<span class="depth-metric-unit">ms</span>
-							<Label color="muted">response</Label>
-						</div>
-						<div class="depth-metric">
-							<span class="depth-metric-value">1.2k</span>
-							<span class="depth-metric-unit">/s</span>
-							<Label color="muted">throughput</Label>
-						</div>
-						<div class="depth-metric">
-							<span class="depth-metric-value">99.9</span>
-							<span class="depth-metric-unit">%</span>
-							<Label color="muted">uptime</Label>
-						</div>
-					</div>
-					<div class="depth-card-foot">
-						<SignalRing size={28} color="var(--signal)" />
-						<Label color="muted">hyv<span style="color:var(--accent)">u</span><span style="color:var(--signal)">i</span> / depth system</Label>
-					</div>
-				</div>
-			</FloatCard>
-		</ShowcaseFrame>
-
-		<div class="shell depth-caption">
-			<div class="depth-caption-inner" use:surface={{ delay: 100 }}>
-				<Label color="accent">showCaseFrame + floatCard + horizonGrid</Label>
-				<p class="depth-caption-body">three components, one composed unit. the ground grid, the perspective stage, and the tilt card are separate layers — assembled here into a single pattern.</p>
-				<div class="depth-caption-also">
-					<Label color="muted">also available standalone:</Label>
-					<code class="depth-code">DepthPortal</code>
-					<code class="depth-code">DepthScene</code>
-					<code class="depth-code">Plinth</code>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- ── 4. EXPRESSION SYSTEM ───────────────────────────────────────────── -->
-<section class="section" use:surface={{ delay: 0 }}>
-	<div class="shell">
-		<ChapterMark index="03" title="typographic expressions" descriptor="six semantic intents. orthogonal to structure — they describe what the text is doing." />
-
-		<div class="expr-list">
-			{#each expressions as expr, i}
-				<div class="expr-row" use:surface={{ delay: i * 50 }}>
-					<div class="expr-row-meta">
-						<span class="expr-row-name">{expr.name}</span>
-						<span class="expr-row-desc">{expr.desc}</span>
-					</div>
-					<div class="expr-row-sample">
-						{#if expr.name === 'title-card'}
-							<span class="expr-title-card">{expr.sample}</span>
-						{:else if expr.name === 'manifesto'}
-							<span class="expr-manifesto">{expr.sample}</span>
-						{:else if expr.name === 'readout'}
-							<span class="expr-readout">{expr.sample}</span>
-						{:else if expr.name === 'command'}
-							<span class="expr-command">{expr.sample}</span>
-						{:else if expr.name === 'whisper'}
-							<span class="expr-whisper">{expr.sample}</span>
-						{:else if expr.name === 'chapter'}
-							<span class="expr-chapter">{expr.sample}</span>
-						{/if}
-					</div>
-				</div>
-			{/each}
-		</div>
-	</div>
-</section>
-
-<!-- ── 5. EXAMPLES INDEX ───────────────────────────────────────────────── -->
-<section class="section" use:surface={{ delay: 0 }}>
-	<div class="shell">
-		<ChapterMark index="04" title="built with this" descriptor="five scenes. each one uses the system differently." />
-
-		<div class="examples-list">
-			{#each examples as ex, i}
-				<a href={ex.href} class="example-entry" use:surface={{ delay: i * 60 }}>
-					<div class="example-entry-left">
-						<span class="example-id">{ex.id}</span>
-						<StatusDot status={ex.status} size={6} />
-					</div>
-
-					<div class="example-entry-center">
-						<span class="example-name">{ex.name}</span>
-						<span class="example-desc">{ex.description}</span>
-					</div>
-
-					<div class="example-entry-right">
-						<Label color="muted">{ex.register}</Label>
-						<Label color="muted">{ex.tag}</Label>
-						<span class="example-arrow" aria-hidden="true">→</span>
-					</div>
-				</a>
-			{/each}
-		</div>
-	</div>
-</section>
-
-<!-- ── 6. CLOSER ───────────────────────────────────────────────────────── -->
-<section class="section section--closer" use:surface={{ delay: 0 }}>
-	<div class="shell">
-		<PullQuote
-			quote="spacing is compositional, not decorative. surfaces stay quiet until interaction earns emphasis. gold and teal appear sparingly and on purpose."
-			attribution="design posture"
-			source="hyvui"
-			class="closer-quote"
-		/>
-
-		<div class="closer-actions" use:surface={{ delay: 120 }}>
-			<Button variant="secondary" href="/docs">[ full documentation ]</Button>
-			<Button variant="ghost" href="/system">[ system pages ]</Button>
-		</div>
-	</div>
-</section>
+      <div class="proof-stack" use:surface={{ delay: 120 }}>
+        {#each [{ weight: "field-notebook", label: "field notebook", theme: null }, { weight: "mission-control", label: "mission control", theme: null }, { weight: "archive", label: "archive plus arcane", theme: "arcane" }] as card}
+          <div
+            class="proof-card-wrap"
+            data-weight={card.weight}
+            data-theme={card.theme}
+          >
+            <Surface variant="panel" class="proof-card">
+              <Label color="muted">{card.label}</Label>
+              <Text expression="readout"
+                >same structure. different atmosphere.</Text
+              >
+            </Surface>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </section>
+</main>
 
 <style>
-	/* ── shell ─────────────────────────────────────────── */
-	.shell {
-		max-width: var(--shell-max);
-		margin: 0 auto;
-		padding-inline: var(--shell-pad);
-	}
-
-	/* ── hero ──────────────────────────────────────────── */
-	.hero-wrap {
-		position: relative;
-	}
-
-	:global(.hero-grid) {
-		opacity: 0.32;
-	}
-
-	:global(.hero-vignette) {
-		background:
-			radial-gradient(ellipse at 50% 0%, rgba(121, 166, 163, 0.1), transparent 50%),
-			radial-gradient(ellipse at 50% 100%, transparent 40%, rgba(8, 9, 11, 0.7));
-	}
-
-	.hero-content {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: calc(1.5rem * var(--reg-spacing-scale, 1));
-		max-width: 42rem;
-	}
-
-	.hero-kicker {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-	}
-
-	.hero-title {
-		margin: 0;
-		font-family: var(--font-body);
-		font-weight: 400;
-		font-size: clamp(4rem, 14vw, 10rem);
-		line-height: 0.88;
-		letter-spacing: -0.06em;
-		color: var(--text);
-	}
-
-	:global(.hero-manifesto) {
-		max-width: 34rem;
-	}
-
-	.hero-actions {
-		display: flex;
-		gap: var(--space-sm);
-		flex-wrap: wrap;
-	}
-
-	.hero-floor {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-md);
-	}
-
-	.hero-status {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-		flex-wrap: wrap;
-	}
-
-	.hero-sep {
-		color: var(--muted);
-		opacity: 0.5;
-		font-family: var(--font-mono);
-		font-size: 0.7rem;
-	}
-
-	.hero-scroll-line {
-		display: block;
-		width: 1px;
-		height: 2.5rem;
-		background: linear-gradient(to bottom, var(--line), transparent);
-		margin-left: 0.1rem;
-	}
-
-	/* ── sections ──────────────────────────────────────── */
-	.section {
-		padding-block: clamp(4rem, 8vw, 7rem);
-		border-top: 1px solid var(--line);
-	}
-
-	.section--closer {
-		padding-block: clamp(5rem, 10vw, 9rem);
-	}
-
-	/* ── register grid ─────────────────────────────────── */
-	.reg-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1px;
-		margin-top: calc(2.5rem * var(--reg-spacing-scale, 1));
-		background: var(--line);
-	}
-
-	.reg-col {
-		background: var(--bg);
-		padding: clamp(1.5rem, 3vw, 2.5rem);
-		display: flex;
-		flex-direction: column;
-		gap: calc(0.9rem * var(--reg-spacing-scale, 1));
-		transition: background var(--transition-fast);
-	}
-
-	.reg-col:hover {
-		background: var(--bg-elev-soft);
-	}
-
-	.reg-col-top {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.reg-col-label {
-		font-family: var(--font-mono);
-		font-size: var(--reg-label-size, 0.68rem);
-		letter-spacing: var(--reg-label-tracking, 0.14em);
-		text-transform: uppercase;
-		color: var(--muted-strong);
-	}
-
-	.reg-col-dot {
-		display: block;
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		opacity: 0.8;
-	}
-
-	.reg-col-character {
-		margin: 0;
-		font-family: var(--reg-font-primary, var(--font-body));
-		font-size: clamp(1.2rem, 2.5vw, 1.75rem);
-		letter-spacing: var(--reg-heading-tracking, -0.04em);
-		line-height: var(--reg-heading-lh, 0.94);
-		color: var(--text);
-	}
-
-	.reg-col-body {
-		margin: 0;
-		font-family: var(--reg-font-primary, var(--font-body));
-		font-size: var(--reg-body-size, 1rem);
-		line-height: 1.55;
-		color: var(--text-soft);
-		flex: 1;
-	}
-
-	.reg-col-foot {
-		border-top: 1px solid var(--line);
-		padding-top: 0.75rem;
-		margin-top: auto;
-	}
-
-	.reg-col-meta {
-		font-family: var(--reg-font-primary, var(--font-body));
-		font-size: var(--reg-body-size, 1rem);
-		color: var(--muted);
-		font-style: italic;
-	}
-
-	[data-register='mission-control'] .reg-col-meta {
-		font-style: normal;
-	}
-
-	.reg-note {
-		margin: 0;
-		margin-top: 1.5rem;
-		display: flex;
-		align-items: baseline;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.reg-note-label {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		letter-spacing: 0.1em;
-		color: var(--muted);
-	}
-
-	.reg-note-code {
-		font-family: var(--font-mono);
-		font-size: 0.78rem;
-		color: var(--signal);
-		letter-spacing: 0.03em;
-	}
-
-	/* ── depth demo ────────────────────────────────────── */
-	.depth-demo {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	:global(.depth-frame) {
-		width: 100%;
-	}
-
-	:global(.depth-card) {
-		max-width: 22rem;
-		width: 100%;
-	}
-
-	.depth-card-inner {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-		padding: 0.25rem;
-	}
-
-	.depth-card-top {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.depth-metrics {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 0.5rem;
-	}
-
-	.depth-metric {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.depth-metric-value {
-		font-family: var(--font-mono);
-		font-size: 1.4rem;
-		color: var(--text);
-		line-height: 1;
-		letter-spacing: -0.02em;
-	}
-
-	.depth-metric-unit {
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		color: var(--accent);
-		letter-spacing: 0.08em;
-		margin-left: 0.1rem;
-	}
-
-	.depth-card-foot {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		border-top: 1px solid var(--line);
-		padding-top: 0.9rem;
-	}
-
-	.depth-caption {
-		padding-block: 2rem;
-		border-top: 1px solid var(--line);
-	}
-
-	.depth-caption-inner {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		max-width: 42rem;
-	}
-
-	.depth-caption-body {
-		margin: 0;
-		font-family: var(--font-body);
-		font-size: 1rem;
-		color: var(--text-soft);
-		line-height: 1.6;
-	}
-
-	.depth-caption-also {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.depth-code {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		color: var(--muted);
-		letter-spacing: 0.04em;
-		padding: 0.2em 0.5em;
-		border: 1px solid var(--line);
-	}
-
-	/* ── expression list ───────────────────────────────── */
-	.expr-list {
-		display: flex;
-		flex-direction: column;
-		margin-top: calc(2.5rem * var(--reg-spacing-scale, 1));
-	}
-
-	.expr-row {
-		display: grid;
-		grid-template-columns: 14rem 1fr;
-		gap: var(--space-xl);
-		align-items: center;
-		padding-block: 1.5rem;
-		border-top: 1px solid var(--line);
-	}
-
-	.expr-row:last-child {
-		border-bottom: 1px solid var(--line);
-	}
-
-	.expr-row-meta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.3rem;
-	}
-
-	.expr-row-name {
-		font-family: var(--font-mono);
-		font-size: 0.78rem;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--accent);
-	}
-
-	.expr-row-desc {
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		color: var(--muted);
-		line-height: 1.5;
-		letter-spacing: 0.02em;
-	}
-
-	.expr-row-sample {
-		overflow: hidden;
-	}
-
-	/* expression styles mirrored from expressions.css */
-	.expr-title-card {
-		font-family: var(--font-body);
-		font-size: clamp(2.4rem, 6vw, 5rem);
-		font-weight: 400;
-		line-height: 0.91;
-		letter-spacing: -0.05em;
-		color: var(--text);
-		display: block;
-	}
-
-	.expr-manifesto {
-		font-family: var(--font-body);
-		font-style: italic;
-		font-size: clamp(1.05rem, 2vw, 1.45rem);
-		line-height: 1.45;
-		color: var(--text-soft);
-		display: block;
-	}
-
-	.expr-readout {
-		font-family: var(--font-mono);
-		font-size: 0.82rem;
-		letter-spacing: 0.06em;
-		color: var(--muted);
-		line-height: 1.6;
-		display: block;
-	}
-
-	.expr-command {
-		font-family: var(--font-mono);
-		font-size: 0.82rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--accent);
-		font-weight: 500;
-		display: block;
-	}
-
-	.expr-whisper {
-		font-family: var(--font-body);
-		font-size: 0.95rem;
-		color: var(--muted-strong);
-		line-height: 1.5;
-		font-style: italic;
-		display: block;
-	}
-
-	.expr-chapter {
-		font-family: var(--font-mono);
-		font-size: 0.62rem;
-		letter-spacing: 0.22em;
-		text-transform: uppercase;
-		color: var(--muted-strong);
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.expr-chapter::after {
-		content: '';
-		display: block;
-		width: 4rem;
-		height: 1px;
-		background: var(--line);
-	}
-
-	/* ── examples list ─────────────────────────────────── */
-	.examples-list {
-		display: flex;
-		flex-direction: column;
-		margin-top: calc(2.5rem * var(--reg-spacing-scale, 1));
-	}
-
-	.example-entry {
-		display: grid;
-		grid-template-columns: 4rem 1fr auto;
-		gap: var(--space-lg);
-		align-items: center;
-		padding-block: 1.75rem;
-		border-top: 1px solid var(--line);
-		text-decoration: none;
-		color: inherit;
-		transition:
-			background var(--transition-fast),
-			transform var(--transition-smooth);
-	}
-
-	.example-entry:last-child {
-		border-bottom: 1px solid var(--line);
-	}
-
-	.example-entry:hover {
-		background: linear-gradient(90deg, rgba(199, 156, 87, 0.04), transparent 60%);
-		transform: translateX(0.75rem);
-	}
-
-	.example-entry:hover .example-arrow {
-		color: var(--accent);
-		transform: translateX(4px);
-	}
-
-	.example-entry-left {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.4rem;
-	}
-
-	.example-id {
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--muted-strong);
-	}
-
-	.example-entry-center {
-		display: flex;
-		flex-direction: column;
-		gap: 0.35rem;
-	}
-
-	.example-name {
-		font-family: var(--font-body);
-		font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-		letter-spacing: -0.03em;
-		color: var(--text);
-		line-height: 1.1;
-	}
-
-	.example-desc {
-		font-family: var(--font-mono);
-		font-size: 0.78rem;
-		color: var(--muted);
-		line-height: 1.6;
-		letter-spacing: 0.02em;
-		max-width: 40rem;
-	}
-
-	.example-entry-right {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		gap: 0.35rem;
-	}
-
-	.example-arrow {
-		font-family: var(--font-mono);
-		font-size: 1rem;
-		color: var(--muted-strong);
-		transition:
-			color var(--transition-fast),
-			transform var(--transition-smooth);
-	}
-
-	/* ── closer ────────────────────────────────────────── */
-	:global(.closer-quote) {
-		max-width: 48rem;
-	}
-
-	.closer-actions {
-		display: flex;
-		gap: var(--space-sm);
-		flex-wrap: wrap;
-		margin-top: calc(2.5rem * var(--reg-spacing-scale, 1));
-	}
-
-	/* ── responsive ────────────────────────────────────── */
-	@media (max-width: 860px) {
-		.reg-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.expr-row {
-			grid-template-columns: 1fr;
-			gap: 0.75rem;
-		}
-
-		.example-entry {
-			grid-template-columns: 3rem 1fr;
-		}
-
-		.example-entry-right {
-			display: none;
-		}
-	}
-
-	@media (max-width: 600px) {
-		.hero-title {
-			font-size: clamp(3.5rem, 18vw, 8rem);
-		}
-
-		.example-entry {
-			grid-template-columns: 2.5rem 1fr;
-		}
-	}
+  .home {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .shell {
+    width: min(100%, var(--shell-max));
+    margin: 0 auto;
+    padding-inline: var(--shell-pad);
+  }
+
+  .hero {
+    position: relative;
+    min-height: 92dvh;
+  }
+
+  .hero-next {
+    position: absolute;
+    left: var(--shell-pad);
+    right: var(--shell-pad);
+    bottom: var(--space-md);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.72;
+  }
+
+  :global(.hero-depth),
+  :global(.hero-depth .hyvui-depth-scene-stage),
+  :global(.hero-depth .hyvui-depth-scene-content) {
+    min-height: 92dvh;
+  }
+
+  :global(.hero-grid) {
+    opacity: 0.28;
+  }
+
+  :global(.hero-vignette) {
+    background:
+      radial-gradient(
+        ellipse at 50% 0%,
+        color-mix(in srgb, var(--signal) 12%, transparent),
+        transparent 46%
+      ),
+      radial-gradient(
+        ellipse at 50% 100%,
+        transparent 36%,
+        color-mix(in srgb, var(--bg) 82%, transparent)
+      );
+  }
+
+  :global(.hero-scan) {
+    opacity: 0.24;
+  }
+
+  .hero-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 28rem);
+    gap: clamp(var(--space-lg), 6vw, var(--space-3xl));
+    align-items: center;
+    width: min(100%, 72rem);
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .hero-kicker,
+  .hero-actions,
+  .hero-console-top,
+  .hero-console-bottom,
+  .proof-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: 0.84;
+    letter-spacing: var(--reg-heading-tracking);
+    color: var(--text);
+  }
+
+  :global(.hero-console) {
+    width: 100%;
+  }
+
+  .hero-console-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+  }
+
+  .hero-console-top,
+  .hero-console-bottom {
+    justify-content: space-between;
+  }
+
+  .hero-console-frame {
+    position: relative;
+    min-height: 22rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--signal) 10%, transparent),
+        transparent 54%
+      ),
+      color-mix(in srgb, var(--text) 4%, transparent);
+    overflow: hidden;
+  }
+
+  .hero-console-bars {
+    position: absolute;
+    left: var(--space-lg);
+    right: var(--space-lg);
+    bottom: var(--space-lg);
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .hero-console-bars span {
+    height: 1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+
+  .anthology,
+  .split-proof {
+    padding-block: clamp(var(--space-3xl), 9vw, 8rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .section-head {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .section-head h2,
+  .proof-copy h2 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: var(--reg-heading-tracking);
+    color: var(--text);
+  }
+
+  .section-head p,
+  .proof-copy p {
+    margin: 0;
+    max-width: 42rem;
+    color: var(--text-soft);
+    font-size: var(--text-md);
+    line-height: 1.55;
+  }
+
+  .scene-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .scene-card {
+    color: inherit;
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  :global(.scene-surface) {
+    min-height: 27rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .scene-preview {
+    min-height: 12rem;
+    display: grid;
+    place-items: center;
+    border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--accent) 10%, transparent),
+        transparent 54%
+      ),
+      color-mix(in srgb, var(--signal) 5%, transparent);
+  }
+
+  .scene-lines {
+    width: 68%;
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .scene-lines span {
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-strong), transparent);
+  }
+
+  .scene-hex,
+  .scene-shard {
+    width: 7rem;
+    aspect-ratio: 1;
+    border: 1px solid var(--line-strong);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--signal) 18%, transparent),
+        transparent
+      ),
+      color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .scene-hex {
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+  }
+
+  .scene-shard {
+    clip-path: polygon(52% 0, 88% 36%, 66% 100%, 18% 72%, 12% 22%);
+  }
+
+  .scene-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    flex: 1;
+  }
+
+  .scene-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .scene-copy h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .scene-copy p {
+    margin: 0;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  .scene-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    padding: 0 var(--space-lg) var(--space-lg);
+  }
+
+  .scene-foot code {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: var(--space-3xs) var(--space-2xs);
+  }
+
+  .split-proof-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  :global(.proof-copy) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .proof-stack {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  :global(.proof-card) {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  @media (max-width: 980px) {
+    .hero-stage,
+    .scene-grid,
+    .split-proof-inner {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.scene-surface) {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .hero-stage {
+      padding-bottom: var(--space-xl);
+    }
+
+    .hero-console-inner {
+      padding: var(--space-md);
+    }
+
+    .hero-console-frame {
+      min-height: 15rem;
+    }
+
+    .hero-next {
+      display: none;
+    }
+  }
 </style>

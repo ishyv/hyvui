@@ -75,11 +75,11 @@
 	}
 
 	.hyvui-manifesto--accent-gold::before {
-		background: rgba(199, 156, 87, 0.5);
+		background: color-mix(in srgb, var(--accent) 50%, transparent);
 	}
 
 	.hyvui-manifesto--accent-signal::before {
-		background: rgba(121, 166, 163, 0.5);
+		background: color-mix(in srgb, var(--signal) 50%, transparent);
 	}
 
 	@keyframes manifesto-rule-in {
@@ -106,7 +106,7 @@
 		margin: 0;
 		font-family: var(--font-body);
 		font-style: italic;
-		font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+		font-size: var(--text-lg);
 		line-height: 1.45;
 		color: var(--text-soft);
 		max-width: 30rem;
@@ -159,7 +159,7 @@
 	.hyvui-manifesto-cite {
 		font-style: normal;
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);
 		line-height: 1.6;

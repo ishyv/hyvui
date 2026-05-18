@@ -27,7 +27,8 @@ the `expression` prop accepts any expression name and applies the corresponding 
 for elements that are not `Text` components:
 
 ```svelte
-<h1 class="expr-title-card">signal acquired</h1><p class="expr-readout">14:23 UTC — sector 7</p>
+<h1 class="expr-title-card">signal acquired</h1>
+<p class="expr-readout">14:23 UTC — sector 7</p>
 ```
 
 CSS classes are defined in `src/lib/system/expressions.css`.
@@ -78,7 +79,9 @@ CSS classes are defined in `src/lib/system/expressions.css`.
 **Do not use when:** the text is a normal heading — use `variant="heading"`. do not use for more than 2–3 lines; the expression breaks down at longer lengths.
 
 ```svelte
-<Text as="p" variant="italic" expression="manifesto">nothing is lost. only relocated.</Text>
+<Text as="p" variant="italic" expression="manifesto"
+  >nothing is lost. only relocated.</Text
+>
 ```
 
 ---
@@ -102,7 +105,7 @@ CSS classes are defined in `src/lib/system/expressions.css`.
 
 ```svelte
 <Text as="span" variant="caption" expression="readout">
-	44.2°N 122.8°W — last contact 14:23 UTC
+  44.2°N 122.8°W — last contact 14:23 UTC
 </Text>
 ```
 
@@ -127,7 +130,7 @@ CSS classes are defined in `src/lib/system/expressions.css`.
 
 ```svelte
 <Text as="p" variant="caption" expression="whisper">
-	readings are estimated. actual coordinates may vary by ±0.3°.
+  readings are estimated. actual coordinates may vary by ±0.3°.
 </Text>
 ```
 
@@ -152,7 +155,9 @@ CSS classes are defined in `src/lib/system/expressions.css`.
 **Do not use when:** the text is running body copy. do not use for headings that don't carry a command meaning — use `variant="heading"`.
 
 ```svelte
-<Text as="span" variant="caption" expression="command">[ initialize sequence ]</Text>
+<Text as="span" variant="caption" expression="command"
+  >[ initialize sequence ]</Text
+>
 ```
 
 ---
@@ -176,15 +181,17 @@ CSS classes are defined in `src/lib/system/expressions.css`.
 **Do not use when:** the section division is minor. the after-element divider adds visual weight — use sparingly.
 
 ```svelte
-<Text as="p" variant="caption" expression="chapter">part two — the approach</Text>
+<Text as="p" variant="caption" expression="chapter"
+  >part two — the approach</Text
+>
 <Text as="h2" variant="heading">signal decay begins</Text>
 ```
 
 ---
 
-## Expression + Register Matrix
+## Expression + Weight Matrix
 
-how each expression shifts across registers:
+how each expression shifts across weights:
 
 | expression   | `field-notebook`                                                                          | `mission-control`                                                                  | `archive`                                                               |
 | ------------ | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -206,7 +213,9 @@ expressions can be applied to any HTML element via class — they are not limite
 <h1 class="expr-title-card">signal acquired</h1>
 
 <!-- on a blockquote -->
-<blockquote class="expr-manifesto">the pattern holds through every rotation.</blockquote>
+<blockquote class="expr-manifesto">
+  the pattern holds through every rotation.
+</blockquote>
 
 <!-- on a span for inline data -->
 sector <span class="expr-readout">7N — 44.2°</span> verified

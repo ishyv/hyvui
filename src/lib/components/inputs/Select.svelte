@@ -21,6 +21,8 @@
 		value?: string;
 		/** Label text displayed above the select. */
 		label?: string;
+		/** Description text displayed below the select. */
+		description?: string;
 		/** Error message. */
 		error?: string;
 		/** Disables the select. */
@@ -35,6 +37,7 @@
 		options = [],
 		value = $bindable(''),
 		label = '',
+		description = '',
 		error = '',
 		disabled = false,
 		class: className = '',
@@ -42,6 +45,7 @@
 	}: Props = $props();
 
 	const selectId = `hyvui-select-${Math.random().toString(36).slice(2, 8)}`;
+	const message = $derived(error || description);
 </script>
 
 <div class={cn('hyvui-select-wrap', className)}>
@@ -53,6 +57,8 @@
 			id={selectId}
 			bind:value
 			{disabled}
+			aria-describedby={message ? `${selectId}-desc` : undefined}
+			aria-invalid={error ? 'true' : undefined}
 			class={cn('hyvui-select', error && 'hyvui-select-error')}
 			{onchange}
 		>
@@ -72,7 +78,9 @@
 		</svg>
 	</div>
 	{#if error}
-		<span class="hyvui-select-message">{error}</span>
+		<span id="{selectId}-desc" class="hyvui-select-message hyvui-select-message-error">{error}</span>
+	{:else if message}
+		<span id="{selectId}-desc" class="hyvui-select-message">{message}</span>
 	{/if}
 </div>
 
@@ -86,7 +94,7 @@
 
 	.hyvui-select-label {
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -102,13 +110,13 @@
 
 	.hyvui-select {
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
 		min-height: var(--control-height-md);
 		background:
-			linear-gradient(180deg, rgba(240, 232, 218, 0.018), transparent 46%),
-			linear-gradient(135deg, rgba(199, 156, 87, 0.045), transparent 44%), var(--bg-elev);
+			linear-gradient(180deg, color-mix(in srgb, var(--text) 1.8%, transparent), transparent 46%),
+			linear-gradient(135deg, color-mix(in srgb, var(--accent) 4.5%, transparent), transparent 44%), var(--bg-elev);
 		border: 1px solid var(--line);
 		border-radius: var(--radius-md);
 		padding: var(--control-pad-y) 2.3rem var(--control-pad-y) var(--control-pad-x);
@@ -120,7 +128,7 @@
 			border-color var(--transition-fast),
 			background var(--transition-fast),
 			box-shadow var(--transition-fast);
-		box-shadow: inset 0 1px 0 rgba(240, 232, 218, 0.03);
+		box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
 	}
 
 	.hyvui-select:hover:not(:disabled) {
@@ -142,18 +150,22 @@
 
 	.hyvui-select-chevron {
 		position: absolute;
-		right: 0.85rem;
+		right: var(--control-pad-x-compact);
 		pointer-events: none;
 		opacity: 0.8;
 	}
 
 	.hyvui-select-message {
 		font-family: var(--font-mono);
-		font-size: 0.66rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--status-fail);
+		color: var(--muted-strong);
 		line-height: 1.3;
+	}
+
+	.hyvui-select-message-error {
+		color: var(--status-fail);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

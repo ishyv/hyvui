@@ -1,191 +1,153 @@
-<!--
-  EXAMPLE: Signal Lost
-  REGISTER: field-notebook
-  CONCEPT: a 404 page that feels like arriving at coordinates where something used to be
-  DEMONSTRATES: FloatCard, HorizonGrid, TerminalBoot, StatusDot, CornerBrackets, SignalRing, Text expressions, surface action, depth system
-  INSPIRED BY: the last transmission log of a deep-space relay station
--->
 <script lang="ts">
-	import {
-		Text,
-		Label,
-		Button,
-		StatusDot,
-		CornerBrackets,
-		TerminalBoot,
-		FloatCard,
-		HorizonGrid,
-		DepthStage,
-		DepthLayer,
-		SignalRing,
-		GlyphMark,
-		surface,
-		applyRegister
-	} from '../index.js';
-	import { onMount } from 'svelte';
+  import {
+    Button,
+    CornerBrackets,
+    DepthLayer,
+    DepthStage,
+    FloatCard,
+    HorizonGrid,
+    Label,
+    SignalRing,
+    StatusDot,
+    TerminalBoot,
+    Text,
+    surface,
+  } from "../index.js";
+  import { onMount } from "svelte";
+  import { mountSceneAppearance } from "./appearance.js";
 
-	let bootComplete = $state(false);
+  const bootLines = [
+    { status: "ok" as const, message: "local archive intact" },
+    { status: "ok" as const, message: "last known frame recovered" },
+    { status: "pend" as const, message: "searching alternate index" },
+    { status: "warn" as const, message: "no object at requested coordinate" },
+    { status: "fail" as const, message: "signal lost" },
+  ];
 
-	const bootLines: { status: 'ok' | 'pend' | 'warn' | 'fail'; message: string }[] = [
-		{ status: 'ok', message: 'local systems nominal' },
-		{ status: 'ok', message: 'navigation subsystem online' },
-		{ status: 'ok', message: 'scanning frequency range' },
-		{ status: 'pend', message: 'attempting signal acquisition' },
-		{ status: 'warn', message: 'no response on primary band' },
-		{ status: 'warn', message: 'sweeping secondary frequencies' },
-		{ status: 'fail', message: 'target signal not found at these coordinates' }
-	];
-
-	onMount(() => {
-		applyRegister('field-notebook');
-		return () => {
-			document.body.removeAttribute('data-register');
-		};
-	});
+  onMount(() => mountSceneAppearance("field-notebook"));
 </script>
 
-<div class="signal-lost">
-	<div class="signal-lost-bg">
-		<HorizonGrid animated rows={20} cols={14} vanishY={0.32} />
-	</div>
+<svelte:head>
+  <title>signal lost // hyvui</title>
+</svelte:head>
 
-	<div class="signal-lost-ring" aria-hidden="true">
-		<SignalRing active size={400} />
-	</div>
+<main class="lost">
+  <div class="lost-grid" aria-hidden="true">
+    <HorizonGrid rows={22} cols={16} vanishY={0.34} animated />
+  </div>
 
-	<DepthStage perspective="mid" class="signal-lost-stage">
-		<DepthLayer level="ground" class="signal-lost-terminal">
-			<div class="signal-lost-terminal-inner" use:surface={{ delay: 800 }}>
-				<TerminalBoot
-					lines={bootLines}
-					delay={1200}
-					interval={900}
-					oncomplete={() => (bootComplete = true)}
-				/>
-			</div>
-		</DepthLayer>
+  <div class="lost-ring" aria-hidden="true">
+    <SignalRing active size={420} />
+  </div>
 
-		<DepthLayer level="raised" class="signal-lost-center">
-			<FloatCard tiltMax={6} class="signal-lost-card">
-				<div class="signal-lost-content" style:position="relative">
-					<CornerBrackets size={28} color="rgba(199, 156, 87, 0.2)" />
+  <DepthStage perspective="mid" class="lost-stage">
+    <DepthLayer level="ground" class="lost-terminal">
+      <div class="lost-terminal-inner" use:surface={{ delay: 200 }}>
+        <TerminalBoot lines={bootLines} delay={200} interval={420} />
+      </div>
+    </DepthLayer>
 
-					<div class="signal-lost-status" use:surface={{ delay: 200 }}>
-						<StatusDot status="fail" size={8} pulse />
-						<Label color="muted">transmission ended</Label>
-					</div>
-
-					<div use:surface={{ delay: 400 }}>
-						<Text variant="heading" expression="title-card" as="h1" color="primary">
-							the coordinates are empty now
-						</Text>
-					</div>
-
-					<div use:surface={{ delay: 600 }}>
-						<Text expression="manifesto">
-							something was broadcasting from here. the frequency is right, the heading is right.
-							but the source has gone quiet.
-						</Text>
-					</div>
-
-					<div class="signal-lost-meta" use:surface={{ delay: 700 }}>
-						<GlyphMark variant="coord" size={16} color="var(--muted-strong)" />
-						<Label color="muted">bearing 047.2 | range unknown | last contact 7h ago</Label>
-					</div>
-
-					<div class="signal-lost-action" use:surface={{ delay: 900 }}>
-						<Button variant="ghost" onclick={() => window.history.back()}>
-							return to last known position
-						</Button>
-					</div>
-				</div>
-			</FloatCard>
-		</DepthLayer>
-	</DepthStage>
-</div>
+    <DepthLayer level="raised" class="lost-center">
+      <FloatCard tiltMax={6} class="lost-card">
+        <div class="lost-content">
+          <CornerBrackets size={30} color="var(--accent)" />
+          <div class="lost-status">
+            <StatusDot status="fail" size={8} pulse />
+            <Label color="muted">cinematic system state</Label>
+          </div>
+          <h1>signal lost</h1>
+          <Text expression="manifesto">
+            the route is gone, but the interface still has a job. hold the
+            moment. give the user a way back.
+          </Text>
+          <div class="lost-actions">
+            <Button variant="secondary" href="/">return to scene index</Button>
+            <Button variant="ghost" href="/docs">open docs</Button>
+          </div>
+        </div>
+      </FloatCard>
+    </DepthLayer>
+  </DepthStage>
+</main>
 
 <style>
-	.signal-lost {
-		position: relative;
-		min-height: 100dvh;
-		background-color: var(--bg);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-	}
+  .lost {
+    position: relative;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    overflow: hidden;
+  }
 
-	.signal-lost-bg {
-		position: absolute;
-		inset: 0;
-		opacity: 0.5;
-		pointer-events: none;
-	}
+  .lost-grid,
+  .lost-ring {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
 
-	.signal-lost-ring {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		opacity: 0.3;
-		pointer-events: none;
-	}
+  .lost-grid {
+    opacity: 0.42;
+  }
 
-	:global(.signal-lost-stage) {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-		padding: var(--space-scene);
-		width: 100%;
-		max-width: 52rem;
-	}
+  .lost-ring {
+    display: grid;
+    place-items: center;
+    opacity: 0.28;
+  }
 
-	:global(.signal-lost-center) {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-	}
+  :global(.lost-stage) {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 58rem);
+    padding: var(--space-scene);
+    display: grid;
+    gap: var(--space-xl);
+  }
 
-	:global(.signal-lost-card) {
-		max-width: 36rem;
-		width: 100%;
-	}
+  :global(.lost-terminal) {
+    width: min(100%, 34rem);
+    justify-self: center;
+  }
 
-	.signal-lost-content {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-		padding: 1rem;
-	}
+  .lost-terminal-inner {
+    padding-left: var(--space-md);
+    border-left: 1px solid color-mix(in srgb, var(--signal) 28%, transparent);
+  }
 
-	.signal-lost-status {
-		display: flex;
-		align-items: center;
-		gap: 0.625rem;
-	}
+  :global(.lost-center) {
+    display: flex;
+    justify-content: center;
+  }
 
-	.signal-lost-meta {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
+  :global(.lost-card) {
+    width: min(100%, 38rem);
+  }
 
-	.signal-lost-action {
-		margin-top: 0.5rem;
-	}
+  .lost-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-md);
+  }
 
-	:global(.signal-lost-terminal) {
-		width: 100%;
-		max-width: 36rem;
-		align-self: center;
-	}
+  .lost-status,
+  .lost-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
 
-	.signal-lost-terminal-inner {
-		padding: 1rem 0;
-		border-left: 2px solid rgba(121, 166, 163, 0.14);
-		padding-left: 1.25rem;
-	}
+  .lost h1 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: var(--reg-heading-lh);
+    letter-spacing: var(--reg-heading-tracking);
+    color: var(--text);
+  }
 </style>

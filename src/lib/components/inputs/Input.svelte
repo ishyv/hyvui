@@ -6,7 +6,7 @@
 	 * @example
 	 * <Input label="api key" bind:value={key} placeholder="sk-..." />
 	 * <Input label="email" type="email" bind:value={email} error={emailError} />
-	 * <Input label="search" type="search" bind:value={query} hint="press enter to search" />
+	 * <Input label="search" type="search" bind:value={query} description="press enter to search" />
 	 */
 	interface Props {
 		/** Input type. */
@@ -19,8 +19,8 @@
 		disabled?: boolean;
 		/** Error message. Displays below the input and activates error styling. */
 		error?: string;
-		/** Hint text displayed below the input. */
-		hint?: string;
+		/** Description text displayed below the input. */
+		description?: string;
 		/** Label text displayed above the input. */
 		label?: string;
 		/** Additional CSS classes. */
@@ -37,7 +37,7 @@
 		placeholder = '',
 		disabled = false,
 		error = '',
-		hint = '',
+		description = '',
 		label = '',
 		class: className = '',
 		oninput,
@@ -45,6 +45,7 @@
 	}: Props = $props();
 
 	const inputId = `hyvui-input-${Math.random().toString(36).slice(2, 8)}`;
+	const message = $derived(error || description);
 </script>
 
 <div class={cn('hyvui-input-wrap', className)}>
@@ -57,15 +58,16 @@
 		bind:value
 		{placeholder}
 		{disabled}
-		aria-describedby={(error || hint) ? `${inputId}-desc` : undefined}
+		aria-describedby={message ? `${inputId}-desc` : undefined}
+		aria-invalid={error ? 'true' : undefined}
 		class={cn('hyvui-input', error && 'hyvui-input-error')}
 		{oninput}
 		{onchange}
 	/>
 	{#if error}
 		<span id="{inputId}-desc" class="hyvui-input-message hyvui-input-message-error">{error}</span>
-	{:else if hint}
-		<span id="{inputId}-desc" class="hyvui-input-message">{hint}</span>
+	{:else if message}
+		<span id="{inputId}-desc" class="hyvui-input-message">{message}</span>
 	{/if}
 </div>
 
@@ -79,7 +81,7 @@
 
 	.hyvui-input-label {
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -89,13 +91,13 @@
 
 	.hyvui-input {
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
 		min-height: var(--control-height-md);
 		background:
-			linear-gradient(180deg, rgba(240, 232, 218, 0.018), transparent 46%),
-			linear-gradient(135deg, rgba(199, 156, 87, 0.045), transparent 44%), var(--bg-elev);
+			linear-gradient(180deg, color-mix(in srgb, var(--text) 1.8%, transparent), transparent 46%),
+			linear-gradient(135deg, color-mix(in srgb, var(--accent) 4.5%, transparent), transparent 44%), var(--bg-elev);
 		border: 1px solid var(--line);
 		border-radius: var(--radius-md);
 		padding: var(--control-pad-y) var(--control-pad-x);
@@ -105,7 +107,7 @@
 			background var(--transition-fast),
 			box-shadow var(--transition-fast);
 		width: 100%;
-		box-shadow: inset 0 1px 0 rgba(240, 232, 218, 0.03);
+		box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
 	}
 
 	.hyvui-input::placeholder {
@@ -119,8 +121,8 @@
 	.hyvui-input:focus {
 		border-color: var(--line-strong);
 		background:
-			linear-gradient(180deg, rgba(240, 232, 218, 0.022), transparent 46%),
-			linear-gradient(135deg, rgba(199, 156, 87, 0.06), transparent 44%), var(--bg-elev);
+			linear-gradient(180deg, color-mix(in srgb, var(--text) 2.2%, transparent), transparent 46%),
+			linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 44%), var(--bg-elev);
 	}
 
 	.hyvui-input:disabled {
@@ -134,7 +136,7 @@
 
 	.hyvui-input-message {
 		font-family: var(--font-mono);
-		font-size: 0.66rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--muted-strong);

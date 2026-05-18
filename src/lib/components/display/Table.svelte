@@ -73,20 +73,20 @@
 
 	.hyvui-table-th {
 		font-family: var(--font-mono);
-		font-size: 0.68rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--muted-strong);
-		padding: 0.625rem 0.75rem;
+		padding: var(--space-xs) var(--space-sm);
 		border-bottom: 1px solid var(--line);
 	}
 
 	.hyvui-table-td {
 		font-family: var(--font-body);
-		font-size: 1rem;
+		font-size: var(--text-sm);
 		color: var(--text-soft);
-		padding: 0.625rem 0.75rem;
+		padding: var(--space-xs) var(--space-sm);
 		border-bottom: 1px solid var(--line);
 	}
 
@@ -95,7 +95,7 @@
 	}
 
 	.hyvui-table-row:hover {
-		background-color: rgba(199, 156, 87, 0.04);
+		background-color: color-mix(in srgb, var(--accent) 4%, transparent);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

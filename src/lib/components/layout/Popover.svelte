@@ -163,7 +163,7 @@
 	}
 
 	.hyvui-popover-content {
-		padding: 0.5rem 0.75rem;
+		padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
 		max-block-size: min(60dvh, 32rem);
 		overflow: auto;
 		overscroll-behavior: contain;

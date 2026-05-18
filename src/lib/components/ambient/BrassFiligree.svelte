@@ -7,7 +7,7 @@
 	 * Under `hextech`: bright brass. Under `arcane`: subdued violet-tinted.
 	 * Renders `aria-hidden`.
 	 * @example
-	 * <div style="position: relative; padding: 2rem;">
+	 * <div style="position: relative; padding: var(--space-xl);">
 	 *   <BrassFiligree size={40} />
 	 *   framed content
 	 * </div>
@@ -79,31 +79,32 @@
 	.hyvui-bf-br { bottom: 0; right: 0; transform: scale(-1); }
 
 	/* ── default (field-notebook) ─────────────────────────────────────── */
-	.hyvui-bf-arm   { stroke: rgba(199, 156, 87, 0.3); }
-	.hyvui-bf-notch { stroke: rgba(199, 156, 87, 0.15); }
-	.hyvui-bf-rivet { fill: rgba(199, 156, 87, 0.35); }
+	.hyvui-bf-arm   { stroke: color-mix(in srgb, var(--accent) 30%, transparent); }
+	.hyvui-bf-notch { stroke: color-mix(in srgb, var(--accent) 15%, transparent); }
+	.hyvui-bf-rivet { fill: color-mix(in srgb, var(--accent) 35%, transparent); }
 
 	/* ── hextech: bright brass precision ──────────────────────────────── */
-	:global([data-register='hextech']) .hyvui-bf-arm {
-		stroke: rgba(212, 165, 116, 0.65);
+	:global([data-theme='hextech']) .hyvui-bf-arm {
+		stroke: color-mix(in srgb, var(--htx-brass-bright) 65%, transparent);
 		stroke-width: 1.2px;
 	}
-	:global([data-register='hextech']) .hyvui-bf-notch {
-		stroke: rgba(93, 217, 240, 0.35);
+	:global([data-theme='hextech']) .hyvui-bf-notch {
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 35%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-bf-rivet {
-		fill: rgba(212, 165, 116, 0.8);
+	:global([data-theme='hextech']) .hyvui-bf-rivet {
+		fill: color-mix(in srgb, var(--htx-brass-bright) 80%, transparent);
 	}
 
 	/* ── arcane: dim violet-tinted, thinner ───────────────────────────── */
-	:global([data-register='arcane']) .hyvui-bf-arm {
-		stroke: rgba(184, 69, 201, 0.28);
+	:global([data-theme='arcane']) .hyvui-bf-arm {
+		stroke: color-mix(in srgb, var(--arc-magenta) 28%, transparent);
 		stroke-width: 0.8px;
 	}
-	:global([data-register='arcane']) .hyvui-bf-notch {
-		stroke: rgba(233, 76, 188, 0.18);
+	:global([data-theme='arcane']) .hyvui-bf-notch {
+		stroke: color-mix(in srgb, var(--arc-shimmer) 18%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-bf-rivet {
-		fill: rgba(233, 76, 188, 0.3);
+	:global([data-theme='arcane']) .hyvui-bf-rivet {
+		fill: color-mix(in srgb, var(--arc-shimmer) 30%, transparent);
 	}
 </style>
+

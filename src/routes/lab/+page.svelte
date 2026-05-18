@@ -145,7 +145,7 @@ log(signal.origin);`;
 								<Input
 									label="callsign"
 									placeholder="enter identifier"
-									hint="this hint should wrap if needed"
+									description="this description should wrap if needed"
 								/>
 								<Select
 									label="region"

@@ -115,31 +115,31 @@
 
 	/* ── default (field-notebook) ─────────────────────────────────────── */
 	.hyvui-av-halo   { stroke: transparent; }
-	.hyvui-av-line   { stroke: rgba(199, 156, 87, 0.22); }
-	.hyvui-av-particle { fill: rgba(199, 156, 87, 0.7); }
+	.hyvui-av-line   { stroke: color-mix(in srgb, var(--accent) 22%, transparent); }
+	.hyvui-av-particle { fill: color-mix(in srgb, var(--accent) 70%, transparent); }
 
 	/* ── hextech: etched control line, cyan particle ──────────────────── */
-	:global([data-register='hextech']) .hyvui-av-halo {
-		stroke: rgba(93, 217, 240, 0.08);
+	:global([data-theme='hextech']) .hyvui-av-halo {
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 8%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-av-line {
-		stroke: rgba(93, 217, 240, 0.4);
+	:global([data-theme='hextech']) .hyvui-av-line {
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 40%, transparent);
 		stroke-dasharray: 6 3;
 	}
-	:global([data-register='hextech']) .hyvui-av-particle {
-		fill: rgba(184, 230, 242, 0.95);
+	:global([data-theme='hextech']) .hyvui-av-particle {
+		fill: color-mix(in srgb, var(--htx-cyan-soft) 95%, transparent);
 	}
 
 	/* ── arcane: glowing crack, violet bleed particle ─────────────────── */
-	:global([data-register='arcane']) .hyvui-av-halo {
-		stroke: rgba(184, 69, 201, 0.28);
+	:global([data-theme='arcane']) .hyvui-av-halo {
+		stroke: color-mix(in srgb, var(--arc-magenta) 28%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-av-line {
-		stroke: rgba(184, 69, 201, 0.7);
+	:global([data-theme='arcane']) .hyvui-av-line {
+		stroke: color-mix(in srgb, var(--arc-magenta) 70%, transparent);
 		stroke-dasharray: none;
 	}
-	:global([data-register='arcane']) .hyvui-av-particle {
-		fill: rgba(233, 76, 188, 1);
+	:global([data-theme='arcane']) .hyvui-av-particle {
+		fill: color-mix(in srgb, var(--arc-shimmer) 100%, transparent);
 		r: 3.5;
 	}
 
@@ -149,3 +149,4 @@
 		}
 	}
 </style>
+

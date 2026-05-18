@@ -88,7 +88,7 @@
 
 	.hyvui-archive-title {
 		font-family: var(--font-body);
-		font-size: 1.4rem;
+		font-size: var(--text-lg);
 		font-weight: 400;
 		line-height: var(--reg-heading-lh);
 		letter-spacing: var(--reg-heading-tracking);

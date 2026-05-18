@@ -29,12 +29,12 @@
 	};
 
 	const bgMap: Record<string, string> = {
-		default: 'rgba(167, 157, 139, 0.08)',
-		accent: 'rgba(199, 156, 87, 0.08)',
-		signal: 'rgba(121, 166, 163, 0.08)',
-		ok: 'rgba(121, 166, 163, 0.08)',
-		warn: 'rgba(199, 156, 87, 0.08)',
-		fail: 'rgba(182, 106, 72, 0.08)'
+		default: 'color-mix(in srgb, var(--muted) 8%, transparent)',
+		accent: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+		signal: 'color-mix(in srgb, var(--signal) 8%, transparent)',
+		ok: 'color-mix(in srgb, var(--signal) 8%, transparent)',
+		warn: 'color-mix(in srgb, var(--accent) 8%, transparent)',
+		fail: 'color-mix(in srgb, var(--status-fail) 8%, transparent)'
 	};
 </script>
 
@@ -52,24 +52,25 @@
 		display: inline-flex;
 		align-items: center;
 		font-family: var(--font-mono);
-		font-size: 0.62rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		line-height: 1;
-		padding: 0.25rem 0.5rem;
+		padding: var(--space-2xs) var(--space-xs);
 		border: 1px solid;
 		border-color: currentColor;
 		opacity: 0.8;
 	}
 
 	/* ── hextech: clipped top-left corner (hex gem cut) ───────────────── */
-	:global([data-register='hextech']) .hyvui-badge {
+	:global([data-theme='hextech']) .hyvui-badge {
 		clip-path: polygon(6px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 6px);
 	}
 
 	/* ── arcane: diagonal parallelogram cut ───────────────────────────── */
-	:global([data-register='arcane']) .hyvui-badge {
+	:global([data-theme='arcane']) .hyvui-badge {
 		clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
 	}
 </style>
+

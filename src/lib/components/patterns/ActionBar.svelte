@@ -51,9 +51,9 @@
 		align-items: center;
 		gap: 1rem;
 		background: var(--surface-card);
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		border: 1px solid color-mix(in srgb, var(--text) 5%, transparent);
 		box-shadow: var(--shadow-veil);
-		padding: 0.625rem 1.25rem;
+		padding: var(--space-xs) var(--space-md);
 		backface-visibility: hidden;
 		animation: actionbar-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 	}

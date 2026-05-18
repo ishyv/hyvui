@@ -108,7 +108,7 @@
 		position: fixed;
 		inset: 0;
 		z-index: var(--z-modal);
-		background: rgba(0, 0, 0, 0.72);
+		background: color-mix(in srgb, var(--bg) 72%, transparent);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -146,7 +146,7 @@
 
 	.hyvui-modal-title {
 		font-family: var(--font-body);
-		font-size: 1.2rem;
+		font-size: var(--text-md);
 		font-weight: 400;
 		line-height: 0.93;
 		letter-spacing: -0.04em;

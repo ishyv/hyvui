@@ -77,7 +77,7 @@
 
 	.hyvui-page-header-title {
 		font-family: var(--font-body);
-		font-size: clamp(2rem, 4vw, 3.25rem);
+		font-size: var(--text-3xl);
 		font-weight: 400;
 		line-height: 0.95;
 		letter-spacing: -0.05em;
@@ -88,7 +88,7 @@
 
 	.hyvui-page-header-subtitle {
 		font-family: var(--font-body);
-		font-size: 1.04rem;
+		font-size: var(--text-sm);
 		color: var(--muted);
 		line-height: 1.62;
 		margin: 0;

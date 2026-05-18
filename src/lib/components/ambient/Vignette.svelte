@@ -24,7 +24,7 @@
 		pointer-events: none;
 		z-index: var(--z-overlay);
 		background:
-			radial-gradient(ellipse at 50% 0%, transparent 60%, rgba(0, 0, 0, 0.4)),
-			radial-gradient(ellipse at 50% 100%, transparent 60%, rgba(0, 0, 0, 0.5));
+			radial-gradient(ellipse at 50% 0%, transparent 60%, color-mix(in srgb, var(--bg) 40%, transparent)),
+			radial-gradient(ellipse at 50% 100%, transparent 60%, color-mix(in srgb, var(--bg) 50%, transparent));
 	}
 </style>

@@ -11,6 +11,10 @@
 		checked?: boolean;
 		/** Label text. */
 		label?: string;
+		/** Description text displayed below the label. */
+		description?: string;
+		/** Error message. */
+		error?: string;
 		/** Disables the checkbox. */
 		disabled?: boolean;
 		/** Additional CSS classes. */
@@ -22,15 +26,31 @@
 	let {
 		checked = $bindable(false),
 		label = '',
+		description = '',
+		error = '',
 		disabled = false,
 		class: className = '',
 		onchange
 	}: Props = $props();
+
+	const checkboxId = `hyvui-checkbox-${Math.random().toString(36).slice(2, 8)}`;
+	const message = $derived(error || description);
 </script>
 
 <label class={cn('hyvui-checkbox', disabled && 'hyvui-checkbox-disabled', className)}>
-	<input type="checkbox" bind:checked {disabled} class="hyvui-checkbox-input" {onchange} />
-	<span class="hyvui-checkbox-box" class:hyvui-checkbox-checked={checked}>
+	<input
+		type="checkbox"
+		bind:checked
+		{disabled}
+		aria-describedby={message ? `${checkboxId}-desc` : undefined}
+		aria-invalid={error ? 'true' : undefined}
+		class="hyvui-checkbox-input"
+		{onchange}
+	/>
+	<span
+		class={cn('hyvui-checkbox-box', error && 'hyvui-checkbox-box-error')}
+		class:hyvui-checkbox-checked={checked}
+	>
 		{#if checked}
 			<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
 				<path
@@ -44,8 +64,20 @@
 			</svg>
 		{/if}
 	</span>
-	{#if label}
-		<span class="hyvui-checkbox-label">{label}</span>
+	{#if label || message}
+		<span class="hyvui-checkbox-copy">
+			{#if label}
+				<span class="hyvui-checkbox-label">{label}</span>
+			{/if}
+			{#if message}
+				<span
+					id="{checkboxId}-desc"
+					class={cn('hyvui-checkbox-message', error && 'hyvui-checkbox-message-error')}
+				>
+					{message}
+				</span>
+			{/if}
+		</span>
 	{/if}
 </label>
 
@@ -77,7 +109,7 @@
 		margin-top: 0.1rem;
 		border: 1px solid var(--line-strong);
 		border-radius: var(--radius-sm);
-		background: linear-gradient(180deg, rgba(240, 232, 218, 0.02), transparent 48%), var(--bg-elev);
+		background: linear-gradient(180deg, color-mix(in srgb, var(--text) 2%, transparent), transparent 48%), var(--bg-elev);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -86,7 +118,11 @@
 			background-color var(--transition-fast),
 			border-color var(--transition-fast),
 			box-shadow var(--transition-fast);
-		box-shadow: inset 0 1px 0 rgba(240, 232, 218, 0.03);
+		box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
+	}
+
+	.hyvui-checkbox-box-error {
+		border-color: var(--status-fail);
 	}
 
 	.hyvui-checkbox-checked {
@@ -96,9 +132,28 @@
 
 	.hyvui-checkbox-label {
 		font-family: var(--font-body);
-		font-size: 0.98rem;
+		font-size: var(--text-sm);
 		color: var(--text-soft);
 		line-height: 1.5;
+	}
+
+	.hyvui-checkbox-copy {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3xs);
+	}
+
+	.hyvui-checkbox-message {
+		font-family: var(--font-mono);
+		font-size: var(--text-2xs);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--muted-strong);
+		line-height: 1.3;
+	}
+
+	.hyvui-checkbox-message-error {
+		color: var(--status-fail);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

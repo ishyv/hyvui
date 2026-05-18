@@ -4,7 +4,7 @@
 	/**
 	 * Decorative. Parent must have `position: relative`. Renders `aria-hidden`.
 	 * @example
-	 * <div style="position: relative; padding: 2rem;">
+	 * <div style="position: relative; padding: var(--space-xl);">
 	 *   <CornerBrackets size={24} />
 	 *   content framed by brackets
 	 * </div>
@@ -18,7 +18,7 @@
 		class?: string;
 	}
 
-	let { size = 32, color = 'rgba(199, 156, 87, 0.24)', class: className = '' }: Props = $props();
+	let { size = 32, color = 'color-mix(in srgb, var(--accent) 24%, transparent)', class: className = '' }: Props = $props();
 </script>
 
 <div class={cn('hyvui-corners', className)} aria-hidden="true">

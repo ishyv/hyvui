@@ -38,7 +38,7 @@
 		background: linear-gradient(
 			90deg,
 			var(--bg-elev) 0%,
-			rgba(199, 156, 87, 0.06) 50%,
+			color-mix(in srgb, var(--accent) 6%, transparent) 50%,
 			var(--bg-elev) 100%
 		);
 		background-size: 200% 100%;

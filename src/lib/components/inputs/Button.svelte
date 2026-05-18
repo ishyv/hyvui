@@ -119,7 +119,7 @@
 		position: relative;
 		overflow: clip;
 		font-family: var(--font-mono);
-		font-size: 0.72rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -154,13 +154,13 @@
 
 	.hyvui-btn-md {
 		min-height: var(--control-height-md);
-		padding: 0.75rem 1.15rem;
+		padding: var(--control-pad-y) var(--control-pad-x);
 	}
 
 	.hyvui-btn-sm {
 		min-height: var(--control-height-sm);
-		padding: 0.5rem 0.8rem;
-		font-size: 0.68rem;
+		padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
+		font-size: var(--text-2xs);
 	}
 
 	/* primary */
@@ -175,8 +175,8 @@
 		color: var(--bg);
 		border-color: color-mix(in srgb, var(--accent-strong) 45%, var(--accent));
 		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.16),
-			0 14px 26px rgba(199, 156, 87, 0.16);
+			inset 0 1px 0 color-mix(in srgb, var(--text) 16%, transparent),
+			0 14px 26px color-mix(in srgb, var(--accent) 16%, transparent);
 	}
 
 	.hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled) {
@@ -187,7 +187,7 @@
 	/* secondary */
 	.hyvui-btn-secondary {
 		background:
-			linear-gradient(180deg, rgba(121, 166, 163, 0.06), transparent 62%), rgba(10, 12, 14, 0.74);
+			linear-gradient(180deg, color-mix(in srgb, var(--signal) 6%, transparent), transparent 62%), color-mix(in srgb, var(--bg-elev-soft) 74%, transparent);
 		color: var(--text-soft);
 		border-color: var(--line-strong);
 	}
@@ -207,20 +207,20 @@
 	}
 
 	.hyvui-btn-ghost:hover:not(:disabled):not(.hyvui-btn-disabled) {
-		background: linear-gradient(90deg, rgba(199, 156, 87, 0.12), transparent 78%);
+		background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 78%);
 		color: var(--text);
 		transform: translateX(2px);
 	}
 
 	/* destructive */
 	.hyvui-btn-destructive {
-		background: rgba(10, 12, 14, 0.74);
+		background: color-mix(in srgb, var(--bg-elev-soft) 74%, transparent);
 		color: var(--text-soft);
-		border-color: rgba(182, 106, 72, 0.34);
+		border-color: color-mix(in srgb, var(--status-fail) 34%, transparent);
 	}
 
 	.hyvui-btn-destructive:hover:not(:disabled):not(.hyvui-btn-disabled) {
-		background-color: rgba(182, 106, 72, 0.1);
+		background-color: color-mix(in srgb, var(--status-fail) 10%, transparent);
 		transform: translateY(-2px);
 	}
 
@@ -248,63 +248,64 @@
 	}
 
 	/* ── hextech ornament ─────────────────────────────────────────────── */
-	:global([data-register='hextech']) .hyvui-btn {
+	:global([data-theme='hextech']) .hyvui-btn {
 		border-radius: var(--radius-sm);
 	}
 
 	/* brass corner pip — top-left notch */
-	:global([data-register='hextech']) .hyvui-btn::before {
+	:global([data-theme='hextech']) .hyvui-btn::before {
 		content: '';
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 7px;
 		height: 7px;
-		border-top: 1.5px solid rgba(212, 165, 116, 0.55);
-		border-left: 1.5px solid rgba(212, 165, 116, 0.55);
+		border-top: 1.5px solid color-mix(in srgb, var(--htx-brass-bright) 55%, transparent);
+		border-left: 1.5px solid color-mix(in srgb, var(--htx-brass-bright) 55%, transparent);
 		pointer-events: none;
 	}
 
-	:global([data-register='hextech']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
-	:global([data-register='hextech']) .hyvui-btn-primary:focus-visible {
+	:global([data-theme='hextech']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-theme='hextech']) .hyvui-btn-primary:focus-visible {
 		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.2),
-			0 0 18px rgba(93, 217, 240, 0.3),
-			0 14px 26px rgba(184, 115, 51, 0.18);
+			inset 0 1px 0 color-mix(in srgb, var(--text) 20%, transparent),
+			0 0 18px color-mix(in srgb, var(--htx-cyan-glow) 30%, transparent),
+			0 14px 26px color-mix(in srgb, var(--htx-brass) 18%, transparent);
 	}
 
-	:global([data-register='hextech']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
-	:global([data-register='hextech']) .hyvui-btn-secondary:focus-visible {
-		box-shadow: 0 0 12px rgba(93, 217, 240, 0.2);
-		border-color: rgba(93, 217, 240, 0.4);
+	:global([data-theme='hextech']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-theme='hextech']) .hyvui-btn-secondary:focus-visible {
+		box-shadow: 0 0 12px color-mix(in srgb, var(--htx-cyan-glow) 20%, transparent);
+		border-color: color-mix(in srgb, var(--htx-cyan-glow) 40%, transparent);
 	}
 
 	/* ── arcane ornament ──────────────────────────────────────────────── */
 
 	/* crystal accent — top-right shard corner */
-	:global([data-register='arcane']) .hyvui-btn::after {
+	:global([data-theme='arcane']) .hyvui-btn::after {
 		content: '';
 		position: absolute;
 		top: -1px;
 		right: -1px;
 		width: 8px;
 		height: 8px;
-		background: rgba(233, 76, 188, 0.55);
+		background: color-mix(in srgb, var(--arc-shimmer) 55%, transparent);
 		clip-path: polygon(100% 0, 100% 100%, 0 0);
 		pointer-events: none;
 	}
 
-	:global([data-register='arcane']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
-	:global([data-register='arcane']) .hyvui-btn-primary:focus-visible {
+	:global([data-theme='arcane']) .hyvui-btn-primary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-theme='arcane']) .hyvui-btn-primary:focus-visible {
 		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.14),
-			0 0 22px rgba(184, 69, 201, 0.38),
-			0 14px 26px rgba(184, 69, 201, 0.14);
+			inset 0 1px 0 color-mix(in srgb, var(--text) 14%, transparent),
+			0 0 22px color-mix(in srgb, var(--arc-magenta) 38%, transparent),
+			0 14px 26px color-mix(in srgb, var(--arc-magenta) 14%, transparent);
 	}
 
-	:global([data-register='arcane']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
-	:global([data-register='arcane']) .hyvui-btn-secondary:focus-visible {
-		box-shadow: 0 0 14px rgba(184, 69, 201, 0.28);
-		border-color: rgba(184, 69, 201, 0.5);
+	:global([data-theme='arcane']) .hyvui-btn-secondary:hover:not(:disabled):not(.hyvui-btn-disabled),
+	:global([data-theme='arcane']) .hyvui-btn-secondary:focus-visible {
+		box-shadow: 0 0 14px color-mix(in srgb, var(--arc-magenta) 28%, transparent);
+		border-color: color-mix(in srgb, var(--arc-magenta) 50%, transparent);
 	}
 </style>
+

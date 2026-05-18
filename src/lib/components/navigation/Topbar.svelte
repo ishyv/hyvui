@@ -43,7 +43,7 @@
 	.hyvui-topbar {
 		min-height: 4.5rem;
 		background:
-			linear-gradient(180deg, rgba(121, 166, 163, 0.06), transparent 68%), rgba(8, 9, 11, 0.86);
+			linear-gradient(180deg, color-mix(in srgb, var(--signal) 6%, transparent), transparent 68%), color-mix(in srgb, var(--bg) 86%, transparent);
 		border-bottom: 1px solid var(--line);
 		backdrop-filter: blur(10px);
 		container-type: inline-size;

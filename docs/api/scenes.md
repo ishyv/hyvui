@@ -12,7 +12,7 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	import { NarrativeScene } from '$lib';
+  import { NarrativeScene } from "$lib";
 </script>
 ```
 
@@ -35,25 +35,29 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <NarrativeScene chapter="entry 003">
-	{#snippet canvas()}
-		<GridOverlay />
-		<Vignette />
-	{/snippet}
+  {#snippet canvas()}
+    <GridOverlay />
+    <Vignette />
+  {/snippet}
 
-	{#snippet heading()}
-		<Text as="h1" variant="heading" expression="title-card">signal decay model</Text>
-	{/snippet}
+  {#snippet heading()}
+    <Text as="h1" variant="heading" expression="title-card"
+      >signal decay model</Text
+    >
+  {/snippet}
 
-	{#snippet copy()}
-		<Text variant="body">
-			the pattern held through three rotations. coordinates shifted by a predictable margin each
-			cycle — enough to map the deviation curve.
-		</Text>
-		<Blockquote>
-			<Text variant="italic">nothing is lost. only relocated.</Text>
-		</Blockquote>
-		<Text variant="body">recalibration at 14:23 brought the signal back into range.</Text>
-	{/snippet}
+  {#snippet copy()}
+    <Text variant="body">
+      the pattern held through three rotations. coordinates shifted by a
+      predictable margin each cycle — enough to map the deviation curve.
+    </Text>
+    <Blockquote>
+      <Text variant="italic">nothing is lost. only relocated.</Text>
+    </Blockquote>
+    <Text variant="body"
+      >recalibration at 14:23 brought the signal back into range.</Text
+    >
+  {/snippet}
 </NarrativeScene>
 ```
 
@@ -67,7 +71,7 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	import { ReadoutScene } from '$lib';
+  import { ReadoutScene } from "$lib";
 </script>
 ```
 
@@ -91,32 +95,42 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <ReadoutScene title="mission control">
-	{#snippet header()}
-		<Stack direction="horizontal" align="center" gap="var(--space-sm)">
-			<StatusDot status="ok" />
-			<Label>all systems nominal</Label>
-		</Stack>
-	{/snippet}
+  {#snippet header()}
+    <Stack direction="horizontal" align="center" gap="var(--space-sm)">
+      <StatusDot status="ok" />
+      <Label>all systems nominal</Label>
+    </Stack>
+  {/snippet}
 
-	<!-- main content -->
-	<Grid minColWidth="16rem" maxCols={3} gap="var(--space-md)">
-		<MetricCard label="active signals" value="142" trend="up" trendValue="+12" />
-		<MetricCard label="coverage" value="94%" trend="neutral" />
-		<MetricCard label="failed contacts" value="3" trend="down" trendValue="-1" />
-	</Grid>
+  <!-- main content -->
+  <Grid minColWidth="16rem" maxCols={3} gap="var(--space-md)">
+    <MetricCard
+      label="active signals"
+      value="142"
+      trend="up"
+      trendValue="+12"
+    />
+    <MetricCard label="coverage" value="94%" trend="neutral" />
+    <MetricCard
+      label="failed contacts"
+      value="3"
+      trend="down"
+      trendValue="-1"
+    />
+  </Grid>
 
-	<Table columns={logColumns} rows={logRows} />
+  <Table columns={logColumns} rows={logRows} />
 
-	{#snippet sidebar()}
-		<Panel>
-			{#snippet header()}
-				<Text as="h3" variant="heading">system log</Text>
-			{/snippet}
-			<StatusLine status="ok" message="token layer initialized" />
-			<StatusLine status="ok" message="register mounted" />
-			<StatusLine status="pend" message="awaiting heartbeat" cursor />
-		</Panel>
-	{/snippet}
+  {#snippet sidebar()}
+    <Panel>
+      {#snippet header()}
+        <Text as="h3" variant="heading">system log</Text>
+      {/snippet}
+      <StatusLine status="ok" message="token layer initialized" />
+      <StatusLine status="ok" message="register mounted" />
+      <StatusLine status="pend" message="awaiting heartbeat" cursor />
+    </Panel>
+  {/snippet}
 </ReadoutScene>
 ```
 
@@ -130,7 +144,7 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	import { StageScene } from '$lib';
+  import { StageScene } from "$lib";
 </script>
 ```
 
@@ -154,30 +168,34 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <StageScene>
-	{#snippet ambient()}
-		<GridOverlay />
-		<Vignette />
-		<CornerBrackets size={48} />
-	{/snippet}
+  {#snippet ambient()}
+    <GridOverlay />
+    <Vignette />
+    <CornerBrackets size={48} />
+  {/snippet}
 
-	{#snippet label()}
-		<Label color="accent">field station — vol. 3</Label>
-	{/snippet}
+  {#snippet label()}
+    <Label color="accent">field station — vol. 3</Label>
+  {/snippet}
 
-	{#snippet heading()}
-		<Text as="h1" variant="heading" expression="title-card">signal acquired</Text>
-	{/snippet}
+  {#snippet heading()}
+    <Text as="h1" variant="heading" expression="title-card"
+      >signal acquired</Text
+    >
+  {/snippet}
 
-	{#snippet subheading()}
-		<Text variant="body" color="soft">coordinates locked. the mission continues.</Text>
-	{/snippet}
+  {#snippet subheading()}
+    <Text variant="body" color="soft"
+      >coordinates locked. the mission continues.</Text
+    >
+  {/snippet}
 
-	{#snippet actions()}
-		<Stack direction="horizontal" gap="var(--space-sm)">
-			<Button variant="primary">enter</Button>
-			<Button variant="ghost">archive</Button>
-		</Stack>
-	{/snippet}
+  {#snippet actions()}
+    <Stack direction="horizontal" gap="var(--space-sm)">
+      <Button variant="primary">enter</Button>
+      <Button variant="ghost">archive</Button>
+    </Stack>
+  {/snippet}
 </StageScene>
 ```
 
@@ -191,7 +209,7 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	import { ArchiveScene } from '$lib';
+  import { ArchiveScene } from "$lib";
 </script>
 ```
 
@@ -217,34 +235,34 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	let activeFilter = $state('all');
+  let activeFilter = $state("all");
 </script>
 
 <ArchiveScene title="signal archive" maxCols={3} minCardWidth="18rem">
-	{#snippet filter()}
-		<Stack direction="horizontal" gap="var(--space-xs)" align="center">
-			<Tabs
-				tabs={[
-					{ id: 'all', label: 'all' },
-					{ id: 'active', label: 'active' },
-					{ id: 'archived', label: 'archived' }
-				]}
-				active={activeFilter}
-				onchange={(id) => (activeFilter = id)}
-			/>
-			<SearchBar placeholder="search entries" />
-		</Stack>
-	{/snippet}
+  {#snippet filter()}
+    <Stack direction="horizontal" gap="var(--space-xs)" align="center">
+      <Tabs
+        tabs={[
+          { id: "all", label: "all" },
+          { id: "active", label: "active" },
+          { id: "archived", label: "archived" },
+        ]}
+        active={activeFilter}
+        onchange={(id) => (activeFilter = id)}
+      />
+      <SearchBar placeholder="search entries" />
+    </Stack>
+  {/snippet}
 
-	{#each filteredEntries as entry}
-		<FloatCard>
-			<Card>
-				<Label color="muted">{entry.date}</Label>
-				<Text as="h3" variant="heading">{entry.title}</Text>
-				<Text variant="body" color="soft">{entry.excerpt}</Text>
-			</Card>
-		</FloatCard>
-	{/each}
+  {#each filteredEntries as entry}
+    <FloatCard>
+      <Card>
+        <Label color="muted">{entry.date}</Label>
+        <Text as="h3" variant="heading">{entry.title}</Text>
+        <Text variant="body" color="soft">{entry.excerpt}</Text>
+      </Card>
+    </FloatCard>
+  {/each}
 </ArchiveScene>
 ```
 
@@ -258,7 +276,7 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <script lang="ts">
-	import { LogScene } from '$lib';
+  import { LogScene } from "$lib";
 </script>
 ```
 
@@ -280,30 +298,30 @@ Full-page layout templates. scenes are opinionated compositions of layout zones 
 
 ```svelte
 <LogScene>
-	{#snippet header()}
-		<Stack direction="horizontal" align="center" justify="space-between">
-			<Stack direction="horizontal" align="center" gap="var(--space-sm)">
-				<StatusDot status="ok" />
-				<Text as="h2" variant="heading">transmission log</Text>
-			</Stack>
-			<Label color="muted">72 entries</Label>
-		</Stack>
-	{/snippet}
+  {#snippet header()}
+    <Stack direction="horizontal" align="center" justify="space-between">
+      <Stack direction="horizontal" align="center" gap="var(--space-sm)">
+        <StatusDot status="ok" />
+        <Text as="h2" variant="heading">transmission log</Text>
+      </Stack>
+      <Label color="muted">72 entries</Label>
+    </Stack>
+  {/snippet}
 
-	<!-- log entries -->
-	{#each entries as entry}
-		<StatusLine status={entry.status} message={entry.message} tone="line" />
-	{/each}
+  <!-- log entries -->
+  {#each entries as entry}
+    <StatusLine status={entry.status} message={entry.message} tone="line" />
+  {/each}
 
-	{#snippet footer()}
-		<Stack direction="horizontal" align="center" justify="space-between">
-			<Label color="muted">last updated 2 minutes ago</Label>
-			<Button variant="ghost" size="sm">load more</Button>
-		</Stack>
-	{/snippet}
+  {#snippet footer()}
+    <Stack direction="horizontal" align="center" justify="space-between">
+      <Label color="muted">last updated 2 minutes ago</Label>
+      <Button variant="ghost" size="sm">load more</Button>
+    </Stack>
+  {/snippet}
 </LogScene>
 ```
 
 ---
 
-→ next: [docs/registers.md](../registers.md) — register system reference
+-> next: [docs/registers.md](../registers.md) - weight and theme system reference

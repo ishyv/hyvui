@@ -18,8 +18,8 @@
 		label?: string;
 		/** Error message. */
 		error?: string;
-		/** Hint text. */
-		hint?: string;
+		/** Description text. */
+		description?: string;
 		/** Auto-expand height based on content. */
 		autoresize?: boolean;
 		/** Disables the textarea. */
@@ -36,7 +36,7 @@
 		placeholder = '',
 		label = '',
 		error = '',
-		hint = '',
+		description = '',
 		autoresize = false,
 		disabled = false,
 		class: className = '',
@@ -44,6 +44,7 @@
 	}: Props = $props();
 
 	const textareaId = `hyvui-textarea-${Math.random().toString(36).slice(2, 8)}`;
+	const message = $derived(error || description);
 
 	let textareaEl: HTMLTextAreaElement | undefined = $state();
 
@@ -67,14 +68,15 @@
 		{rows}
 		{placeholder}
 		{disabled}
-		aria-describedby={(error || hint) ? `${textareaId}-desc` : undefined}
+		aria-describedby={message ? `${textareaId}-desc` : undefined}
+		aria-invalid={error ? 'true' : undefined}
 		class={cn('hyvui-textarea', error && 'hyvui-textarea-error')}
 		oninput={handleInput}
 	></textarea>
 	{#if error}
 		<span id="{textareaId}-desc" class="hyvui-textarea-message hyvui-textarea-message-error">{error}</span>
-	{:else if hint}
-		<span id="{textareaId}-desc" class="hyvui-textarea-message">{hint}</span>
+	{:else if message}
+		<span id="{textareaId}-desc" class="hyvui-textarea-message">{message}</span>
 	{/if}
 </div>
 
@@ -88,7 +90,7 @@
 
 	.hyvui-textarea-label {
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -98,13 +100,13 @@
 
 	.hyvui-textarea {
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
 		min-height: calc(var(--control-height-md) * 2.4);
 		background:
-			linear-gradient(180deg, rgba(240, 232, 218, 0.018), transparent 46%),
-			linear-gradient(135deg, rgba(199, 156, 87, 0.045), transparent 44%), var(--bg-elev);
+			linear-gradient(180deg, color-mix(in srgb, var(--text) 1.8%, transparent), transparent 46%),
+			linear-gradient(135deg, color-mix(in srgb, var(--accent) 4.5%, transparent), transparent 44%), var(--bg-elev);
 		border: 1px solid var(--line);
 		border-radius: var(--radius-md);
 		padding: var(--control-pad-y) var(--control-pad-x);
@@ -115,7 +117,7 @@
 			background var(--transition-fast),
 			box-shadow var(--transition-fast);
 		width: 100%;
-		box-shadow: inset 0 1px 0 rgba(240, 232, 218, 0.03);
+		box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
 	}
 
 	.hyvui-textarea::placeholder {
@@ -141,7 +143,7 @@
 
 	.hyvui-textarea-message {
 		font-family: var(--font-mono);
-		font-size: 0.66rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--muted-strong);

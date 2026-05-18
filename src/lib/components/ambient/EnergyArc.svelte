@@ -147,37 +147,37 @@
 
 	/* ── default (field-notebook) ─────────────────────────────────────── */
 	.hyvui-ea-halo     { stroke: transparent; }
-	.hyvui-ea-line     { stroke: rgba(199, 156, 87, 0.25); }
-	.hyvui-ea-particle { fill: rgba(199, 156, 87, 0.8); }
+	.hyvui-ea-line     { stroke: color-mix(in srgb, var(--accent) 25%, transparent); }
+	.hyvui-ea-particle { fill: color-mix(in srgb, var(--accent) 80%, transparent); }
 	.hyvui-ea-particle--jitter { display: none; }
 
 	/* ── hextech: clean cyan arc, single particle ─────────────────────── */
-	:global([data-register='hextech']) .hyvui-ea-halo {
-		stroke: rgba(93, 217, 240, 0.12);
+	:global([data-theme='hextech']) .hyvui-ea-halo {
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 12%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-ea-line {
-		stroke: rgba(93, 217, 240, 0.55);
+	:global([data-theme='hextech']) .hyvui-ea-line {
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 55%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-ea-particle {
-		fill: rgba(184, 230, 242, 1);
+	:global([data-theme='hextech']) .hyvui-ea-particle {
+		fill: color-mix(in srgb, var(--htx-cyan-soft) 100%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-ea-particle--jitter {
+	:global([data-theme='hextech']) .hyvui-ea-particle--jitter {
 		display: none;
 	}
 
 	/* ── arcane: violet arc, bidirectional particles ──────────────────── */
-	:global([data-register='arcane']) .hyvui-ea-halo {
-		stroke: rgba(184, 69, 201, 0.2);
+	:global([data-theme='arcane']) .hyvui-ea-halo {
+		stroke: color-mix(in srgb, var(--arc-magenta) 20%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-ea-line {
-		stroke: rgba(184, 69, 201, 0.6);
+	:global([data-theme='arcane']) .hyvui-ea-line {
+		stroke: color-mix(in srgb, var(--arc-magenta) 60%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-ea-particle {
-		fill: rgba(233, 76, 188, 1);
+	:global([data-theme='arcane']) .hyvui-ea-particle {
+		fill: color-mix(in srgb, var(--arc-shimmer) 100%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-ea-particle--jitter {
+	:global([data-theme='arcane']) .hyvui-ea-particle--jitter {
 		display: block;
-		fill: rgba(184, 69, 201, 0.7);
+		fill: color-mix(in srgb, var(--arc-magenta) 70%, transparent);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -187,3 +187,4 @@
 		}
 	}
 </style>
+

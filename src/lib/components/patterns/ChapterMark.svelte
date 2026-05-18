@@ -95,7 +95,7 @@
 
 	.hyvui-chapter-mark-index-text {
 		font-family: var(--font-mono);
-		font-size: 0.62rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
 		color: var(--muted-strong);
@@ -119,7 +119,7 @@
 		margin: 0;
 		font-family: var(--font-body);
 		font-weight: 400;
-		font-size: clamp(1.8rem, 4vw, 3rem);
+		font-size: var(--text-3xl);
 		letter-spacing: -0.03em;
 		line-height: 1.05;
 		color: var(--text);
@@ -144,7 +144,7 @@
 	.hyvui-chapter-mark-descriptor {
 		margin: 0;
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);
 		line-height: 1.6;

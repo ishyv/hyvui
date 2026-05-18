@@ -96,7 +96,7 @@
 		flex-direction: column;
 		align-items: center;
 		font-family: var(--font-mono);
-		font-size: 0.6rem;
+		font-size: var(--text-2xs);
 		line-height: 1.4;
 		letter-spacing: 0.1em;
 		color: var(--accent);

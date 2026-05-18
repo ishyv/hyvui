@@ -71,7 +71,7 @@
 		align-items: baseline;
 		gap: 0.75rem;
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		opacity: 0;
 		transform: translateY(6px);
 		transition:

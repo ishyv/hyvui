@@ -101,9 +101,9 @@
 
 	.hyvui-toast {
 		background: var(--surface-card);
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		border: 1px solid color-mix(in srgb, var(--text) 5%, transparent);
 		box-shadow: var(--shadow-veil);
-		padding: 0.625rem 1rem;
+		padding: var(--space-xs) var(--space-md);
 		display: flex;
 		align-items: center;
 		gap: 0.625rem;
@@ -121,7 +121,7 @@
 
 	.hyvui-toast-message {
 		font-family: var(--font-body);
-		font-size: 0.88rem;
+		font-size: var(--text-xs);
 		color: var(--text-soft);
 	}
 

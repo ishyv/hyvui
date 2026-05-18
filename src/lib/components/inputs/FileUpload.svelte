@@ -15,6 +15,10 @@
 		disabled?: boolean;
 		/** Label text displayed in the zone. */
 		label?: string;
+		/** Description text displayed below the zone. */
+		description?: string;
+		/** Error message. */
+		error?: string;
 		/** Additional CSS classes. */
 		class?: string;
 		/** Fires with the selected files. */
@@ -26,6 +30,8 @@
 		multiple = false,
 		disabled = false,
 		label = 'drop files here or click to browse',
+		description = '',
+		error = '',
 		class: className = '',
 		onfiles
 	}: Props = $props();
@@ -33,6 +39,8 @@
 	let dragging = $state(false);
 	let fileNames = $state<string[]>([]);
 	let inputEl: HTMLInputElement | undefined = $state();
+	const uploadId = `hyvui-file-${Math.random().toString(36).slice(2, 8)}`;
+	const message = $derived(error || description);
 
 	function handleFiles(fileList: FileList | null) {
 		if (!fileList) return;
@@ -73,8 +81,10 @@
 		class={cn(
 			'hyvui-file-zone',
 			dragging && 'hyvui-file-zone-active',
+			error && 'hyvui-file-zone-error',
 			disabled && 'hyvui-file-zone-disabled'
 		)}
+		aria-describedby={message ? `${uploadId}-desc` : undefined}
 		ondrop={onDrop}
 		ondragover={onDragOver}
 		ondragleave={onDragLeave}
@@ -92,6 +102,11 @@
 		onchange={onInputChange}
 		tabindex="-1"
 	/>
+	{#if message}
+		<span id="{uploadId}-desc" class={cn('hyvui-file-message', error && 'hyvui-file-message-error')}>
+			{message}
+		</span>
+	{/if}
 	{#if fileNames.length > 0}
 		<div class="hyvui-file-names">
 			{#each fileNames as name}
@@ -105,13 +120,13 @@
 	.hyvui-file-upload {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: var(--space-xs);
 	}
 
 	.hyvui-file-zone {
 		border: 1px dashed var(--line);
 		background: transparent;
-		padding: 2rem;
+		padding: var(--space-xl);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -125,7 +140,7 @@
 	.hyvui-file-zone:hover:not(:disabled),
 	.hyvui-file-zone-active {
 		border-color: var(--line-strong);
-		background-color: rgba(199, 156, 87, 0.04);
+		background-color: color-mix(in srgb, var(--accent) 4%, transparent);
 	}
 
 	.hyvui-file-zone-disabled {
@@ -133,9 +148,13 @@
 		cursor: not-allowed;
 	}
 
+	.hyvui-file-zone-error {
+		border-color: var(--status-fail);
+	}
+
 	.hyvui-file-label {
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
+		font-size: var(--text-2xs);
 		color: var(--muted);
 		letter-spacing: 0.08em;
 	}
@@ -151,15 +170,28 @@
 	.hyvui-file-names {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.375rem;
+		gap: var(--space-2xs);
 	}
 
 	.hyvui-file-name {
 		font-family: var(--font-mono);
-		font-size: 0.68rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--muted-strong);
+	}
+
+	.hyvui-file-message {
+		font-family: var(--font-mono);
+		font-size: var(--text-2xs);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--muted-strong);
+		line-height: 1.3;
+	}
+
+	.hyvui-file-message-error {
+		color: var(--status-fail);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

@@ -1,18 +1,16 @@
-## Register System
+## weight and theme system
 
 ---
 
-## Concept
+## concept
 
-a register is a named design weight preset that shifts the visual character of the entire page or a scoped section. registers adjust typographic scale, font selection, spacing, surface opacity, and accent weight. they do not change colors, component behavior, or layout.
+a weight register is a named density and voice preset. weights adjust typographic scale, font selection, spacing, surface opacity, and accent weight. they do not change colors, component behavior, or layout.
 
-think of registers as moods rather than themes: the same component looks subtly different in `field-notebook` (warm, editorial, serif-heavy) versus `mission-control` (dense, mono-forward, precise) versus `archive` (cool, spacious, muted).
-
-registers operate through CSS custom properties (`--reg-*` variables) that components read internally. you do not need to modify any component code to use a register.
+a theme is a palette and motif layer. themes can remap semantic color tokens and add ornamental behavior, but they do not own structural density. this lets `mission-control` and `hextech` compose without one silently erasing the other.
 
 ---
 
-## Available Registers
+## available weights
 
 | name              | character                      | primary font      | use for                                                                   |
 | ----------------- | ------------------------------ | ----------------- | ------------------------------------------------------------------------- |
@@ -20,112 +18,128 @@ registers operate through CSS custom properties (`--reg-*` variables) that compo
 | `mission-control` | dense, precise, mono-forward   | IBM Plex Mono     | dashboards, admin panels, data-heavy applications, operational interfaces |
 | `archive`         | cool, spacious, muted          | ET Book (lighter) | galleries, collections, reference documentation, archival interfaces      |
 
+## available themes
+
+| name      | character                              | token file                        |
+| --------- | -------------------------------------- | --------------------------------- |
+| `hextech` | brass, crystal, mechanical             | `@hyvnt/hyvui/tokens/hextech.css` |
+| `arcane`  | shimmer, shards, unstable organic glow | `@hyvnt/hyvui/tokens/arcane.css`  |
+
 ---
 
-## Applying a Register
+## applying weight and theme
 
-### Method 1 — Svelte Body Attribute (recommended for whole-page)
+### method 1. svelte body attributes
 
 ```svelte
-<!-- in +layout.svelte or any page component -->
-<svelte:body data-register="field-notebook" />
+<svelte:body data-weight="field-notebook" data-theme="hextech" />
 ```
 
-### Method 2 — JavaScript (programmatic or dynamic)
+### method 2. appshell
+
+```svelte
+<AppShell weight="mission-control" theme="arcane">
+  <!-- page content -->
+</AppShell>
+```
+
+### method 3. javascript
 
 ```svelte
 <script lang="ts">
-	import { applyRegister, clearRegister } from '$lib';
-	import type { Register } from '$lib';
+  import { applyTheme, applyWeight, clearTheme, clearWeight } from "$lib";
+  import type { ThemeRegister, WeightRegister } from "$lib";
 
-	// apply on mount
-	applyRegister('mission-control');
+  applyWeight("mission-control");
+  applyTheme("hextech");
 
-	// switch registers dynamically
-	function switchRegister(r: Register) {
-		applyRegister(r);
-	}
+  function switchWeight(weight: WeightRegister) {
+    applyWeight(weight);
+  }
 
-	// return to defaults
-	clearRegister();
+  function switchTheme(theme: ThemeRegister) {
+    applyTheme(theme);
+  }
+
+  clearWeight();
+  clearTheme();
 </script>
 ```
 
-### Method 3 — Scoped to a Section
+### method 4. scoped sections
 
-registers can be applied to any element, not just `body`. the register variables cascade to all descendants:
+weights and themes can be applied to any element. their variables cascade to descendants:
 
 ```svelte
-<!-- page uses field-notebook globally -->
-<svelte:body data-register="field-notebook" />
+<svelte:body data-weight="field-notebook" />
 
-<!-- but this section uses archive -->
-<section data-register="archive">
-	<ArchiveScene title="reference documents">
-		<!-- content here renders with archive register variables -->
-	</ArchiveScene>
+<section data-weight="archive" data-theme="arcane">
+  <ArchiveScene title="reference documents">
+    <!-- content here renders with archive weight plus arcane theme -->
+  </ArchiveScene>
 </section>
 ```
 
-scoped registers compose correctly — children of a scoped element see that register's variables, not the page-level register.
+---
+
+## weight variable reference
+
+all `--reg-*` variables are defined in `src/lib/system/register.css`. the `:root` values are the default weight fallback.
+
+| variable                 | purpose                        |
+| ------------------------ | ------------------------------ |
+| `--reg-font-primary`     | main text family               |
+| `--reg-font-ui`          | label and control family       |
+| `--reg-heading-tracking` | heading letter spacing         |
+| `--reg-heading-lh`       | heading line height            |
+| `--reg-body-size`        | body copy size                 |
+| `--reg-label-size`       | label size                     |
+| `--reg-label-tracking`   | label letter spacing           |
+| `--reg-surface-opacity`  | surface visual strength        |
+| `--reg-ornament-opacity` | ambient ornament visual weight |
+| `--reg-accent-weight`    | relative accent emphasis       |
+| `--reg-signal-weight`    | relative signal emphasis       |
+| `--reg-spacing-scale`    | register-level spacing scale   |
 
 ---
 
-## Register Variable Reference
-
-all `--reg-*` variables are defined in `src/lib/system/register.css`. the `:root` defaults are the "no register" fallbacks.
-
-| variable                    | `:root` default | `field-notebook` | `mission-control` | `archive` |
-| --------------------------- | --------------- | ---------------- | ----------------- | --------- |
-| `--reg-font-heading`        | ET Book         | ET Book          | IBM Plex Mono     | ET Book   |
-| `--reg-font-body`           | ET Book         | ET Book          | ET Book           | ET Book   |
-| `--reg-heading-tracking`    | `-0.02em`       | `-0.03em`        | `0.05em`          | `0em`     |
-| `--reg-heading-line-height` | `1.1`           | `1.05`           | `1.2`             | `1.15`    |
-| `--reg-body-size`           | `1.1rem`        | `1.15rem`        | `0.95rem`         | `1rem`    |
-| `--reg-label-size`          | `0.72rem`       | `0.72rem`        | `0.7rem`          | `0.68rem` |
-| `--reg-label-tracking`      | `0.12em`        | `0.1em`          | `0.18em`          | `0.14em`  |
-| `--reg-surface-opacity`     | `1`             | `0.95`           | `1`               | `0.9`     |
-| `--reg-ornament-opacity`    | `0.6`           | `0.7`            | `0.4`             | `0.5`     |
-| `--reg-accent-weight`       | `normal`        | `normal`         | `600`             | `normal`  |
-| `--reg-signal-weight`       | `normal`        | `normal`         | `500`             | `normal`  |
-| `--reg-space-scale`         | `1`             | `1.05`           | `0.9`             | `1.1`     |
-
----
-
-## Combining Registers with the Override Layer
+## combining with the override layer
 
 the project override layer (`src/theme.css`) takes the highest precedence:
 
 ```
-tokens.css (base) → register.css (register shift) → theme.css (project override)
+tokens.css -> register.css -> theme token file -> theme.css
 ```
 
-if your `theme.css` sets `--reg-body-size: 1.2rem`, that value will apply regardless of which register is active. use this when you need a consistent project-wide value that ignores register shifts.
+if your `theme.css` sets `--reg-body-size: 1.2rem`, that value will apply regardless of which weight is active.
 
-if you want register-relative overrides, set the `--reg-*` variables directly inside the register `[data-register="..."]` selector in `theme.css`:
+if you want weight-relative overrides, set the `--reg-*` variables directly inside a weight selector:
 
 ```css
-/* theme.css */
-[data-register='mission-control'] {
-	--reg-body-size: 0.875rem; /* tighter than default mission-control */
+[data-weight="mission-control"] {
+  --reg-body-size: 0.875rem;
 }
 ```
 
 ---
 
-## Register Comparison
-
-the same `Card` component containing a heading, body text, and an accent label renders noticeably differently across registers:
+## comparison
 
 **field-notebook**
-The heading uses ET Book with tight tracking and slightly larger body text. the surface has a warm, paper-like quality. labels feel handwritten and organic. the overall impression is editorial — like a formatted journal entry.
+warm, editorial, serif-forward. best for narrative pages and case studies.
 
 **mission-control**
-The heading switches to IBM Plex Mono — uppercase, tracked wide. body text is slightly smaller and tighter. ornaments are more subdued. the surface reads clinical and precise — like a control panel or dashboard readout.
+dense, precise, mono-forward. best for dashboards, tools, and operational readouts.
 
 **archive**
-The heading uses ET Book at looser tracking with more breathing room. surface opacity is reduced, making the background gradient more visible. labels are smallest and most muted. the overall impression is cool, ordered, and reference-like — like a museum catalog card.
+cool, spacious, muted. best for galleries, indexes, and catalog pages.
+
+**hextech**
+brass and crystal theme. use when a section needs mechanical polish without changing its weight.
+
+**arcane**
+shimmer and shard theme. use when a section needs controlled instability without changing its weight.
 
 ---
 
-→ next: [docs/expressions.md](expressions.md) — typographic expression reference
+-> next: [docs/expressions.md](expressions.md) - typographic expression reference

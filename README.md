@@ -60,7 +60,7 @@ npm install @hyvnt/hyvui
 
 ```svelte
 <script>
-	import { Button, Text, FloatCard } from '@hyvnt/hyvui';
+  import { Button, Text, FloatCard } from "@hyvnt/hyvui";
 </script>
 ```
 
@@ -68,7 +68,7 @@ import the styles once at the root of your app:
 
 ```ts
 // app.css or root layout
-import '@hyvnt/hyvui/styles.css';
+import "@hyvnt/hyvui/styles.css";
 ```
 
 ---
@@ -180,7 +180,7 @@ the library is organized in three additive layers. each one works without the ne
 [ base ]       75 components. tokens. css custom properties throughout.
                nothing hardcoded. nothing fighting your cascade.
 
-[ expressive ] registers shift the ambient mood of a section.
+[ expressive ] weights and themes shift the ambient mood of a section.
                expressions carry semantic intent through typography.
                four actions compose onto any element.
 
@@ -190,34 +190,40 @@ the library is organized in three additive layers. each one works without the ne
 
 ---
 
-`06 / registers`
+`06 / weights and themes`
 
-registers are named aesthetic states. apply one and the ambient properties shift.
+weights and themes are separate. weights shift density and voice. themes shift palette and motif.
 
 ```svelte
 <script>
-	import { applyRegister } from '@hyvnt/hyvui';
-	onMount(() => applyRegister('mission-control'));
+  import { applyWeight, applyTheme } from "@hyvnt/hyvui";
+  onMount(() => {
+    applyWeight("mission-control");
+    applyTheme("hextech");
+  });
 </script>
 ```
 
-| register          | character                                    |
-| ----------------- | -------------------------------------------- |
-| `field-notebook`  | warm, worn, analog                           |
-| `mission-control` | cold, precise, dense                         |
-| `archive`         | flat, institutional, drained                 |
-| `hextech`         | piltover-refined. brass, crystal, mechanical |
-| `arcane`          | zaun-unstable. shimmer, shards, organic glow |
+| weight            | character                    |
+| ----------------- | ---------------------------- |
+| `field-notebook`  | warm, worn, analog           |
+| `mission-control` | cold, precise, dense         |
+| `archive`         | flat, institutional, drained |
 
-the hextech and arcane registers ship their own palette and motif token files. import the ones you use:
+| theme     | character                                    |
+| --------- | -------------------------------------------- |
+| `hextech` | piltover-refined. brass, crystal, mechanical |
+| `arcane`  | zaun-unstable. shimmer, shards, organic glow |
+
+the hextech and arcane themes ship their own palette and motif token files. import the ones you use:
 
 ```ts
-import '@hyvnt/hyvui/styles.css';              // base tokens + all 5 register weights
-import '@hyvnt/hyvui/tokens/hextech.css';      // --htx-* palette + motif tokens
-import '@hyvnt/hyvui/tokens/arcane.css';       // --arc-* palette + motif tokens
+import "@hyvnt/hyvui/styles.css"; // base tokens + weight registers
+import "@hyvnt/hyvui/tokens/hextech.css"; // --htx-* palette + motif tokens
+import "@hyvnt/hyvui/tokens/arcane.css"; // --arc-* palette + motif tokens
 ```
 
-**motif tokens** (hextech + arcane only):
+**motif tokens** (themes only):
 
 ```css
 --orn-hex-density     /* hex grid tile density */
@@ -225,12 +231,13 @@ import '@hyvnt/hyvui/tokens/arcane.css';       // --arc-* palette + motif tokens
 --orn-shimmer-rate    /* particle drift / shimmer speed */
 ```
 
-use `RegisterSwitcher` from the patterns layer to let users toggle at runtime:
+use `RegisterSwitcher` from the patterns layer to let users toggle weights and themes at runtime:
 
 ```svelte
 <script>
-	import { RegisterSwitcher } from '@hyvnt/hyvui';
+  import { RegisterSwitcher } from "@hyvnt/hyvui";
 </script>
+
 <RegisterSwitcher />
 ```
 
@@ -252,15 +259,15 @@ text expressions carry intent beyond variant. pass them to any `Text` component.
 
 ```svelte
 <DepthStage perspective="mid">
-	<DepthLayer level="ground">
-		<HorizonGrid rows={16} cols={10} vanishY={0.35} />
-	</DepthLayer>
-	<DepthLayer level="raised">
-		<FloatCard tiltMax={6}>
-			<Label color="muted">signal strength</Label>
-			<Text variant="heading" color="primary">–42 dbm</Text>
-		</FloatCard>
-	</DepthLayer>
+  <DepthLayer level="ground">
+    <HorizonGrid rows={16} cols={10} vanishY={0.35} />
+  </DepthLayer>
+  <DepthLayer level="raised">
+    <FloatCard tiltMax={6}>
+      <Label color="muted">signal strength</Label>
+      <Text variant="heading" color="primary">–42 dbm</Text>
+    </FloatCard>
+  </DepthLayer>
 </DepthStage>
 ```
 

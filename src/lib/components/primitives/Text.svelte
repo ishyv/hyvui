@@ -69,7 +69,7 @@
 
 	.hyvui-text-heading {
 		font-family: var(--font-body);
-		font-size: clamp(1.75rem, 4vw, 3.25rem);
+		font-size: var(--text-3xl);
 		font-weight: 400;
 		line-height: 0.95;
 		letter-spacing: -0.045em;
@@ -78,7 +78,7 @@
 
 	.hyvui-text-body {
 		font-family: var(--font-body);
-		font-size: 1.03rem;
+		font-size: var(--text-sm);
 		font-weight: 400;
 		line-height: 1.62;
 		max-width: 32rem;
@@ -87,7 +87,7 @@
 
 	.hyvui-text-caption {
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -96,7 +96,7 @@
 
 	.hyvui-text-italic {
 		font-family: var(--font-body);
-		font-size: 1.02rem;
+		font-size: var(--text-sm);
 		font-style: italic;
 		font-weight: 400;
 		line-height: 1.64;
@@ -104,27 +104,28 @@
 	}
 
 	/* ── hextech: `command` expression gets cyan underline glow ───────── */
-	:global([data-register='hextech']) .expr-command {
+	:global([data-theme='hextech']) .expr-command {
 		text-decoration: underline;
-		text-decoration-color: rgba(93, 217, 240, 0.45);
+		text-decoration-color: color-mix(in srgb, var(--htx-cyan-glow) 45%, transparent);
 		text-underline-offset: 3px;
 		text-decoration-thickness: 1px;
 	}
 
 	/* ── arcane: `command` expression gets violet text-shadow shimmer ─── */
-	:global([data-register='arcane']) .expr-command {
-		text-shadow: 0 0 12px rgba(184, 69, 201, 0.55);
+	:global([data-theme='arcane']) .expr-command {
+		text-shadow: 0 0 12px color-mix(in srgb, var(--arc-magenta) 55%, transparent);
 		animation: text-shimmer 3s var(--orn-pulse-rhythm, ease-in-out) infinite;
 	}
 
 	@keyframes text-shimmer {
-		0%, 100% { text-shadow: 0 0 12px rgba(184, 69, 201, 0.55); }
-		50%       { text-shadow: 0 0 20px rgba(233, 76, 188, 0.7), 0 0 8px rgba(184, 69, 201, 0.35); }
+		0%, 100% { text-shadow: 0 0 12px color-mix(in srgb, var(--arc-magenta) 55%, transparent); }
+		50%       { text-shadow: 0 0 20px color-mix(in srgb, var(--arc-shimmer) 70%, transparent), 0 0 8px color-mix(in srgb, var(--arc-magenta) 35%, transparent); }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		:global([data-register='arcane']) .expr-command {
+		:global([data-theme='arcane']) .expr-command {
 			animation: none;
 		}
 	}
 </style>
+

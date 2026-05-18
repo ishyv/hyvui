@@ -29,10 +29,10 @@
 	};
 
 	const bgMap: Record<string, string> = {
-		info: 'rgba(121, 166, 163, 0.06)',
-		warn: 'rgba(199, 156, 87, 0.06)',
-		error: 'rgba(182, 106, 72, 0.06)',
-		ok: 'rgba(121, 166, 163, 0.06)'
+		info: 'color-mix(in srgb, var(--signal) 6%, transparent)',
+		warn: 'color-mix(in srgb, var(--accent) 6%, transparent)',
+		error: 'color-mix(in srgb, var(--status-fail) 6%, transparent)',
+		ok: 'color-mix(in srgb, var(--signal) 6%, transparent)'
 	};
 </script>
 
@@ -55,7 +55,7 @@
 <style>
 	.hyvui-alert {
 		border-left: 2px solid;
-		padding: 0.75rem 1rem;
+		padding: var(--space-sm) var(--space-md);
 		animation: alert-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
@@ -78,7 +78,7 @@
 
 	.hyvui-alert-title {
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
@@ -88,7 +88,7 @@
 
 	.hyvui-alert-body {
 		font-family: var(--font-body);
-		font-size: 0.9rem;
+		font-size: var(--text-xs);
 		color: var(--text-soft);
 		line-height: 1.5;
 	}

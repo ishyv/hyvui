@@ -136,7 +136,7 @@
 		width: 100%;
 		text-align: left;
 		font-family: var(--font-mono);
-		font-size: 0.74rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -144,7 +144,7 @@
 		background: none;
 		border: none;
 		border-radius: var(--radius-sm);
-		padding: 0.75rem 0.85rem;
+		padding: var(--space-sm) var(--control-pad-x-compact);
 		cursor: pointer;
 		transition:
 			transform var(--transition-fast),
@@ -154,7 +154,7 @@
 
 	.hyvui-dropdown-item:hover:not(:disabled) {
 		transform: translateX(4px);
-		background: linear-gradient(90deg, rgba(199, 156, 87, 0.12), transparent 72%);
+		background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 72%);
 		color: var(--text);
 	}
 

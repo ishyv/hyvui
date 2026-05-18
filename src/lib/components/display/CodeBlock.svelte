@@ -63,13 +63,13 @@
 
 	.hyvui-codeblock-pre {
 		margin: 0;
-		padding: 1rem;
+		padding: var(--space-md);
 		overflow-x: auto;
 	}
 
 	.hyvui-codeblock-code {
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		color: var(--text-soft);
 		line-height: 1.6;
 	}

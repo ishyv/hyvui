@@ -25,7 +25,7 @@
 	let {
 		width = '100%',
 		depth = '40px',
-		color = 'rgba(199, 156, 87, 0.03)',
+		color = 'color-mix(in srgb, var(--accent) 3%, transparent)',
 		class: className = ''
 	}: Props = $props();
 </script>
@@ -45,7 +45,7 @@
 
 	.hyvui-plinth {
 		transform: rotateX(70deg) translateZ(-20px);
-		border-top: 1px solid rgba(199, 156, 87, 0.08);
+		border-top: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
 		opacity: 0.6;
 	}
 

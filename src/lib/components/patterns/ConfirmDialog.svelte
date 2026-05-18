@@ -67,7 +67,7 @@
 <style>
 	.hyvui-confirm-desc {
 		font-family: var(--font-body);
-		font-size: 0.9rem;
+		font-size: var(--text-xs);
 		color: var(--text-soft);
 		line-height: 1.6;
 		margin: 0;

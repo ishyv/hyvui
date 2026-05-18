@@ -30,27 +30,28 @@
 	}
 
 	/* ── hextech: fade to brass at edges ──────────────────────────────── */
-	:global([data-register='hextech']) .hyvui-divider {
+	:global([data-theme='hextech']) .hyvui-divider {
 		border-image: linear-gradient(
 			to right,
 			transparent,
-			rgba(184, 115, 51, 0.5) 20%,
-			rgba(93, 217, 240, 0.35) 50%,
-			rgba(184, 115, 51, 0.5) 80%,
+			color-mix(in srgb, var(--htx-brass) 50%, transparent) 20%,
+			color-mix(in srgb, var(--htx-cyan-glow) 35%, transparent) 50%,
+			color-mix(in srgb, var(--htx-brass) 50%, transparent) 80%,
 			transparent
 		) 1;
 	}
 
 	/* ── arcane: violet glow, center-bright ───────────────────────────── */
-	:global([data-register='arcane']) .hyvui-divider {
+	:global([data-theme='arcane']) .hyvui-divider {
 		border-image: linear-gradient(
 			to right,
 			transparent,
-			rgba(184, 69, 201, 0.55) 25%,
-			rgba(233, 76, 188, 0.65) 50%,
-			rgba(184, 69, 201, 0.55) 75%,
+			color-mix(in srgb, var(--arc-magenta) 55%, transparent) 25%,
+			color-mix(in srgb, var(--arc-shimmer) 65%, transparent) 50%,
+			color-mix(in srgb, var(--arc-magenta) 55%, transparent) 75%,
 			transparent
 		) 1;
-		filter: drop-shadow(0 0 3px rgba(184, 69, 201, 0.3));
+		filter: drop-shadow(0 0 3px color-mix(in srgb, var(--arc-magenta) 30%, transparent));
 	}
 </style>
+

@@ -146,7 +146,7 @@ Buttons rendered as `<button>` receive focus, respond to Enter and Space, and an
 
 ## Input
 
-> single-line text input with optional label, hint, and error message.
+> single-line text input with optional label, description, and error message.
 
 ### Import
 
@@ -164,8 +164,8 @@ Buttons rendered as `<button>` receive focus, respond to Enter and Space, and an
 | `value`       | `string`                                                  | `''`        | no       | bindable input value                                               |
 | `placeholder` | `string`                                                  | `''`        | no       | placeholder text                                                   |
 | `label`       | `string`                                                  | `undefined` | no       | visible label above the input                                      |
+| `description` | `string`                                                  | `undefined` | no       | helper text displayed below the input                              |
 | `error`       | `string`                                                  | `undefined` | no       | error message displayed below; applies error styling to the border |
-| `hint`        | `string`                                                  | `undefined` | no       | helper text displayed below the input (hidden when `error` is set) |
 | `disabled`    | `boolean`                                                 | `false`     | no       | disables the input                                                 |
 | `class`       | `string`                                                  | `''`        | no       | additional CSS classes                                             |
 
@@ -202,7 +202,7 @@ Input is associated with its label via a generated `id`/`for` pair. error messag
 	type="email"
 	label="contact address"
 	error={emailError}
-	hint="used for mission updates only"
+	description="used for mission updates only"
 />
 ```
 
@@ -228,8 +228,8 @@ Input is associated with its label via a generated `id`/`for` pair. error messag
 | `rows`        | `number`  | `4`         | no       | initial number of visible rows                         |
 | `placeholder` | `string`  | `''`        | no       | placeholder text                                       |
 | `label`       | `string`  | `undefined` | no       | visible label above the textarea                       |
+| `description` | `string`  | `undefined` | no       | helper text below the textarea                         |
 | `error`       | `string`  | `undefined` | no       | error message; applies error border styling            |
-| `hint`        | `string`  | `undefined` | no       | helper text below the textarea                         |
 | `autoresize`  | `boolean` | `false`     | no       | automatically expands to fit content as the user types |
 | `disabled`    | `boolean` | `false`     | no       | disables the textarea                                  |
 | `class`       | `string`  | `''`        | no       | additional CSS classes                                 |
@@ -279,6 +279,7 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 | `options`  | `{ value: string; label: string }[]` | `[]`        | yes      | array of selectable options                 |
 | `value`    | `string`                             | `''`        | no       | bindable selected value                     |
 | `label`    | `string`                             | `undefined` | no       | visible label above the select              |
+| `description` | `string`                          | `undefined` | no       | helper text below the select                |
 | `error`    | `string`                             | `undefined` | no       | error message; applies error border styling |
 | `disabled` | `boolean`                            | `false`     | no       | disables the select                         |
 | `class`    | `string`                             | `''`        | no       | additional CSS classes                      |
@@ -324,6 +325,8 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 | ---------- | --------- | ----------- | -------- | --------------------------------- |
 | `checked`  | `boolean` | `false`     | no       | bindable checked state            |
 | `label`    | `string`  | `undefined` | no       | visible label beside the checkbox |
+| `description` | `string` | `undefined` | no       | helper text below the label       |
+| `error`    | `string`  | `undefined` | no       | error message; applies error border styling |
 | `disabled` | `boolean` | `false`     | no       | disables the checkbox             |
 | `class`    | `string`  | `''`        | no       | additional CSS classes            |
 
@@ -370,6 +373,8 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 | ---------- | --------- | ----------- | -------- | ------------------------------- |
 | `checked`  | `boolean` | `false`     | no       | bindable checked state          |
 | `label`    | `string`  | `undefined` | no       | visible label beside the toggle |
+| `description` | `string` | `undefined` | no       | helper text below the label    |
+| `error`    | `string`  | `undefined` | no       | error message; applies error border styling |
 | `disabled` | `boolean` | `false`     | no       | disables the toggle             |
 | `class`    | `string`  | `''`        | no       | additional CSS classes          |
 
@@ -415,6 +420,8 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 | `accept`   | `string`  | `undefined` | no       | MIME types or file extensions to accept (e.g. `'image/*'`, `'.pdf,.doc'`) |
 | `multiple` | `boolean` | `false`     | no       | allow selecting multiple files                                            |
 | `label`    | `string`  | `undefined` | no       | visible label above the drop zone                                         |
+| `description` | `string` | `undefined` | no       | helper text below the drop zone                                          |
+| `error`    | `string`  | `undefined` | no       | error message; applies error border styling                               |
 | `disabled` | `boolean` | `false`     | no       | disables the file picker                                                  |
 | `class`    | `string`  | `''`        | no       | additional CSS classes                                                    |
 

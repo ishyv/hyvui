@@ -49,13 +49,13 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		padding: 2rem;
+		padding: var(--space-xl);
 		gap: 0.75rem;
 	}
 
 	.hyvui-error-title {
 		font-family: var(--font-body);
-		font-size: 1.2rem;
+		font-size: var(--text-md);
 		font-weight: 400;
 		line-height: 0.93;
 		letter-spacing: -0.04em;
@@ -65,7 +65,7 @@
 
 	.hyvui-error-desc {
 		font-family: var(--font-body);
-		font-size: 0.9rem;
+		font-size: var(--text-xs);
 		color: var(--muted);
 		line-height: 1.5;
 		max-width: 24rem;

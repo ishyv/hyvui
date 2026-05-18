@@ -63,7 +63,7 @@
 		top: 0;
 		width: 2px;
 		height: 100%;
-		background: rgba(199, 156, 87, 0.45);
+		background: color-mix(in srgb, var(--accent) 45%, transparent);
 		transform-origin: top;
 		animation: pullquote-border-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
@@ -85,9 +85,9 @@
 
 	.hyvui-pull-quote-bracket {
 		font-family: var(--font-body);
-		font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+		font-size: var(--text-lg);
 		line-height: 1.45;
-		color: rgba(199, 156, 87, 0.4);
+		color: color-mix(in srgb, var(--accent) 40%, transparent);
 		pointer-events: none;
 		user-select: none;
 		align-self: start;
@@ -107,7 +107,7 @@
 		margin: 0;
 		font-family: var(--font-body);
 		font-style: italic;
-		font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+		font-size: var(--text-lg);
 		line-height: 1.45;
 		color: var(--text-soft);
 		text-wrap: pretty;
@@ -123,7 +123,7 @@
 	.hyvui-pull-quote-attribution {
 		font-style: italic;
 		font-family: var(--font-body);
-		font-size: 0.88rem;
+		font-size: var(--text-xs);
 		color: var(--muted-strong);
 		line-height: 1.5;
 	}
@@ -132,12 +132,12 @@
 		color: var(--muted);
 		opacity: 0.75;
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
+		font-size: var(--text-2xs);
 	}
 
 	.hyvui-pull-quote-source {
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);
 		line-height: 1.6;

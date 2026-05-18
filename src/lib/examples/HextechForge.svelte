@@ -1,324 +1,210 @@
-<!--
-  EXAMPLE: Hextech Forge
-  REGISTER: hextech
-  CONCEPT: a piltover forge station monitoring console — brass instruments, crystal energy cells, hex-grid schematics
-  DEMONSTRATES: HexGrid, BrassFiligree, ArcaneVein, EnergyArc, CornerBrackets, MetricCard, Table, StatusDot, Tabs, Label, Text, applyRegister
-  INSPIRED BY: the first hour of a shift on a Piltover engineering floor
--->
 <script lang="ts">
-	import {
-		Text,
-		Label,
-		Badge,
-		Divider,
-		Stack,
-		Grid,
-		Card,
-		Panel,
-		MetricCard,
-		Table,
-		StatusDot,
-		Tabs,
-		CornerBrackets,
-		HexGrid,
-		BrassFiligree,
-		ArcaneVein,
-		EnergyArc,
-		surface,
-		applyRegister
-	} from '../index.js';
-	import { onMount } from 'svelte';
+  import {
+    ArcaneVein,
+    Badge,
+    BrassFiligree,
+    Button,
+    EnergyArc,
+    HexGrid,
+    Label,
+    MetricCard,
+    StatusDot,
+    Surface,
+    Table,
+    Text,
+    surface,
+  } from "../index.js";
+  import { onMount } from "svelte";
+  import { mountSceneAppearance } from "./appearance.js";
 
-	const cells = [
-		{ id: 'CELL-A1', charge: '94.2%', temp: '312 K', status: 'ok' as const, output: '8.4 kW' },
-		{ id: 'CELL-A2', charge: '88.1%', temp: '318 K', status: 'ok' as const, output: '7.9 kW' },
-		{ id: 'CELL-B1', charge: '71.4%', temp: '334 K', status: 'warn' as const, output: '6.1 kW' },
-		{ id: 'CELL-B2', charge: '99.8%', temp: '308 K', status: 'ok' as const, output: '8.8 kW' },
-		{ id: 'CELL-C1', charge: '45.3%', temp: '347 K', status: 'warn' as const, output: '3.8 kW' },
-		{ id: 'CELL-C2', charge: '0.0%', temp: '— K', status: 'fail' as const, output: '0.0 kW' }
-	];
+  const cellColumns = [
+    { key: "cell", label: "cell" },
+    { key: "charge", label: "charge" },
+    { key: "heat", label: "heat" },
+    { key: "state", label: "state", align: "right" as const },
+  ];
 
-	const cellColumns = [
-		{ key: 'id', label: 'cell' },
-		{ key: 'charge', label: 'charge' },
-		{ key: 'temp', label: 'temp' },
-		{ key: 'output', label: 'output' },
-		{ key: 'status', label: 'status' }
-	];
+  const cells = [
+    { cell: "a1", charge: "94%", heat: "312 k", state: "steady" },
+    { cell: "a2", charge: "88%", heat: "318 k", state: "steady" },
+    { cell: "b1", charge: "72%", heat: "334 k", state: "watch" },
+    { cell: "c2", charge: "41%", heat: "347 k", state: "cooling" },
+  ];
 
-	const tabs = ['overview', 'schematics', 'maintenance'];
-	let activeTab = $state('overview');
-
-	onMount(() => {
-		applyRegister('hextech');
-		return () => applyRegister('field-notebook');
-	});
+  onMount(() => mountSceneAppearance("field-notebook", "hextech"));
 </script>
 
 <svelte:head>
-	<title>hextech forge // hyvui</title>
+  <title>hextech forge // hyvui</title>
 </svelte:head>
 
-<div class="forge-wrap">
-	<div class="forge-hexgrid-host" aria-hidden="true">
-		<HexGrid animated />
-	</div>
+<main class="forge">
+  <div class="forge-ambient" aria-hidden="true">
+    <HexGrid animated />
+  </div>
 
-	<div class="forge-shell">
-		<!-- Top bar -->
-		<header class="forge-header" use:surface>
-			<BrassFiligree />
-			<div class="forge-header-inner">
-				<div class="forge-header-left">
-					<StatusDot status="ok" size={7} />
-					<Text expression="readout">FORGE STATION PILTOVER // SECTOR 4-DELTA</Text>
-				</div>
-				<div class="forge-header-right">
-					<Label color="muted">shift 2 / day cycle</Label>
-					<Label color="signal">ONLINE</Label>
-					<a href="/" class="forge-back">← library</a>
-				</div>
-			</div>
-		</header>
+  <section class="forge-shell">
+    <header class="forge-hero" use:surface>
+      <BrassFiligree />
+      <div class="forge-kicker">
+        <StatusDot status="ok" size={7} pulse />
+        <Label color="signal">themed production floor</Label>
+      </div>
+      <h1>hextech forge</h1>
+      <Text expression="manifesto">
+        the theme is brass, crystal, and pressure. the weight is still
+        editorial. separate controls. one composed scene.
+      </Text>
+      <div class="forge-actions">
+        <Button variant="secondary" href="/examples/arcane-shard"
+          >open arcane shard</Button
+        >
+        <Button variant="ghost" href="/">scene index</Button>
+      </div>
+    </header>
 
-		<!-- Metrics row -->
-		<div class="forge-metrics">
-			<MetricCard label="total output" value="35.0 kW" trend="up" trendValue="+4.2%" />
-			<MetricCard label="cells active" value="5 / 6" trend="neutral" trendValue="" />
-			<MetricCard label="avg temp" value="323 K" trend="up" trendValue="+2 K" />
-			<MetricCard label="uptime" value="99.3%" trend="up" trendValue="+0.1%" />
-		</div>
+    <div class="forge-metrics">
+      <MetricCard label="output" value="35kw" trend="up" trendValue="+4%" />
+      <MetricCard label="cells" value="04" trend="neutral" />
+      <MetricCard label="variance" value="0.08" trend="down" trendValue="-2" />
+      <MetricCard label="cycle" value="19" trend="up" trendValue="live" />
+    </div>
 
-		<Divider />
+    <div class="forge-grid">
+      <Surface variant="panel" withInset class="forge-panel">
+        <div class="forge-panel-head">
+          <Label color="accent">crystal cell array</Label>
+          <Badge variant="default">sector 4</Badge>
+        </div>
+        <Table columns={cellColumns} rows={cells} />
+      </Surface>
 
-		<!-- Tab nav -->
-		<Tabs tabs={tabs.map((t) => ({ id: t, label: t }))} active={activeTab} onchange={(id) => (activeTab = id)} />
-
-		{#if activeTab === 'overview'}
-			<div class="forge-content" use:surface={{ delay: 0 }}>
-				<div class="forge-left">
-					<div class="forge-panel-head">
-						<Label color="accent">energy cell array</Label>
-						<StatusDot status="warn" size={6} />
-					</div>
-					<Table columns={cellColumns} rows={cells} />
-				</div>
-
-				<div class="forge-right">
-					<div class="forge-schematic" use:surface>
-						<CornerBrackets size={16} color="rgba(93, 217, 240, 0.3)" />
-						<div class="forge-schematic-inner">
-							<Label color="muted">power conduit / sector 4</Label>
-							<div class="forge-vein-wrap">
-								<ArcaneVein x1="10%" y1="20%" x2="90%" y2="20%" />
-								<ArcaneVein x1="10%" y1="50%" x2="90%" y2="50%" />
-								<ArcaneVein x1="10%" y1="80%" x2="90%" y2="80%" />
-								<EnergyArc x1="10%" y1="20%" x2="50%" y2="80%" />
-							</div>
-						</div>
-					</div>
-
-					<Stack gap="var(--space-sm)">
-						<div class="forge-alert-row" use:surface={{ delay: 80 }}>
-							<StatusDot status="warn" size={6} />
-							<Label color="muted">CELL-B1 thermal variance above threshold</Label>
-						</div>
-						<div class="forge-alert-row" use:surface={{ delay: 140 }}>
-							<StatusDot status="fail" size={6} />
-							<Label color="muted">CELL-C2 offline — awaiting replacement crystal</Label>
-						</div>
-					</Stack>
-				</div>
-			</div>
-		{:else if activeTab === 'schematics'}
-			<div class="forge-content forge-content--center" use:surface={{ delay: 0 }}>
-				<div class="forge-schematic forge-schematic--large" use:surface>
-					<CornerBrackets size={20} color="rgba(93, 217, 240, 0.3)" />
-					<div class="forge-schematic-inner">
-						<Label color="muted">full-sector conduit map // v2.4</Label>
-						<div class="forge-vein-large">
-							<ArcaneVein x1="5%" y1="15%" x2="95%" y2="15%" />
-							<ArcaneVein x1="5%" y1="40%" x2="95%" y2="40%" />
-							<ArcaneVein x1="5%" y1="65%" x2="95%" y2="65%" />
-							<ArcaneVein x1="5%" y1="88%" x2="95%" y2="88%" />
-							<EnergyArc x1="20%" y1="15%" x2="80%" y2="88%" />
-							<EnergyArc x1="50%" y1="15%" x2="20%" y2="65%" />
-						</div>
-					</div>
-				</div>
-			</div>
-		{:else}
-			<div class="forge-content" use:surface={{ delay: 0 }}>
-				<Stack gap="var(--space-md)">
-					<Text expression="readout">NEXT SCHEDULED MAINTENANCE // 2025.12.04 / 06:00</Text>
-					<div class="forge-checklist">
-						{#each ['inspect cell housings', 'calibrate output regulators', 'flush thermal vents', 'replace CELL-C2 crystal core', 'log to council registry'] as item}
-							<div class="forge-checklist-item">
-								<StatusDot status={item.includes('CELL-C2') ? 'pend' : 'ok'} size={6} />
-								<Label color="muted">{item}</Label>
-							</div>
-						{/each}
-					</div>
-				</Stack>
-			</div>
-		{/if}
-	</div>
-</div>
+      <Surface variant="card" class="forge-schematic">
+        <div class="forge-schematic-lines" aria-hidden="true">
+          <ArcaneVein x1="8%" y1="18%" x2="92%" y2="18%" />
+          <ArcaneVein x1="8%" y1="50%" x2="92%" y2="50%" />
+          <ArcaneVein x1="8%" y1="82%" x2="92%" y2="82%" />
+          <EnergyArc x1="18%" y1="18%" x2="78%" y2="82%" />
+        </div>
+        <div class="forge-schematic-copy">
+          <Label color="muted">conduit sketch</Label>
+          <Text expression="readout">blue energy in a brass cage</Text>
+        </div>
+      </Surface>
+    </div>
+  </section>
+</main>
 
 <style>
-	.forge-wrap {
-		position: relative;
-		min-height: 100dvh;
-		background: var(--bg);
-		overflow: hidden;
-	}
+  .forge {
+    position: relative;
+    min-height: 100dvh;
+    background: var(--bg);
+    overflow: hidden;
+  }
 
-	.forge-hexgrid-host {
-		position: fixed;
-		inset: 0;
-		z-index: 0;
-		pointer-events: none;
-		opacity: 0.35;
-	}
+  .forge-ambient {
+    position: fixed;
+    inset: 0;
+    opacity: 0.38;
+    pointer-events: none;
+  }
 
-	.forge-shell {
-		position: relative;
-		z-index: 1;
-		max-width: 80rem;
-		margin: 0 auto;
-		padding: var(--space-xl) var(--space-lg);
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-lg);
-	}
+  .forge-shell {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 78rem);
+    margin: 0 auto;
+    padding: var(--space-scene) var(--shell-pad);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
 
-	.forge-header {
-		position: relative;
-		padding: var(--space-md) var(--space-lg);
-		border: 1px solid var(--line);
-		background: var(--surface-card);
-		overflow: hidden;
-	}
+  .forge-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 58rem;
+    padding: var(--space-xl);
+    border: 1px solid var(--line);
+    background: var(--surface-card);
+    overflow: hidden;
+  }
 
-	.forge-header-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-md);
-	}
+  .forge-kicker,
+  .forge-actions,
+  .forge-panel-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
 
-	.forge-header-left,
-	.forge-header-right {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-	}
+  .forge h1 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: var(--reg-heading-lh);
+    letter-spacing: var(--reg-heading-tracking);
+    color: var(--text);
+  }
 
-	.forge-back {
-		font-family: var(--font-mono);
-		font-size: 0.72rem;
-		letter-spacing: 0.1em;
-		color: var(--muted);
-		text-decoration: none;
-		transition: color var(--transition-fast);
-	}
+  .forge-metrics {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
 
-	.forge-back:hover {
-		color: var(--text);
-	}
+  .forge-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.86fr);
+    gap: var(--space-md);
+  }
 
-	.forge-metrics {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--space-sm);
-	}
+  :global(.forge-panel) {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
 
-	.forge-content {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--space-lg);
-		align-items: start;
-	}
+  :global(.forge-schematic) {
+    position: relative;
+    min-height: 26rem;
+    padding: var(--space-lg);
+    overflow: hidden;
+  }
 
-	.forge-content--center {
-		grid-template-columns: 1fr;
-	}
+  .forge-schematic-lines {
+    position: absolute;
+    inset: var(--space-lg);
+  }
 
-	.forge-left,
-	.forge-right {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-md);
-	}
+  .forge-schematic-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
 
-	.forge-panel-head {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-	}
+  @media (max-width: 860px) {
+    .forge-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
-	.forge-schematic {
-		position: relative;
-		padding: var(--space-lg);
-		border: 1px solid var(--line);
-		background: var(--surface-panel);
-		overflow: hidden;
-	}
+    .forge-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 
-	.forge-schematic--large {
-		min-height: 280px;
-	}
-
-	.forge-schematic-inner {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-sm);
-	}
-
-	.forge-vein-wrap {
-		position: relative;
-		height: 120px;
-	}
-
-	.forge-vein-large {
-		position: relative;
-		height: 220px;
-	}
-
-	.forge-alert-row {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-		padding: var(--space-sm);
-		border: 1px solid var(--line);
-		background: var(--surface-panel);
-	}
-
-	.forge-checklist {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-xs);
-	}
-
-	.forge-checklist-item {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-		padding: var(--space-xs) var(--space-sm);
-		border-bottom: 1px solid var(--line);
-	}
-
-	@media (max-width: 768px) {
-		.forge-metrics {
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.forge-content {
-			grid-template-columns: 1fr;
-		}
-
-		.forge-shell {
-			padding: var(--space-lg) var(--space-md);
-		}
-	}
+  @media (max-width: 560px) {
+    .forge-metrics {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

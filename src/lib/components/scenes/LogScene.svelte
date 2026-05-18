@@ -80,7 +80,7 @@
 
 	.hyvui-log-content {
 		font-family: var(--font-mono);
-		border-left: 2px solid rgba(121, 166, 163, 0.18);
+		border-left: 2px solid color-mix(in srgb, var(--signal) 18%, transparent);
 		padding-left: 1.5rem;
 	}
 </style>

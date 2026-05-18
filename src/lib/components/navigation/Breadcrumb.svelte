@@ -44,7 +44,7 @@
 		flex-wrap: wrap;
 		gap: var(--space-xs);
 		font-family: var(--font-mono);
-		font-size: 0.68rem;
+		font-size: var(--text-2xs);
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		min-width: 0;

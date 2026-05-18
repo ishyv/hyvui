@@ -29,7 +29,7 @@
 		axis = 'y',
 		size = '1px',
 		duration = '8s',
-		gradient = 'linear-gradient(90deg, transparent, rgba(199, 156, 87, 0.18), transparent)',
+		gradient = 'linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 18%, transparent), transparent)',
 		class: className = ''
 	}: Props = $props();
 </script>

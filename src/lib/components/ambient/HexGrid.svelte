@@ -61,18 +61,18 @@
 		);
 
 		/* default color (field-notebook) */
-		--hg-color: rgba(199, 156, 87, 0.45);
+		--hg-color: color-mix(in srgb, var(--accent) 45%, transparent);
 	}
 
 	/* ── hextech ─ cyan precision ─────────────────────────────────────── */
-	:global([data-register='hextech']) .hyvui-hex-grid {
-		--hg-color: rgba(93, 217, 240, 0.55);
+	:global([data-theme='hextech']) .hyvui-hex-grid {
+		--hg-color: color-mix(in srgb, var(--htx-cyan-glow) 55%, transparent);
 		background-size: 48px 28px;
 	}
 
 	/* ── arcane ─ violet instability ─────────────────────────────────── */
-	:global([data-register='arcane']) .hyvui-hex-grid {
-		--hg-color: rgba(184, 69, 201, 0.5);
+	:global([data-theme='arcane']) .hyvui-hex-grid {
+		--hg-color: color-mix(in srgb, var(--arc-magenta) 50%, transparent);
 		background-size: 40px 23px;
 	}
 
@@ -81,7 +81,7 @@
 		animation: hg-pulse var(--orn-shimmer-rate, 4s) var(--orn-pulse-rhythm, ease-in-out) infinite;
 	}
 
-	:global([data-register='arcane']) .hyvui-hex-grid--animated {
+	:global([data-theme='arcane']) .hyvui-hex-grid--animated {
 		animation:
 			hg-pulse var(--orn-shimmer-rate, 2.4s) var(--orn-pulse-rhythm, ease-in-out) infinite,
 			hg-flicker 7s step-end infinite;
@@ -117,3 +117,4 @@
 		}
 	}
 </style>
+

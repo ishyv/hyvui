@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { Snippet } from 'svelte';
 
 	interface NavItem {
 		label: string;
 		href: string;
 		active?: boolean;
+		icon?: Snippet;
 	}
 
 	/**
@@ -40,7 +42,10 @@
 				}
 			}}
 		>
-			{item.label}
+			{#if item.icon}
+				<span class="hyvui-sidebar-icon" aria-hidden="true">{@render item.icon()}</span>
+			{/if}
+			<span class="hyvui-sidebar-label">{item.label}</span>
 		</a>
 	{/each}
 </nav>
@@ -55,14 +60,17 @@
 	.hyvui-sidebar-link {
 		position: relative;
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--muted);
 		text-decoration: none;
-		padding: 0.55rem 0.9rem;
+		padding: var(--space-xs) var(--control-pad-x);
 		border-left: 1px solid transparent;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-xs);
 		min-width: 0;
 		transition:
 			color var(--transition-fast),
@@ -73,15 +81,30 @@
 
 	.hyvui-sidebar-link:hover {
 		color: var(--text-soft);
-		background: linear-gradient(90deg, rgba(199, 156, 87, 0.08), transparent 76%);
+		background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 76%);
 		transform: translateX(2px);
 	}
 
 	.hyvui-sidebar-link-active {
 		color: var(--accent);
 		border-left-color: var(--line-strong);
-		background: linear-gradient(90deg, rgba(199, 156, 87, 0.14), transparent 72%);
+		background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 72%);
 		transform: translateX(4px);
+	}
+
+	.hyvui-sidebar-icon {
+		display: inline-flex;
+		inline-size: var(--text-xs);
+		block-size: var(--text-xs);
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+	}
+
+	.hyvui-sidebar-label {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

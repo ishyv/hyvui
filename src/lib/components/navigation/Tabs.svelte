@@ -71,7 +71,7 @@
 	.hyvui-tab {
 		position: relative;
 		font-family: var(--font-mono);
-		font-size: 0.7rem;
+		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -79,7 +79,7 @@
 		background: transparent;
 		border: 1px solid transparent;
 		border-radius: var(--radius-md);
-		padding: 0.65rem 0.85rem;
+		padding: var(--control-pad-y) var(--control-pad-x-compact);
 		cursor: pointer;
 		transition:
 			color var(--transition-fast),
@@ -89,13 +89,13 @@
 
 	.hyvui-tab:hover {
 		color: var(--text-soft);
-		background: linear-gradient(180deg, rgba(199, 156, 87, 0.08), transparent 76%);
+		background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 76%);
 	}
 
 	.hyvui-tab-active {
 		color: var(--accent);
 		border-color: color-mix(in srgb, var(--accent) 34%, transparent);
-		background: linear-gradient(180deg, rgba(199, 156, 87, 0.12), transparent 76%);
+		background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 76%);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

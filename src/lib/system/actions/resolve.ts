@@ -1,17 +1,17 @@
-import type { ActionReturn } from 'svelte/action';
+import type { ActionReturn } from "svelte/action";
 
-export type ResolveStatus = 'ok' | 'warn' | 'fail' | 'pend';
+export type ResolveStatus = "ok" | "warn" | "fail" | "pend";
 
 const statusColors: Record<ResolveStatus, string> = {
-	ok: 'var(--status-ok)',
-	warn: 'var(--status-warn)',
-	fail: 'var(--status-fail)',
-	pend: 'var(--status-pend)'
+  ok: "var(--status-ok)",
+  warn: "var(--status-warn)",
+  fail: "var(--status-fail)",
+  pend: "var(--status-pend)",
 };
 
 export interface ResolveAction {
-	/** Trigger the status flash animation. */
-	trigger: (status: ResolveStatus) => void;
+  /** Trigger the status flash animation. */
+  trigger: (status: ResolveStatus) => void;
 }
 
 /**
@@ -31,28 +31,30 @@ export interface ResolveAction {
  * <form use:resolve={a => resolveAction = a}>...</form>
  */
 export function resolve(
-	node: HTMLElement,
-	register: (action: ResolveAction) => void
+  node: HTMLElement,
+  register: (action: ResolveAction) => void,
 ): ActionReturn {
-	const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
-	const position = getComputedStyle(node).position;
-	if (position === 'static') node.style.position = 'relative';
+  const position = getComputedStyle(node).position;
+  if (position === "static") node.style.position = "relative";
 
-	let frame = 0;
-	let t1 = 0;
-	let t2 = 0;
+  let frame = 0;
+  let t1: ReturnType<typeof setTimeout> | undefined;
+  let t2: ReturnType<typeof setTimeout> | undefined;
 
-	function trigger(status: ResolveStatus) {
-		node.dispatchEvent(new CustomEvent('resolve:start', { detail: status }));
+  function trigger(status: ResolveStatus) {
+    node.dispatchEvent(new CustomEvent("resolve:start", { detail: status }));
 
-		if (prefersReduced) {
-			node.dispatchEvent(new CustomEvent('resolve:end', { detail: status }));
-			return;
-		}
+    if (prefersReduced) {
+      node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
+      return;
+    }
 
-		const overlay = document.createElement('span');
-		overlay.style.cssText = `
+    const overlay = document.createElement("span");
+    overlay.style.cssText = `
       position: absolute;
       inset: 0;
       pointer-events: none;
@@ -61,33 +63,36 @@ export function resolve(
       border-radius: inherit;
       transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1);
     `;
-		node.appendChild(overlay);
+    node.appendChild(overlay);
 
-		cancelAnimationFrame(frame);
-		clearTimeout(t1);
-		clearTimeout(t2);
+    cancelAnimationFrame(frame);
+    if (t1) clearTimeout(t1);
+    if (t2) clearTimeout(t2);
 
-		frame = requestAnimationFrame(() => {
-			overlay.style.opacity = '0.12';
-			t1 = setTimeout(() => {
-				overlay.style.transition = 'opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1)';
-				overlay.style.opacity = '0';
-				t2 = setTimeout(() => {
-					overlay.remove();
-					node.dispatchEvent(new CustomEvent('resolve:end', { detail: status }));
-				}, 450);
-			}, 200);
-		});
-	}
+    frame = requestAnimationFrame(() => {
+      overlay.style.opacity = "0.12";
+      t1 = setTimeout(() => {
+        overlay.style.transition =
+          "opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1)";
+        overlay.style.opacity = "0";
+        t2 = setTimeout(() => {
+          overlay.remove();
+          node.dispatchEvent(
+            new CustomEvent("resolve:end", { detail: status }),
+          );
+        }, 450);
+      }, 200);
+    });
+  }
 
-	register({ trigger });
+  register({ trigger });
 
-	return {
-		destroy() {
-			cancelAnimationFrame(frame);
-			clearTimeout(t1);
-			clearTimeout(t2);
-			if (position === 'static') node.style.position = '';
-		}
-	};
+  return {
+    destroy() {
+      cancelAnimationFrame(frame);
+      if (t1) clearTimeout(t1);
+      if (t2) clearTimeout(t2);
+      if (position === "static") node.style.position = "";
+    },
+  };
 }

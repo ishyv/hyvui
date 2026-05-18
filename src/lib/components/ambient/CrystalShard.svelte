@@ -87,45 +87,45 @@
 
 	/* ── default (field-notebook) ─────────────────────────────────────── */
 	.hyvui-cs-body {
-		fill: rgba(199, 156, 87, 0.06);
-		stroke: rgba(199, 156, 87, 0.3);
+		fill: color-mix(in srgb, var(--accent) 6%, transparent);
+		stroke: color-mix(in srgb, var(--accent) 30%, transparent);
 		stroke-width: 1;
 	}
 	.hyvui-cs-face {
-		fill: rgba(199, 156, 87, 0.12);
+		fill: color-mix(in srgb, var(--accent) 12%, transparent);
 		stroke: none;
 	}
 	.hyvui-cs-edge {
-		stroke: rgba(199, 156, 87, 0.5);
+		stroke: color-mix(in srgb, var(--accent) 50%, transparent);
 		stroke-width: 0.75;
 	}
 
 	/* ── hextech: flat cyan prism, clean geometry ─────────────────────── */
-	:global([data-register='hextech']) .hyvui-cs-body {
-		fill: rgba(93, 217, 240, 0.08);
-		stroke: rgba(93, 217, 240, 0.55);
+	:global([data-theme='hextech']) .hyvui-cs-body {
+		fill: color-mix(in srgb, var(--htx-cyan-glow) 8%, transparent);
+		stroke: color-mix(in srgb, var(--htx-cyan-glow) 55%, transparent);
 		stroke-width: 1;
 	}
-	:global([data-register='hextech']) .hyvui-cs-face {
-		fill: rgba(93, 217, 240, 0.18);
+	:global([data-theme='hextech']) .hyvui-cs-face {
+		fill: color-mix(in srgb, var(--htx-cyan-glow) 18%, transparent);
 	}
-	:global([data-register='hextech']) .hyvui-cs-edge {
-		stroke: rgba(184, 230, 242, 0.8);
+	:global([data-theme='hextech']) .hyvui-cs-edge {
+		stroke: color-mix(in srgb, var(--htx-cyan-soft) 80%, transparent);
 		stroke-width: 1;
 	}
 
 	/* ── arcane: violet shard with glow filter ────────────────────────── */
-	:global([data-register='arcane']) .hyvui-cs-body {
-		fill: rgba(184, 69, 201, 0.12);
-		stroke: rgba(184, 69, 201, 0.65);
+	:global([data-theme='arcane']) .hyvui-cs-body {
+		fill: color-mix(in srgb, var(--arc-magenta) 12%, transparent);
+		stroke: color-mix(in srgb, var(--arc-magenta) 65%, transparent);
 		stroke-width: 1;
 		filter: url(#cs-glow);
 	}
-	:global([data-register='arcane']) .hyvui-cs-face {
-		fill: rgba(233, 76, 188, 0.22);
+	:global([data-theme='arcane']) .hyvui-cs-face {
+		fill: color-mix(in srgb, var(--arc-shimmer) 22%, transparent);
 	}
-	:global([data-register='arcane']) .hyvui-cs-edge {
-		stroke: rgba(233, 76, 188, 0.9);
+	:global([data-theme='arcane']) .hyvui-cs-edge {
+		stroke: color-mix(in srgb, var(--arc-shimmer) 90%, transparent);
 		stroke-width: 1.2;
 	}
 
@@ -134,7 +134,7 @@
 		animation: cs-breathe var(--orn-shimmer-rate, 4s) var(--orn-pulse-rhythm, ease-in-out) infinite;
 	}
 
-	:global([data-register='arcane']) .hyvui-crystal-shard--animated .hyvui-cs-body {
+	:global([data-theme='arcane']) .hyvui-crystal-shard--animated .hyvui-cs-body {
 		animation: cs-breathe var(--orn-shimmer-rate, 2.4s) var(--orn-pulse-rhythm, ease-in-out) infinite;
 	}
 
@@ -149,3 +149,4 @@
 		}
 	}
 </style>
+

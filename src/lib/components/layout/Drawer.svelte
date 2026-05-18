@@ -82,7 +82,7 @@
 		position: fixed;
 		inset: 0;
 		z-index: var(--z-modal);
-		background: rgba(0, 0, 0, 0.72);
+		background: color-mix(in srgb, var(--bg) 72%, transparent);
 	}
 
 	.hyvui-drawer {

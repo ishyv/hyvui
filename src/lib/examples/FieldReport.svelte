@@ -1,226 +1,233 @@
-<!--
-  EXAMPLE: Field Report
-  REGISTER: field-notebook
-  CONCEPT: a case study page that reads like a recovered classified document
-  DEMONSTRATES: NarrativeScene, FloatCard, Plinth, MetricCard, Table, Blockquote, CodeBlock, Badge, Text expressions, DepthStage, DepthLayer, GlyphMark, surface action
-  INSPIRED BY: a handwritten field notebook digitized and presented across a table
--->
 <script lang="ts">
-	import {
-		Text,
-		Label,
-		Badge,
-		Divider,
-		Stack,
-		Grid,
-		MetricCard,
-		Table,
-		Blockquote,
-		CodeBlock,
-		NarrativeScene,
-		FloatCard,
-		Plinth,
-		DepthStage,
-		DepthLayer,
-		GlyphMark,
-		CornerBrackets,
-		surface,
-		applyRegister
-	} from '../index.js';
-	import { onMount } from 'svelte';
+  import {
+    Badge,
+    Blockquote,
+    Button,
+    CodeBlock,
+    CornerBrackets,
+    Grid,
+    Label,
+    MetricCard,
+    NarrativeScene,
+    PullQuote,
+    Surface,
+    Text,
+    surface,
+  } from "../index.js";
+  import { onMount } from "svelte";
+  import { mountSceneAppearance } from "./appearance.js";
 
-	const metrics = [
-		{ label: 'first paint', value: '0.8s', trend: 'down' as const, trendValue: '-34%' },
-		{ label: 'bundle weight', value: '12kb', trend: 'down' as const, trendValue: '-61%' },
-		{ label: 'field duration', value: '9 weeks', trend: 'neutral' as const, trendValue: '' }
-	];
+  const measures = [
+    {
+      label: "image sets",
+      value: "48",
+      trend: "up" as const,
+      trendValue: "+12",
+    },
+    { label: "draft passes", value: "06", trend: "neutral" as const },
+    {
+      label: "final spread",
+      value: "14p",
+      trend: "up" as const,
+      trendValue: "ready",
+    },
+  ];
 
-	const phases = [
-		{ phase: '01', designation: 'survey', date: '2025.09.12', status: 'complete' },
-		{ phase: '02', designation: 'excavation', date: '2025.09.28', status: 'complete' },
-		{ phase: '03', designation: 'assembly', date: '2025.10.14', status: 'complete' },
-		{ phase: '04', designation: 'calibration', date: '2025.10.30', status: 'complete' },
-		{ phase: '05', designation: 'field test', date: '2025.11.08', status: 'complete' },
-		{ phase: '06', designation: 'deployment', date: '2025.11.15', status: 'active' }
-	];
+  const tags = [
+    "editorial",
+    "case study",
+    "typography",
+    "motion stills",
+    "archive source",
+  ];
 
-	const phaseColumns = [
-		{ key: 'phase', label: 'phase' },
-		{ key: 'designation', label: 'designation' },
-		{ key: 'date', label: 'date' },
-		{ key: 'status', label: 'status' }
-	];
+  const excerpt = `const sequence = compose({
+  voice: 'quiet',
+  density: 'cinematic',
+  evidence: artifacts.filter(Boolean)
+});`;
 
-	const codeSnippet = `const signal = await listen({
-  frequency: 47.2,
-  threshold: 0.003,
-  timeout: Infinity,
-});
-
-if (signal.strength > baseline) {
-  log('contact', signal.origin);
-}`;
-
-	const technologies = ['svelte', 'typescript', 'css custom properties', 'canvas 2d', 'webgl'];
-
-	onMount(() => {
-		applyRegister('field-notebook');
-		return () => {
-			document.body.removeAttribute('data-register');
-		};
-	});
+  onMount(() => mountSceneAppearance("field-notebook"));
 </script>
 
-<NarrativeScene chapter="field report 03 — signal architecture">
-	{#snippet heading()}
-		<DepthStage perspective="far">
-			<DepthLayer level="foreground">
-				<Text variant="heading" expression="title-card" as="h1" color="primary">
-					building the listening station
-				</Text>
-			</DepthLayer>
-		</DepthStage>
-	{/snippet}
+<svelte:head>
+  <title>field report // hyvui</title>
+</svelte:head>
 
-	{#snippet copy()}
-		<div class="field-report-copy">
-			<div use:surface={{ delay: 200 }}>
-				<Text variant="body">
-					the project started as a question. not the kind you find in a brief. the kind that stays
-					after the meeting ends. what does it feel like when a system is paying attention.
-				</Text>
-			</div>
+<main class="field">
+  <NarrativeScene chapter="field report 02 / recovered spread">
+    {#snippet heading()}
+      <div class="field-title" use:surface>
+        <Label color="accent">editorial case study</Label>
+        <h1>field report</h1>
+        <Text expression="manifesto">
+          a showcase page should feel authored. not assembled. this scene treats
+          components like editorial material.
+        </Text>
+      </div>
+    {/snippet}
 
-			<div use:surface={{ delay: 350 }}>
-				<Text variant="body">
-					we built the component library first. not because it was the most important part, but
-					because naming things forces clarity. every token, every variant, every slot had to earn
-					its name.
-				</Text>
-			</div>
+    {#snippet copy()}
+      <div class="field-copy">
+        <p>
+          the work began as a stack of fragments. contact sheets, failed
+          captions, notes from a table nobody cleared. hyvui turns that mess
+          into a controlled reading surface.
+        </p>
 
-			<div use:surface={{ delay: 500 }}>
-				<Blockquote>
-					the real constraint was not technical. it was tonal. how do you build an interface that
-					feels serious without feeling cold. that feels precise without feeling sterile.
-				</Blockquote>
-			</div>
+        <Blockquote>
+          the system does not need decoration. it needs pressure, rhythm, and
+          enough restraint to let the artifact speak first.
+        </Blockquote>
 
-			<div class="field-report-metrics" use:surface={{ delay: 650 }}>
-				<DepthStage perspective="far">
-					<DepthLayer level="raised">
-						<Grid cols={3} gap="0.75rem">
-							{#each metrics as m}
-								<FloatCard tiltMax={5}>
-									<div class="field-report-metric-inner">
-										<Label color="muted">{m.label}</Label>
-										<Text variant="heading" as="span" color="primary">{m.value}</Text>
-										{#if m.trendValue}
-											<Text
-												variant="caption"
-												as="span"
-												color={m.trend === 'down' ? 'signal' : 'muted'}
-											>
-												{m.trend === 'down' ? '\u2193' : '\u2014'}
-												{m.trendValue}
-											</Text>
-										{/if}
-									</div>
-								</FloatCard>
-							{/each}
-						</Grid>
-					</DepthLayer>
-				</DepthStage>
-				<Plinth width="90%" depth="24px" />
-			</div>
+        <Grid cols={3} gap="var(--space-sm)" class="field-metrics">
+          {#each measures as measure}
+            <MetricCard {...measure} />
+          {/each}
+        </Grid>
 
-			<div use:surface={{ delay: 800 }}>
-				<Text expression="chapter" as="span">mission log</Text>
-			</div>
+        <Surface variant="panel" withInset class="field-evidence">
+          <Label color="muted">production notation</Label>
+          <CodeBlock code={excerpt} />
+        </Surface>
 
-			<div use:surface={{ delay: 900 }}>
-				<Table columns={phaseColumns} rows={phases} />
-			</div>
+        <div class="field-tags">
+          {#each tags as tag}
+            <Badge variant="default">{tag}</Badge>
+          {/each}
+        </div>
 
-			<div use:surface={{ delay: 1000 }}>
-				<Text expression="chapter" as="span">from the field notebook</Text>
-			</div>
+        <PullQuote
+          quote="the library should be able to carry a finished page without asking the product to hide behind it."
+          attribution="showcase rule"
+          source="hyvui"
+        />
 
-			<div use:surface={{ delay: 1100 }}>
-				<CodeBlock code={codeSnippet} />
-			</div>
+        <div class="field-actions">
+          <Button variant="secondary" href="/examples/archive-gallery"
+            >open archive gallery</Button
+          >
+          <Button variant="ghost" href="/">scene index</Button>
+        </div>
+      </div>
+    {/snippet}
 
-			<div class="field-report-tags" use:surface={{ delay: 1200 }}>
-				{#each technologies as tech}
-					<Badge variant="default">{tech}</Badge>
-				{/each}
-			</div>
-		</div>
-	{/snippet}
-
-	{#snippet canvas()}
-		<div class="field-report-canvas" use:surface={{ delay: 400 }}>
-			<div class="field-report-canvas-inner" style:position="relative">
-				<CornerBrackets size={40} color="rgba(199, 156, 87, 0.12)" />
-				<div class="field-report-canvas-marks">
-					<GlyphMark variant="reticle" size={48} color="var(--muted-strong)" />
-					<div class="field-report-canvas-label">
-						<Label color="muted">artifact scan</Label>
-						<Label color="accent">47.2 mhz</Label>
-					</div>
-				</div>
-			</div>
-		</div>
-	{/snippet}
-</NarrativeScene>
+    {#snippet canvas()}
+      <div class="field-canvas" use:surface={{ delay: 140 }}>
+        <Surface variant="card" class="field-artifact">
+          <CornerBrackets size={36} color="var(--accent)" />
+          <div class="field-artifact-grid">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="field-artifact-caption">
+            <Label color="muted">contact sheet</Label>
+            <Text expression="readout">roll 047 / scan clean</Text>
+          </div>
+        </Surface>
+      </div>
+    {/snippet}
+  </NarrativeScene>
+</main>
 
 <style>
-	.field-report-copy {
-		display: flex;
-		flex-direction: column;
-		gap: 1.75rem;
-	}
+  .field {
+    min-height: 100dvh;
+    background: var(--bg);
+  }
 
-	.field-report-metrics {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
+  .field-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
 
-	.field-report-metric-inner {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
+  .field-title h1 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: var(--reg-heading-lh);
+    letter-spacing: var(--reg-heading-tracking);
+    color: var(--text);
+  }
 
-	.field-report-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.375rem;
-	}
+  .field-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
 
-	.field-report-canvas {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 50vh;
-	}
+  .field-copy p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: var(--text-md);
+    line-height: 1.6;
+  }
 
-	.field-report-canvas-inner {
-		padding: 3rem;
-	}
+  :global(.field-metrics) {
+    margin-block: var(--space-sm);
+  }
 
-	.field-report-canvas-marks {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1.5rem;
-	}
+  :global(.field-evidence) {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
 
-	.field-report-canvas-label {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.25rem;
-	}
+  .field-tags,
+  .field-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .field-canvas {
+    min-height: 56vh;
+    display: grid;
+    place-items: center;
+  }
+
+  :global(.field-artifact) {
+    width: min(100%, 30rem);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .field-artifact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
+
+  .field-artifact-grid span {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent) 16%, transparent),
+        transparent 48%
+      ),
+      color-mix(in srgb, var(--text) 5%, transparent);
+  }
+
+  .field-artifact-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 760px) {
+    :global(.field-metrics) {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

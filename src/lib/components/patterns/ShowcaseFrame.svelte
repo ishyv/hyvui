@@ -102,7 +102,7 @@
 		bottom: calc(0.75rem * var(--reg-spacing-scale, 1));
 		left: calc(0.9rem * var(--reg-spacing-scale, 1));
 		font-family: var(--font-mono);
-		font-size: 0.82rem;
+		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);
 		line-height: 1.6;

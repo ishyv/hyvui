@@ -110,9 +110,9 @@ Four variants: `primary`, `secondary`, `ghost`, `destructive`. For navigation to
 
 **File:** `src/lib/components/inputs/Input.svelte`
 
-Single-line text collection with optional label, hint text, and error state. For multi-line input, use Textarea.
+Single-line text collection with optional label, description text, and error state. For multi-line input, use Textarea.
 
-**Key props:** `type`, `value`, `placeholder`, `label`, `error`, `hint`, `disabled`, `class`
+**Key props:** `type`, `value`, `placeholder`, `label`, `error`, `description`, `disabled`, `class`
 
 **Events:** `oninput`, `onchange`
 
