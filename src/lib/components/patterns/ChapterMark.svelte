@@ -88,7 +88,7 @@
 	.hyvui-chapter-mark-index {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
+		gap: var(--space-xs);
 		flex-shrink: 0;
 		padding-top: 0.3em;
 	}

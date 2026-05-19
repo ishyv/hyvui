@@ -1,12 +1,10 @@
-import type { ThemeRegister, WeightRegister } from "../system/register.js";
+import type {
+  ThemeRegister,
+  WeightRegister,
+  GradeRegister,
+} from "../system/register.js";
 
-export type SceneSlug =
-  | "studio-console"
-  | "field-report"
-  | "archive-gallery"
-  | "signal-lost"
-  | "hextech-forge"
-  | "arcane-shard";
+export type SceneSlug = "bridge" | "keeper" | "correspondence" | "watchhouse";
 
 export type ShowcaseScene = {
   slug: SceneSlug;
@@ -14,114 +12,55 @@ export type ShowcaseScene = {
   kicker: string;
   weight: WeightRegister;
   theme: ThemeRegister | null;
+  grade: GradeRegister | null;
   description: string;
   registerNote: string;
-  components: string[];
 };
 
 export const showcaseScenes: ShowcaseScene[] = [
   {
-    slug: "studio-console",
-    title: "studio console",
-    kicker: "production desk",
+    slug: "bridge",
+    title: "the carrier's bridge",
+    kicker: "night watch",
     weight: "mission-control",
-    theme: null,
-    description:
-      "a dense creative operations surface for shoots, revisions, releases, and asset movement.",
-    registerNote: "mission-control weight. base theme.",
-    components: [
-      "Topbar",
-      "SidebarNav",
-      "MetricCard",
-      "Table",
-      "StatusDot",
-      "DataStream",
-    ],
-  },
-  {
-    slug: "field-report",
-    title: "field report",
-    kicker: "editorial case study",
-    weight: "field-notebook",
-    theme: null,
-    description:
-      "a cinematic editorial page for narrative work, credits, pull quotes, and project evidence.",
-    registerNote: "field-notebook weight. base theme.",
-    components: [
-      "NarrativeScene",
-      "PullQuote",
-      "MetricCard",
-      "CodeBlock",
-      "Badge",
-    ],
-  },
-  {
-    slug: "archive-gallery",
-    title: "archive gallery",
-    kicker: "artifact index",
-    weight: "archive",
-    theme: null,
-    description:
-      "a restrained catalog for collections, references, visual artifacts, and quiet browsing.",
-    registerNote: "archive weight. base theme.",
-    components: [
-      "ArchiveScene",
-      "Surface",
-      "Badge",
-      "SearchBar",
-      "CornerBrackets",
-    ],
-  },
-  {
-    slug: "signal-lost",
-    title: "signal lost",
-    kicker: "failure state",
-    weight: "field-notebook",
-    theme: null,
-    description:
-      "a full-screen system state that turns a missing route into a composed visual moment.",
-    registerNote: "field-notebook weight. base theme.",
-    components: [
-      "TerminalBoot",
-      "SignalRing",
-      "HorizonGrid",
-      "FloatCard",
-      "Button",
-    ],
-  },
-  {
-    slug: "hextech-forge",
-    title: "hextech forge",
-    kicker: "themed production floor",
-    weight: "field-notebook",
     theme: "hextech",
+    grade: "interrogation",
     description:
-      "a remade brass-and-crystal scene proving themes can sit on top of weight registers.",
-    registerNote: "field-notebook weight. hextech theme.",
-    components: [
-      "HexGrid",
-      "BrassFiligree",
-      "EnergyArc",
-      "ArcaneVein",
-      "MetricCard",
-    ],
+      "single operator on a quiet airship bridge. contact holding bearing 240 for six hours.",
+    registerNote: "mission-control · hextech · interrogation grade",
   },
   {
-    slug: "arcane-shard",
-    title: "arcane shard",
-    kicker: "unstable study room",
+    slug: "keeper",
+    title: "the keeper's index",
+    kicker: "private collection",
     weight: "archive",
-    theme: "arcane",
+    theme: null,
+    grade: "cold-archive",
     description:
-      "a remade shimmer study with controlled instability, artifact staging, and corrupted logs.",
-    registerNote: "archive weight. arcane theme.",
-    components: [
-      "CrystalShard",
-      "ShimmerCloud",
-      "SignalRing",
-      "StatusLine",
-      "Surface",
-    ],
+      "an archivist's terminal. provenance, conservation status, today's pulls. quiet work.",
+    registerNote: "archive · default · cold-archive grade",
+  },
+  {
+    slug: "correspondence",
+    title: "field correspondence",
+    kicker: "open letter",
+    weight: "field-notebook",
+    theme: null,
+    grade: "twilight",
+    description:
+      "a writer composing a letter at dusk. drafts in the margin. the recipient's last reply at the top.",
+    registerNote: "field-notebook · default · twilight grade",
+  },
+  {
+    slug: "watchhouse",
+    title: "the watchhouse",
+    kicker: "anomaly logbook",
+    weight: "field-notebook",
+    theme: "arcane",
+    grade: "twilight",
+    description:
+      "anomaly watcher's logbook. recent sightings, classification grid, the entry from last tuesday.",
+    registerNote: "field-notebook · arcane · twilight grade",
   },
 ];
 

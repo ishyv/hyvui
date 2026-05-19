@@ -100,7 +100,7 @@
 	.hyvui-readout-header {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--space-md);
 		flex-wrap: wrap;
 		min-width: 0;
 	}

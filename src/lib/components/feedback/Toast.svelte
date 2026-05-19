@@ -84,12 +84,12 @@
 <style>
 	.hyvui-toast-container {
 		position: fixed;
-		bottom: 1.5rem;
-		right: 1.5rem;
+		bottom: var(--space-lg);
+		right: var(--space-lg);
 		z-index: var(--z-toast);
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: var(--space-xs);
 		pointer-events: none;
 	}
 
@@ -106,7 +106,7 @@
 		padding: var(--space-xs) var(--space-md);
 		display: flex;
 		align-items: center;
-		gap: 0.625rem;
+		gap: var(--space-sm);
 		pointer-events: auto;
 		backface-visibility: hidden;
 		animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);

@@ -50,7 +50,7 @@
               parts. a visual system with enough spine to carry the whole page.
             </Text>
             <div class="hero-actions">
-              <Button variant="secondary" href="/examples/studio-console"
+              <Button variant="secondary" href="/examples/bridge"
                 >enter anthology</Button
               >
               <Button variant="ghost" href="/docs">open reference</Button>
@@ -74,7 +74,7 @@
                 <DataStream active speed="slow" />
               </div>
               <div class="hero-console-bottom">
-                <Label color="signal">six scenes</Label>
+                <Label color="signal">four scenes</Label>
                 <Label color="muted">weight plus theme split</Label>
               </div>
             </div>
@@ -83,9 +83,10 @@
       {/snippet}
     </DepthScene>
     <div class="hero-next" aria-hidden="true">
-      <span>studio console</span>
-      <span>field report</span>
-      <span>archive gallery</span>
+      <span>the bridge</span>
+      <span>the keeper</span>
+      <span>correspondence</span>
+      <span>the watchhouse</span>
     </div>
   </section>
 
@@ -93,7 +94,7 @@
     <div class="shell">
       <div class="section-head" use:surface>
         <Label color="accent">built with this</Label>
-        <h2>six scenes. one system.</h2>
+        <h2>four scenes. one system.</h2>
         <p>
           the homepage now points at finished surfaces instead of explaining the
           library from the outside. each scene shows a different posture for the
@@ -133,9 +134,7 @@
                 <p>{scene.description}</p>
               </div>
               <div class="scene-foot">
-                {#each scene.components.slice(0, 3) as component}
-                  <code>{component}</code>
-                {/each}
+                <code>{scene.registerNote}</code>
               </div>
             </Surface>
           </a>
@@ -147,25 +146,25 @@
   <section class="split-proof">
     <div class="shell split-proof-inner">
       <div class="proof-copy" use:surface>
-        <Label color="signal">new contract</Label>
-        <h2>weight and theme are separate now.</h2>
+        <Label color="signal">two surfaces · one library</Label>
+        <h2>the same parts make different worlds.</h2>
         <p>
-          `field-notebook`, `mission-control`, and `archive` decide density and
-          voice. `hextech` and `arcane` decide motif and palette. no silent
-          structural drift.
+          weight decides how the room breathes. theme decides what color the
+          light is. you can pick one set and leave the other. you can pick
+          both. the pieces don't change.
         </p>
         <div class="proof-actions">
-          <Button variant="secondary" href="/examples/hextech-forge"
-            >see hextech</Button
+          <Button variant="secondary" href="/showcase/hextech"
+            >enter the forge</Button
           >
-          <Button variant="ghost" href="/examples/arcane-shard"
-            >see arcane</Button
+          <Button variant="ghost" href="/showcase/arcane"
+            >enter the breach</Button
           >
         </div>
       </div>
 
       <div class="proof-stack" use:surface={{ delay: 120 }}>
-        {#each [{ weight: "field-notebook", label: "field notebook", theme: null }, { weight: "mission-control", label: "mission control", theme: null }, { weight: "archive", label: "archive plus arcane", theme: "arcane" }] as card}
+        {#each [{ weight: "field-notebook", label: "field-notebook", theme: null, line: "the room above the bakery. ink, time, intent." }, { weight: "mission-control", label: "mission-control · hextech", theme: "hextech", line: "third deck, 02:18. paulsen-9 holding bearing 240." }, { weight: "field-notebook", label: "field-notebook · arcane", theme: "arcane", line: "the cistern at the same hour. recorded. returned to." }] as card}
           <div
             class="proof-card-wrap"
             data-weight={card.weight}
@@ -173,9 +172,7 @@
           >
             <Surface variant="panel" class="proof-card">
               <Label color="muted">{card.label}</Label>
-              <Text expression="readout"
-                >same structure. different atmosphere.</Text
-              >
+              <Text expression="readout">{card.line}</Text>
             </Surface>
           </div>
         {/each}
@@ -366,7 +363,7 @@
 
   .scene-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-md);
   }
 

@@ -1,0 +1,143 @@
+/* ── per-register texture overlays ────────────────────────────────────────
+   Each register gets a ::before overlay on <body> that paints a unique
+   substrate texture. Intensity is dialed by --tex-opacity per register.
+   All textures are inline SVG data URIs — no extra HTTP, no sprite to mount,
+   GPU-friendly (the browser caches the rasterized result).
+
+   Visibility budget: opacity 0.025–0.09. Anything above 0.12 reads as noise,
+   not character. Tune in token CSS, not here.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-base);
+  opacity: var(--tex-opacity, 0);
+  mix-blend-mode: var(--tex-blend, normal);
+  background-image: var(--tex-bg-image, none);
+  background-size: var(--tex-bg-size, 200px 200px);
+  background-repeat: repeat;
+  transition: opacity 0.4s var(--ease-smooth);
+}
+
+/* ── field-notebook: warm paper grain ──────────────────────────────────── */
+[data-weight="field-notebook"] {
+  --tex-opacity: 0.07;
+  --tex-blend: multiply;
+  --tex-bg-size: 240px 240px;
+  --tex-bg-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='2'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.61  0 0 0 0 0.34  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+}
+
+/* ── mission-control: scanline overlay ─────────────────────────────────── */
+[data-weight="mission-control"] {
+  --tex-opacity: 0.045;
+  --tex-blend: screen;
+  --tex-bg-size: 100% 3px;
+  --tex-bg-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 1px,
+    color-mix(in srgb, var(--signal) 22%, transparent) 1px,
+    color-mix(in srgb, var(--signal) 22%, transparent) 2px,
+    transparent 2px,
+    transparent 3px
+  );
+}
+
+/* ── archive: cool vellum dust ─────────────────────────────────────────── */
+[data-weight="archive"] {
+  --tex-opacity: 0.05;
+  --tex-blend: overlay;
+  --tex-bg-size: 320px 320px;
+  --tex-bg-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='v'><feTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.62  0 0 0 0 0.65  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23v)'/></svg>");
+}
+
+/* ── hextech (theme overlay): precision hex grid ───────────────────────── */
+[data-theme="hextech"] {
+  --tex-opacity: 0.055;
+  --tex-blend: screen;
+  --tex-bg-size: 64px 56px;
+  --tex-bg-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='56' viewBox='0 0 64 56'><g fill='none' stroke='%2364c6c4' stroke-width='0.5' opacity='0.6'><polygon points='32,1 63,14 63,42 32,55 1,42 1,14'/></g></svg>");
+}
+
+/* ── arcane (theme overlay): magenta crackle ───────────────────────────── */
+[data-theme="arcane"] {
+  --tex-opacity: 0.06;
+  --tex-blend: screen;
+  --tex-bg-size: 280px 280px;
+  --tex-bg-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='c'><feTurbulence type='turbulence' baseFrequency='0.018 0.04' numOctaves='3' seed='3'/><feDisplacementMap in='SourceGraphic' scale='6'/><feColorMatrix values='0 0 0 0 0.78  0 0 0 0 0.28  0 0 0 0 0.68  0 0 0 0.65 0'/></filter><rect width='100%' height='100%' filter='url(%23c)'/></svg>");
+  animation: tex-arcane-pulse 6s var(--ease-smooth) infinite;
+}
+
+@keyframes tex-arcane-pulse {
+  0%,
+  100% {
+    --tex-opacity: 0.05;
+  }
+  50% {
+    --tex-opacity: 0.085;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    transition: none;
+  }
+  [data-theme="arcane"] {
+    animation: none;
+  }
+}
+
+/* ── composable texture utility classes ────────────────────────────────
+   Drop on any element with `position: relative` to add a substrate texture
+   on top of (or independent from) the register default. Opacity controlled
+   per-instance via inline `--tex-opacity-local` style.
+   ───────────────────────────────────────────────────────────────────── */
+
+.tex-weave,
+.tex-concentric,
+.tex-tessellation {
+  position: relative;
+}
+.tex-weave::after,
+.tex-concentric::after,
+.tex-tessellation::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--tex-opacity-local, 0.08);
+  mix-blend-mode: screen;
+  background-repeat: repeat;
+}
+
+.tex-weave::after {
+  background-size: 12px 12px;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--text) 14%, transparent) 0 1px,
+      transparent 1px 6px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--text) 14%, transparent) 0 1px,
+      transparent 1px 6px
+    );
+}
+
+.tex-concentric::after {
+  background-size: 100% 100%;
+  background-image: repeating-radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--text) 9%, transparent) 0 1px,
+    transparent 1px 12px
+  );
+}
+
+.tex-tessellation::after {
+  background-size: 24px 14px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 14'><path d='M0 14L12 0L24 14M0 14H24' fill='none' stroke='%23ffffff' stroke-opacity='0.4' stroke-width='0.5'/></svg>");
+}

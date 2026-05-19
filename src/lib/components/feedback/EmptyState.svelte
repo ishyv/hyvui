@@ -47,7 +47,7 @@
 		align-items: center;
 		text-align: center;
 		padding: var(--space-xl);
-		gap: 0.75rem;
+		gap: var(--space-sm);
 	}
 
 	.hyvui-empty-title {
@@ -70,6 +70,6 @@
 	}
 
 	.hyvui-empty-action {
-		margin-top: 0.5rem;
+		margin-top: var(--space-xs);
 	}
 </style>

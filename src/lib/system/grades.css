@@ -1,0 +1,37 @@
+/* ── color grades — global film-look filters on <body> ───────────────────
+   Apply via `applyGrade('cold-archive' | 'interrogation' | 'twilight' | 'dailies')`.
+   The body filter does NOT cascade into ::before/::after pseudo-elements, so
+   the texture overlay (body::after) and atmospheric layer (body::before) render
+   independently of the grade. This is the cinematic mood layer above theme.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body {
+  /* Smooth grade swaps so a change feels like a cut, not an instant flip. */
+  transition: filter 0.6s var(--ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+/* ── cold-archive: blue shift, lifted blacks, washed out ──────────────── */
+[data-grade="cold-archive"] {
+  filter: brightness(0.92) contrast(0.92) hue-rotate(-12deg) saturate(0.78);
+}
+
+/* ── interrogation: high contrast, desaturated mids, slight green push ── */
+[data-grade="interrogation"] {
+  filter: brightness(0.96) contrast(1.18) saturate(0.62) hue-rotate(8deg);
+}
+
+/* ── twilight: warm shadows, magenta highlights ───────────────────────── */
+[data-grade="twilight"] {
+  filter: brightness(0.94) saturate(1.1) hue-rotate(18deg) sepia(0.08);
+}
+
+/* ── dailies: flat, slightly green, broadcast look ────────────────────── */
+[data-grade="dailies"] {
+  filter: brightness(1) contrast(0.88) saturate(0.85) hue-rotate(-4deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}

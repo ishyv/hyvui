@@ -1,22 +1,47 @@
-/* ── hextech register tokens ──────────────────────────────────────────── */
-/* Piltover-refined. Brass + etched glass + blue crystal energy.           */
-/* Applied under [data-theme='hextech'].                                 */
+/* ── hextech theme tokens ─────────────────────────────────────────────────
+ * Piltover-refined. Brass machinery housing a crystal that holds light. The
+ * register is mechanical and robust, but never sterile — the crystal at the
+ * heart of every device is alive. The brass is not decoration; it is structural
+ * containment for something that wants to glow.
+ *
+ * Material vocabulary (use these, don't invent new ones):
+ *   --surface-brass-bg     — 5-layer metallic body gradient
+ *   --surface-brass-shadow — inset bevels + outer lift + cyan radiance
+ *   --surface-brass-border — 1px brass border
+ *   --clip-octagon         — 18px chamfered 8-corner clip path
+ *   --brass-lift           — drop-shadow stack (works through clip-path)
+ *   --htx-hover-aura       — cyan halo for hover/focus states
+ *
+ * Applied under [data-theme='hextech'].
+ * ─────────────────────────────────────────────────────────────────────── */
 
 [data-theme="hextech"] {
-  /* palette — new raw values */
+  /* ── palette: raw values ──────────────────────────────────────── */
   --htx-cobalt-deep: #0f1f3b;
   --htx-cobalt: #1b3a6e;
   --htx-cobalt-mid: #264f94;
   --htx-cyan-glow: #5dd9f0;
   --htx-cyan-soft: #b8e6f2;
+  --htx-cyan-electric: #80ecff;
   --htx-cyan-dim: rgba(93, 217, 240, 0.18);
   --htx-brass: #b87333;
   --htx-brass-bright: #d4a574;
+  --htx-brass-shine: #f0d090; /* light catching the brass edge */
+  --htx-brass-dark: #6b4220;
   --htx-gold-warm: #f4d77c;
   --htx-glass-edge: rgba(184, 230, 242, 0.18);
+  --htx-glass-blue: rgba(184, 230, 242, 0.12);
   --htx-hex-grid: rgba(93, 217, 240, 0.07);
 
-  /* remap semantic tokens → hextech palette */
+  /* bevel highlights — for inset shadow stacks on lit metal */
+  --htx-bevel-light: rgba(255, 240, 200, 0.22);
+  --htx-bevel-dark: rgba(0, 0, 0, 0.45);
+
+  /* hover/focus aura — radiated cyan */
+  --htx-hover-aura: rgba(93, 217, 240, 0.32);
+  --htx-hover-border: rgba(212, 165, 116, 0.55);
+
+  /* ── semantic remap ────────────────────────────────────────────── */
   --bg: #080f1c;
   --bg-elev: #0f1f3b;
   --bg-elev-soft: #0c1828;
@@ -35,14 +60,19 @@
 
   --radius-md: var(--radius-sm);
 
+  /* ── shadow tokens ─────────────────────────────────────────────── */
   --shadow-card:
-    0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(93, 217, 240, 0.06);
+    var(--shadow-x-near) var(--shadow-y-near) 32px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(93, 217, 240, 0.06);
   --shadow-veil:
-    0 40px 120px rgba(0, 0, 0, 0.55), 0 0 60px rgba(93, 217, 240, 0.04);
+    var(--shadow-x-far) var(--shadow-y-far) 120px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(93, 217, 240, 0.04);
 
   --focus-ring:
-    0 0 0 1px rgba(93, 217, 240, 0.4), 0 0 0 4px rgba(93, 217, 240, 0.08);
+    0 0 0 1px rgba(93, 217, 240, 0.4),
+    0 0 0 4px rgba(93, 217, 240, 0.08);
 
+  /* ── original surface stack (simpler, for everyday components) ── */
   --surface-card:
     linear-gradient(135deg, rgba(93, 217, 240, 0.06), transparent 44%),
     linear-gradient(180deg, rgba(184, 115, 51, 0.06), transparent 30%), #080f1c;
@@ -55,7 +85,54 @@
     rgba(8, 15, 28, 0.9);
   --surface-stroke: inset 0 1px 0 rgba(93, 217, 240, 0.06);
 
-  /* motif tokens */
+  /* ── material brass recipes (for hero/showcase surfaces) ─────── */
+  /* 5-layer body: top specular → bottom darken → diagonal metallic
+     → warm radial bloom → cobalt base. Mirrors hyvnt.dev reference. */
+  --surface-brass-bg:
+    linear-gradient(180deg, rgba(255, 240, 200, 0.18), transparent 6%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.45), transparent 7%),
+    linear-gradient(
+      135deg,
+      rgba(184, 115, 51, 0.18),
+      rgba(93, 217, 240, 0.04) 50%,
+      rgba(15, 31, 59, 0.95) 100%
+    ),
+    radial-gradient(
+      ellipse at 30% 0%,
+      rgba(240, 208, 144, 0.08),
+      transparent 40%
+    ),
+    #0a1426;
+
+  --surface-brass-shadow:
+    inset 0 1px 0 rgba(255, 240, 200, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(184, 115, 51, 0.12),
+    inset -1px 0 0 rgba(184, 115, 51, 0.12),
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 30px rgba(93, 217, 240, 0.06);
+
+  --surface-brass-border: 1px solid rgba(184, 115, 51, 0.5);
+
+  /* hex-panel chamfered clip-path — use on brass surfaces */
+  --clip-octagon: polygon(
+    18px 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% calc(100% - 18px),
+    calc(100% - 18px) 100%,
+    18px 100%,
+    0 calc(100% - 18px),
+    0 18px
+  );
+
+  /* drop-shadow filter stack (works through clip-path; box-shadow does not) */
+  --brass-lift:
+    drop-shadow(0 12px 32px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 22px rgba(93, 217, 240, 0.15))
+    drop-shadow(0 0 60px rgba(184, 115, 51, 0.06));
+
+  /* ── motif tokens ──────────────────────────────────────────────── */
   --orn-hex-density: 1;
   --orn-vein-intensity: 0;
   --orn-shimmer-rate: 4s;
@@ -63,23 +140,36 @@
   --orn-glow-radius: 12px;
   --orn-glow-color: rgba(93, 217, 240, 0.35);
 
-  /* motion — mechanical, precise */
+  /* ── motion: mechanical, precise ──────────────────────────────── */
   --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.14s cubic-bezier(0.4, 0, 0.2, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* atmospheric background override */
+/* atmospheric background override — cobalt void with cyan and brass radials */
 [data-theme="hextech"] body::before,
 body[data-theme="hextech"]::before {
   background:
-    radial-gradient(circle at top, rgba(93, 217, 240, 0.05), transparent 28%),
+    radial-gradient(circle at top, rgba(93, 217, 240, 0.07), transparent 26%),
     radial-gradient(
       circle at 20% 20%,
-      rgba(184, 115, 51, 0.04),
+      rgba(184, 115, 51, 0.06),
       transparent 24%
     ),
-    linear-gradient(180deg, #080f1c 0%, #060c18 35%, #040810 100%);
+    linear-gradient(180deg, #080f1c 0%, #0a1428 35%, #050810 100%);
+}
+
+/* root background — same recipe, applied via html:has() so it reaches the
+   element BEHIND body (avoiding the ::after texture layer). */
+html:has(body[data-theme="hextech"]) {
+  background:
+    radial-gradient(circle at top, rgba(93, 217, 240, 0.07), transparent 26%),
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(184, 115, 51, 0.06),
+      transparent 24%
+    ),
+    linear-gradient(180deg, #080f1c 0%, #0a1428 35%, #050810 100%);
 }
 
 /* selection color */

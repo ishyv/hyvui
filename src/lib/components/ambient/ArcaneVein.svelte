@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import TravelingParticle from '../../system/motion/TravelingParticle.svelte';
 
 	/**
 	 * Decorative glowing crack / energy conduit rendered as SVG.
@@ -14,19 +15,12 @@
 	 * </div>
 	 */
 	interface Props {
-		/** Start x (CSS %). */
 		x1?: string;
-		/** Start y (CSS %). */
 		y1?: string;
-		/** End x (CSS %). */
 		x2?: string;
-		/** End y (CSS %). */
 		y2?: string;
-		/** Duration of traveling particle. */
 		speed?: number;
-		/** Enable traveling particle animation. */
 		animated?: boolean;
-		/** Additional CSS classes. */
 		class?: string;
 	}
 
@@ -40,15 +34,6 @@
 		class: className = ''
 	}: Props = $props();
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
-
-	const dur = $derived(`${speed}s`);
-	const shouldAnimate = $derived(animated && !prefersReduced);
-
-	// Unique filter ID to avoid SVG filter collision when multiple veins are on a page.
 	const filterId = `av-glow-${Math.random().toString(36).slice(2, 8)}`;
 </script>
 
@@ -63,43 +48,13 @@
 		</filter>
 	</defs>
 
-	<!-- glow halo (arcane only, separate pass) -->
-	<line
-		class="hyvui-av-halo"
-		{x1} {y1} {x2} {y2}
-		stroke-width="4"
-		filter="url(#{filterId})"
-	/>
+	<line class="hyvui-av-halo" {x1} {y1} {x2} {y2} stroke-width="4" filter="url(#{filterId})" />
+	<line class="hyvui-av-line" {x1} {y1} {x2} {y2} stroke-width="1" />
 
-	<!-- main vein line -->
-	<line
-		class="hyvui-av-line"
-		{x1} {y1} {x2} {y2}
-		stroke-width="1"
-	/>
-
-	<!-- traveling particle -->
-	{#if shouldAnimate}
-		<circle class="hyvui-av-particle" r="2.5">
-			<animateMotion
-				dur={dur}
-				repeatCount="indefinite"
-				keyPoints="0;1"
-				keyTimes="0;1"
-				calcMode="linear"
-			>
-				<mpath>
-					<line {x1} {y1} {x2} {y2} />
-				</mpath>
-			</animateMotion>
-			<animate
-				attributeName="opacity"
-				values="0;0.9;0.9;0"
-				keyTimes="0;0.08;0.88;1"
-				dur={dur}
-				repeatCount="indefinite"
-			/>
-		</circle>
+	{#if animated}
+		<g class="hyvui-av-particle">
+			<TravelingParticle {x1} {y1} {x2} {y2} {speed} />
+		</g>
 	{/if}
 </svg>
 

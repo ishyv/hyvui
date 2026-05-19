@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import { badge, type BadgeVariants } from './Badge.tv.js';
 
 	/**
 	 * @example
@@ -10,7 +11,7 @@
 	 */
 	interface Props {
 		/** Badge color variant. */
-		variant?: 'default' | 'accent' | 'signal' | 'ok' | 'warn' | 'fail';
+		variant?: BadgeVariants['variant'];
 		/** Additional CSS classes. */
 		class?: string;
 		/** Badge text. */
@@ -39,7 +40,7 @@
 </script>
 
 <span
-	class={cn('hyvui-badge', className)}
+	class={cn(badge({ variant }), className)}
 	style:color={colorMap[variant]}
 	style:background-color={bgMap[variant]}
 	style:border-color={colorMap[variant]}

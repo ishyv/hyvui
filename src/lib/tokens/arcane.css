@@ -1,22 +1,46 @@
-/* ── arcane register tokens ───────────────────────────────────────────── */
-/* Zaun-unstable. Raw crystal + smoke + organic glow.                      */
-/* Applied under [data-theme='arcane'].                                  */
+/* ── arcane theme tokens ──────────────────────────────────────────────────
+ * The arcane is not lab matter. It is light that should not be lit, a divine
+ * manifestation crossed with a living organism. The register reads as
+ * mystical, angelic, magical — closer to stained-glass cathedral light than
+ * laboratory specimen. Iridescent, breathing, alive. Both reverent and
+ * unsettling at once.
+ *
+ * Reference: the Hexcore in Arcane (the show) — biomechanical, fractal,
+ * iridescent, mutating, holy. Viktor's transformation. The chapel light.
+ *
+ * Material vocabulary:
+ *   --surface-crystal-bg     — iridescent conic + radial bloom + violet base
+ *   --surface-crystal-shadow — inset edges + outer breathing glow
+ *   --arc-iridescent         — standalone conic gradient (for borders, text)
+ *   --clip-shard             — irregular 14-point asymmetric polygon
+ *   --crystal-lift           — drop-shadow stack (breathing, animated)
+ *   --arc-hover-aura         — magenta/white-hot halo for hover/focus
+ *
+ * Applied under [data-theme='arcane'].
+ * ─────────────────────────────────────────────────────────────────────── */
 
 [data-theme="arcane"] {
-  /* palette — new raw values */
+  /* ── palette: raw values ──────────────────────────────────────── */
   --arc-void: #0e0818;
   --arc-violet-deep: #2a0e3b;
   --arc-violet: #7b2d8e;
+  --arc-blue-violet: #6b3ad9; /* the cooler twin of violet */
   --arc-magenta: #b845c9;
   --arc-shimmer: #e94cbc;
   --arc-pink-hot: #ff6b9d;
+  --arc-white-hot: #fff0fd; /* the holy-light center */
+  --arc-cyan-bleed: #5dc5e8; /* cyan that bleeds through prism */
   --arc-tox-green: #7fb069;
   --arc-smoke: #3a3a4e;
   --arc-vein-glow: rgba(184, 69, 201, 0.55);
   --arc-crackle: rgba(233, 76, 188, 0.7);
   --arc-particle: rgba(255, 107, 157, 0.6);
 
-  /* remap semantic tokens → arcane palette */
+  /* hover/focus aura — magenta with white-hot core */
+  --arc-hover-aura: rgba(233, 76, 188, 0.4);
+  --arc-hover-border: rgba(233, 76, 188, 0.5);
+
+  /* ── semantic remap ────────────────────────────────────────────── */
   --bg: #0a0614;
   --bg-elev: #130920;
   --bg-elev-soft: #0f071a;
@@ -33,14 +57,19 @@
   --status-warn: #e94cbc;
   --status-fail: #ff4060;
 
+  /* ── shadow tokens ─────────────────────────────────────────────── */
   --shadow-card:
-    0 8px 32px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(184, 69, 201, 0.08);
+    var(--shadow-x-near) var(--shadow-y-near) 32px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(184, 69, 201, 0.08);
   --shadow-veil:
-    0 40px 120px rgba(0, 0, 0, 0.6), 0 0 80px rgba(184, 69, 201, 0.06);
+    var(--shadow-x-far) var(--shadow-y-far) 120px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(184, 69, 201, 0.06);
 
   --focus-ring:
-    0 0 0 1px rgba(233, 76, 188, 0.5), 0 0 0 4px rgba(184, 69, 201, 0.1);
+    0 0 0 1px rgba(233, 76, 188, 0.5),
+    0 0 0 4px rgba(184, 69, 201, 0.1);
 
+  /* ── original surface stack (simpler, for everyday components) ── */
   --surface-card:
     linear-gradient(135deg, rgba(184, 69, 201, 0.08), transparent 44%),
     linear-gradient(225deg, rgba(233, 76, 188, 0.04), transparent 32%), #0a0614;
@@ -53,7 +82,89 @@
     rgba(10, 6, 20, 0.9);
   --surface-stroke: inset 0 1px 0 rgba(233, 76, 188, 0.07);
 
-  /* motif tokens */
+  /* ── iridescent conic — the heart of arcane materiality ─────── */
+  /* 8 color stops cycling magenta → pink → white-hot → cyan → violet.
+     Reusable on borders (via border-image), text (background-clip: text),
+     or as full surface fill. */
+  --arc-iridescent:
+    conic-gradient(
+      from 220deg at 70% 30%,
+      rgba(184, 69, 201, 0.32) 0%,
+      rgba(233, 76, 188, 0.38) 12%,
+      rgba(255, 107, 157, 0.42) 22%,
+      rgba(255, 240, 253, 0.55) 32%,
+      rgba(93, 197, 232, 0.4) 46%,
+      rgba(107, 58, 217, 0.3) 62%,
+      rgba(123, 45, 142, 0.18) 78%,
+      rgba(184, 69, 201, 0.32) 100%
+    );
+
+  /* ── material crystal recipes (for hero/showcase surfaces) ──── */
+  --surface-crystal-bg:
+    conic-gradient(
+      from 220deg at 70% 30%,
+      rgba(184, 69, 201, 0.14) 0%,
+      rgba(233, 76, 188, 0.18) 12%,
+      rgba(255, 107, 157, 0.22) 22%,
+      rgba(255, 240, 253, 0.3) 32%,
+      rgba(93, 197, 232, 0.22) 46%,
+      rgba(107, 58, 217, 0.16) 62%,
+      rgba(123, 45, 142, 0.08) 78%,
+      rgba(184, 69, 201, 0.14) 100%
+    ),
+    radial-gradient(
+      circle at 78% 22%,
+      rgba(255, 240, 253, 0.18),
+      transparent 28%
+    ),
+    radial-gradient(
+      ellipse at 20% 80%,
+      rgba(184, 69, 201, 0.16),
+      transparent 50%
+    ),
+    linear-gradient(135deg, rgba(42, 14, 59, 0.92), rgba(13, 8, 32, 0.96) 60%);
+
+  --surface-crystal-shadow:
+    inset 0 1px 0 rgba(255, 240, 253, 0.15),
+    inset 0 -1px 0 rgba(93, 197, 232, 0.18),
+    inset 2px 0 0 rgba(184, 69, 201, 0.08),
+    0 16px 48px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(184, 69, 201, 0.08),
+    0 0 80px rgba(233, 76, 188, 0.04);
+
+  /* irregular shard clip-path — asymmetric 14 points, never centered */
+  --clip-shard: polygon(
+    0% 4%,
+    4% 0%,
+    58% 0%,
+    66% 4%,
+    62% 9%,
+    74% 12%,
+    100% 6%,
+    100% 76%,
+    96% 84%,
+    90% 82%,
+    94% 100%,
+    14% 100%,
+    4% 96%,
+    0% 68%
+  );
+
+  /* breathing drop-shadow stack (animate via @keyframes) */
+  --crystal-lift:
+    drop-shadow(0 16px 48px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 32px rgba(184, 69, 201, 0.32))
+    drop-shadow(0 0 80px rgba(233, 76, 188, 0.18))
+    drop-shadow(0 0 120px rgba(255, 240, 253, 0.06));
+
+  /* breathing peak — use for the 50% keyframe of arc-frame-breathe */
+  --crystal-lift-peak:
+    drop-shadow(0 16px 48px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 38px rgba(184, 69, 201, 0.42))
+    drop-shadow(0 0 100px rgba(233, 76, 188, 0.28))
+    drop-shadow(0 0 160px rgba(255, 240, 253, 0.12));
+
+  /* ── motif tokens ──────────────────────────────────────────────── */
   --orn-hex-density: 0;
   --orn-vein-intensity: 1;
   --orn-shimmer-rate: 2.4s;
@@ -61,23 +172,55 @@
   --orn-glow-radius: 20px;
   --orn-glow-color: rgba(184, 69, 201, 0.45);
 
-  /* motion — organic, breathing */
+  /* ── motion: organic, breathing, slow ─────────────────────────── */
   --transition-smooth: 0.42s cubic-bezier(0.6, 0, 0.4, 1);
   --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
   --ease-smooth: cubic-bezier(0.6, 0, 0.4, 1);
 }
 
-/* atmospheric background override */
+/* atmospheric background — 4-radial bleed (white-hot, magenta, cyan, pink)
+   over a deep violet void. The "cathedral light" feel. */
 [data-theme="arcane"] body::before,
 body[data-theme="arcane"]::before {
   background:
-    radial-gradient(circle at top, rgba(184, 69, 201, 0.07), transparent 28%),
     radial-gradient(
-      circle at 80% 60%,
-      rgba(233, 76, 188, 0.04),
-      transparent 32%
+      circle at 30% 0%,
+      rgba(255, 240, 253, 0.06),
+      transparent 22%
     ),
-    linear-gradient(180deg, #0a0614 0%, #07040f 40%, #050310 100%);
+    radial-gradient(circle at top, rgba(184, 69, 201, 0.13), transparent 28%),
+    radial-gradient(
+      circle at 75% 15%,
+      rgba(93, 197, 232, 0.08),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(233, 76, 188, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(180deg, #0a0614 0%, #0d0820 35%, #050309 100%);
+}
+
+html:has(body[data-theme="arcane"]) {
+  background:
+    radial-gradient(
+      circle at 30% 0%,
+      rgba(255, 240, 253, 0.06),
+      transparent 22%
+    ),
+    radial-gradient(circle at top, rgba(184, 69, 201, 0.13), transparent 28%),
+    radial-gradient(
+      circle at 75% 15%,
+      rgba(93, 197, 232, 0.08),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(233, 76, 188, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(180deg, #0a0614 0%, #0d0820 35%, #050309 100%);
 }
 
 /* selection color */
@@ -85,4 +228,54 @@ body[data-theme="arcane"]::before {
 body[data-theme="arcane"] ::selection {
   background-color: rgba(184, 69, 201, 0.28);
   color: var(--text);
+}
+
+/* ── shared keyframes — exposed library-wide for theme animations ────── */
+@keyframes arc-frame-breathe {
+  0%,
+  100% {
+    filter: var(--crystal-lift);
+  }
+  50% {
+    filter: var(--crystal-lift-peak);
+  }
+}
+
+@keyframes arc-prism-sweep {
+  0% {
+    background-position: -110% 0%;
+  }
+  50% {
+    background-position: 110% 0%;
+  }
+  100% {
+    background-position: -110% 0%;
+  }
+}
+
+@keyframes arc-iridescent-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes htx-scan {
+  0% {
+    background-position: 0% -100%;
+  }
+  100% {
+    background-position: 0% 250%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="arcane"] *,
+  [data-theme="hextech"] * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

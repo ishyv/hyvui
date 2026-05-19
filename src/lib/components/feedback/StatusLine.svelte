@@ -69,7 +69,7 @@
 	.hyvui-status-line {
 		display: flex;
 		align-items: baseline;
-		gap: 0.75rem;
+		gap: var(--space-sm);
 		font-family: var(--font-mono);
 		font-size: var(--text-xs);
 		opacity: 0;

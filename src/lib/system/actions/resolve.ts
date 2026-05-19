@@ -1,4 +1,7 @@
 import type { ActionReturn } from "svelte/action";
+import { animate } from "motion";
+import { currentRegister } from "../motion/registerObserver.js";
+import { presets } from "../motion/presets.js";
 
 export type ResolveStatus = "ok" | "warn" | "fail" | "pend";
 
@@ -10,40 +13,28 @@ const statusColors: Record<ResolveStatus, string> = {
 };
 
 export interface ResolveAction {
-  /** Trigger the status flash animation. */
   trigger: (status: ResolveStatus) => void;
 }
 
 /**
- * Animates a status change on an element. A brief overlay flash in the
- * status color signals the transition, then fades out.
- * Dispatches custom DOM events `resolve:start` and `resolve:end`.
- * Respects prefers-reduced-motion.
+ * Animates a status change. Overlay flash in the status color, fade-out
+ * timing inherits the register's flash personality.
+ * Dispatches `resolve:start` and `resolve:end` DOM events.
  *
  * @example
- * <script>
- *   let resolveAction;
- *   async function submit() {
- *     const ok = await doSubmit();
- *     resolveAction.trigger(ok ? 'ok' : 'fail');
- *   }
- * </script>
  * <form use:resolve={a => resolveAction = a}>...</form>
  */
 export function resolve(
   node: HTMLElement,
   register: (action: ResolveAction) => void,
 ): ActionReturn {
+  if (typeof window === "undefined") return {};
   const prefersReduced = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
   const position = getComputedStyle(node).position;
   if (position === "static") node.style.position = "relative";
-
-  let frame = 0;
-  let t1: ReturnType<typeof setTimeout> | undefined;
-  let t2: ReturnType<typeof setTimeout> | undefined;
 
   function trigger(status: ResolveStatus) {
     node.dispatchEvent(new CustomEvent("resolve:start", { detail: status }));
@@ -61,37 +52,24 @@ export function resolve(
       background: ${statusColors[status]};
       opacity: 0;
       border-radius: inherit;
-      transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1);
     `;
     node.appendChild(overlay);
 
-    cancelAnimationFrame(frame);
-    if (t1) clearTimeout(t1);
-    if (t2) clearTimeout(t2);
+    const { register: reg } = currentRegister();
+    const preset = presets[reg]?.flash ?? presets.default.flash;
 
-    frame = requestAnimationFrame(() => {
-      overlay.style.opacity = "0.12";
-      t1 = setTimeout(() => {
-        overlay.style.transition =
-          "opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1)";
-        overlay.style.opacity = "0";
-        t2 = setTimeout(() => {
-          overlay.remove();
-          node.dispatchEvent(
-            new CustomEvent("resolve:end", { detail: status }),
-          );
-        }, 450);
-      }, 200);
-    });
+    animate(overlay, preset.keyframes as never, preset.options as never).finished.then(
+      () => {
+        overlay.remove();
+        node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
+      },
+    );
   }
 
   register({ trigger });
 
   return {
     destroy() {
-      cancelAnimationFrame(frame);
-      if (t1) clearTimeout(t1);
-      if (t2) clearTimeout(t2);
       if (position === "static") node.style.position = "";
     },
   };

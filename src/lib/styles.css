@@ -11,6 +11,8 @@
 @import './tokens/hextech.css';
 @import './tokens/arcane.css';
 @import './system/register.css';
+@import './system/textures.css';
+@import './system/grades.css';
 @import './system/expressions.css';
 @import './system/depth/depth.css';
 

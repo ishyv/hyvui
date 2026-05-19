@@ -141,7 +141,7 @@
 
 	.hyvui-modal-header {
 		flex-shrink: 0;
-		margin-bottom: 1rem;
+		margin-bottom: var(--space-md);
 	}
 
 	.hyvui-modal-title {
@@ -166,10 +166,10 @@
 
 	.hyvui-modal-footer {
 		flex-shrink: 0;
-		margin-top: 1.25rem;
+		margin-top: var(--space-md);
 		display: flex;
 		justify-content: flex-end;
-		gap: 0.75rem;
+		gap: var(--space-sm);
 	}
 
 	@keyframes modal-in {

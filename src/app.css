@@ -5,9 +5,16 @@
 
 @import "./lib/styles.css";
 
+/*
+  Tailwind v4 @theme block.
+  Every utility (text-md, p-md, gap-lg, ...) resolves to the fluid token from tokens.css.
+  Do NOT add hardcoded sizes here — only reference --bg, --text-*, --space-*, etc.
+*/
 @theme {
+  /* colors */
   --color-bg: var(--bg);
   --color-bg-elev: var(--bg-elev);
+  --color-bg-elev-soft: var(--bg-elev-soft);
   --color-text: var(--text);
   --color-text-soft: var(--text-soft);
   --color-muted: var(--muted);
@@ -22,12 +29,57 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
+  /* font families */
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
 
-  --shadow-veil: var(--shadow-veil);
+  /* fluid type — utilities: text-2xs … text-display */
+  --text-2xs: var(--text-2xs);
+  --text-xs:  var(--text-xs);
+  --text-sm:  var(--text-sm);
+  --text-md:  var(--text-md);
+  --text-lg:  var(--text-lg);
+  --text-xl:  var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-display: var(--text-display);
 
+  /* line-height utilities: leading-tight … leading-loose */
+  --leading-tight: var(--leading-tight);
+  --leading-snug:  var(--leading-snug);
+  --leading-body:  var(--leading-body);
+  --leading-loose: var(--leading-loose);
+
+  /* letter-spacing utilities: tracking-tight … tracking-meta */
+  --tracking-tight: var(--tracking-tight);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: var(--tracking-wide);
+  --tracking-meta: var(--tracking-meta);
+
+  /* fluid spacing — utilities: p-md, gap-lg, mt-xl, … */
+  --spacing-3xs: var(--space-3xs);
+  --spacing-2xs: var(--space-2xs);
+  --spacing-xs:  var(--space-xs);
+  --spacing-sm:  var(--space-sm);
+  --spacing-md:  var(--space-md);
+  --spacing-lg:  var(--space-lg);
+  --spacing-xl:  var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+
+  /* shadows */
+  --shadow-veil: var(--shadow-veil);
+  --shadow-card: var(--shadow-card);
+
+  /* radii */
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
+
+  /* container query breakpoint utilities — must be literal lengths for @media generation */
+  --breakpoint-xs: 20rem;
+  --breakpoint-sm: 32rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
 }

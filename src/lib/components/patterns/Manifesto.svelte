@@ -59,7 +59,7 @@
 	.hyvui-manifesto--accent-gold,
 	.hyvui-manifesto--accent-signal {
 		position: relative;
-		padding-left: 1.25rem;
+		padding-left: var(--space-md);
 	}
 
 	.hyvui-manifesto--accent-gold::before,
@@ -145,7 +145,7 @@
 	.hyvui-manifesto-attribution {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
+		gap: var(--space-xs);
 	}
 
 	.hyvui-manifesto-rule {

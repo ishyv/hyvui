@@ -105,7 +105,7 @@
 
 	.hyvui-stage-actions {
 		display: flex;
-		gap: 0.75rem;
-		margin-top: calc(-1rem * var(--reg-spacing-scale));
+		gap: var(--space-sm);
+		margin-top: calc(-1 * var(--space-md) * var(--reg-spacing-scale));
 	}
 </style>

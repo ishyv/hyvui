@@ -52,8 +52,8 @@
 		position: relative;
 		display: grid;
 		grid-template-columns: auto 1fr;
-		gap: 1rem;
-		padding-left: 1.5rem;
+		gap: var(--space-md);
+		padding-left: var(--space-lg);
 	}
 
 	.hyvui-pull-quote::before {
@@ -116,7 +116,7 @@
 	.hyvui-pull-quote-caption {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--space-xs);
 		flex-wrap: wrap;
 	}
 

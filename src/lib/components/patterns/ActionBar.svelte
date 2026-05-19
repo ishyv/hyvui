@@ -43,13 +43,13 @@
 <style>
 	.hyvui-action-bar {
 		position: fixed;
-		bottom: 1.5rem;
+		bottom: var(--space-lg);
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: var(--z-overlay);
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--space-md);
 		background: var(--surface-card);
 		border: 1px solid color-mix(in srgb, var(--text) 5%, transparent);
 		box-shadow: var(--shadow-veil);
@@ -60,7 +60,7 @@
 
 	.hyvui-action-bar-actions {
 		display: flex;
-		gap: 0.5rem;
+		gap: var(--space-xs);
 	}
 
 	@keyframes actionbar-in {

@@ -2,6 +2,7 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 	import type { Expression } from './text.js';
+	import { text, type TextVariants } from './Text.tv.js';
 
 	/**
 	 * @example
@@ -14,7 +15,7 @@
 		/** HTML tag to render. */
 		as?: string;
 		/** Typographic style variant. */
-		variant?: 'heading' | 'body' | 'caption' | 'italic';
+		variant?: TextVariants['variant'];
 		/** Text color token. */
 		color?: 'primary' | 'soft' | 'muted' | 'muted-strong' | 'accent' | 'signal';
 		/** Compositional intent expression. Applied alongside the variant. */
@@ -44,14 +45,7 @@
 	};
 
 	const variantClass = $derived(
-		cn(
-			variant === 'heading' && 'hyvui-text-heading',
-			variant === 'body' && 'hyvui-text-body',
-			variant === 'caption' && 'hyvui-text-caption',
-			variant === 'italic' && 'hyvui-text-italic',
-			expression && `expr-${expression}`,
-			className
-		)
+		cn(text({ variant }), expression && `expr-${expression}`, className)
 	);
 </script>
 

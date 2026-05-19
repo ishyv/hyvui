@@ -688,3 +688,230 @@ For porting to a new project, this is the minimum viable set:
 - It is not "hacker aesthetic." It borrows the terminal's language, not its visual clichés.
 - It is not minimal for minimalism's sake. Every absent element was a deliberate removal.
 - It is not dark mode of a light design. The darkness is the design.
+
+---
+
+## Theme Augmentation
+
+The base aesthetic is the soul of the library. Themes do not replace it — they augment it.
+Each theme has a strong material identity drawn from a real reference (the Arcane Netflix series).
+A theme is layered ON TOP of a register (weight). The same `<Surface>` looks structurally identical
+under all themes; only the **material**, **palette**, and **motion personality** change.
+
+Themes are applied to `<body>` via `data-theme="hextech"` or `data-theme="arcane"`.
+Use the `applyTheme()` helper, never raw `setAttribute`.
+
+### Philosophy
+
+> The library is the architecture. Themes are the light passing through it.
+
+Do not theme by recoloring components. Theme by reaching for the material recipes below.
+The recipes are tokens — they update automatically when the theme changes.
+
+---
+
+### Theme: hextech
+
+**Reference:** Piltover. The hextech rifle. Hexgates. The Council Chamber. Jayce's hammer.
+Brass clockwork. Crystal in brass cradles. Steam and oil. Art Deco geometry.
+
+**Identity:** mechanical machinery housing magic. The brass is structural; it contains
+something that wants to glow. Robust, weathered, lived-in. Not decorative — operational.
+
+**Material vocabulary (CSS tokens, all defined in `src/lib/tokens/hextech.css`):**
+
+```css
+--surface-brass-bg     /* 5-layer body: specular top + bottom darken + diagonal
+                          metallic gradient (brass → cyan → cobalt) + warm radial
+                          bloom + cobalt base. Use as `background:` on hero panels. */
+
+--surface-brass-shadow /* inset bevels (top highlight + bottom shadow + side
+                          highlights) + outer lift + cyan radiance. Use as
+                          `box-shadow:`. */
+
+--clip-octagon         /* 18px chamfered 8-corner polygon. Apply with `clip-path:`. */
+
+--brass-lift           /* drop-shadow filter stack (lift + cyan glow + brass radiance).
+                          REQUIRED when using clip-path — box-shadow ignores clip. */
+
+--htx-brass-shine      /* light catching the brass edge */
+--htx-brass-dark       /* shadow side */
+--htx-cyan-electric    /* the hot cyan for active states */
+--htx-bevel-light      /* top edge of metal catching light */
+--htx-bevel-dark       /* bottom shadow */
+--htx-hover-aura       /* cyan halo for hover/focus */
+--htx-hover-border     /* brass-bright border on hover */
+```
+
+**Signature techniques:**
+
+1. **Multi-layer panel surfaces.** Each panel = clip-path + 5-layer gradient body + pseudo-element
+   inset border + animated scan line + drop-shadow stack + brass corners.
+
+2. **Animated cyan scan line.** A linear-gradient slim band sweeping top-to-bottom across the
+   inside of the chamfered frame. Stagger the animation delay across multiple panels so they
+   don't all sweep in unison.
+   ```css
+   @keyframes htx-scan { 0% { background-position: 0% -100%; } 100% { background-position: 0% 250%; } }
+   ```
+
+3. **Cyan-etched gradient text** for major headings:
+   ```css
+   background: linear-gradient(180deg, var(--text), var(--text-soft), var(--htx-cyan-glow));
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   ```
+
+4. **Brass corner brackets** — actual L-shaped marks at chamfered corners, made from layered
+   linear-gradients OR the `BrassFiligree` ambient component.
+
+5. **Riveted detailing** — small radial-gradient dots placed at panel corners as bolts.
+
+6. **Stamped numerals** — Roman numerals + dot separators on certification footers.
+   `letter-spacing: 0.4em; text-shadow: 0 1px 0 rgba(0,0,0,0.6), 0 0 12px rgba(212,165,116,0.3)`.
+
+**Motion personality:** mechanical, precise, snap-locked. Hextech easing is
+`cubic-bezier(0.16, 1, 0.3, 1)` — overshoots slightly, then settles.
+
+**Copy voice for hextech content:** workshop log. Time-stamped. Named operators
+("m. veld · 12y cert"). Numeric specificity ("ignition cycle 04 · holding 60%").
+Roman numerals for catalog references. Mechanical certifications ("certified for
+operation · w.h. ord. 2.114.iv"). The crystal is referenced reverently as "the spark"
+or "the holding" — never as just a resource.
+
+---
+
+### Theme: arcane
+
+**Reference:** the Hexcore. Viktor's mutation. The chapel light scenes in Arcane S2.
+Stained glass. Reliquaries. The moment when something arrives that should not be possible.
+
+**Identity:** magical, mystical, **angelic**, divine. Both organism and miracle.
+Iridescent. Breathing. A living manifestation. Not creepy — *holy*. The witness's voice
+should sound like someone who has seen something sacred, not run a controlled experiment.
+
+This is the most important correction:
+- Arcane is **not** lab specimen or biological corruption.
+- Arcane is the divine made visible. The mutation is a *revelation*.
+- Use cathedral light, reliquary framing, Latin cadence, reverent witness voice.
+
+**Material vocabulary (CSS tokens, all defined in `src/lib/tokens/arcane.css`):**
+
+```css
+--surface-crystal-bg     /* iridescent conic gradient (8 stops cycling magenta → pink →
+                            white-hot → cyan → violet) + radial bloom + violet base.
+                            Use as `background:` on hero panels. */
+
+--surface-crystal-shadow /* inset white-hot highlight + cyan-bleed underglow + outer
+                            magenta breathing glow. */
+
+--arc-iridescent         /* standalone conic gradient — use on borders via border-image
+                            or on text via background-clip. */
+
+--clip-shard             /* irregular 14-point asymmetric polygon. Never use a regular
+                            shape for the arcane. */
+
+--crystal-lift           /* drop-shadow stack: lift + magenta glow + shimmer + white-hot
+                            bloom. */
+
+--crystal-lift-peak      /* breathing peak — pair with --crystal-lift via
+                            @keyframes arc-frame-breathe (already in arcane.css). */
+
+--arc-white-hot          /* #fff0fd — the holy-light core */
+--arc-cyan-bleed         /* #5dc5e8 — cyan bleeding through the prism */
+--arc-blue-violet        /* #6b3ad9 — the cooler violet twin */
+--arc-shimmer            /* #e94cbc — saturated magenta-pink edge */
+--arc-pink-hot           /* #ff6b9d — the warm pink at heart edges */
+--arc-hover-aura         /* magenta-white halo for hover/focus */
+```
+
+**Signature techniques:**
+
+1. **Conic-gradient iridescence.** Eight color stops cycling through magenta, pink, white-hot,
+   cyan, violet. Animate `background-position` over 9–11s for breathing iridescence. Apply to
+   surfaces, borders (via `border-image`), and text (via `background-clip: text`).
+
+2. **Irregular shard clip-path.** 14-point asymmetric polygon. Never centered. The arcane should
+   look like something that broke through, not something that was placed.
+
+3. **Breathing drop-shadow stack.** Multi-layer drop-shadow filter that animates between two
+   intensities on a slow loop (5–7s). The `--crystal-lift` / `--crystal-lift-peak` token pair
+   exists for this; use `@keyframes arc-frame-breathe` (already defined).
+
+4. **Diagonal prism sweep.** A linear-gradient with `mix-blend-mode: screen` sweeping across
+   the shard on a 7s cycle. Reads as light passing through crystal.
+   ```css
+   @keyframes arc-prism-sweep { 0% { background-position: -110% 0%; } 50% { background-position: 110% 0%; } 100% { background-position: -110% 0%; } }
+   ```
+
+5. **Iridescent gradient text with breathing.** Hero headings get the full iridescent gradient
+   clipped to text, with `background-position` animation (9s) and `filter: drop-shadow` strength
+   that breathes between magenta and shimmer. Two animations stacked, deliberately out of phase.
+
+6. **Cathedral light (god-rays).** A conic-gradient at the top of the page with multiple
+   transparent slits, mixed `mix-blend-mode: screen`, animating drift. Reads as light streaming
+   down through stained glass.
+
+7. **Orbiting runic script.** Small Glyph components positioned absolutely around a central
+   element, on a parent `transform: rotate()` animation that completes once every ~80s. Each
+   glyph counter-rotates to stay upright.
+
+8. **Floating embers.** Small circles (`r: 1.8`) drifting upward from the heart of the
+   manifestation, animated with `cx`/`cy` keyframes and `opacity` fades.
+
+9. **Plant emerging from crystal.** A small SVG plant (the Hexcore-grows-on-organic-matter
+   detail) emerging from the top of any arcane centerpiece. This is iconic — use it.
+
+**Motion personality:** organic, breathing, slow. Arcane easing is
+`cubic-bezier(0.6, 0, 0.4, 1)` — eases in, lingers, eases out. Nothing snaps.
+
+**Copy voice for arcane content:**
+- Latin cadence as the church-language motif: "ex tenebris lux", "luce manifesta · ego testor"
+- Reverent present-tense witness: "i was alone in the chamber. it was not a sound. it was not a light. it was a presence."
+- Formal canonical record for the third-person voice: "in the chamber known as the lattice, on the seventh morning, light gathered without source."
+- Avoid clinical language. No "specimen", no "instability index", no "containment". Use "manifestation", "vigil", "lattice chamber", "the witness".
+
+---
+
+### Composing themes with registers and grades
+
+The three layers (weight × theme × grade) compose orthogonally. They have distinct jobs:
+
+| Layer | What it controls | Examples |
+|---|---|---|
+| weight | density, rhythm, motion personality | field-notebook is slow + warm; mission-control is dense + snap |
+| theme | material identity, palette, motif | hextech is brass machinery; arcane is divine crystal |
+| grade | global film-look filter | cold-archive desaturates; twilight warms shadows |
+
+A `mission-control + hextech + interrogation` page reads as a brass cockpit at night under
+green-tinted high-contrast light. A `field-notebook + arcane + twilight` page reads as a
+warm slow reverent witness account of a divine manifestation. The same components.
+
+---
+
+### Hover and micro-interaction
+
+Themed components should feel theme-specific on hover. Subtle is the rule.
+
+- **Hextech hover:** drop-shadow stack intensifies (cyan glow expands from 0.15 → 0.25 opacity).
+  Border picks up `--htx-hover-border` (brass-bright). Optional: cyan scan line speeds up briefly.
+- **Arcane hover:** drop-shadow stack intensifies (magenta + white-hot bloom). Border-image
+  conic-gradient becomes more saturated. Iridescent text accelerates its breathing.
+- **Base hover:** translateY(-2px) lift on cards. translateX(6px) on list rows. scale(1.03)
+  on active dots.
+
+Hover transitions should use the theme's `--ease-smooth`. Hextech eases sharply (0.28s);
+arcane eases slowly (0.42s). Don't override.
+
+---
+
+### When to break these rules
+
+Never. The whole point of the augmentation system is that themes have a strong material
+identity. If a request needs "a custom theme color", that's not a theme — that's a one-off
+override and lives in the consumer's CSS, not in the library.
+
+If a request needs a NEW theme: design it from a real reference (a film, an artifact, a
+place). Define its material recipes the same way hextech and arcane do — clip-path, surface
+recipe, drop-shadow stack, motion personality, copy voice. Then add it to `src/lib/tokens/`.
+A theme is a complete world; do not ship half-built ones.

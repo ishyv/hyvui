@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import { surface, type SurfaceVariants } from './Surface.tv.js';
 
 	/**
 	 * @see surface — add `use:surface` for an entrance animation on mount.
@@ -11,7 +12,7 @@
 	 */
 	interface Props {
 		/** Surface visual style. */
-		variant?: 'base' | 'card' | 'panel';
+		variant?: SurfaceVariants['variant'];
 		/** HTML tag to render. */
 		as?: string;
 		/** Adds a pseudoelement teal inset border on panel variant. */
@@ -33,14 +34,7 @@
 
 <svelte:element
 	this={as}
-	class={cn(
-		'hyvui-surface',
-		variant === 'card' && 'hyvui-surface-card',
-		variant === 'panel' && 'hyvui-surface-panel',
-		variant === 'base' && 'hyvui-surface-base',
-		withInset && 'hyvui-surface-inset',
-		className
-	)}
+	class={cn(surface({ variant, withInset }), className)}
 >
 	{#if children}{@render children()}{/if}
 </svelte:element>

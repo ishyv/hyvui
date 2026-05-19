@@ -2,6 +2,7 @@
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
 	import { echo as echoAction } from '../../system/actions/echo.js';
+	import { button, type ButtonVariants } from './Button.tv.js';
 
 	/**
 	 * @see echo — add `echo` prop (or `use:echo` directly) for a gold click-pulse ripple.
@@ -13,9 +14,9 @@
 	 */
 	interface Props {
 		/** Button visual style. */
-		variant?: 'primary' | 'secondary' | 'ghost' | 'destructive';
+		variant?: ButtonVariants['variant'];
 		/** Button size. */
-		size?: 'sm' | 'md';
+		size?: ButtonVariants['size'];
 		/** Disables the button. */
 		disabled?: boolean;
 		/** Shows a pending status indicator instead of the label. */
@@ -53,6 +54,10 @@
 		children
 	}: Props = $props();
 
+	const btnClass = $derived(
+		cn(button({ variant, size, loading, disabled: disabled || loading }), className)
+	);
+
 	function activeEcho(node: HTMLElement) {
 		if (!echo) return {};
 		return echoAction(node);
@@ -74,14 +79,7 @@
 		{target}
 		{rel}
 		use:activeEcho
-		class={cn(
-			'hyvui-btn',
-			`hyvui-btn-${variant}`,
-			`hyvui-btn-${size}`,
-			loading && 'hyvui-btn-loading',
-			disabled && 'hyvui-btn-disabled',
-			className
-		)}
+		class={btnClass}
 		aria-disabled={disabled || loading}
 		tabindex={disabled || loading ? -1 : undefined}
 		onclick={handleAnchorClick}
@@ -96,13 +94,7 @@
 	<button
 		{type}
 		use:activeEcho
-		class={cn(
-			'hyvui-btn',
-			`hyvui-btn-${variant}`,
-			`hyvui-btn-${size}`,
-			loading && 'hyvui-btn-loading',
-			className
-		)}
+		class={btnClass}
 		disabled={disabled || loading}
 		{onclick}
 	>

@@ -1,21 +1,21 @@
 import type { ActionReturn } from "svelte/action";
+import { animate } from "motion";
+import { currentRegister } from "../motion/registerObserver.js";
+import { presets, themeAccent, themePressMultiplier } from "../motion/presets.js";
 
 /**
- * Adds a gold radial pulse on click. Signals action receipt.
- * Does not interfere with the element's existing styles.
- * Respects prefers-reduced-motion.
+ * Click pulse — radial ripple from the click point. Color picks up the active
+ * theme (hextech cyan, arcane magenta, default gold). Timing matches the
+ * register's press personality.
  *
  * @example
  * <button use:echo>confirm</button>
  */
 export function echo(node: HTMLElement): ActionReturn {
+  if (typeof window === "undefined") return {};
   const prefersReduced = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-
-  let frame = 0;
-  let t1: ReturnType<typeof setTimeout> | undefined;
-  let t2: ReturnType<typeof setTimeout> | undefined;
 
   function handleClick(e: MouseEvent) {
     if (prefersReduced) return;
@@ -24,43 +24,38 @@ export function echo(node: HTMLElement): ActionReturn {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
+    const { register, theme } = currentRegister();
+    const accent = themeAccent[theme] ?? themeAccent.default;
+    const mult = themePressMultiplier[theme] ?? 1;
+    const baseDuration =
+      (presets[register]?.press.options.duration ?? 0.3) as number;
+
     const overlay = document.createElement("span");
     overlay.style.cssText = `
       position: absolute;
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      background: radial-gradient(circle at ${x}% ${y}%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+      background: radial-gradient(circle at ${x}% ${y}%, color-mix(in srgb, ${accent} 26%, transparent), transparent 70%);
       opacity: 0;
-      transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     `;
 
     const position = getComputedStyle(node).position;
     if (position === "static") node.style.position = "relative";
-
     node.style.overflow = "hidden";
     node.appendChild(overlay);
 
-    cancelAnimationFrame(frame);
-    if (t1) clearTimeout(t1);
-    if (t2) clearTimeout(t2);
-
-    frame = requestAnimationFrame(() => {
-      overlay.style.opacity = "1";
-      t1 = setTimeout(() => {
-        overlay.style.opacity = "0";
-        t2 = setTimeout(() => overlay.remove(), 200);
-      }, 200);
-    });
+    animate(
+      overlay,
+      { opacity: [0, 1, 0] },
+      { duration: baseDuration * mult * 2 } as never,
+    ).finished.then(() => overlay.remove());
   }
 
   node.addEventListener("click", handleClick);
   return {
     destroy() {
       node.removeEventListener("click", handleClick);
-      cancelAnimationFrame(frame);
-      if (t1) clearTimeout(t1);
-      if (t2) clearTimeout(t2);
     },
   };
 }

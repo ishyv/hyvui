@@ -83,7 +83,7 @@
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: var(--text-soft);
-		margin-bottom: 0.375rem;
+		margin-bottom: var(--space-2xs);
 	}
 
 	.hyvui-alert-body {

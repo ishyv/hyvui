@@ -25,7 +25,12 @@ export { default as EmptyState } from "./components/feedback/EmptyState.svelte";
 export { default as ErrorState } from "./components/feedback/ErrorState.svelte";
 
 // layout
+export { default as Shell } from "./components/layout/Shell.svelte";
 export { default as Stack } from "./components/layout/Stack.svelte";
+export { default as Cluster } from "./components/layout/Cluster.svelte";
+export { default as Center } from "./components/layout/Center.svelte";
+export { default as Frame } from "./components/layout/Frame.svelte";
+export { default as Switcher } from "./components/layout/Switcher.svelte";
 export { default as Grid } from "./components/layout/Grid.svelte";
 export { default as Card } from "./components/layout/Card.svelte";
 export { default as Panel } from "./components/layout/Panel.svelte";
@@ -80,13 +85,55 @@ export {
   clearWeight,
   applyTheme,
   clearTheme,
+  applyGrade,
+  clearGrade,
   weightRegisters,
   themeRegisters,
+  gradeRegisters,
 } from "./system/register.js";
-export type { WeightRegister, ThemeRegister } from "./system/register.js";
+export type {
+  WeightRegister,
+  ThemeRegister,
+  GradeRegister,
+} from "./system/register.js";
 
 // system — expressions
 export type { Expression } from "./components/primitives/text.js";
+
+// ornaments — frame ring
+export { default as Cornerstone } from "./components/ornaments/Cornerstone.svelte";
+export { default as Bracket } from "./components/ornaments/Bracket.svelte";
+export { default as Seal } from "./components/ornaments/Seal.svelte";
+export { default as MedalCut } from "./components/ornaments/MedalCut.svelte";
+
+// ornaments — network ring
+export { default as Conduit } from "./components/ornaments/Conduit.svelte";
+export { default as Junction } from "./components/ornaments/Junction.svelte";
+export { default as Wire } from "./components/ornaments/Wire.svelte";
+
+// ornaments — mark ring
+export { default as Glyph } from "./components/ornaments/Glyph.svelte";
+export { default as TapeMark } from "./components/ornaments/TapeMark.svelte";
+export { default as RuneStamp } from "./components/ornaments/RuneStamp.svelte";
+export { default as Insignia } from "./components/ornaments/Insignia.svelte";
+export { resolveGlyph } from "./components/ornaments/glyphs/index.js";
+export type {
+  GlyphName,
+  Glyph as GlyphData,
+  GlyphSource,
+} from "./components/ornaments/glyphs/index.js";
+
+// shared motion primitive
+export { default as TravelingParticle } from "./system/motion/TravelingParticle.svelte";
+
+// ornaments — effects ring
+export { default as Threshold } from "./components/ornaments/Threshold.svelte";
+export { default as Refractor } from "./components/ornaments/Refractor.svelte";
+export { default as Ticker } from "./components/ornaments/Ticker.svelte";
+
+// orchestration — choreography + kinetic type
+export { default as Sequence } from "./components/orchestration/Sequence.svelte";
+export { default as KineticText } from "./components/orchestration/KineticText.svelte";
 
 // system — actions
 export { surface } from "./system/actions/surface.js";
@@ -94,6 +141,36 @@ export { echo } from "./system/actions/echo.js";
 export { reveal } from "./system/actions/reveal.js";
 export { resolve } from "./system/actions/resolve.js";
 export type { ResolveStatus } from "./system/actions/resolve.js";
+export { track } from "./system/actions/track.js";
+
+// system — motion presets
+export {
+  presets as motionPresets,
+  themeAccent,
+  themePressMultiplier,
+  currentRegister,
+  onRegisterChange,
+  animateIntent,
+} from "./system/motion/index.js";
+export type { Intent, Preset, RegisterKey } from "./system/motion/index.js";
+
+// system — variants
+export {
+  tv,
+  REGISTERS,
+  THEMES,
+  TONES,
+  SIZES,
+  DENSITY,
+} from "./system/variants/index.js";
+export type {
+  VariantProps,
+  Register,
+  Theme,
+  Tone,
+  Size,
+  Density,
+} from "./system/variants/index.js";
 
 // depth system
 export { default as DepthStage } from "./components/depth/DepthStage.svelte";

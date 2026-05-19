@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import { statusDot, type StatusDotVariants } from './StatusDot.tv.js';
 
 	/**
 	 * @example
@@ -9,7 +10,7 @@
 	 */
 	interface Props {
 		/** Status state determining the dot color. */
-		status?: 'ok' | 'pend' | 'warn' | 'fail';
+		status?: StatusDotVariants['status'];
 		/** Enable pulse animation. */
 		pulse?: boolean;
 		/** Dot diameter in pixels. */
@@ -29,7 +30,7 @@
 </script>
 
 <span
-	class={cn('hyvui-status-dot', pulse && 'hyvui-status-dot-pulse', className)}
+	class={cn(statusDot({ status, pulse }), className)}
 	style:width="{size}px"
 	style:height="{size}px"
 	style:background-color={colorMap[status]}
