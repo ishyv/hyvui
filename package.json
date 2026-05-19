@@ -1,6 +1,6 @@
 {
   "name": "@hyvnt/hyvui",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "publishConfig": {
     "access": "public"
   },
@@ -19,7 +19,13 @@
   "files": [
     "dist",
     "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
+    "!dist/**/*.spec.*",
+    "llms.txt",
+    "SKILL.md",
+    "AESTHETICS.md",
+    "COMPONENTS.md",
+    "INSTALL.md",
+    "docs"
   ],
   "sideEffects": [
     "**/*.css"
