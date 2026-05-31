@@ -92,7 +92,7 @@
 		color: var(--muted);
 		line-height: 1.62;
 		margin: 0;
-		max-width: 32rem;
+		max-width: 36rem;
 		text-wrap: pretty;
 	}
 

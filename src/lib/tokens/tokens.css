@@ -6,7 +6,7 @@
     max viewport: 1440px (90rem) → large-vw ratio 1.333 (positive steps)
                                    small-vw ratio 1.2 (negative steps, keeps metadata dense)
 
-  Base text-sm: 1rem at min, 1.125rem at max.
+  Base text-sm: 1.11rem at min, 1.249rem at max.
   Spacing uses a flat 1.25× factor at max viewport (rhythm scales, ratio stays constant).
 
   Each clamp() is expressed as:  clamp(MIN, BASE_REM + SLOPE_VW, MAX)
@@ -76,17 +76,18 @@
   --font-mono: "IBM Plex Mono", "Menlo", "Consolas", monospace;
 
   /* ── fluid type scale ────────────────────────── */
+  /* stepped up ~11% on both anchors (2026-05) for readability on large displays */
   /* negative steps use the 1.2 ratio at both viewports (dense metadata) */
-  --text-2xs: clamp(0.694rem, 0.665rem + 0.129vw, 0.781rem);
-  --text-xs:  clamp(0.833rem, 0.798rem + 0.156vw, 0.938rem);
-  --text-sm:  clamp(1rem,     0.958rem + 0.185vw, 1.125rem);
+  --text-2xs: clamp(0.770rem, 0.738rem + 0.144vw, 0.867rem);
+  --text-xs:  clamp(0.925rem, 0.886rem + 0.172vw, 1.041rem);
+  --text-sm:  clamp(1.110rem, 1.064rem + 0.206vw, 1.249rem);
   /* positive steps use 1.2 at min, 1.333 at max (drama on large screens) */
-  --text-md:  clamp(1.2rem,   1.100rem + 0.443vw, 1.499rem);
-  --text-lg:  clamp(1.44rem,  1.254rem + 0.827vw, 1.998rem);
-  --text-xl:  clamp(1.728rem, 1.416rem + 1.387vw, 2.664rem);
-  --text-2xl: clamp(2.074rem, 1.582rem + 2.188vw, 3.551rem);
-  --text-3xl: clamp(2.488rem, 1.740rem + 3.326vw, 4.733rem);
-  --text-display: clamp(3.583rem, 1.974rem + 7.151vw, 8.41rem);
+  --text-md:  clamp(1.332rem, 1.221rem + 0.492vw, 1.664rem);
+  --text-lg:  clamp(1.598rem, 1.391rem + 0.919vw, 2.218rem);
+  --text-xl:  clamp(1.918rem, 1.572rem + 1.539vw, 2.957rem);
+  --text-2xl: clamp(2.302rem, 1.755rem + 2.430vw, 3.942rem);
+  --text-3xl: clamp(2.762rem, 1.931rem + 3.692vw, 5.254rem);
+  --text-display: clamp(3.977rem, 2.191rem + 7.938vw, 9.335rem);
 
   /* line-height tokens — counter-balance the fluid type */
   --leading-tight: 1.15;

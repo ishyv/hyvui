@@ -75,7 +75,7 @@
 		font-size: var(--text-sm);
 		font-weight: 400;
 		line-height: 1.62;
-		max-width: 32rem;
+		max-width: 36rem;
 		text-wrap: pretty;
 	}
 
