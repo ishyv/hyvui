@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hyvnt.dev/schemas/hyvui/composition-experiment.schema.json",
+  "title": "hyvui composition experiment",
+  "description": "Syntax-neutral composition intent used to compare HyvUI Next hypotheses.",
+  "type": "object",
+  "additionalProperties": false,
+  "oneOf": [
+    { "required": ["artDirection", "nodes", "relations"] },
+    { "required": ["brief", "nodes", "relations"] }
+  ],
+  "properties": {
+    "artDirection": { "$ref": "#/$defs/artDirection" },
+    "brief": { "$ref": "#/$defs/biomeBrief" },
+    "genome": { "$ref": "#/$defs/genomeOverride" },
+    "adaptation": { "enum": ["disabled", "suggest", "apply"] },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" },
+      "minItems": 1
+    },
+    "relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relation" }
+    }
+  },
+  "$defs": {
+    "artDirection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seed", "adaptation"],
+      "properties": {
+        "seed": { "type": "string", "minLength": 1 },
+        "mood": { "type": "string", "minLength": 1 },
+        "material": { "type": "string", "minLength": 1 },
+        "density": { "enum": ["sparse", "balanced", "dense"] },
+        "contrast": { "enum": ["quiet", "balanced", "aggressive"] },
+        "rhythm": { "enum": ["slow", "varied", "tight"] },
+        "motion": { "enum": ["still", "restrained", "active"] },
+        "adaptation": { "enum": ["disabled", "suggest", "apply"] },
+        "authority": { "enum": ["bounded", "strong"] },
+        "gesture": {
+          "enum": [
+            "altarpiece",
+            "fracture",
+            "procession",
+            "reliquary",
+            "installation",
+            "weather-system"
+          ]
+        },
+        "thesis": { "type": "string", "minLength": 1 },
+        "focal": { "type": "string", "minLength": 1 },
+        "motif": { "type": "string", "minLength": 1 },
+        "palette": {
+          "enum": [
+            "steady",
+            "cold-to-warm-rupture",
+            "ink-and-signal",
+            "material-contrast"
+          ]
+        },
+        "typography": {
+          "enum": [
+            "uniform",
+            "monumental-whisper",
+            "fragmented",
+            "processional"
+          ]
+        },
+        "depth": {
+          "enum": ["flat", "veil-beacon-field", "stacked-planes", "near-far"]
+        },
+        "interaction": {
+          "enum": [
+            "quiet",
+            "gravitational-hover",
+            "field-response",
+            "reveal-on-proximity"
+          ]
+        },
+        "debug": { "type": "boolean", "default": false }
+      }
+    },
+    "biomeBrief": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seed", "premise", "hostBiome", "grafts"],
+      "properties": {
+        "seed": { "type": "string", "minLength": 1 },
+        "premise": { "type": "string", "minLength": 1 },
+        "hostBiome": {
+          "enum": [
+            "operational-apparatus",
+            "manifesto-print",
+            "deconstructed-editorial",
+            "quiet-object-gallery",
+            "ceremonial-reliquary",
+            "ecological-elegy",
+            "oneiric-object-poetry",
+            "machine-ecology",
+            "celestial-cartography",
+            "post-digital-morphology",
+            "kinetic-rupture",
+            "noise-commons"
+          ]
+        },
+        "grafts": {
+          "type": "array",
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/biomeGraft" }
+        },
+        "contentOrder": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requiredContent": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "withholding": { "type": "string", "minLength": 1 },
+        "focalPolicy": {
+          "enum": ["singular", "distributed", "polycentric"]
+        },
+        "framePolicy": { "type": "string", "minLength": 1 },
+        "passagePolicy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "biomeGraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["biome", "channel", "mode", "reason"],
+      "properties": {
+        "biome": {
+          "enum": [
+            "operational-apparatus",
+            "manifesto-print",
+            "deconstructed-editorial",
+            "quiet-object-gallery",
+            "ceremonial-reliquary",
+            "ecological-elegy",
+            "oneiric-object-poetry",
+            "machine-ecology",
+            "celestial-cartography",
+            "post-digital-morphology",
+            "kinetic-rupture",
+            "noise-commons"
+          ]
+        },
+        "channel": {
+          "enum": [
+            "material",
+            "light",
+            "typography",
+            "information",
+            "motion",
+            "interaction",
+            "framing"
+          ]
+        },
+        "mode": { "enum": ["symbiotic", "tensional"] },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "genomeOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "spatialHabitat": { "type": "string", "minLength": 1 },
+        "density": { "type": "string", "minLength": 1 },
+        "material": { "type": "string", "minLength": 1 },
+        "light": { "type": "string", "minLength": 1 },
+        "typography": { "type": "string", "minLength": 1 },
+        "information": { "type": "string", "minLength": 1 },
+        "timeModel": { "type": "string", "minLength": 1 },
+        "viewerRole": { "type": "string", "minLength": 1 },
+        "interactionVerb": { "type": "string", "minLength": 1 }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "content", "role"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "content": { "type": "string", "minLength": 1 },
+        "role": {
+          "enum": [
+            "focal-point",
+            "counterweight",
+            "field",
+            "connector",
+            "interruption",
+            "frame",
+            "atmosphere",
+            "foreground",
+            "background"
+          ]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "placement": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "priority": { "type": "integer", "minimum": 0 },
+        "source": { "type": "string" }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "source", "target", "strength", "behavior"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "kind": {
+          "enum": [
+            "overlap",
+            "anchor",
+            "echo",
+            "connect",
+            "interrupt",
+            "frame",
+            "reveal"
+          ]
+        },
+        "source": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "strength": { "enum": ["required", "preferred", "hint"] },
+        "overlap": { "enum": ["edge", "partial", "deep", "field"] },
+        "range": { "type": "string" },
+        "behavior": { "type": "string", "minLength": 1 },
+        "fallback": { "type": "string", "minLength": 1 },
+        "sourceLocation": { "type": "string" }
+      }
+    }
+  }
+}

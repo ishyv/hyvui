@@ -116,7 +116,7 @@
 						</Stack>
 						<Divider pattern="solid" strength="default" />
 						<Text variant="caption" color="muted">
-							PAULSEN-9 holding bearing 240 for 06:02:17. last update unchanged.
+							PAULSEN-9 holds bearing 240. no change in 06:02:17.
 						</Text>
 					</Stack>
 				</Surface>
@@ -139,8 +139,9 @@
 							<!-- sweep -->
 							<line x1="100" y1="100" x2="100" y2="10" stroke="currentColor" stroke-width="1.2" opacity="0.7" class="sweep" />
 							<!-- contact pips -->
-							<circle cx="174" cy="74" r="3" fill="currentColor" opacity="0.9" />
-							<text x="166" y="68" font-size="6" fill="currentColor" font-family="var(--font-mono)" text-anchor="end">PAULSEN-9</text>
+							<line x1="100" y1="100" x2="26" y2="148" stroke="var(--accent)" stroke-width="1" opacity="0.9" class="primary-bearing" />
+							<circle data-bridge-contact="PAULSEN-9" data-bearing="240" cx="26" cy="148" r="3" fill="var(--accent)" opacity="0.9" />
+							<text x="34" y="160" font-size="6" fill="var(--accent)" font-family="var(--font-mono)" text-anchor="start">PAULSEN-9</text>
 							<circle cx="62" cy="118" r="2" fill="currentColor" opacity="0.7" class="moving-pip" />
 							<circle cx="138" cy="142" r="2" fill="currentColor" opacity="0.6" class="moving-pip" />
 							<circle cx="74" cy="56" r="1.5" fill="currentColor" opacity="0.4" />

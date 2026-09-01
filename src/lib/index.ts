@@ -200,3 +200,7 @@ export { default as StageScene } from "./components/scenes/StageScene.svelte";
 export { default as ArchiveScene } from "./components/scenes/ArchiveScene.svelte";
 export { default as LogScene } from "./components/scenes/LogScene.svelte";
 export { default as DepthScene } from "./components/scenes/DepthScene.svelte";
+
+// next — read-only agent discovery
+export { getAgentManifest } from "./next-experiments/capabilities.js";
+export type { AgentManifest } from "./next-experiments/capabilities.js";

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -140,14 +142,16 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('unauthorized');
 </script>
 
 <svelte:head>
-	<title>introduce yourself · hyvui</title>
+	<title>sign-in required · hyvui</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay />
 	<Vignette />
@@ -169,8 +173,8 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">07 / unauthorized</Label>
-			<h1 class="heading">introduce yourself</h1>
-			<p class="body-text">this space is available. access requires identification.</p>
+			<h1 class="heading">sign-in required</h1>
+			<p class="body-text">this route is available. sign in to continue.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -180,11 +184,12 @@
 			</div>
 			<div class="status-footer">
 				<StatusDot status="warn" size={6} />
-				<Label>session pending</Label>
+				<Label>sign-in required</Label>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

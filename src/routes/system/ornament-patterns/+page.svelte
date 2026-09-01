@@ -22,9 +22,12 @@
 		type WeightRegister,
 		type ThemeRegister
 	} from '$lib/index.js';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 
-	let activeWeight = $state<WeightRegister | null>(null);
-	let activeTheme = $state<ThemeRegister | null>(null);
+	const showcaseManifest = getShowcaseManifest('system-ornament-patterns');
+	let activeWeight = $state<WeightRegister | null>(showcaseManifest?.weight ?? null);
+	let activeTheme = $state<ThemeRegister | null>(showcaseManifest?.theme ?? null);
 
 	function setWeight(w: WeightRegister | null) {
 		activeWeight = w;
@@ -39,14 +42,16 @@
 </script>
 
 <svelte:head>
-	<title>ornament patterns — hyvui</title>
+	<title>ornament patterns · hyvui</title>
 </svelte:head>
 
-<Shell as="main" padY="var(--space-2xl)">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-demo" data-system-demo>
+		<Shell as="div" padY="var(--space-2xl)">
 	<Stack gap="var(--space-2xl)">
 		<PageHeader
 			title="ornament patterns"
-			subtitle="lego-piece composition. drop the same five frame pieces into any register × theme grid to see how character shifts. switch the register and theme above and watch each pattern re-tune."
+			subtitle="five frame parts. switch register and theme to see their glyphs and tones change."
 		/>
 
 		<Cluster gap="var(--space-md)" align="center">
@@ -83,7 +88,7 @@
 		<!-- 1. Framed surface — Surface + 4 Cornerstones -->
 		<section>
 			<Text variant="caption" color="accent">01 / framed surface</Text>
-			<Text color="muted">Surface + four Cornerstones, one per corner. The cheapest possible lego frame.</Text>
+			<Text color="muted">four Cornerstones, one per corner. one frame.</Text>
 			<Cluster gap="var(--space-lg)" align="start">
 				{#each ['pip', 'nub', 'shard', 'serif'] as const as shape}
 					<Surface variant="card" class="pat-card">
@@ -104,7 +109,7 @@
 		<section>
 			<Text variant="caption" color="accent">02 / bracketed glyph</Text>
 			<Text color="muted">
-				Inline emphasis. Wrap any small element to mark it. Pairs naturally with Glyph.
+				mark a small inline item. use it with Glyph.
 			</Text>
 			<Cluster gap="var(--space-lg)">
 				<Bracket style="angle"><Glyph name="asterisk" /></Bracket>
@@ -119,7 +124,7 @@
 		<!-- 3. Stamped header — Seal centered with Glyph + heading + divider -->
 		<section>
 			<Text variant="caption" color="accent">03 / stamped header</Text>
-			<Text color="muted">Seal + Glyph + heading + divider. A document opener.</Text>
+			<Text color="muted">seal, glyph, heading, and divider for a document opener.</Text>
 			<Cluster gap="var(--space-lg)" align="center">
 				<Seal rings={3} spokes={8} radius="56px">
 					<Glyph name="compass-rose" />
@@ -137,7 +142,7 @@
 		<!-- 4. Medal-cut badge — MedalCut wrapping a Badge for distinctive status -->
 		<section>
 			<Text variant="caption" color="accent">04 / medal-cut badge</Text>
-			<Text color="muted">MedalCut wraps a Badge to give status its own polygon identity.</Text>
+			<Text color="muted">MedalCut wraps a Badge and gives the status a polygon cut.</Text>
 			<Cluster gap="var(--space-md)">
 				{#each ['shield', 'hex', 'parallelogram', 'banner', 'tab'] as const as cut}
 					<MedalCut {cut}>
@@ -153,8 +158,7 @@
 		<section>
 			<Text variant="caption" color="accent">05 / glyph dialects</Text>
 			<Text color="muted">
-				Same `name` prop renders different SVG per active register or theme — the iconographic
-				vocabulary changes with the dialect.
+				The same `name` uses a different SVG for the active register or theme.
 			</Text>
 			<Cluster gap="var(--space-md)" align="center">
 				{#each ['asterisk', 'star', 'dagger', 'dot'] as const as name}
@@ -167,6 +171,8 @@
 		</section>
 	</Stack>
 </Shell>
+	</main>
+</ShowcaseShell>
 
 <style>
 	:global(.pat-card) {

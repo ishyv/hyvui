@@ -1138,3 +1138,38 @@ SVG line with an animated traveling dot connecting two points. Good for timeline
 ```svelte
 <ThreadLine x1={0} y1={0} x2={200} y2={100} animated />
 ```
+
+---
+
+## HyvUI Next composition layer
+
+The composition layer is additive. It describes visual participants and relationships without
+replacing normal Svelte/HTML layout.
+
+**Public discovery export:** `getAgentManifest`
+
+The `Composition`, `CompositionNode`, resolver, and proof modules remain private under
+`src/lib/next-experiments/` while the research bakeoff and public API review remain open. Use the
+research routes for those experiments rather than treating them as package exports.
+
+Use it when the visual idea depends on relationships such as focal point, counterweight, field,
+connector, interruption, frame, echo, or overlap. Start with `adaptation: 'suggest'`; inspect the
+resolved decisions before enabling `apply`.
+
+Use `/next-lab/experiment` to inspect the private composition prototype and its current route-level
+imports.
+
+`CompositionNode` adds stable node identity and role/relation metadata. It does not choose a page
+template or force absolute positioning. Use `class`, CSS custom properties, manual placement, and
+ordinary HTML as escape hatches. `Composition` emits a hidden `data-composition-inspector` JSON
+element and a `data-art-director-inspector` JSON element when `inspect` is enabled.
+
+The initial relation resolver is static and SSR-safe. It reports `applied`, `suggested`, and
+`rejected` decisions, preserves explicit manual placement, and derives bounded variation from a
+stable seed plus node ID. Strong art direction is opt-in and active only in `apply` mode. It resolves
+one named composition gesture into visual planes, deterministic poses, palette/type/depth behavior,
+and semantic-free atmosphere without changing required content or DOM order.
+
+See [`docs/next.md`](docs/next.md), [`docs/research/current-composition-audit.md`](docs/research/current-composition-audit.md),
+and [`docs/research/external-prior-art.md`](docs/research/external-prior-art.md) before treating
+this as a finished architecture.

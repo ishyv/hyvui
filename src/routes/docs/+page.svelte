@@ -72,6 +72,10 @@
     RegisterSwitcher,
     ShimmerCloud,
   } from "$lib/index.js";
+  import ShowcaseShell from "$lib/showcase/ShowcaseShell.svelte";
+  import { getShowcaseManifest } from "$lib/showcase/showcaseManifest.js";
+
+  const showcaseManifest = getShowcaseManifest("docs");
 
   const sections = [
     { id: "overview", label: "overview" },
@@ -144,13 +148,13 @@
     `cript>
 
 <Card>
-  <Text variant="heading" as="h2">calm surface</Text>
+  <Text variant="heading" as="h2">operator panel</Text>
   <Button variant="primary">activate</Button>
 </Card>`;
 
   const tokenCode = String.raw`<Surface variant="panel" withInset>
   <Label color="muted">surface panel</Label>
-  <Text variant="body">stacked layers, quiet contrast.</Text>
+  <Text variant="body">panel with inset border.</Text>
 </Surface>`;
 
   let formName = $state("");
@@ -213,7 +217,8 @@
   <title>hyvui docs</title>
 </svelte:head>
 
-<div class="docs">
+<ShowcaseShell manifest={showcaseManifest!}>
+  <div class="docs">
   <Topbar class="docs-topbar">
     {#snippet left()}
       <div class="docs-topbar-left">
@@ -232,7 +237,7 @@
       <div class="docs-topbar-right">
         <SearchBar
           bind:value={searchValue}
-          placeholder="search docs"
+          placeholder="find a component"
           loading={searchLoading}
           class="docs-search"
         />
@@ -255,10 +260,10 @@
     <main class="docs-content">
       <PageHeader
         title="documentation"
-        subtitle="every component, live. pick a section on the left."
+        subtitle="components, props, and live specimens. choose a section."
       >
         {#snippet breadcrumb()}
-          <Label color="muted">component register</Label>
+          <Label color="muted">component index</Label>
         {/snippet}
 
         {#snippet actions()}
@@ -270,10 +275,9 @@
       <section id="overview" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">overview</Label>
-          <Text variant="heading" as="h2">everything in one place</Text>
+          <Text variant="heading" as="h2">the index</Text>
           <Text variant="body" color="soft">
-            all components live, with props and examples. scroll or jump via the
-            sidebar.
+            choose a section. examples and props sit beside the specimen.
           </Text>
         </div>
         <Stack gap="var(--space-md)" class="docs-block">
@@ -283,9 +287,8 @@
             <StatusDot status="ok" size={7} />
             <Label>stable</Label>
           </div>
-          <Alert variant="info" title="design posture">
-            spacing carries the hierarchy. labels stay uppercase. contrast is
-            intentional, not decorative.
+          <Alert variant="info" title="use the parts">
+            spacing sets hierarchy. labels mark the fields. contrast marks a change.
           </Alert>
         </Stack>
       </section>
@@ -295,19 +298,17 @@
       <section id="registers" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">weights and themes</Label>
-          <Text variant="heading" as="h2">separate density and motif</Text>
+          <Text variant="heading" as="h2">change the weight. keep the theme.</Text>
           <Text variant="body" color="soft">
-            switch weights and themes to see how components and tokens respond.
-            weights shift density and voice. themes shift palette, motion, and
-            ornament.
+            weight changes density and voice. theme changes palette, motion, and
+            ornament. try both.
           </Text>
         </div>
         <div class="docs-registers-demo">
           <RegisterSwitcher />
           <p class="docs-registers-note">
-            apply weight and theme independently. no component changes required.
-            tokens do the work. hextech and arcane require their respective css
-            imports.
+            set weight and theme separately. components stay the same. import the
+            theme tokens before using hextech or arcane.
           </p>
           <div class="docs-registers-tokens">
             <code class="docs-reg-code"
@@ -325,21 +326,20 @@
       <section id="primitives" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">primitives</Label>
-          <Text variant="heading" as="h2">type, tone, and base surfaces</Text>
+          <Text variant="heading" as="h2">text and surfaces</Text>
         </div>
         <Grid
           mode="template"
           cols="minmax(0, 1.2fr) minmax(0, 1fr)"
           gap="var(--space-xl)"
         >
-          <Stack gap="var(--space-sm)">
+          <Stack gap="var(--space-sm)" class="docs-primitives-copy">
             <Text variant="heading" as="h3">heading tier</Text>
             <Text variant="body" color="soft">
-              body text. short lines, deliberate spacing. nothing squeezed
-              together.
+              body text. short lines. leave room between them.
             </Text>
             <Text variant="italic" color="muted"
-              >italics are for the quieter line.</Text
+              >use italics for a side note.</Text
             >
             <Text variant="caption" color="muted-strong">caption register</Text>
             <div class="docs-row">
@@ -383,7 +383,7 @@
               <Label color="muted">card</Label>
             {/snippet}
             <Text variant="body" color="soft"
-              >contained surfaces. good for repeatable rows and grid items.</Text
+              >use card for a repeated item or a small group.</Text
             >
           </Card>
           <Card>
@@ -391,8 +391,7 @@
               <Label color="muted">grid</Label>
             {/snippet}
             <Text variant="body" color="soft"
-              >column-based layouts. pass a number for equal columns or a full
-              template string.</Text
+              >use grid for columns. pass equal column count or a template.</Text
             >
           </Card>
           <Card>
@@ -400,7 +399,7 @@
               <Label color="muted">stack</Label>
             {/snippet}
             <Text variant="body" color="soft"
-              >flexbox with a gap. vertical or horizontal, no visual treatment.</Text
+              >stack places children in a row or column and applies the gap.</Text
             >
           </Card>
         </Grid>
@@ -410,8 +409,7 @@
           {/snippet}
           <Stack gap="var(--space-sm)">
             <Text variant="body" color="soft"
-              >full-section container for forms, data tables, and anything that
-              needs room.</Text
+              >use panel for a large section, form, or table.</Text
             >
             <Stack direction="horizontal" gap="var(--space-sm)" wrap={true}>
               <Badge variant="accent">surface</Badge>
@@ -450,8 +448,7 @@
           <MetricCard label="drift" value="0.32" trend="neutral" />
         </Grid>
         <Blockquote>
-          the interface is a quiet contract between what's there and what's
-          needed.
+          show the state the user needs. hide the rest.
         </Blockquote>
         <Table columns={tableColumns} rows={tableRows} />
         <CodeBlock code={usageCode} language="svelte" />
@@ -549,14 +546,14 @@
                 <Skeleton width="90%" height="0.8rem" />
               </Stack>
             </Stack>
-            <Button variant="ghost" onclick={handleToast}>trigger toast</Button>
+            <Button variant="ghost" onclick={handleToast}>show toast</Button>
           </Stack>
         </Grid>
         <Grid cols={2} gap="var(--space-md)" class="docs-state-grid">
-          <EmptyState title="no entries" description="awaiting first signal." />
+          <EmptyState title="no entries" description="no records yet." />
           <ErrorState
             title="signal deferred"
-            description="retry from stable ground."
+            description="try again when the channel is steady."
             retry={true}
           />
         </Grid>
@@ -584,7 +581,7 @@
             />
             <SearchBar
               bind:value={searchValue}
-              placeholder="search section"
+              placeholder="find a section"
               loading={searchLoading}
             />
           </Stack>
@@ -638,13 +635,13 @@
               placement="bottom"
               onclose={() => (popoverOpen = false)}
             >
-              <Text variant="caption" color="muted-strong">popover note</Text>
+              <Text variant="caption" color="muted-strong">secondary note</Text>
             </Popover>
           </div>
         </Stack>
         <Panel>
           {#snippet header()}
-            <Label color="muted">selection demo</Label>
+            <Label color="muted">selection test</Label>
           {/snippet}
           <Stack gap="var(--space-sm)">
             <Checkbox label="alpha register" bind:checked={selectAlpha} />
@@ -729,7 +726,7 @@
       <section id="depth" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">depth</Label>
-          <Text variant="heading" as="h2">layered spatial system</Text>
+          <Text variant="heading" as="h2">layers in depth</Text>
         </div>
         <DepthStage class="docs-depth-stage">
           <DepthLayer level="ground" class="docs-depth-layer">
@@ -738,7 +735,7 @@
           <DepthLayer level="raised" class="docs-depth-layer">
             <FloatCard>
               <Label color="accent">float card</Label>
-              <Text variant="body" color="soft">move the pointer over it.</Text>
+              <Text variant="body" color="soft">move the pointer over the card.</Text>
             </FloatCard>
           </DepthLayer>
           <DepthLayer level="foreground" class="docs-depth-layer">
@@ -752,7 +749,7 @@
       <section id="scenes" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">scenes</Label>
-          <Text variant="heading" as="h2">full-page compositions</Text>
+          <Text variant="heading" as="h2">scene patterns</Text>
         </div>
         <div class="docs-scene">
           <StageScene>
@@ -764,7 +761,7 @@
             {/snippet}
             {#snippet subheading()}
               <Text variant="body" color="soft"
-                >one thing to say. centered. no distractions.</Text
+                >one message. centered. no side rail.</Text
               >
             {/snippet}
             {#snippet actions()}
@@ -779,8 +776,7 @@
             {/snippet}
             {#snippet copy()}
               <Text variant="body" color="soft">
-                narrow copy on the left, open canvas on the right. good for
-                about pages and story sections.
+                copy stays narrow. the open side holds an image or specimen.
               </Text>
             {/snippet}
             {#snippet canvas()}
@@ -798,7 +794,7 @@
             {/snippet}
             {#snippet children()}
               <Text variant="body" color="soft"
-                >dense layout for dashboards and data-heavy pages.</Text
+                >dense layout for data-heavy screens.</Text
               >
             {/snippet}
             {#snippet sidebar()}
@@ -848,10 +844,10 @@
 
   <Modal
     open={modalOpen}
-    title="modal interface"
+    title="one decision"
     onclose={() => (modalOpen = false)}
   >
-    <Text variant="body" color="soft">short. focused. one thing to decide.</Text
+    <Text variant="body" color="soft">one decision at a time.</Text
     >
     {#snippet footer()}
       <Button variant="ghost" onclick={() => (modalOpen = false)}
@@ -865,9 +861,9 @@
 
   <Drawer open={drawerOpen} onclose={() => (drawerOpen = false)}>
     <Stack gap="var(--space-sm)">
-      <Label color="accent">drawer panel</Label>
+      <Label color="accent">secondary panel</Label>
       <Text variant="body" color="soft"
-        >secondary content that slides in from the side.</Text
+        >secondary content enters from the side.</Text
       >
       <Button variant="ghost" onclick={() => (drawerOpen = false)}
         >[ close ]</Button
@@ -877,8 +873,8 @@
 
   <ConfirmDialog
     open={confirmOpen}
-    title="confirm update"
-    description="apply changes to the register."
+    title="apply update"
+    description="write these changes to the register."
     confirmLabel="apply"
     cancelLabel="cancel"
     onconfirm={() => {
@@ -897,6 +893,7 @@
 
   <Toast />
 </div>
+</ShowcaseShell>
 
 <style>
   .docs {
@@ -971,6 +968,15 @@
     align-items: center;
     gap: var(--space-sm);
     flex-wrap: wrap;
+  }
+
+  :global(.docs-primitives-copy) {
+    min-width: 0;
+  }
+
+  :global(.docs-primitives-copy .hyvui-label) {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   :global(.docs-block) {
@@ -1167,6 +1173,7 @@
 
     .docs-sidebar {
       position: static;
+      order: 2;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
@@ -1176,6 +1183,7 @@
     }
 
     .docs-content {
+      order: 1;
       gap: var(--space-xl);
     }
   }
@@ -1191,12 +1199,29 @@
       width: 100%;
     }
 
+    :global(.docs .hyvui-codeblock-code) {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
     .docs-shell {
       padding: var(--space-md) var(--space-sm) var(--space-xl);
     }
 
     .docs-section {
       gap: var(--space-md);
+    }
+
+    .docs-scene :global(.hyvui-readout-body-sidebar) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .docs-new-ambient-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-new-ambient-item {
+      min-width: 0;
     }
 
     .docs-ambient-preview {

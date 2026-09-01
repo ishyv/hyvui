@@ -274,15 +274,15 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 
 ### Props
 
-| prop       | type                                 | default     | required | description                                 |
-| ---------- | ------------------------------------ | ----------- | -------- | ------------------------------------------- |
-| `options`  | `{ value: string; label: string }[]` | `[]`        | yes      | array of selectable options                 |
-| `value`    | `string`                             | `''`        | no       | bindable selected value                     |
-| `label`    | `string`                             | `undefined` | no       | visible label above the select              |
-| `description` | `string`                          | `undefined` | no       | helper text below the select                |
-| `error`    | `string`                             | `undefined` | no       | error message; applies error border styling |
-| `disabled` | `boolean`                            | `false`     | no       | disables the select                         |
-| `class`    | `string`                             | `''`        | no       | additional CSS classes                      |
+| prop          | type                                 | default     | required | description                                 |
+| ------------- | ------------------------------------ | ----------- | -------- | ------------------------------------------- |
+| `options`     | `{ value: string; label: string }[]` | `[]`        | yes      | array of selectable options                 |
+| `value`       | `string`                             | `''`        | no       | bindable selected value                     |
+| `label`       | `string`                             | `undefined` | no       | visible label above the select              |
+| `description` | `string`                             | `undefined` | no       | helper text below the select                |
+| `error`       | `string`                             | `undefined` | no       | error message; applies error border styling |
+| `disabled`    | `boolean`                            | `false`     | no       | disables the select                         |
+| `class`       | `string`                             | `''`        | no       | additional CSS classes                      |
 
 ### Events
 
@@ -321,14 +321,14 @@ Same pattern as `Input` — label association via `id`/`for`, error via `aria-de
 
 ### Props
 
-| prop       | type      | default     | required | description                       |
-| ---------- | --------- | ----------- | -------- | --------------------------------- |
-| `checked`  | `boolean` | `false`     | no       | bindable checked state            |
-| `label`    | `string`  | `undefined` | no       | visible label beside the checkbox |
-| `description` | `string` | `undefined` | no       | helper text below the label       |
-| `error`    | `string`  | `undefined` | no       | error message; applies error border styling |
-| `disabled` | `boolean` | `false`     | no       | disables the checkbox             |
-| `class`    | `string`  | `''`        | no       | additional CSS classes            |
+| prop          | type      | default     | required | description                                 |
+| ------------- | --------- | ----------- | -------- | ------------------------------------------- |
+| `checked`     | `boolean` | `false`     | no       | bindable checked state                      |
+| `label`       | `string`  | `undefined` | no       | visible label beside the checkbox           |
+| `description` | `string`  | `undefined` | no       | helper text below the label                 |
+| `error`       | `string`  | `undefined` | no       | error message; applies error border styling |
+| `disabled`    | `boolean` | `false`     | no       | disables the checkbox                       |
+| `class`       | `string`  | `''`        | no       | additional CSS classes                      |
 
 ### Events
 
@@ -369,14 +369,14 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ### Props
 
-| prop       | type      | default     | required | description                     |
-| ---------- | --------- | ----------- | -------- | ------------------------------- |
-| `checked`  | `boolean` | `false`     | no       | bindable checked state          |
-| `label`    | `string`  | `undefined` | no       | visible label beside the toggle |
-| `description` | `string` | `undefined` | no       | helper text below the label    |
-| `error`    | `string`  | `undefined` | no       | error message; applies error border styling |
-| `disabled` | `boolean` | `false`     | no       | disables the toggle             |
-| `class`    | `string`  | `''`        | no       | additional CSS classes          |
+| prop          | type      | default     | required | description                                 |
+| ------------- | --------- | ----------- | -------- | ------------------------------------------- |
+| `checked`     | `boolean` | `false`     | no       | bindable checked state                      |
+| `label`       | `string`  | `undefined` | no       | visible label beside the toggle             |
+| `description` | `string`  | `undefined` | no       | helper text below the label                 |
+| `error`       | `string`  | `undefined` | no       | error message; applies error border styling |
+| `disabled`    | `boolean` | `false`     | no       | disables the toggle                         |
+| `class`       | `string`  | `''`        | no       | additional CSS classes                      |
 
 ### Events
 
@@ -415,15 +415,15 @@ Associates label via `id`/`for`. responds to Space to toggle. `aria-checked` ref
 
 ### Props
 
-| prop       | type      | default     | required | description                                                               |
-| ---------- | --------- | ----------- | -------- | ------------------------------------------------------------------------- |
-| `accept`   | `string`  | `undefined` | no       | MIME types or file extensions to accept (e.g. `'image/*'`, `'.pdf,.doc'`) |
-| `multiple` | `boolean` | `false`     | no       | allow selecting multiple files                                            |
-| `label`    | `string`  | `undefined` | no       | visible label above the drop zone                                         |
-| `description` | `string` | `undefined` | no       | helper text below the drop zone                                          |
-| `error`    | `string`  | `undefined` | no       | error message; applies error border styling                               |
-| `disabled` | `boolean` | `false`     | no       | disables the file picker                                                  |
-| `class`    | `string`  | `''`        | no       | additional CSS classes                                                    |
+| prop          | type      | default     | required | description                                                               |
+| ------------- | --------- | ----------- | -------- | ------------------------------------------------------------------------- |
+| `accept`      | `string`  | `undefined` | no       | MIME types or file extensions to accept (e.g. `'image/*'`, `'.pdf,.doc'`) |
+| `multiple`    | `boolean` | `false`     | no       | allow selecting multiple files                                            |
+| `label`       | `string`  | `undefined` | no       | visible label above the drop zone                                         |
+| `description` | `string`  | `undefined` | no       | helper text below the drop zone                                           |
+| `error`       | `string`  | `undefined` | no       | error message; applies error border styling                               |
+| `disabled`    | `boolean` | `false`     | no       | disables the file picker                                                  |
+| `class`       | `string`  | `''`        | no       | additional CSS classes                                                    |
 
 ### Events
 

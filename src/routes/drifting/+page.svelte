@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		ScanBand,
 		GridOverlay,
@@ -295,6 +297,7 @@
 			window.clearTimeout(timer);
 		}
 	});
+	const showcaseManifest = getShowcaseManifest('drifting');
 </script>
 
 <svelte:head>
@@ -302,7 +305,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page drifting-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page drifting-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<ScanBand
 		axis="x"
@@ -338,21 +342,21 @@
 			<p class="section-label" aria-hidden="true">00 / drifting</p>
 			<h1 class="heading">the signal<br />needs rest.</h1>
 			<p class="body-text">
-				the analysis engine has reached its quiet threshold. it will return once the channel clears
-				on its own.
+				the rate limit is active. wait for the channel to clear.
 			</p>
-			<p class="body-text quiet">nothing is broken. just still.</p>
+			<p class="body-text quiet">the request is held. retry later.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
 			<Button variant="ghost" href="/" class="return-link">[ return to input ]</Button>
 			<div class="status-footer">
 				<StatusDot status="fail" size={6} />
-				<Label class="status-label">monitoring for signal recovery</Label>
+				<Label class="status-label">cooldown active</Label>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

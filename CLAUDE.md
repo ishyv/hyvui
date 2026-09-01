@@ -22,11 +22,11 @@ npm run test:e2e     # build + run Playwright tests (1600x900 viewport)
 
 The library has three orthogonal styling layers that compose. Pick none, one, two, or all three. The base library is the soul; the layers do not replace it.
 
-| Layer | HTML attribute | Helper | Purpose |
-|---|---|---|---|
+| Layer                 | HTML attribute            | Helper          | Purpose                                    |
+| --------------------- | ------------------------- | --------------- | ------------------------------------------ |
 | **register (weight)** | `data-weight` on `<body>` | `applyWeight()` | typographic density and emotional register |
-| **theme** | `data-theme` on `<body>` | `applyTheme()` | material identity (palette + motif) |
-| **grade** | `data-grade` on `<body>` | `applyGrade()` | film-look color grading |
+| **theme**             | `data-theme` on `<body>`  | `applyTheme()`  | material identity (palette + motif)        |
+| **grade**             | `data-grade` on `<body>`  | `applyGrade()`  | film-look color grading                    |
 
 > ⚠ Historical naming quirk: the codebase calls them "registers" in docs but the attribute is `data-weight`. The TypeScript helper is `applyWeight()`. Use the helper, not raw attributes, to stay consistent.
 
@@ -41,6 +41,7 @@ The library has three orthogonal styling layers that compose. Pick none, one, tw
 ### Token system
 
 All tokens are CSS custom properties in `src/lib/tokens/tokens.css`. They are also available as:
+
 - TypeScript constants via `import { tokens } from '$lib'`
 - Tailwind v4 classes via the `@theme` block in `app.css`
 
@@ -54,20 +55,20 @@ Theme tokens (`hextech.css`, `arcane.css`) layer ON TOP of the base — they rem
 
 Applied to `<body>` via `applyWeight()`:
 
-| weight | character | use for |
-|---|---|---|
-| `field-notebook` | warm, editorial, serif-forward | portfolios, narrative pages |
-| `mission-control` | dense, mono-forward, precise | dashboards, tools |
-| `archive` | cool, spacious, muted | galleries, indexes, catalogs |
+| weight            | character                      | use for                      |
+| ----------------- | ------------------------------ | ---------------------------- |
+| `field-notebook`  | warm, editorial, serif-forward | portfolios, narrative pages  |
+| `mission-control` | dense, mono-forward, precise   | dashboards, tools            |
+| `archive`         | cool, spacious, muted          | galleries, indexes, catalogs |
 
 ### Themes (motif + palette)
 
 Applied to `<body>` via `applyTheme()`. **Themes have soul.** They are not just recolors. Each carries a material identity and motion personality drawn from a real reference (the Arcane Netflix series).
 
-| theme | identity | reference |
-|---|---|---|
-| `hextech` | brass machinery housing a crystal that holds light. mechanical + sacred. precise. art deco. | Piltover (Arcane S1/S2): brass clockwork, hex crystals, scan lines, the hextech rifle, hexgates, gem-cut housings |
-| `arcane` | divine, mystical, angelic — a living manifestation that is both organism and miracle. iridescent. breathing. | The Hexcore (Arcane): biomechanical, fractal, white-hot core, magenta-violet bleed, plant growth, mutation. Viktor's transformation. Cathedral light. |
+| theme     | identity                                                                                                     | reference                                                                                                                                             |
+| --------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hextech` | brass machinery housing a crystal that holds light. mechanical + sacred. precise. art deco.                  | Piltover (Arcane S1/S2): brass clockwork, hex crystals, scan lines, the hextech rifle, hexgates, gem-cut housings                                     |
+| `arcane`  | divine, mystical, angelic — a living manifestation that is both organism and miracle. iridescent. breathing. | The Hexcore (Arcane): biomechanical, fractal, white-hot core, magenta-violet bleed, plant growth, mutation. Viktor's transformation. Cathedral light. |
 
 See `src/lib/tokens/hextech.css` and `src/lib/tokens/arcane.css` for the material recipes. See `AESTHETICS.md` § "Theme Augmentation" for the full visual language reference.
 
@@ -75,12 +76,12 @@ See `src/lib/tokens/hextech.css` and `src/lib/tokens/arcane.css` for the materia
 
 Applied to `<body>` via `applyGrade()`. A single CSS `filter` on the body element; does not cascade into ::before/::after, so textures stay independent.
 
-| grade | filter recipe |
-|---|---|
-| `cold-archive` | cool, lifted blacks, washed |
+| grade           | filter recipe                                      |
+| --------------- | -------------------------------------------------- |
+| `cold-archive`  | cool, lifted blacks, washed                        |
 | `interrogation` | high contrast, desaturated mids, slight green push |
-| `twilight` | warm shadows, magenta highlights |
-| `dailies` | flat, slightly green, broadcast look |
+| `twilight`      | warm shadows, magenta highlights                   |
+| `dailies`       | flat, slightly green, broadcast look               |
 
 ### Patterns and scenes
 
@@ -100,6 +101,7 @@ Always check `src/lib/components/patterns/` before assembling a layout from prim
 ## Typography
 
 Two typefaces only:
+
 - **ET Book** (serif) — self-hosted, used for all body text and headings
 - **IBM Plex Mono** — used for all labels, metadata, UI strings, nav items
 

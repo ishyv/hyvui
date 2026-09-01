@@ -49,7 +49,11 @@
 		z-index: var(--z-overlay);
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		justify-content: flex-start;
 		gap: var(--space-md);
+		max-width: calc(100vw - (var(--space-md) * 2));
+		box-sizing: border-box;
 		background: var(--surface-card);
 		border: 1px solid color-mix(in srgb, var(--text) 5%, transparent);
 		box-shadow: var(--shadow-veil);

@@ -25,9 +25,9 @@ local development (without publishing):
 
 ```json
 {
-	"dependencies": {
-		"@hyvnt/hyvui": "file:../path/to/hyvui"
-	}
+  "dependencies": {
+    "@hyvnt/hyvui": "file:../path/to/hyvui"
+  }
 }
 ```
 
@@ -41,42 +41,42 @@ add or replace `tailwind.config.js` at the project root:
 
 ```js
 export default {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
-	theme: {
-		extend: {
-			colors: {
-				bg: 'var(--bg)',
-				'bg-elev': 'var(--bg-elev)',
-				text: 'var(--text)',
-				'text-soft': 'var(--text-soft)',
-				muted: 'var(--muted)',
-				'muted-strong': 'var(--muted-strong)',
-				accent: 'var(--accent)',
-				'accent-strong': 'var(--accent-strong)',
-				signal: 'var(--signal)',
-				'status-ok': 'var(--status-ok)',
-				'status-pend': 'var(--status-pend)',
-				'status-warn': 'var(--status-warn)',
-				'status-fail': 'var(--status-fail)'
-			},
-			fontFamily: {
-				body: 'var(--font-body)',
-				mono: 'var(--font-mono)'
-			},
-			transitionTimingFunction: {
-				smooth: 'cubic-bezier(0.22, 1, 0.36, 1)',
-				fast: 'cubic-bezier(0.4, 0, 0.2, 1)'
-			},
-			boxShadow: {
-				veil: 'var(--shadow-veil)'
-			},
-			borderRadius: {
-				sm: 'var(--radius-sm)',
-				md: 'var(--radius-md)'
-			}
-		}
-	},
-	plugins: []
+  content: ["./src/**/*.{html,js,svelte,ts}"],
+  theme: {
+    extend: {
+      colors: {
+        bg: "var(--bg)",
+        "bg-elev": "var(--bg-elev)",
+        text: "var(--text)",
+        "text-soft": "var(--text-soft)",
+        muted: "var(--muted)",
+        "muted-strong": "var(--muted-strong)",
+        accent: "var(--accent)",
+        "accent-strong": "var(--accent-strong)",
+        signal: "var(--signal)",
+        "status-ok": "var(--status-ok)",
+        "status-pend": "var(--status-pend)",
+        "status-warn": "var(--status-warn)",
+        "status-fail": "var(--status-fail)",
+      },
+      fontFamily: {
+        body: "var(--font-body)",
+        mono: "var(--font-mono)",
+      },
+      transitionTimingFunction: {
+        smooth: "cubic-bezier(0.22, 1, 0.36, 1)",
+        fast: "cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+      boxShadow: {
+        veil: "var(--shadow-veil)",
+      },
+      borderRadius: {
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+      },
+    },
+  },
+  plugins: [],
 };
 ```
 
@@ -87,41 +87,41 @@ export default {
 import the library stylesheet once at the root of your app (order matters):
 
 ```css
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @config '../tailwind.config.js';
 
-@import '@hyvnt/hyvui/styles.css';
+@import "@hyvnt/hyvui/styles.css";
 
 /* if you're copying this repo's src/lib into your app:
 @import './lib/styles.css';
 */
 
 @theme {
-	--color-bg: var(--bg);
-	--color-bg-elev: var(--bg-elev);
-	--color-text: var(--text);
-	--color-text-soft: var(--text-soft);
-	--color-muted: var(--muted);
-	--color-muted-strong: var(--muted-strong);
-	--color-accent: var(--accent);
-	--color-accent-strong: var(--accent-strong);
-	--color-signal: var(--signal);
-	--color-status-ok: var(--status-ok);
-	--color-status-pend: var(--status-pend);
-	--color-status-warn: var(--status-warn);
-	--color-status-fail: var(--status-fail);
-	--color-line: var(--line);
-	--color-line-strong: var(--line-strong);
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-signal: var(--signal);
+  --color-status-ok: var(--status-ok);
+  --color-status-pend: var(--status-pend);
+  --color-status-warn: var(--status-warn);
+  --color-status-fail: var(--status-fail);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
 
-	--font-body: var(--font-body);
-	--font-mono: var(--font-mono);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 
-	--shadow-veil: var(--shadow-veil);
+  --shadow-veil: var(--shadow-veil);
 
-	--radius-sm: var(--radius-sm);
-	--radius-md: var(--radius-md);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
 }
 ```
 
@@ -131,11 +131,11 @@ to avoid the initial white flash on slow loads, add minimal critical CSS to `src
 
 ```html
 <style>
-	html {
-		background: #08090b;
-		color: #f0e8da;
-		color-scheme: dark;
-	}
+  html {
+    background: #08090b;
+    color: #f0e8da;
+    color-scheme: dark;
+  }
 </style>
 <meta name="theme-color" content="#08090b" />
 ```
@@ -150,27 +150,27 @@ ET Book is a self-hosted font. add `@font-face` declarations to `app.css`. the f
 
 ```css
 @font-face {
-	font-family: 'ET Book';
-	src: url('/fonts/et-book-roman-line-figures.woff2') format('woff2');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: "ET Book";
+  src: url("/fonts/et-book-roman-line-figures.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'ET Book';
-	src: url('/fonts/et-book-bold-line-figures.woff2') format('woff2');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+  font-family: "ET Book";
+  src: url("/fonts/et-book-bold-line-figures.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'ET Book';
-	src: url('/fonts/et-book-roman-old-style-figures.woff2') format('woff2');
-	font-weight: 400;
-	font-style: italic;
-	font-display: swap;
+  font-family: "ET Book";
+  src: url("/fonts/et-book-roman-old-style-figures.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 ```
 
@@ -184,10 +184,14 @@ add to `src/app.html` inside `<head>`, before `%sveltekit.head%`:
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 <link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-	rel="stylesheet"
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin="anonymous"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
 />
 ```
 
@@ -197,27 +201,27 @@ download the font from [IBM/plex](https://github.com/IBM/plex) and add `@font-fa
 
 ```css
 @font-face {
-	font-family: 'IBM Plex Mono';
-	src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'IBM Plex Mono';
-	src: url('/fonts/IBMPlexMono-Medium.woff2') format('woff2');
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'IBM Plex Mono';
-	src: url('/fonts/IBMPlexMono-SemiBold.woff2') format('woff2');
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/IBMPlexMono-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 ```
 
@@ -250,14 +254,14 @@ registers shift the overall design weight of the page — from warm and editoria
 apply a register to the entire page:
 
 ```svelte
-<svelte:body data-register="field-notebook" />
+<svelte:body data-weight="field-notebook" />
 ```
 
 or apply programmatically:
 
 ```ts
-import { applyRegister } from '$lib';
-applyRegister('mission-control');
+import { applyWeight } from "$lib";
+applyWeight("mission-control");
 ```
 
 see [docs/registers.md](docs/registers.md) for the full reference.
@@ -270,14 +274,14 @@ if you need to adjust tokens for your specific project without modifying the lib
 
 ```css
 /* in app.css, after all library imports */
-@import './theme.css';
+@import "./theme.css";
 ```
 
 ```css
 /* src/theme.css — your project's token overrides */
 :root {
-	--accent: #d4a853; /* shift gold slightly warmer */
-	--font-body: 'Freight Text', serif; /* swap the body font */
+  --accent: #d4a853; /* shift gold slightly warmer */
+  --font-body: "Freight Text", serif; /* swap the body font */
 }
 ```
 

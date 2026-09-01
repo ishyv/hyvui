@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -31,10 +33,10 @@
 	const { message, progress, oncancel }: Props = $props();
 
 	const statusLines: BootLine[] = [
-		{ status: 'pend', message: 'working on it' },
+		{ status: 'pend', message: 'request accepted' },
 		{ status: 'ok', message: 'connection steady' },
 		{ status: 'pend', message: 'processing' },
-		{ status: 'pend', message: 'checking back in' }
+		{ status: 'pend', message: 'result not ready' }
 	];
 
 	let canvas: HTMLCanvasElement;
@@ -152,6 +154,7 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('pending');
 </script>
 
 <svelte:head>
@@ -159,7 +162,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay class="faint-grid" />
 	<Vignette />
@@ -186,9 +190,9 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">09 / pending</Label>
-			<h1 class="heading">in motion</h1>
-			<p class="body-text">{message || 'something is resolving. give it a moment.'}</p>
-			<p class="body-text quiet">nothing to do on your end.</p>
+			<h1 class="heading">request pending</h1>
+			<p class="body-text">{message || 'request accepted. result not ready.'}</p>
+			<p class="body-text quiet">no action required here.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -204,7 +208,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

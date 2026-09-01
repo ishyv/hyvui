@@ -27,7 +27,7 @@
 			t: 'tue · 23:14',
 			place: 'cistern below the third bridge',
 			klass: 'iii',
-			note: 'sustained luminance. magenta tone. witness — the night-fisher gellan. credible.',
+			note: 'sustained luminance. magenta tone. witness / the night-fisher gellan. credible.',
 			recurring: true
 		},
 		{

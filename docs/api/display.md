@@ -148,9 +148,9 @@ Subtle teal background, `--signal` text. use for active, connected, or live cate
 
 ```ts
 interface Column {
-	key: string; // matches the property name in each row object
-	label: string; // header text
-	align?: 'left' | 'center' | 'right'; // defaults to 'left'
+  key: string; // matches the property name in each row object
+  label: string; // header text
+  align?: "left" | "center" | "right"; // defaults to 'left'
 }
 ```
 
@@ -160,14 +160,14 @@ each row must be a plain object with keys matching the `key` values defined in `
 
 ```ts
 const columns = [
-	{ key: 'callsign', label: 'callsign' },
-	{ key: 'sector', label: 'sector', align: 'center' as const },
-	{ key: 'status', label: 'status', align: 'right' as const }
+  { key: "callsign", label: "callsign" },
+  { key: "sector", label: "sector", align: "center" as const },
+  { key: "status", label: "status", align: "right" as const },
 ];
 
 const rows = [
-	{ callsign: 'echo-7', sector: 'north', status: 'active' },
-	{ callsign: 'foxtrot-2', sector: 'transit', status: 'standby' }
+  { callsign: "echo-7", sector: "north", status: "active" },
+  { callsign: "foxtrot-2", sector: "transit", status: "standby" },
 ];
 ```
 

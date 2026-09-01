@@ -35,19 +35,19 @@
 
   /* fluid type — utilities: text-2xs … text-display */
   --text-2xs: var(--text-2xs);
-  --text-xs:  var(--text-xs);
-  --text-sm:  var(--text-sm);
-  --text-md:  var(--text-md);
-  --text-lg:  var(--text-lg);
-  --text-xl:  var(--text-xl);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-md: var(--text-md);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
   --text-2xl: var(--text-2xl);
   --text-3xl: var(--text-3xl);
   --text-display: var(--text-display);
 
   /* line-height utilities: leading-tight … leading-loose */
   --leading-tight: var(--leading-tight);
-  --leading-snug:  var(--leading-snug);
-  --leading-body:  var(--leading-body);
+  --leading-snug: var(--leading-snug);
+  --leading-body: var(--leading-body);
   --leading-loose: var(--leading-loose);
 
   /* letter-spacing utilities: tracking-tight … tracking-meta */
@@ -59,11 +59,11 @@
   /* fluid spacing — utilities: p-md, gap-lg, mt-xl, … */
   --spacing-3xs: var(--space-3xs);
   --spacing-2xs: var(--space-2xs);
-  --spacing-xs:  var(--space-xs);
-  --spacing-sm:  var(--space-sm);
-  --spacing-md:  var(--space-md);
-  --spacing-lg:  var(--space-lg);
-  --spacing-xl:  var(--space-xl);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
   --spacing-2xl: var(--space-2xl);
   --spacing-3xl: var(--space-3xl);
 

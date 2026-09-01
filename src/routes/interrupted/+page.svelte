@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		ScanBand,
 		GridOverlay,
@@ -137,6 +139,7 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('interrupted');
 </script>
 
 <svelte:head>
@@ -144,7 +147,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<ScanBand />
 	<GridOverlay />
@@ -168,8 +172,8 @@
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">03 / interrupted</Label>
 			<h1 class="heading">signal cut</h1>
-			<p class="body-text">the channel opened. what followed did not arrive.</p>
-			<p class="body-text quiet">the source will try again. or it won't.</p>
+			<p class="body-text">the channel opened. the response did not arrive.</p>
+			<p class="body-text quiet">no retry has been confirmed.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -185,7 +189,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

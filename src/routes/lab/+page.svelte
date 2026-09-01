@@ -35,6 +35,8 @@
 		Toast,
 		Vignette
 	} from '$lib/index.js';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 
 	const widths = [280, 320, 375, 480, 640, 768, 1024, 1440];
 
@@ -76,13 +78,15 @@
 });
 
 log(signal.origin);`;
+	const showcaseManifest = getShowcaseManifest('lab');
 </script>
 
 <svelte:head>
 	<title>hyvui lab</title>
 </svelte:head>
 
-<div class="lab">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="lab">
 	<div class="lab-ambient" aria-hidden="true">
 		<GridOverlay class="lab-grid" />
 		<Vignette class="lab-vignette" />
@@ -173,10 +177,10 @@ log(signal.origin);`;
 									<Label color="muted">state</Label>
 								{/snippet}
 								<Grid cols={2} gap="var(--space-sm)">
-									<EmptyState title="no entries" description="awaiting first signal." />
+									<EmptyState title="no entries" description="no records yet." />
 									<ErrorState
 										title="signal deferred"
-										description="retry from stable ground."
+										description="try again when the channel is steady."
 										retry={true}
 									/>
 								</Grid>
@@ -223,7 +227,8 @@ log(signal.origin);`;
 
 		<Toast />
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.lab {

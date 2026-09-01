@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		ScanBand,
 		GridOverlay,
@@ -172,14 +174,16 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('gateway');
 </script>
 
 <svelte:head>
-	<title>the relay is silent · hyvui</title>
+	<title>upstream did not answer · hyvui</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<ScanBand />
 	<GridOverlay />
@@ -202,9 +206,9 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">10 / gateway</Label>
-			<h1 class="heading">the relay is silent</h1>
+			<h1 class="heading">upstream did not answer.</h1>
 			<p class="body-text">the request left here. it did not reach its destination.</p>
-			<p class="body-text quiet">the upstream has not answered. it may be momentary.</p>
+			<p class="body-text quiet">retry after the upstream returns.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -216,11 +220,12 @@
 			</div>
 			<div class="status-footer">
 				<StatusDot status="fail" size={6} />
-				<Label>upstream silent</Label>
+				<Label>upstream unanswered</Label>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

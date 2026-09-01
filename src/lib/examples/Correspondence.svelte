@@ -20,15 +20,15 @@
 
 	const drafts = [
 		{ label: 'first', date: '10 march', preview: 'i should have written sooner. there is no good reason i didn\'t.' },
-		{ label: 'second', date: '12 march', preview: 'lior — the days are getting longer. i can see the sycamore from the desk now.' },
-		{ label: 'third', date: '14 march', preview: 'i kept reading your last letter at the bakery, and the woman behind the counter asked—' }
+		{ label: 'second', date: '12 march', preview: 'lior. the days are getting longer. i can see the sycamore from the desk now.' },
+		{ label: 'third', date: '14 march', preview: 'i kept reading your last letter at the bakery, and the woman behind the counter asked...' }
 	];
 
 	const marginalia = [
 		'check the date of the saturday lunch',
 		'do not send if it sounds like a lecture',
 		'mention the postcard? he sent it before christmas',
-		'keep it short. one page. resist the second page.'
+		'keep it short. one page. no second page.'
 	];
 </script>
 
@@ -89,7 +89,7 @@
 				<!-- letter -->
 				<section class="letter-wrap">
 					<Surface variant="card" class="letter">
-						<TapeMark label="draft iv · in progress" position="tr" angle={-3} />
+						<TapeMark label="draft iv · not sent" position="tr" angle={-3} />
 						<Cornerstone corner="tl" shape="serif" size="14px" />
 						<Cornerstone corner="bl" shape="serif" size="14px" />
 						<Stack gap="var(--space-md)">
@@ -114,7 +114,7 @@
 
 							<Text class="prose">
 								the room above the bakery is the same. the floor still slopes toward the
-								window. the sycamore is leafing — i can see it from the desk if i sit a
+								window. the sycamore is leafing. i can see it from the desk if i sit a
 								certain way. i thought of you the other afternoon, on the long walk past
 								the canal, when the light went the color it does in your kitchen at four.
 								i remembered standing there once.

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -144,14 +146,16 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('forbidden');
 </script>
 
 <svelte:head>
-	<title>beyond the perimeter · hyvui</title>
+	<title>access denied · hyvui</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay class="teal-grid" />
 	<Vignette />
@@ -173,20 +177,21 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="signal">02 / forbidden</Label>
-			<h1 class="heading">beyond the perimeter</h1>
-			<p class="body-text">this space exists. you are not cleared for it.</p>
-			<p class="body-text quiet">clearance cannot be granted from here.</p>
+			<h1 class="heading">access denied</h1>
+			<p class="body-text">this route exists. your session is not cleared for it.</p>
+			<p class="body-text quiet">request access elsewhere.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
 			<Button variant="ghost" href="/" class="cta-link">[ return to permitted space ]</Button>
 			<div class="status-footer">
 				<StatusDot status="warn" size={6} />
-				<Label>perimeter active</Label>
+				<Label>access boundary active</Label>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

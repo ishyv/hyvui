@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		Shell,
 		Stack,
@@ -23,12 +24,27 @@
 		type ThemeRegister,
 		type GradeRegister
 	} from '$lib/index.js';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 
-	let activeWeight = $state<WeightRegister | null>(null);
-	let activeTheme = $state<ThemeRegister | null>(null);
-	let activeGrade = $state<GradeRegister | null>(null);
+	const showcaseManifest = getShowcaseManifest('system-cinematic');
+	let activeWeight = $state<WeightRegister | null>(showcaseManifest?.weight ?? null);
+	let activeTheme = $state<ThemeRegister | null>(showcaseManifest?.theme ?? null);
+	let activeGrade = $state<GradeRegister | null>(showcaseManifest?.grade ?? null);
 	let lightAngle = $state(135);
 	let sequenceKey = $state(0);
+
+	onMount(() => {
+		const previousLightAngle = document.documentElement.style.getPropertyValue('--key-light-angle');
+		document.documentElement.style.setProperty('--key-light-angle', `${lightAngle}deg`);
+		return () => {
+			if (previousLightAngle) {
+				document.documentElement.style.setProperty('--key-light-angle', previousLightAngle);
+			} else {
+				document.documentElement.style.removeProperty('--key-light-angle');
+			}
+		};
+	});
 
 	function setWeight(w: WeightRegister | null) {
 		activeWeight = w;
@@ -55,14 +71,16 @@
 </script>
 
 <svelte:head>
-	<title>cinematic — hyvui</title>
+	<title>cinematic · hyvui</title>
 </svelte:head>
 
-<Shell as="main" padY="var(--space-2xl)">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-demo" data-system-demo>
+		<Shell as="div" padY="var(--space-2xl)">
 	<Stack gap="var(--space-2xl)">
 		<PageHeader
 			title="cinematic"
-			subtitle="grades, lighting, choreography, kinetic type. four mood layers compose orthogonally with register and theme. flip the switches and watch the same components re-read as a different scene."
+			subtitle="weight sets density. theme sets material. grade sets color. light and sequence act on both. change one control, then compare the same scene."
 		/>
 
 		<!-- controls -->
@@ -114,7 +132,7 @@
 		<section>
 			<Text variant="caption" color="accent">01 / lighting</Text>
 			<Text color="muted">
-				All shadows derive from --key-light-angle. Drag the slider above. Every surface re-casts in the new direction.
+				Shadows follow --key-light-angle. drag the slider. every surface uses the new direction.
 			</Text>
 			<Cluster gap="var(--space-lg)" align="start">
 				<Surface variant="card" class="lit-card"><Text>card</Text></Surface>
@@ -129,7 +147,7 @@
 		<section>
 			<Text variant="caption" color="accent">02 / choreography</Text>
 			<Text color="muted">
-				Sequence reveals direct children with register-appropriate cascade. Same content, different register = different reveal personality. Click replay.
+				Sequence reveals direct children in order. the active register changes the delay. press replay.
 			</Text>
 			<button class="tk" onclick={replaySequence}>replay sequence</button>
 			{#key sequenceKey}
@@ -148,7 +166,7 @@
 		<!-- 03 — KineticText demo -->
 		<section>
 			<Text variant="caption" color="accent">03 / kinetic type</Text>
-			<Text color="muted">Type that performs. Four modes; theme decoration adds scan line (hextech) or crackle pulse (arcane).</Text>
+			<Text color="muted">KineticText reveals letters, words, masks, or telegraph marks. the active theme adds its own sweep.</Text>
 			{#key sequenceKey}
 				<Stack gap="var(--space-md)">
 					<KineticText text="signal acquired" mode="letter" as="h2" class="kt-heading" />
@@ -165,7 +183,7 @@
 		<section>
 			<Text variant="caption" color="accent">04 / composition</Text>
 			<Text color="muted">
-				Grades + lighting + theme + register, all composing. The same scene reads four different ways across the grade palette.
+				These controls stack. change one at a time, then compare the same scene.
 			</Text>
 			<div class="composition">
 				<Surface variant="card">
@@ -173,13 +191,15 @@
 						<KineticText text="field report 0421" mode="letter" as="h3" class="kt-heading" />
 						<Text color="muted">intake / log / observation</Text>
 						<Divider pattern="dotted" />
-						<Text>recovered signal stabilized at 0421. proceeding with archival.</Text>
+						<Text>signal stabilized at 0421. archive it.</Text>
 					</Stack>
 				</Surface>
 			</div>
 		</section>
 	</Stack>
 </Shell>
+	</main>
+</ShowcaseShell>
 
 <style>
 	.controls {

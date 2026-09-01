@@ -1,12 +1,12 @@
 # HyvUI library revamp brief
 
-> Diagnostic catalog of inconsistencies in HyvUI 0.4.0 surfaced while consuming the library for the tx-v2 Discord bot dashboard. Every finding cites the file path and line where the evidence lives so a maintainer can verify without re-investigating. Meant to be handed to an agent working *inside this repo* (the HyvUI source), one finding per PR.
+> Diagnostic catalog of inconsistencies in HyvUI 0.4.0 surfaced while consuming the library for the tx-v2 Discord bot dashboard. Every finding cites the file path and line where the evidence lives so a maintainer can verify without re-investigating. Meant to be handed to an agent working _inside this repo_ (the HyvUI source), one finding per PR.
 
 ## Context
 
-HyvUI 0.4.0 is internally coherent in *philosophy* — `SKILL.md` and `AESTHETICS.md` define a clear operator-adjacent design language with explicit anti-patterns. The library mostly follows its own rules (font-weight 400 is universal, gold/teal palette is enforced in base, dark-first is non-negotiable).
+HyvUI 0.4.0 is internally coherent in _philosophy_ — `SKILL.md` and `AESTHETICS.md` define a clear operator-adjacent design language with explicit anti-patterns. The library mostly follows its own rules (font-weight 400 is universal, gold/teal palette is enforced in base, dark-first is non-negotiable).
 
-But the *implementation* drifts from the philosophy in measurable ways. The consequence: an app built strictly to the design law (lowercase copy, no hex, no Tailwind builtins, etc.) still ends up visually inconsistent because the library itself ships dozens of distinct numeric values where a few tokens would do. The goal of this revamp is **Apple-tier consistency**: pick a small set of tokens, drive every component through them, eliminate magic numbers.
+But the _implementation_ drifts from the philosophy in measurable ways. The consequence: an app built strictly to the design law (lowercase copy, no hex, no Tailwind builtins, etc.) still ends up visually inconsistent because the library itself ships dozens of distinct numeric values where a few tokens would do. The goal of this revamp is **Apple-tier consistency**: pick a small set of tokens, drive every component through them, eliminate magic numbers.
 
 This is a refactor of the existing 0.4.0 surface area, not a rewrite. The component API contracts stay; their internals get normalized.
 
@@ -25,22 +25,25 @@ This is a refactor of the existing 0.4.0 surface area, not a rewrite. The compon
 Evidence: `grep -rn "font-size" src/lib/components/` (or `dist/components/` in the published tarball) returns hits at `0.58rem`, `0.6rem`, `0.62rem`, `0.66rem`, `0.68rem`, `0.7rem`, `0.72rem`, `0.74rem`, `0.75rem`, `0.82rem`, `0.88rem`, `0.9rem`, `0.98rem`, `1.02rem`, `1.03rem`, `1.04rem`, `1.2rem`, `1.4rem`, plus several `clamp()` triples (`1.75-3.25`, `1.8-3.0`, `2.0-3.25`, `2.0-3.0`, `1.1-1.6`). The differences between several values (`1.02rem` vs `1.03rem`, `0.65rem` vs `0.66rem` vs `0.68rem`) are visually indistinguishable but exist as independent magic numbers.
 
 **Concrete examples:**
+
 - `Text.svelte` body = `1.03rem`; `Text.svelte` italic = `1.02rem` (same role, different size)
 - `Input.svelte` label = `0.7rem`; error = `0.66rem`; `Select.svelte` label = `0.7rem`; error = `0.66rem`; `Textarea` same pattern — three sizes for "small mono text" within one form
 - `MetricCard.svelte` label = `0.68rem` vs `Label.svelte` = `0.7rem` (same semantic role, two values)
 
 **Proposed fix:** introduce a modular type scale in `tokens.css`:
+
 ```css
 /* ratio ~1.2, base 1rem */
---text-2xs: 0.694rem;   /* small mono labels — replaces 0.66, 0.68, 0.7 cluster */
---text-xs:  0.833rem;   /* dense ui text — replaces 0.82, 0.88 */
---text-sm:  1rem;       /* body baseline */
---text-md:  1.2rem;     /* emphasized body, EmptyState/ErrorState title */
---text-lg:  1.44rem;    /* ArchiveScene title */
---text-xl:  1.728rem;
+--text-2xs: 0.694rem; /* small mono labels — replaces 0.66, 0.68, 0.7 cluster */
+--text-xs: 0.833rem; /* dense ui text — replaces 0.82, 0.88 */
+--text-sm: 1rem; /* body baseline */
+--text-md: 1.2rem; /* emphasized body, EmptyState/ErrorState title */
+--text-lg: 1.44rem; /* ArchiveScene title */
+--text-xl: 1.728rem;
 --text-2xl: 2.074rem;
---text-3xl: clamp(2.074rem, 4vw, 3.25rem);  /* page hero */
+--text-3xl: clamp(2.074rem, 4vw, 3.25rem); /* page hero */
 ```
+
 Then sweep every component CSS file replacing the magic number with the closest scale step. This is a mechanical refactor (~80 line edits across ~30 files).
 
 ### F2 — Padding: hardcoded numerics, spacing tokens ignored
@@ -48,36 +51,41 @@ Then sweep every component CSS file replacing the magic number with the closest 
 Evidence: `grep -rnE "padding:\s*[0-9]" src/lib/components/` returns dozens of hits using `0.25rem`, `0.5rem`, `0.55rem`, `0.625rem`, `0.65rem`, `0.75rem`, `0.85rem`, `0.9rem`, `1rem`, `1.15rem`, `1.25rem`, `2rem`. The library defines `--space-2xs` through `--space-3xl` cleanly in `tokens.css:43-57` but almost no component uses them.
 
 **Concrete examples:**
+
 - `SidebarNav.svelte` — `padding: 0.55rem 0.9rem` (neither value is a token)
 - `Tabs.svelte` — `padding: 0.65rem 0.85rem` (neither value is a token)
 - `Button.svelte` — `padding: 0.75rem 1.15rem` for md, `0.5rem 0.8rem` for sm
 - `DropdownMenu.svelte` — `padding: 0.75rem 0.85rem`
 - `Toast.svelte` — `padding: 0.625rem 1rem`
 
-**Proposed fix:** route every component padding through `var(--space-*)`. Where the existing magic number doesn't match a token, either snap to the nearest token or introduce a *new* named token (`--space-control-y: 0.6rem` etc. for control-internal padding). No hardcoded numerics in component styles, full stop.
+**Proposed fix:** route every component padding through `var(--space-*)`. Where the existing magic number doesn't match a token, either snap to the nearest token or introduce a _new_ named token (`--space-control-y: 0.6rem` etc. for control-internal padding). No hardcoded numerics in component styles, full stop.
 
 ### F3 — Surface renders differently per register (silent structural drift)
 
 Evidence: `src/lib/components/primitives/Surface.svelte`:
+
 ```css
-:global([data-register='hextech']) .hyvui-surface {
+:global([data-register="hextech"]) .hyvui-surface {
   border-radius: var(--radius-sm);
 }
 ```
+
 Under base + arcane: `--radius-md` (4px). Under hextech only: `--radius-sm` (2px). Same component, same prop, different geometry.
 
-**Why this is wrong:** registers are supposed to shift *palette and weight*, never *structure*. A card stays a card; only its skin changes. If hextech genuinely wants tighter corners, that's a token bind: hextech sets `--radius-md: 2px` in its own tokens file, and Surface keeps using `--radius-md` blindly. The current approach embeds register-specific logic inside Surface, which means every new register has to be tested against every component.
+**Why this is wrong:** registers are supposed to shift _palette and weight_, never _structure_. A card stays a card; only its skin changes. If hextech genuinely wants tighter corners, that's a token bind: hextech sets `--radius-md: 2px` in its own tokens file, and Surface keeps using `--radius-md` blindly. The current approach embeds register-specific logic inside Surface, which means every new register has to be tested against every component.
 
 **Proposed fix:** delete the `[data-register='hextech']` selector from `Surface.svelte`. If hextech wants sharper corners, override `--radius-md` inside `src/lib/tokens/hextech.css`. Same pattern for any future component that's been special-cased per register.
 
 ### F4 — Raw RGB literals inside components
 
 Evidence: `src/lib/components/primitives/Surface.svelte`:
+
 ```css
 background:
   linear-gradient(180deg, rgba(240, 232, 218, 0.04), transparent 20%),
   linear-gradient(90deg, rgba(121, 166, 163, 0.03), transparent 30%);
 ```
+
 `240, 232, 218` is `--text` (#f0e8da). `121, 166, 163` is `--signal` (#79a6a3). Both should be `color-mix(in srgb, var(--text) 4%, transparent)` and the equivalent for `--signal`.
 
 Same pattern: Surface has `rgba(255, 255, 255, 0.05)` (white literal — should be `color-mix(in srgb, var(--text) 5%, transparent)`); `rgba(121, 166, 163, 0.14)` (signal-as-rgb); `rgba(184, 115, 51, 0.2)` (brass-as-rgb, should use `--htx-brass`).
@@ -90,14 +98,14 @@ Same pattern: Surface has `rgba(255, 255, 255, 0.05)` (white literal — should 
 
 Evidence: API surface from `*.svelte.d.ts`:
 
-| Component | `label` | `description` / `hint` | `error` |
-|---|---|---|---|
-| `Input` | yes | `hint` | yes |
-| `Textarea` | yes | `hint` | yes |
-| `Select` | yes | **no** | yes |
-| `Toggle` | yes | **no** | **no** |
-| `Checkbox` | yes | **no** | **no** |
-| `FileUpload` | yes | **no** | **no** |
+| Component    | `label` | `description` / `hint` | `error` |
+| ------------ | ------- | ---------------------- | ------- |
+| `Input`      | yes     | `hint`                 | yes     |
+| `Textarea`   | yes     | `hint`                 | yes     |
+| `Select`     | yes     | **no**                 | yes     |
+| `Toggle`     | yes     | **no**                 | **no**  |
+| `Checkbox`   | yes     | **no**                 | **no**  |
+| `FileUpload` | yes     | **no**                 | **no**  |
 
 Consequence: in tx-v2 we built a `FormField.svelte` wrapper purely to give Select/Toggle/Checkbox the description+error treatment they lack. That wrapper shouldn't need to exist.
 
@@ -138,6 +146,7 @@ Evidence: `src/lib/components/display/Avatar.svelte` — `style:font-size="{size
 ### F11 — Inconsistent sizing prop conventions
 
 Evidence:
+
 - `Button` accepts `size: 'sm' | 'md'`
 - `StatusDot` accepts `size: number` (pixels)
 - `Avatar` accepts `size: number` (pixels)
@@ -156,11 +165,12 @@ Evidence: `SKILL.md` documents three "weight registers" (`field-notebook`, `miss
 ### F14 — Toggle emits a synthetic Event with null currentTarget
 
 Evidence: `src/lib/components/inputs/Toggle.svelte`:
+
 ```ts
 function toggle() {
   if (disabled) return;
   checked = !checked;
-  onchange?.(new Event('change'));
+  onchange?.(new Event("change"));
 }
 ```
 
@@ -171,16 +181,19 @@ A freshly-constructed `Event` object has `currentTarget: null` and `target: null
 Discovered while implementing the tx-v2 dashboard's feature-toggle page. The fix locally was to capture `bind:this` on the form, but the library should not force consumers to work around this.
 
 **Proposed fix:** dispatch the event from a real DOM node:
+
 ```svelte
 <button bind:this={buttonEl} onclick={toggle} ...>
 ```
+
 ```ts
 function toggle() {
   if (disabled) return;
   checked = !checked;
-  buttonEl?.dispatchEvent(new Event('change', { bubbles: true }));
+  buttonEl?.dispatchEvent(new Event("change", { bubbles: true }));
 }
 ```
+
 Or even simpler — emit a `ChangeEvent`-like custom event with `target` and `currentTarget` populated. The receiver should be able to do everything an HTML form input's onchange handler can do.
 
 Same audit should be applied to `Checkbox` — verify it doesn't have the same synthetic-event hazard.
@@ -188,6 +201,7 @@ Same audit should be applied to `Checkbox` — verify it doesn't have the same s
 ### F13 — Documentation drift
 
 Evidence:
+
 - README claims "42 components" but actual `src/lib/components/**` count is higher
 - `llms.txt` lists `Surface` as a primitive with prop `withInset`, but `Surface.svelte` has no `withInset` prop — it's the consumer (e.g. `Panel`) that passes `withInset` and Surface applies `hyvui-surface-inset` class via composition. Confusing.
 - `SKILL.md` says "use `applyRegister`" but the recommended path is `<AppShell register="…">`. Both work, but two patterns are documented as if they're equivalent.
@@ -212,9 +226,9 @@ After 1.0.0 lands, consumers like tx-v2 can simplify: drop per-page font-size fl
 
 ## What this brief is NOT
 
-- It is not a complete API audit. Components not consumed in tx-v2 (PullQuote, Manifesto, ChapterMark, ShowcaseFrame, RegisterSwitcher, TerminalBoot, depth/* beyond FloatCard, scenes/* beyond StageScene/ReadoutScene/ArchiveScene) have only had cursory inspection.
+- It is not a complete API audit. Components not consumed in tx-v2 (PullQuote, Manifesto, ChapterMark, ShowcaseFrame, RegisterSwitcher, TerminalBoot, depth/_ beyond FloatCard, scenes/_ beyond StageScene/ReadoutScene/ArchiveScene) have only had cursory inspection.
 - It is not a visual-design critique. The palette, ambient motifs, and overall mood are excellent; that's not what's being questioned.
-- It is not a request to add features. With one exception (F5/F6), every finding is about *removing* drift, not *adding* surface.
+- It is not a request to add features. With one exception (F5/F6), every finding is about _removing_ drift, not _adding_ surface.
 
 ## How to use this brief
 

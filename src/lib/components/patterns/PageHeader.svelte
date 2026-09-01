@@ -105,9 +105,13 @@
 		flex-shrink: 0;
 	}
 
-	@container (max-width: var(--cq-sm)) {
+	@container (max-width: 32rem) {
 		.hyvui-page-header-row {
 			flex-direction: column;
+		}
+
+		.hyvui-page-header-text {
+			width: 100%;
 		}
 
 		.hyvui-page-header-actions {

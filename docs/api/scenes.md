@@ -1,6 +1,6 @@
 ## Scenes
 
-Full-page layout templates. scenes are opinionated compositions of layout zones — they define the structure, you fill in the content. one scene per page is the expected pattern.
+Full-page layout structures. Scenes are opinionated compositions of layout zones — they define a useful structure, you fill in the content. They are optional postures, not the expected root of every page. When the visual idea depends on relationships between independent participants, use the additive composition layer in `docs/next.md` instead.
 
 ---
 

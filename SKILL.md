@@ -91,7 +91,7 @@ Parent elements must have `position: relative` for absolute-positioned ambient l
 
 ## patterns
 
-`patterns/` has pre-wired compositions. Always check if a pattern exists before building a similar layout from primitives:
+`patterns/` has pre-wired compositions. Check them after naming the visual idea, not as a substitute for composition:
 
 - `PageHeader` — title + subtitle + breadcrumb + actions layout
 - `ConfirmDialog` — modal with confirm/cancel. title names the action, never asks "are you sure?"
@@ -103,12 +103,84 @@ Parent elements must have `position: relative` for absolute-positioned ambient l
 
 ## phase 2: expressiveness layer
 
+### next: composition before component assembly
+
+HyvUI Next is an additive, agent-native research surface. Start with the visual idea and its
+relationships before choosing a scene template or a card grid. The proof routes use `Composition`
+and `CompositionNode` when a page needs explicit focal points, counterweights, fields, connectors,
+interruptions, frames, echoes, or overlaps.
+
+These proof modules are private. Do not import them from `@hyvnt/hyvui`; use the `/next-lab` routes and
+`docs/next.md` while the public API boundary remains under review.
+
+The private research contract is intentionally small:
+
+- `ArtDirection` holds the seed, mood/material context, density, rhythm, motion, and adaptation policy;
+- `CompositionNodeSpec` describes a participant, its visual role, capabilities, and explicit constraints;
+- `CompositionRelation` names a relationship between node IDs and describes its behavior and fallback;
+- `getAgentManifest()` is the only package-facing discovery helper for the research surface.
+
+For an art-directed piece, `ArtDirection.authority: 'strong'` opts into the local art director. Pair it
+with one gesture such as `altarpiece`, `fracture`, `procession`, `reliquary`, `installation`, or
+`weather-system`, then state the `thesis`, `focal`, `motif`, `palette`, `typography`, `depth`, and
+`interaction` behavior. Strong authority may recompose visual planes and add semantic-free atmosphere
+only in `apply` mode. It cannot remove required content, change DOM semantic order, or override
+explicit manual placement.
+
+Use `adaptation: 'suggest'` while developing or evaluating. `disabled` preserves authored layout.
+`apply` is bounded and still yields to explicit manual placement. Strong art direction is local to its
+composition field. `suggest` exposes the art plan without applying poses or atmosphere. The runtime
+does not run a global observer and does not silently reorder content.
+
+```text
+choose a focal point
+choose the field or counterweight around it
+name the relationship that gives the piece identity
+choose the smallest material that can express it
+add a fallback for narrow screens
+inspect the result before enabling application
+```
+
+Use the agent manifest for possibilities, not only props:
+
+```ts
+import { getAgentManifest } from "@hyvnt/hyvui";
+```
+
+Do not repeat the same scene wrapper for every page, turn every participant into a card, or add
+random offsets without a visual reason. A gesture must have one governing thesis. See `docs/next.md`
+for the full vocabulary and the research/prototype evidence.
+
+### biome grammar
+
+HyvUI Next describes twelve host biomes rather than one universal art style:
+
+`operational-apparatus`, `manifesto-print`, `deconstructed-editorial`,
+`quiet-object-gallery`, `ceremonial-reliquary`, `ecological-elegy`,
+`oneiric-object-poetry`, `machine-ecology`, `celestial-cartography`,
+`post-digital-morphology`, `kinetic-rupture`, and `noise-commons`.
+
+Choose one host before choosing grafts. A biome carries spatial law, attention economy, density,
+material, light, typography, information mode, time model, viewer role, interaction verbs, frame
+modes, passage modes, compatible channels, anti-patterns, and responsive behavior. Add no more than
+two named grafts. Each graft must name its channel and bridge or conflict. Destructive combinations
+are rejected rather than averaged.
+
+Use the public layout `Frame` when the piece is a held tableau or discrete scene. The `Passage` proof
+remains private to the research routes and is used only when scrolling expresses procession,
+absorption, excavation, accumulation, or traversal. These prototypes use ordinary semantic HTML.
+Native hash links, keyboard focus, touch scrolling, reduced-motion fallbacks, and a static passage mode
+are required. Never trap the wheel or build a page-wide observer.
+
+The machine-readable discovery surface is `getAgentManifest().biomes`; the read-only CLI examples are
+`npm run inspect:next -- --manifest` and `npm run inspect:next -- --file schemas/examples/biome-composition.json`.
+
 ### registers
 
 A register shifts the _weight distribution_ of the design — which typeface leads, how present ornaments are, how heavy surfaces feel. Apply to `<body>` or any root container:
 
 ```svelte
-<svelte:body data-register="field-notebook" />
+<svelte:body data-weight="field-notebook" />
 ```
 
 | register          | character                      | use for                      |
@@ -119,7 +191,7 @@ A register shifts the _weight distribution_ of the design — which typeface lea
 
 No register declared = Phase 1 defaults. Registers are non-breaking.
 
-Import utilities: `import { applyRegister, clearRegister } from '$lib'`
+Import utilities: `import { applyWeight, clearWeight } from '$lib'`
 
 ### typographic expressions
 
@@ -167,7 +239,7 @@ Four composable behaviors. Apply to any element with `use:`:
 
 ### scene templates
 
-Scene templates encode the layout conventions from AESTHETICS.md as starting postures. Use them before building page layouts from primitives.
+Scene templates encode the layout conventions from AESTHETICS.md as starting postures. Use one when its structure is the visual idea; otherwise compose from materials and relationships.
 
 | scene            | character                 | use for                       |
 | ---------------- | ------------------------- | ----------------------------- |

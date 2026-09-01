@@ -1,6 +1,6 @@
 ## Recipes
 
-Named composition patterns — complete, copy-paste-ready examples for common scenarios.
+Named workflow recipes — complete, copy-paste-ready examples for common scenarios. They are not canonical page templates. For agent-native artistic composition, start with a focal point and relationship, then see `docs/next.md`.
 
 ---
 

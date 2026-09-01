@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -63,14 +65,16 @@
 		if (!browser) return;
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('offline');
 </script>
 
 <svelte:head>
-	<title>the channel is quiet · hyvui</title>
+	<title>no link · hyvui</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<GridOverlay />
 	<Vignette />
 
@@ -91,9 +95,9 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">06 / offline</Label>
-			<h1 class="heading">the channel is quiet</h1>
-			<p class="body-text">nothing is arriving. the receiver is on.</p>
-			<p class="body-text quiet">when the network returns, the signal will too.</p>
+			<h1 class="heading">no link</h1>
+			<p class="body-text">no signal is arriving. the receiver is on.</p>
+			<p class="body-text quiet">retry when the network link returns.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -104,7 +108,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

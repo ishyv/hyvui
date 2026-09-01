@@ -1,6 +1,6 @@
 # hyvui
 
-> Svelte 5 component library. Dark operator aesthetic. 40+ components across primitives, inputs, feedback, layout, navigation, display, ambient, patterns, depth, and scenes. Tokens via CSS custom properties and Tailwind v4 @theme.
+> Svelte 5 component library. Dark operator aesthetic. 96 components across primitives, inputs, feedback, layout, navigation, display, ambient, patterns, depth, and scenes. Tokens via CSS custom properties and Tailwind v4 @theme.
 
 ## install
 
@@ -157,7 +157,7 @@ Transition: --transition-smooth, --transition-fast
 - **DataStream** — scrolling hex char column. Props: `active`, `width`, `speed`.
 - **ThreadLine** — SVG line with traveling dot. Props: `x1`, `y1`, `x2`, `y2`, `animated`.
 
-### patterns (pre-wired compositions — check before building from primitives)
+### patterns (pre-wired workflow compositions — use when the structure is actually intended)
 
 - **PageHeader** — title + subtitle + breadcrumb + actions.
 - **ConfirmDialog** — Modal pre-wired for confirm/cancel. Props: `open`, `title`, `description`, `confirmLabel`, `cancelLabel`, `destructive`, `onconfirm`, `oncancel`.
@@ -173,7 +173,7 @@ Transition: --transition-smooth, --transition-fast
 - **HorizonGrid** — canvas perspective grid. Props: `rows`, `cols`, `vanishY`, `animated`.
 - **Plinth** — receding surface under floating elements. Props: `width`, `depth`, `color`.
 
-### scenes (full-viewport page templates — always check before building a page layout)
+### scenes (optional page structures — do not treat them as the default composition grammar)
 
 - **StageScene** — centered, theatrical. Use for: hero, landing, feature reveal.
 - **NarrativeScene** — asymmetric copy+canvas. Use for: about, portfolio, story.
@@ -181,7 +181,7 @@ Transition: --transition-smooth, --transition-fast
 - **ArchiveScene** — responsive card grid with filter. Use for: galleries, catalogs, indexes.
 - **LogScene** — terminal output layout. Use for: boot sequences, build logs, process output.
 
-## scene selection
+## scene selection (legacy/application structures)
 
 | need                              | scene          |
 | --------------------------------- | -------------- |
@@ -256,6 +256,56 @@ Apply weights to body or any root container. weights shift font weighting and su
 | arcane  | shimmer, shards, unstable  | themed showcases |
 
 No weight or theme = base styles.
+
+## next composition layer
+
+HyvUI Next is the additive agent-native composition layer. It models visual relationships instead of
+only choosing components or page templates.
+
+The public discovery entry is `getAgentManifest` from `@hyvnt/hyvui`. The composition renderer,
+resolver, and proof types remain private under `src/lib/next-experiments/` while the research bakeoff
+and public API review remain open. Inspect them through `/next-lab/experiment` and the read-only CLI.
+
+The research model has four parts:
+
+- `ArtDirection`: seed, mood/material, density, contrast, rhythm, motion, and adaptation policy;
+- `CompositionNodeSpec`: stable node ID, content reference, visual role, capabilities, constraints;
+- `CompositionRelation`: source/target node IDs, relation kind, strength, behavior, fallback;
+- `CompositionNode`: rendered participant with stable `data-composition-node`, `data-role`, and
+  relation metadata.
+
+Initial relation kinds: `overlap`, `anchor`, `echo`, `connect`, `interrupt`, `frame`, `reveal`.
+Initial adaptation modes: `disabled`, `suggest`, `apply`. Suggest is recommended during authoring;
+apply remains bounded and yields to explicit manual placement. The resolver is static and SSR-safe;
+there is no universal runtime or silent reordering.
+
+Use `inspect` on `Composition` to emit a read-only `data-composition-inspector` JSON element with
+the seed, resolved nodes, relation decisions, reasons, fallbacks, and authored placement.
+
+Start with a focal point, then choose a field/counterweight and name the relationship that gives the
+piece identity. Do not repeat the same scene wrapper, turn every participant into a card, or add
+random offsets without a visual reason. See `docs/next.md`.
+
+HyvUI Next also exposes twelve authored host biomes through `getAgentManifest().biomes`:
+`operational-apparatus`, `manifesto-print`, `deconstructed-editorial`, `quiet-object-gallery`,
+`ceremonial-reliquary`, `ecological-elegy`, `oneiric-object-poetry`, `machine-ecology`,
+`celestial-cartography`, `post-digital-morphology`, `kinetic-rupture`, and `noise-commons`.
+Choose one host. Add at most two channel-specific grafts with a written bridge or conflict. The
+resolver rejects destructive combinations and reports a fallback. Biomes describe spatial, material,
+typographic, informational, temporal, interaction, frame, and passage laws; they are not themes or
+page templates.
+
+The private research routes use a native viewport `Frame` for a held tableau and a `Passage` only when
+scroll expresses a concept such as absorption, excavation, procession, accumulation, or traversal. Both
+preserve semantic order, keyboard/touch behavior, reduced-motion alternatives, and ordinary HTML/CSS
+escape hatches. No wheel trapping or global browser observer is part of the model.
+
+Inspect the manifest or an example brief with:
+
+```bash
+npm run inspect:next -- --manifest
+npm run inspect:next -- --file schemas/examples/biome-composition.json
+```
 
 ## typographic expressions
 

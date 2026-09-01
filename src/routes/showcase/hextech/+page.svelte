@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		Text,
 		Glyph,
@@ -13,6 +15,8 @@
 	import { mountSceneAppearance } from '$lib/examples/appearance.js';
 
 	onMount(() => mountSceneAppearance('mission-control', 'hextech', 'interrogation'));
+
+	const manifest = getShowcaseManifest('hextech');
 
 	const readings = [
 		{ label: 'core resonance', value: '847.2', unit: 'hz', state: 'nominal' },
@@ -36,7 +40,8 @@
 	<title>rig iv · hextech workshops</title>
 </svelte:head>
 
-<main class="forge">
+<ShowcaseShell manifest={manifest!}>
+	<main class="forge">
 	<!-- riveted brass plate background — entire page reads as machined metal -->
 	<div class="plate" aria-hidden="true">
 		<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" class="rivets">
@@ -313,7 +318,7 @@
 					<Glyph name="reticle" size="14px" />
 					<Text variant="caption" color="muted">certified for operation · w.h. ord. 2.114.iv</Text>
 				</Cluster>
-				<Text class="stamp-numerals">— RIG IV · MMCDXII —</Text>
+				<Text class="stamp-numerals">RIG IV · MMCDXII</Text>
 				<Cluster gap="var(--space-xs)" align="baseline">
 					<Text variant="caption" color="muted">last service · 11 days · m. veld</Text>
 					<Glyph name="gem-cut" size="14px" />
@@ -322,6 +327,7 @@
 		</footer>
 	</Sequence>
 </main>
+</ShowcaseShell>
 
 <style>
 	.forge {

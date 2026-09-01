@@ -58,12 +58,14 @@ export function resolve(
     const { register: reg } = currentRegister();
     const preset = presets[reg]?.flash ?? presets.default.flash;
 
-    animate(overlay, preset.keyframes as never, preset.options as never).finished.then(
-      () => {
-        overlay.remove();
-        node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
-      },
-    );
+    animate(
+      overlay,
+      preset.keyframes as never,
+      preset.options as never,
+    ).finished.then(() => {
+      overlay.remove();
+      node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
+    });
   }
 
   register({ trigger });

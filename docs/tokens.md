@@ -160,7 +160,7 @@ Used internally by Surface, Card, and Panel components. expose the visual layeri
 for use in JavaScript/TypeScript contexts where CSS variables are not available (e.g. canvas drawing, chart configurations):
 
 ```ts
-import { tokens } from '$lib';
+import { tokens } from "$lib";
 
 tokens.color.bg; // '#08090b'
 tokens.color.bgElev; // '#12151a'
@@ -187,29 +187,29 @@ full object shape:
 
 ```ts
 interface Tokens {
-	color: {
-		bg: string;
-		bgElev: string;
-		text: string;
-		textSoft: string;
-		muted: string;
-		mutedStrong: string;
-		accent: string;
-		accentStrong: string;
-		signal: string;
-		statusOk: string;
-		statusPend: string;
-		statusWarn: string;
-		statusFail: string;
-	};
-	font: {
-		body: string;
-		mono: string;
-	};
-	transition: {
-		smooth: string;
-		fast: string;
-	};
+  color: {
+    bg: string;
+    bgElev: string;
+    text: string;
+    textSoft: string;
+    muted: string;
+    mutedStrong: string;
+    accent: string;
+    accentStrong: string;
+    signal: string;
+    statusOk: string;
+    statusPend: string;
+    statusWarn: string;
+    statusFail: string;
+  };
+  font: {
+    body: string;
+    mono: string;
+  };
+  transition: {
+    smooth: string;
+    fast: string;
+  };
 }
 ```
 

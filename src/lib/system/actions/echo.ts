@@ -1,7 +1,11 @@
 import type { ActionReturn } from "svelte/action";
 import { animate } from "motion";
 import { currentRegister } from "../motion/registerObserver.js";
-import { presets, themeAccent, themePressMultiplier } from "../motion/presets.js";
+import {
+  presets,
+  themeAccent,
+  themePressMultiplier,
+} from "../motion/presets.js";
 
 /**
  * Click pulse — radial ripple from the click point. Color picks up the active
@@ -27,8 +31,8 @@ export function echo(node: HTMLElement): ActionReturn {
     const { register, theme } = currentRegister();
     const accent = themeAccent[theme] ?? themeAccent.default;
     const mult = themePressMultiplier[theme] ?? 1;
-    const baseDuration =
-      (presets[register]?.press.options.duration ?? 0.3) as number;
+    const baseDuration = (presets[register]?.press.options.duration ??
+      0.3) as number;
 
     const overlay = document.createElement("span");
     overlay.style.cssText = `
@@ -45,11 +49,9 @@ export function echo(node: HTMLElement): ActionReturn {
     node.style.overflow = "hidden";
     node.appendChild(overlay);
 
-    animate(
-      overlay,
-      { opacity: [0, 1, 0] },
-      { duration: baseDuration * mult * 2 } as never,
-    ).finished.then(() => overlay.remove());
+    animate(overlay, { opacity: [0, 1, 0] }, {
+      duration: baseDuration * mult * 2,
+    } as never).finished.then(() => overlay.remove());
   }
 
   node.addEventListener("click", handleClick);

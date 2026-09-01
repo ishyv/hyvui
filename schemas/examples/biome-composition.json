@@ -1,0 +1,48 @@
+{
+  "brief": {
+    "seed": "reliquary-chart-01",
+    "premise": "a precious signal is held inside a private sky",
+    "hostBiome": "ceremonial-reliquary",
+    "grafts": [
+      {
+        "biome": "celestial-cartography",
+        "channel": "light",
+        "mode": "symbiotic",
+        "reason": "the aureole becomes an authored orbit around the relic"
+      }
+    ],
+    "contentOrder": ["relic", "witness"],
+    "requiredContent": ["relic", "witness"],
+    "withholding": "reveal the witness only after the relic has been approached",
+    "focalPolicy": "singular"
+  },
+  "genome": {
+    "spatialHabitat": "shrine",
+    "light": "aureole"
+  },
+  "nodes": [
+    {
+      "id": "relic",
+      "content": "Surface",
+      "role": "focal-point",
+      "capabilities": ["focal-point", "bounded-variation"]
+    },
+    {
+      "id": "witness",
+      "content": "Text",
+      "role": "counterweight",
+      "capabilities": ["counterweight"]
+    }
+  ],
+  "relations": [
+    {
+      "id": "witness-follows-relic",
+      "kind": "reveal",
+      "source": "witness",
+      "target": "relic",
+      "strength": "preferred",
+      "behavior": "let the witness appear after the relic has been approached",
+      "fallback": "keep the authored reading order"
+    }
+  ]
+}

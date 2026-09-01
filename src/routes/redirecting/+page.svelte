@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -189,6 +191,7 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('redirecting');
 </script>
 
 <svelte:head>
@@ -196,7 +199,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay class="faint-grid" />
 	<Vignette />
@@ -220,7 +224,7 @@
 			<Label class="eyebrow" color="accent">04 / redirecting</Label>
 			<h1 class="heading">transferring</h1>
 			<div class="countdown">{countdown}</div>
-			<p class="body-text">the course is set. departure is automatic.</p>
+			<p class="body-text">the destination is set. departure starts automatically.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -228,7 +232,7 @@
 				<Button variant="ghost" class="cta-link" onclick={holdRedirect}>[ hold. stay here ]</Button>
 			{:else}
 				<Button variant="ghost" href={targetHref} class="cta-link"
-					>[ now redirecting manually ]</Button
+					>[ go to destination now ]</Button
 				>
 			{/if}
 
@@ -238,7 +242,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

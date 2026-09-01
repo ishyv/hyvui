@@ -177,7 +177,7 @@ LogScene
 the library is organized in three additive layers. each one works without the next.
 
 <pre lang="txt">
-[ base ]       75 components. tokens. css custom properties throughout.
+[ base ]       96 components. tokens. css custom properties throughout.
                nothing hardcoded. nothing fighting your cascade.
 
 [ expressive ] weights and themes shift the ambient mood of a section.
@@ -299,3 +299,15 @@ if you do not want that, it will still work. it will just feel a little containe
 svelte 5 only. no compatibility shims.
 
 </details>
+
+---
+
+`11 / next composition research`
+
+HyvUI Next is an additive research surface. It gives the project an agent vocabulary for visual roles
+and relationships without replacing Svelte, HTML, CSS, or the existing library. The proof modules are
+private until the public API review is complete.
+
+Start with the focal point and the relationship, not a scene template. Use `suggest` while exploring;
+explicit placement always wins. Read `docs/next.md` for the research routes, vocabulary, escape hatches,
+and the evidence behind the prototype.

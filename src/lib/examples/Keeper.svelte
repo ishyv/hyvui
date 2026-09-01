@@ -102,9 +102,7 @@
 							as="h1"
 							class="keeper-title"
 						/>
-						<Text color="muted">
-							catalogue entries · provenance · conservation. quiet work, kept slowly.
-						</Text>
+						<Text color="muted">catalogue, provenance, care. handle slow.</Text>
 						<Cluster gap="var(--space-md)">
 							<Text variant="caption" color="muted">today · 18 march</Text>
 							<Text variant="caption" color="muted">items · 142</Text>
@@ -297,4 +295,11 @@
 	.pull-time { color: var(--muted-strong); letter-spacing: 0.08em; }
 	.pull-ref { color: var(--accent); }
 	.pull-note { color: var(--text-soft); font-family: var(--font-body); font-size: var(--text-sm); }
+	@media (max-width: 30rem) {
+		.pull {
+			grid-template-columns: 5rem minmax(0, 1fr);
+			gap: var(--space-xs);
+		}
+		.pull-note { grid-column: 2; }
+	}
 </style>

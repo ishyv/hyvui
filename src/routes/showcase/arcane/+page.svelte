@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		Text,
 		Glyph,
@@ -13,6 +15,8 @@
 	import { mountSceneAppearance } from '$lib/examples/appearance.js';
 
 	onMount(() => mountSceneAppearance('field-notebook', 'arcane', 'twilight'));
+
+	const manifest = getShowcaseManifest('arcane');
 
 	/* the witness's account — fragments, reverent, present tense */
 	const witness = [
@@ -37,10 +41,11 @@
 </script>
 
 <svelte:head>
-	<title>ex tenebris lux — the manifest</title>
+	<title>ex tenebris lux · the manifest</title>
 </svelte:head>
 
-<main class="chamber">
+<ShowcaseShell manifest={manifest!}>
+	<main class="chamber">
 	<!-- cathedral light streaming from above + ambient shimmer -->
 	<div class="atmosphere" aria-hidden="true">
 		<div class="god-rays"></div>
@@ -232,6 +237,7 @@
 		</footer>
 	</Sequence>
 </main>
+</ShowcaseShell>
 
 <style>
 	.chamber {

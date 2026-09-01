@@ -47,11 +47,7 @@ export function reveal(
     }
     const { register } = currentRegister();
     const preset = presets[register]?.hover ?? presets.default.hover;
-    animate(
-      t,
-      { opacity: [0, 1], y: [4, 0] },
-      preset.options as never,
-    );
+    animate(t, { opacity: [0, 1], y: [4, 0] }, preset.options as never);
   }
 
   function hide() {

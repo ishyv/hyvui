@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -127,14 +129,16 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+	const showcaseManifest = getShowcaseManifest('maintenance');
 </script>
 
 <svelte:head>
-	<title>attending to things · hyvui</title>
+	<title>maintenance in progress · hyvui</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay />
 	<Vignette class="warm-vignette" />
@@ -156,9 +160,9 @@
 
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">05 / maintenance</Label>
-			<h1 class="heading">attending to things</h1>
+			<h1 class="heading">maintenance in progress</h1>
 			<p class="body-text">the system is receiving care. access is suspended.</p>
-			<p class="body-text quiet">it will return. check back later.</p>
+			<p class="body-text quiet">access resumes after maintenance.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
@@ -166,7 +170,7 @@
 				[ understood ]
 			</Button>
 			{#if acknowledged}
-				<p class="confirmation">good. check back later.</p>
+				<p class="confirmation">noted. check back later.</p>
 			{/if}
 			<div class="status-footer">
 				<StatusDot status="pend" size={6} />
@@ -174,7 +178,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

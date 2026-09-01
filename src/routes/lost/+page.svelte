@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import ShowcaseShell from '$lib/showcase/ShowcaseShell.svelte';
+	import { getShowcaseManifest } from '$lib/showcase/showcaseManifest.js';
 	import {
 		GridOverlay,
 		Vignette,
@@ -185,6 +187,7 @@
 		window.removeEventListener('resize', handleResize);
 		for (const timer of timers) window.clearTimeout(timer);
 	});
+  const showcaseManifest = getShowcaseManifest("lost");
 </script>
 
 <svelte:head>
@@ -192,7 +195,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="system-page">
+<ShowcaseShell manifest={showcaseManifest!}>
+	<main class="system-page" data-condition-state>
 	<canvas bind:this={canvas} aria-hidden="true" class="bg-canvas"></canvas>
 	<GridOverlay />
 	<Vignette class="warm-vignette" />
@@ -215,19 +219,20 @@
 		<div class="main-message" class:visible={showContent}>
 			<Label class="eyebrow" color="accent">01 / lost</Label>
 			<h1 class="heading">nothing here</h1>
-			<p class="body-text">something was expected. it is not here.</p>
-			<p class="body-text quiet">it may have moved. it may have never been.</p>
+			<p class="body-text">the requested route has no record.</p>
+			<p class="body-text quiet">use a known route.</p>
 		</div>
 
 		<div class="cta-block" class:visible={showCta}>
 			<Button variant="ghost" href="/" class="cta-link">[ return to known space ]</Button>
 			<div class="status-footer">
 				<StatusDot status="fail" size={6} />
-				<Label>coordinates archived</Label>
+				<Label>route not found</Label>
 			</div>
 		</div>
 	</div>
-</div>
+</main>
+</ShowcaseShell>
 
 <style>
 	.system-page {

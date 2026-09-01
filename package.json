@@ -12,6 +12,10 @@
     "prepack": "svelte-kit sync && svelte-package && publint",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test:next": "tsx --test tests/next-core.test.ts tests/next-visual-core.test.ts tests/next-art-direction.test.ts tests/next-measured-sublime.test.ts tests/next-biome-gallery.test.ts tests/next-biomes.test.ts tests/next-biome-composition.test.ts tests/next-frames.test.ts tests/next-passages.test.ts tests/next-biome-materials.test.ts tests/next-biome-manifest.test.ts tests/showcase-manifest.test.ts tests/showcase-navigation.test.ts tests/showcase-route-matrix.test.mjs tests/next-witness.test.ts tests/next-agent-bakeoff.test.ts tests/next-capabilities.test.ts tests/next-inspector.test.ts scripts/collect-component-surface.test.mjs scripts/measure-compositions.test.mjs",
+    "measure:showcase": "tsx scripts/measure-showcase-routes.mjs",
+    "inspect:next": "tsx scripts/inspect-composition.ts",
+    "bakeoff:next": "node scripts/run-biome-bakeoff.mjs",
     "format": "prettier --write .",
     "lint": "prettier --check .",
     "test:e2e": "npm run build && playwright test"
@@ -25,7 +29,14 @@
     "AESTHETICS.md",
     "COMPONENTS.md",
     "INSTALL.md",
-    "docs"
+    "docs/api",
+    "docs/actions.md",
+    "docs/copy-voice.md",
+    "docs/depth.md",
+    "docs/expressions.md",
+    "docs/recipes.md",
+    "docs/registers.md",
+    "docs/tokens.md"
   ],
   "sideEffects": [
     "**/*.css"
@@ -63,6 +74,7 @@
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^26.4.0",
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.7.2",
@@ -70,6 +82,7 @@
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.23.12",
     "typescript": "^5.0.0",
     "vite": "^7.0.4",
     "vite-plugin-devtools-json": "^1.0.0"

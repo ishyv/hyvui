@@ -1,0 +1,38 @@
+{
+  "artDirection": {
+    "seed": "field-piece-01",
+    "mood": "quiet tension",
+    "material": "field-notebook",
+    "density": "sparse",
+    "contrast": "quiet",
+    "rhythm": "varied",
+    "motion": "restrained",
+    "adaptation": "suggest",
+    "debug": true
+  },
+  "nodes": [
+    {
+      "id": "statement",
+      "content": "Text",
+      "role": "focal-point",
+      "capabilities": ["bounded-variation", "overlap-target"]
+    },
+    {
+      "id": "note",
+      "content": "Surface",
+      "role": "counterweight",
+      "capabilities": ["bounded-variation"]
+    }
+  ],
+  "relations": [
+    {
+      "id": "statement-crosses-note",
+      "kind": "overlap",
+      "source": "statement",
+      "target": "note",
+      "strength": "preferred",
+      "behavior": "let the statement cross the note edge",
+      "fallback": "keep the authored flow"
+    }
+  ]
+}

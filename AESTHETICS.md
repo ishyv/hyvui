@@ -34,9 +34,13 @@ The base background is built from stacked radial and linear gradients — never 
 
 ```css
 background:
-	radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
-	radial-gradient(circle at 20% 20%, rgba(121, 166, 163, 0.06), transparent 24%),
-	linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
+  radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
+  radial-gradient(
+    circle at 20% 20%,
+    rgba(121, 166, 163, 0.06),
+    transparent 24%
+  ),
+  linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
 ```
 
 ### Text
@@ -190,7 +194,8 @@ Cards have near-invisible borders, a dark fill, and a soft warm gradient from th
 ```css
 border: 1px solid rgba(255, 255, 255, 0.05);
 background:
-	linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%), rgba(10, 12, 14, 0.8);
+  linear-gradient(135deg, rgba(199, 156, 87, 0.08), transparent 44%),
+  rgba(10, 12, 14, 0.8);
 box-shadow: var(--shadow-veil);
 backdrop-filter: blur(8px);
 ```
@@ -199,9 +204,9 @@ For more prominent containers (like the hero stage frame), layer in teal:
 
 ```css
 background:
-	linear-gradient(180deg, rgba(121, 166, 163, 0.08), transparent 18%),
-	linear-gradient(135deg, rgba(199, 156, 87, 0.08), rgba(10, 12, 14, 0.82) 42%),
-	rgba(9, 11, 13, 0.74);
+  linear-gradient(180deg, rgba(121, 166, 163, 0.08), transparent 18%),
+  linear-gradient(135deg, rgba(199, 156, 87, 0.08), rgba(10, 12, 14, 0.82) 42%),
+  rgba(9, 11, 13, 0.74);
 ```
 
 ### Inner Frames
@@ -235,20 +240,26 @@ Background grids use crossing 1px rules at very low opacity:
 
 ```css
 background-image:
-	linear-gradient(
-		to right,
-		transparent 0,
-		transparent calc(100% - 1px),
-		rgba(199, 156, 87, 0.07) calc(100% - 1px)
-	),
-	linear-gradient(
-		to bottom,
-		transparent 0,
-		transparent calc(100% - 1px),
-		rgba(121, 166, 163, 0.06) calc(100% - 1px)
-	);
+  linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(100% - 1px),
+    rgba(199, 156, 87, 0.07) calc(100% - 1px)
+  ),
+  linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(100% - 1px),
+    rgba(121, 166, 163, 0.06) calc(100% - 1px)
+  );
 background-size: 72px 72px;
-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+mask-image: linear-gradient(
+  to bottom,
+  transparent,
+  black 10%,
+  black 90%,
+  transparent
+);
 ```
 
 Always fade the grid at top and bottom with a mask. Never hard-edge a grid.
@@ -284,19 +295,24 @@ A horizontal sweep animation that reads as "active system":
 
 ```css
 .scan-band {
-	position: absolute;
-	width: 24%;
-	background: linear-gradient(90deg, transparent, rgba(199, 156, 87, 0.08), transparent);
-	animation: scan 5s linear infinite;
+  position: absolute;
+  width: 24%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(199, 156, 87, 0.08),
+    transparent
+  );
+  animation: scan 5s linear infinite;
 }
 
 @keyframes scan {
-	from {
-		transform: translateX(-120%);
-	}
-	to {
-		transform: translateX(520%);
-	}
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(520%);
+  }
 }
 ```
 
@@ -342,7 +358,7 @@ star.z ≤ 0.4  →  rgba(240, 232, 218, opacity)     // off-white: distant, coo
 Trail effect instead of a hard clear — low-opacity fill each frame creates motion blur:
 
 ```js
-ctx.fillStyle = 'rgba(8, 9, 11, 0.12)'; // partial clear
+ctx.fillStyle = "rgba(8, 9, 11, 0.12)"; // partial clear
 ctx.fillRect(0, 0, w, h);
 ```
 
@@ -352,7 +368,7 @@ Bright stars (size > 1.4, twinkle peak) get a soft radial halo:
 // 3× the star radius, gold, fades to transparent
 const grad = ctx.createRadialGradient(x, y, 0, x, y, star.size * 3);
 grad.addColorStop(0, `rgba(199, 156, 87, ${opacity * 0.3})`);
-grad.addColorStop(1, 'transparent');
+grad.addColorStop(1, "transparent");
 ```
 
 Canvas parallax moves each star by its `z` depth relative to the mouse position:
@@ -380,7 +396,7 @@ const radius = Math.min(w, h) * 0.28 * pulse;
 const nebula = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
 nebula.addColorStop(0, `rgba(199, 156, 87, ${0.04 * pulse})`); // gold core
 nebula.addColorStop(0.4, `rgba(121, 166, 163, ${0.025 * pulse})`); // teal mid
-nebula.addColorStop(1, 'transparent');
+nebula.addColorStop(1, "transparent");
 ```
 
 Opacity values are very low — 0.04 at the center. The nebula should be felt, not seen.
@@ -421,7 +437,12 @@ the texture of the air between things.
 ```js
 // Lifecycle-based opacity: ease in over first 10%, ease out over last 20%
 const lifeRatio = p.life / p.maxLife;
-const fade = lifeRatio < 0.1 ? lifeRatio / 0.1 : lifeRatio > 0.8 ? (1 - lifeRatio) / 0.2 : 1;
+const fade =
+  lifeRatio < 0.1
+    ? lifeRatio / 0.1
+    : lifeRatio > 0.8
+      ? (1 - lifeRatio) / 0.2
+      : 1;
 const alpha = fade * 0.35; // max alpha is low — these are background texture
 ```
 
@@ -463,27 +484,27 @@ Each line slides up from 6px below and fades in — not a scroll, a surface:
 
 ```css
 .status-line {
-	opacity: 0;
-	transform: translateY(6px);
-	transition:
-		opacity 0.5s ease-out,
-		transform 0.5s ease-out;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
 }
 .status-line.visible {
-	opacity: 1;
-	transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 ```
 
 ```js
 // Stagger: 600ms initial delay, 700ms between each line
 lines.forEach((_, i) => {
-	setTimeout(
-		() => {
-			lines[i].visible = true;
-		},
-		600 + i * 700
-	);
+  setTimeout(
+    () => {
+      lines[i].visible = true;
+    },
+    600 + i * 700,
+  );
 });
 ```
 
@@ -497,23 +518,23 @@ presence indicator — not a loading spinner, just proof the page is alive:
 
 ```css
 .status-dot {
-	width: 6px;
-	height: 6px;
-	border-radius: 50%;
-	background: var(--status-fail); /* or --status-ok depending on state */
-	animation: pulse-dot 2s ease-in-out infinite;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-fail); /* or --status-ok depending on state */
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-	0%,
-	100% {
-		opacity: 0.4;
-		transform: scale(1);
-	}
-	50% {
-		opacity: 1;
-		transform: scale(1.3);
-	}
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
 }
 ```
 
@@ -578,13 +599,13 @@ Card grids use small per-card vertical offsets to break the rigid grid:
 
 ```css
 .card-1 {
-	transform: translateY(0.6rem);
+  transform: translateY(0.6rem);
 }
 .card-2 {
-	transform: translateY(2.2rem);
+  transform: translateY(2.2rem);
 }
 .card-3 {
-	transform: translateY(-0.2rem);
+  transform: translateY(-0.2rem);
 }
 ```
 
@@ -596,8 +617,8 @@ A fixed-position vignette layer sits over the full page:
 
 ```css
 background:
-	radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.48) 100%),
-	radial-gradient(circle at top, rgba(199, 156, 87, 0.06), transparent 30%);
+  radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.48) 100%),
+  radial-gradient(circle at top, rgba(199, 156, 87, 0.06), transparent 30%);
 ```
 
 This darkens edges and adds warmth to the top of the viewport. Always present.
@@ -641,41 +662,41 @@ For porting to a new project, this is the minimum viable set:
 
 ```css
 :root {
-	/* backgrounds */
-	--bg: #08090b;
-	--bg-elev: #12151a;
+  /* backgrounds */
+  --bg: #08090b;
+  --bg-elev: #12151a;
 
-	/* text */
-	--text: #f0e8da;
-	--text-soft: #d8cdb9;
-	--muted: #a79d8b;
-	--muted-strong: #7e7568;
+  /* text */
+  --text: #f0e8da;
+  --text-soft: #d8cdb9;
+  --muted: #a79d8b;
+  --muted-strong: #7e7568;
 
-	/* accent */
-	--accent: #c79c57;
-	--accent-strong: #e2ba74;
-	--signal: #79a6a3;
+  /* accent */
+  --accent: #c79c57;
+  --accent-strong: #e2ba74;
+  --signal: #79a6a3;
 
-	/* lines */
-	--line: rgba(186, 157, 108, 0.16);
-	--line-strong: rgba(198, 166, 112, 0.28);
+  /* lines */
+  --line: rgba(186, 157, 108, 0.16);
+  --line-strong: rgba(198, 166, 112, 0.28);
 
-	/* status */
-	--status-ok: #79a6a3;
-	--status-pend: #8b8476;
-	--status-warn: #c79c57;
-	--status-fail: #b66a48;
+  /* status */
+  --status-ok: #79a6a3;
+  --status-pend: #8b8476;
+  --status-warn: #c79c57;
+  --status-fail: #b66a48;
 
-	/* shadows */
-	--shadow-veil: 0 40px 120px rgba(0, 0, 0, 0.45);
+  /* shadows */
+  --shadow-veil: 0 40px 120px rgba(0, 0, 0, 0.45);
 
-	/* transitions */
-	--transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-	--transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+  /* transitions */
+  --transition-smooth: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
 
-	/* fonts */
-	--font-mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
-	--font-body: 'ET Book', 'Iowan Old Style', 'Palatino Linotype', serif;
+  /* fonts */
+  --font-mono: "IBM Plex Mono", "Menlo", "Consolas", monospace;
+  --font-body: "ET Book", "Iowan Old Style", "Palatino Linotype", serif;
 }
 ```
 
@@ -751,13 +772,27 @@ something that wants to glow. Robust, weathered, lived-in. Not decorative — op
 2. **Animated cyan scan line.** A linear-gradient slim band sweeping top-to-bottom across the
    inside of the chamfered frame. Stagger the animation delay across multiple panels so they
    don't all sweep in unison.
+
    ```css
-   @keyframes htx-scan { 0% { background-position: 0% -100%; } 100% { background-position: 0% 250%; } }
+   @keyframes htx-scan {
+     0% {
+       background-position: 0% -100%;
+     }
+     100% {
+       background-position: 0% 250%;
+     }
+   }
    ```
 
 3. **Cyan-etched gradient text** for major headings:
+
    ```css
-   background: linear-gradient(180deg, var(--text), var(--text-soft), var(--htx-cyan-glow));
+   background: linear-gradient(
+     180deg,
+     var(--text),
+     var(--text-soft),
+     var(--htx-cyan-glow)
+   );
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
    ```
@@ -787,12 +822,13 @@ or "the holding" — never as just a resource.
 Stained glass. Reliquaries. The moment when something arrives that should not be possible.
 
 **Identity:** magical, mystical, **angelic**, divine. Both organism and miracle.
-Iridescent. Breathing. A living manifestation. Not creepy — *holy*. The witness's voice
+Iridescent. Breathing. A living manifestation. Not creepy — _holy_. The witness's voice
 should sound like someone who has seen something sacred, not run a controlled experiment.
 
 This is the most important correction:
+
 - Arcane is **not** lab specimen or biological corruption.
-- Arcane is the divine made visible. The mutation is a *revelation*.
+- Arcane is the divine made visible. The mutation is a _revelation_.
 - Use cathedral light, reliquary framing, Latin cadence, reverent witness voice.
 
 **Material vocabulary (CSS tokens, all defined in `src/lib/tokens/arcane.css`):**
@@ -840,8 +876,19 @@ This is the most important correction:
 
 4. **Diagonal prism sweep.** A linear-gradient with `mix-blend-mode: screen` sweeping across
    the shard on a 7s cycle. Reads as light passing through crystal.
+
    ```css
-   @keyframes arc-prism-sweep { 0% { background-position: -110% 0%; } 50% { background-position: 110% 0%; } 100% { background-position: -110% 0%; } }
+   @keyframes arc-prism-sweep {
+     0% {
+       background-position: -110% 0%;
+     }
+     50% {
+       background-position: 110% 0%;
+     }
+     100% {
+       background-position: -110% 0%;
+     }
+   }
    ```
 
 5. **Iridescent gradient text with breathing.** Hero headings get the full iridescent gradient
@@ -866,6 +913,7 @@ This is the most important correction:
 `cubic-bezier(0.6, 0, 0.4, 1)` — eases in, lingers, eases out. Nothing snaps.
 
 **Copy voice for arcane content:**
+
 - Latin cadence as the church-language motif: "ex tenebris lux", "luce manifesta · ego testor"
 - Reverent present-tense witness: "i was alone in the chamber. it was not a sound. it was not a light. it was a presence."
 - Formal canonical record for the third-person voice: "in the chamber known as the lattice, on the seventh morning, light gathered without source."
@@ -877,11 +925,11 @@ This is the most important correction:
 
 The three layers (weight × theme × grade) compose orthogonally. They have distinct jobs:
 
-| Layer | What it controls | Examples |
-|---|---|---|
+| Layer  | What it controls                    | Examples                                                       |
+| ------ | ----------------------------------- | -------------------------------------------------------------- |
 | weight | density, rhythm, motion personality | field-notebook is slow + warm; mission-control is dense + snap |
-| theme | material identity, palette, motif | hextech is brass machinery; arcane is divine crystal |
-| grade | global film-look filter | cold-archive desaturates; twilight warms shadows |
+| theme  | material identity, palette, motif   | hextech is brass machinery; arcane is divine crystal           |
+| grade  | global film-look filter             | cold-archive desaturates; twilight warms shadows               |
 
 A `mission-control + hextech + interrogation` page reads as a brass cockpit at night under
 green-tinted high-contrast light. A `field-notebook + arcane + twilight` page reads as a
