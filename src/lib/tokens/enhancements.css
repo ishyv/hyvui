@@ -1,0 +1,31 @@
+/* Optional color-space enhancements. Every enhanced variable starts with a
+ * guaranteed sRGB semantic fallback, so unsupported color functions simply
+ * leave the baseline intact. */
+:root {
+  --accent-enhanced: var(--accent);
+  --accent-strong-enhanced: var(--accent-strong);
+  --signal-enhanced: var(--signal);
+}
+
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --accent-enhanced: oklch(from var(--accent) l c h);
+    --accent-strong-enhanced: oklch(from var(--accent-strong) l c h);
+    --signal-enhanced: oklch(from var(--signal) l c h);
+  }
+}
+
+@media (color-gamut: p3) {
+  @supports (color: color(display-p3 0 0 0)) and
+    (color: color-mix(in display-p3, white, black)) {
+    :root {
+      --accent-enhanced: color-mix(in display-p3, var(--accent) 92%, white);
+      --accent-strong-enhanced: color-mix(
+        in display-p3,
+        var(--accent-strong) 92%,
+        white
+      );
+      --signal-enhanced: color-mix(in display-p3, var(--signal) 92%, white);
+    }
+  }
+}

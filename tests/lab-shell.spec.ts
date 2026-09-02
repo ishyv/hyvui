@@ -39,4 +39,49 @@ test.describe("stress observatory", () => {
     expect(result.scrollWidth).toBeLessThanOrEqual(result.viewport + 1);
     expect(result.widths).toEqual([280, 320, 375, 480, 640, 768, 1024, 1440]);
   });
+
+  test("exposes a native keyboard trigger for the dropdown menu", async ({
+    page,
+  }) => {
+    await page.goto("/lab", { waitUntil: "networkidle" });
+
+    const trigger = page.locator(".hyvui-dropdown-trigger").first();
+    await expect(trigger).toHaveJSProperty("tagName", "BUTTON");
+    await expect(trigger).toHaveAttribute("type", "button");
+
+    await trigger.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".hyvui-dropdown-menu")).toBeVisible();
+    await expect(page.getByRole("menuitem").first()).toBeVisible();
+  });
+
+  test("keeps a reduced-motion data stream deterministic across reloads", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/lab", { waitUntil: "networkidle" });
+
+    const stream = page.locator(".hyvui-data-stream").first();
+    await expect(stream).toBeAttached();
+    await expect
+      .poll(async () => (await stream.textContent())?.trim().length ?? 0)
+      .toBe(32);
+    const initial = (await stream.textContent())?.trim();
+
+    await page.reload({ waitUntil: "networkidle" });
+    await expect
+      .poll(async () => (await stream.textContent())?.trim().length ?? 0)
+      .toBe(32);
+    expect((await stream.textContent())?.trim()).toBe(initial);
+  });
+
+  test("leaves body text width to its containing composition", async ({
+    page,
+  }) => {
+    await page.goto("/lab", { waitUntil: "networkidle" });
+
+    const bodyText = page.locator(".hyvui-text-body").first();
+    await expect(bodyText).toBeVisible();
+    await expect(bodyText).toHaveCSS("max-width", "none");
+  });
 });

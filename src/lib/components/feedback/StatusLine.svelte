@@ -70,7 +70,7 @@
 		display: flex;
 		align-items: baseline;
 		gap: var(--space-sm);
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		opacity: 0;
 		transform: translateY(6px);

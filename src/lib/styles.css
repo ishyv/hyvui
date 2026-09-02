@@ -7,115 +7,201 @@
  * non-Tailwind projects. Tailwind theme mapping stays in app-level CSS.
  */
 
-@import "./tokens/tokens.css";
-@import "./tokens/hextech.css";
-@import "./tokens/arcane.css";
-@import "./system/register.css";
-@import "./system/textures.css";
-@import "./system/grades.css";
-@import "./system/expressions.css";
-@import "./system/depth/depth.css";
+@layer hyvui.reset, hyvui.tokens, hyvui.context, hyvui.components, hyvui.material,
+  hyvui.composition, hyvui.enhancements;
 
-/* ── base reset ─────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@import "./tokens/tokens.css" layer(hyvui.tokens);
+@import "./tokens/enhancements.css" layer(hyvui.enhancements);
+@import "./system/register.css" layer(hyvui.context);
+@import "./system/textures.css" layer(hyvui.material);
+@import "./system/grades.css" layer(hyvui.enhancements);
+@import "./system/expressions.css" layer(hyvui.composition);
+@import "./system/depth/depth.css" layer(hyvui.composition);
 
-html {
-  /* Critical fallback paint (also duplicated inline in app.html for FOUC) */
-  background-color: #08090b;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scrollbar-gutter: stable;
-  color-scheme: dark;
-}
+@layer hyvui.reset {
+  /* ── base reset ─────────────────────────────────────────────────────── */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-body {
-  margin: 0;
-  min-height: 100dvh;
-  background: transparent;
-  color: var(--text);
-  overflow-x: hidden;
+  html {
+    /* Critical fallback paint (also duplicated inline in app.html for FOUC). */
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--reg-font-primary);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-gutter: stable;
+    color-scheme: dark;
+  }
 
-  /* Ensure our fixed background layer can sit behind content without leaking
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: transparent;
+    color: var(--text);
+    overflow-x: hidden;
+
+    /* Ensure our fixed background layer can sit behind content without leaking
      under <html> in weird stacking contexts. */
-  isolation: isolate;
-}
-
-/* Avoid scroll-jank from `background-attachment: fixed` by using a fixed layer. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  /* atmospheric layered background — never a flat fill */
-  background:
-    radial-gradient(circle at top, rgba(198, 166, 112, 0.08), transparent 26%),
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(121, 166, 163, 0.06),
-      transparent 24%
-    ),
-    linear-gradient(180deg, #090b0d 0%, #08090b 35%, #050607 100%);
-}
-
-body > div {
-  min-height: 100dvh;
-}
-
-a {
-  color: inherit;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-img,
-svg,
-canvas {
-  display: block;
-  max-width: 100%;
-}
-
-:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-::selection {
-  background-color: rgba(199, 156, 87, 0.28);
-  color: var(--text);
-}
-
-/* ── shared animations ──────────────────────────────────────────────── */
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
+    isolation: isolate;
   }
-  50% {
-    opacity: 1;
-    transform: scale(1.3);
+
+  /* Avoid scroll-jank from `background-attachment: fixed` by using a fixed layer. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    /* atmospheric layered background — never a flat fill */
+    background:
+      radial-gradient(
+        circle at top,
+        rgba(198, 166, 112, 0.08),
+        transparent 26%
+      ),
+      radial-gradient(
+        circle at 20% 20%,
+        rgba(121, 166, 163, 0.06),
+        transparent 24%
+      ),
+      linear-gradient(
+        180deg,
+        var(--bg-elev-soft) 0%,
+        var(--bg) 35%,
+        var(--bg) 100%
+      );
+  }
+
+  body > div {
+    min-height: 100dvh;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  img,
+  svg,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    color: var(--text);
+  }
+
+  @supports not (color: color-mix(in srgb, black, white)) {
+    ::selection {
+      background-color: rgba(199, 156, 87, 0.28);
+    }
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+@layer hyvui.composition {
+  /* ── shared animations ──────────────────────────────────────────────── */
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.3);
+    }
   }
-  100% {
-    background-position: 200% 0;
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@layer hyvui.enhancements {
+  @media (forced-colors: active) {
+    html {
+      background-color: Canvas;
+      color: CanvasText;
+      color-scheme: normal;
+    }
+
+    body {
+      background: Canvas;
+      color: CanvasText;
+    }
+
+    body::before {
+      display: none;
+    }
+
+    [data-theme],
+    [data-grade] {
+      --bg: Canvas;
+      --bg-elev: Canvas;
+      --bg-elev-soft: Canvas;
+      --text: CanvasText;
+      --text-soft: CanvasText;
+      --muted: GrayText;
+      --muted-strong: CanvasText;
+      --accent: LinkText;
+      --accent-strong: LinkText;
+      --signal: LinkText;
+      --line: GrayText;
+      --line-strong: CanvasText;
+      --status-ok: LinkText;
+      --status-pend: GrayText;
+      --status-warn: LinkText;
+      --status-fail: LinkText;
+      --surface-card: Canvas;
+      --surface-panel: Canvas;
+      --surface-soft: Canvas;
+      --surface-stroke: 0 0 0 1px CanvasText;
+    }
+
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    :focus,
+    :focus-visible {
+      outline: 2px solid Highlight !important;
+      box-shadow: none !important;
+    }
+
+    img,
+    svg,
+    canvas,
+    [aria-hidden="true"] {
+      forced-color-adjust: none;
+    }
   }
 }

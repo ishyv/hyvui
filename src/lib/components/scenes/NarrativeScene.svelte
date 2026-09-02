@@ -92,7 +92,7 @@
 		max-width: 30rem;
 	}
 
-	@container (max-width: var(--cq-md)) {
+	@container (max-width: 48rem) {
 		.hyvui-narrative-grid {
 			grid-template-columns: 1fr;
 		}

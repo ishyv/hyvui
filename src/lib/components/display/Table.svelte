@@ -72,7 +72,7 @@
 	}
 
 	.hyvui-table-th {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.14em;
@@ -83,7 +83,7 @@
 	}
 
 	.hyvui-table-td {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-sm);
 		color: var(--text-soft);
 		padding: var(--space-xs) var(--space-sm);

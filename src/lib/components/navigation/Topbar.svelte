@@ -80,7 +80,7 @@
 		min-width: 0;
 	}
 
-	@container (max-width: var(--cq-sm)) {
+	@container (max-width: 32rem) {
 		.hyvui-topbar-inner {
 			grid-template-columns: 1fr;
 			justify-items: stretch;

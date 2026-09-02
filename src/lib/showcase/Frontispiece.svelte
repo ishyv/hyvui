@@ -1,7 +1,11 @@
 <script lang="ts">
+  import Badge from "../components/display/Badge.svelte";
   import Button from "../components/inputs/Button.svelte";
+  import StatusDot from "../components/feedback/StatusDot.svelte";
   import Label from "../components/primitives/Label.svelte";
   import Divider from "../components/primitives/Divider.svelte";
+  import Surface from "../components/primitives/Surface.svelte";
+  import Text from "../components/primitives/Text.svelte";
   import ShowcaseShell from "./ShowcaseShell.svelte";
   import { listShowcaseFamily } from "./showcaseNavigation.js";
   import { getShowcaseManifest } from "./showcaseManifest.js";
@@ -10,35 +14,57 @@
   const scenes = listShowcaseFamily("scene");
   const docs = getShowcaseManifest("docs");
   const research = getShowcaseManifest("next-biomes");
+  const sceneProof: Record<string, string> = {
+    bridge: "persistent contact",
+    keeper: "index and detail",
+    correspondence: "margin and reveal",
+    watchhouse: "log and recurrence",
+  };
 </script>
 
 {#if home && docs && research}
-  <ShowcaseShell manifest={home}>
+  <ShowcaseShell manifest={home} contextPlacement="after" showContext={false}>
     <main class="frontispiece" data-frontispiece>
       <section class="frontispiece-thesis" aria-labelledby="frontispiece-title">
         <div class="thesis-copy">
-          <Label color="signal">hyvui / a visual library</Label>
+          <Label color="signal">hyvui / svelte 5 component library</Label>
           <h1 id="frontispiece-title">hyvui</h1>
-          <p class="thesis-statement">same parts. change the ties, and the page changes.</p>
+          <p class="thesis-statement">same parts. change the ties.</p>
           <p class="thesis-note">
-            four scenes. same vocabulary. each keeps a different law of space, light,
-            and time.
+            96 components for interfaces with a point of view. four authored
+            scenes and two material studies use the same library, then change
+            the arrangement, type, material, and motion.
           </p>
           <div class="thesis-actions">
-            <Button variant="secondary" href="/examples/bridge">enter a scene</Button>
-            <Button variant="ghost" href={docs.href}>open the field guide</Button>
+            <Button variant="primary" href="/examples/bridge"
+              >enter the scenes</Button
+            >
+            <Button variant="secondary" href={docs.href}
+              >open the field guide</Button
+            >
+            <Button variant="ghost" href={research.href}
+              >research / visual charter</Button
+            >
           </div>
         </div>
 
         <div
           class="threshold"
           role="group"
-          aria-label="one system, four scene departures"
+          aria-label="public studies, four authored scenes"
         >
           <div class="threshold-header">
-            <span>frontispiece / 01</span>
-            <span>four departures</span>
+            <span>public studies / 01</span>
+            <span>four scenes / two studies</span>
           </div>
+          <a
+            class="threshold-charter"
+            data-threshold-charter
+            href={research.href}
+          >
+            <span>research / visual charter</span>
+            <span>six research hosts ↗</span>
+          </a>
           <div class="threshold-field">
             <span class="threshold-axis" aria-hidden="true"></span>
             <span class="threshold-core" aria-hidden="true"></span>
@@ -55,22 +81,45 @@
             {/each}
           </div>
           <div class="threshold-footer">
-            <span>same parts</span>
-            <span>different rules</span>
+            <span>same components</span>
+            <span>different composition</span>
           </div>
         </div>
       </section>
 
-      <section class="frontispiece-procession" aria-labelledby="procession-title">
+      <section
+        class="frontispiece-procession"
+        aria-labelledby="procession-title"
+      >
         <header class="procession-header">
-          <div>
+          <div class="procession-title">
             <Label color="accent">the four scenes</Label>
             <h2 id="procession-title">same parts. four different laws.</h2>
           </div>
-          <p>
-            open a scene. each keeps the same component vocabulary, then changes the
-            spacing, material, type, and motion.
-          </p>
+          <div class="library-proof" data-library-proof>
+            <div class="library-proof-heading">
+              <Label color="signal">the shared kit</Label>
+              <span>real components / one library</span>
+            </div>
+            <Surface variant="panel" class="library-proof-card">
+              <div class="library-proof-status">
+                <StatusDot status="ok" pulse={false} size={7} />
+                <Text variant="caption" color="muted">surface / ready</Text>
+              </div>
+              <div class="library-proof-parts">
+                <Badge variant="accent">surface</Badge>
+                <Badge variant="signal">status</Badge>
+                <Badge variant="default">text</Badge>
+              </div>
+              <Button variant="secondary" href={docs.href}
+                >inspect components ↗</Button
+              >
+            </Surface>
+            <p>
+              the scenes reuse the kit. the composition gives each part a
+              different job.
+            </p>
+          </div>
         </header>
 
         <ol class="scene-procession" data-scene-procession>
@@ -81,15 +130,25 @@
                 data-scene-entry={scene.id}
                 href={scene.href}
               >
-                <span class="scene-number">{String(index + 1).padStart(2, "0")}</span>
-                <span class={`scene-mark scene-mark-${scene.id}`} aria-hidden="true">
+                <span class="scene-number"
+                  >{String(index + 1).padStart(2, "0")}</span
+                >
+                <span
+                  class={`scene-mark scene-mark-${scene.id}`}
+                  aria-hidden="true"
+                >
                   <span></span>
                   <span></span>
                 </span>
                 <span class="scene-entry-copy">
-                  <span class="scene-entry-family">{scene.hostBiome ?? scene.family}</span>
+                  <span class="scene-entry-family"
+                    >{scene.hostBiome ?? scene.family}</span
+                  >
                   <strong>{scene.title}</strong>
                   <span class="scene-entry-premise">{scene.premise}</span>
+                  <span class="scene-entry-relation"
+                    >{sceneProof[scene.id]}</span
+                  >
                   <span class="scene-entry-cue">open / {scene.viewerRole}</span>
                 </span>
               </a>
@@ -100,8 +159,8 @@
 
       <section class="frontispiece-proof" aria-labelledby="proof-title">
         <div class="proof-thesis">
-          <Label color="signal">what to inspect</Label>
-          <h2 id="proof-title">same parts. different pages.</h2>
+          <Label color="signal">where to look</Label>
+          <h2 id="proof-title">see the parts in use.</h2>
           <blockquote>
             “a component is a part. the relation gives it work.”
           </blockquote>
@@ -110,7 +169,7 @@
           <Divider pattern="dotted" />
           <dl>
             <div>
-              <dt>public work</dt>
+              <dt>public scenes</dt>
               <dd>four authored scenes</dd>
             </div>
             <div>
@@ -118,12 +177,12 @@
               <dd>hextech / arcane</dd>
             </div>
             <div>
-              <dt>research archive</dt>
-              <dd><a href={research.href}>twelve visual ecologies</a></dd>
+              <dt>field guide</dt>
+              <dd><a href={docs.href}>components, props, tokens ↗</a></dd>
             </div>
             <div>
-              <dt>author's path</dt>
-              <dd><a href={docs.href}>read the field guide</a></dd>
+              <dt>research</dt>
+              <dd><a href={research.href}>visual charter / six hosts ↗</a></dd>
             </div>
           </dl>
         </div>
@@ -171,6 +230,11 @@
     gap: var(--space-lg);
   }
 
+  .thesis-copy :global(.hyvui-label) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .thesis-copy h1 {
     margin: 0;
     font-family: var(--font-body);
@@ -207,6 +271,7 @@
 
   .threshold {
     position: relative;
+    min-width: 0;
     min-height: 23rem;
     padding: var(--space-md);
     border: 1px solid var(--front-line);
@@ -338,6 +403,40 @@
     color: var(--accent);
   }
 
+  .threshold-charter {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    align-items: baseline;
+    padding-block: var(--space-sm);
+    border-top: 1px solid color-mix(in srgb, var(--text) 28%, transparent);
+    color: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .threshold-charter span:last-child {
+    color: var(--signal);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+  }
+
+  .threshold-charter:hover,
+  .threshold-charter:focus-visible {
+    color: var(--accent);
+    outline: none;
+  }
+
+  .threshold-charter:hover span:last-child,
+  .threshold-charter:focus-visible span:last-child {
+    color: var(--accent);
+  }
+
   .frontispiece-procession {
     padding-block: clamp(var(--space-2xl), 8vw, var(--space-3xl));
   }
@@ -346,7 +445,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.7fr);
     gap: var(--space-xl);
-    align-items: end;
+    align-items: start;
     padding-bottom: var(--space-xl);
     border-bottom: 1px solid var(--front-line);
   }
@@ -369,6 +468,71 @@
     font-family: var(--font-body);
     font-size: var(--text-md);
     line-height: 1.5;
+  }
+
+  .library-proof {
+    display: flex;
+    max-width: 25rem;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .library-proof-heading,
+  .library-proof-status {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .library-proof-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .library-proof-heading > span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  :global(.library-proof-card) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-md);
+  }
+
+  .library-proof-status {
+    justify-content: flex-start;
+  }
+
+  .library-proof-parts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-sm);
+    align-items: center;
+    justify-items: center;
+    padding-block: var(--space-xs);
+    border-block: 1px solid var(--front-line);
+  }
+
+  .library-proof-card :global(.hyvui-btn) {
+    align-self: flex-start;
+  }
+
+  .library-proof > p {
+    max-width: 25rem;
+    margin: 0;
+    color: var(--text-soft);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.42;
   }
 
   .scene-procession {
@@ -475,12 +639,19 @@
   }
 
   .scene-entry-family,
+  .scene-entry-relation,
   .scene-entry-cue {
     color: var(--muted);
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
+  }
+
+  .scene-entry-relation {
+    color: var(--signal);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
   }
 
   .scene-entry-copy strong {
@@ -570,7 +741,7 @@
     .frontispiece-thesis,
     .frontispiece-proof,
     .procession-header {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .threshold {

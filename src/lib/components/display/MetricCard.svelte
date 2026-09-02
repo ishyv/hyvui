@@ -72,7 +72,7 @@
 	}
 
 	.hyvui-metric-label {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
@@ -82,7 +82,7 @@
 	}
 
 	.hyvui-metric-value {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-3xl);
 		font-weight: 400;
 		line-height: 0.95;
@@ -91,7 +91,7 @@
 	}
 
 	.hyvui-metric-trend {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.12em;

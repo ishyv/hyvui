@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	/**
 	 * @example
 	 * <FileUpload accept="image/*" onfiles={handleImages} />
 	 * <FileUpload multiple accept=".csv,.json" onfiles={handleData} label="drop data files here" />
 	 */
-	interface Props {
+	interface Props extends Omit<
+		HTMLInputAttributes,
+		'accept' | 'class' | 'children' | 'disabled' | 'files' | 'id' | 'multiple' | 'onchange' | 'type'
+	> {
 		/** Accepted file types (e.g. "image/*"). */
 		accept?: string;
 		/** Allow multiple file selection. */
@@ -21,6 +25,8 @@
 		error?: string;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id for the native file input. */
+		id?: string;
 		/** Fires with the selected files. */
 		onfiles?: (files: File[]) => void;
 	}
@@ -33,14 +39,16 @@
 		description = '',
 		error = '',
 		class: className = '',
-		onfiles
+		id,
+		onfiles,
+		...rest
 	}: Props = $props();
 
 	let dragging = $state(false);
 	let fileNames = $state<string[]>([]);
 	let inputEl: HTMLInputElement | undefined = $state();
-	const uploadId = `hyvui-file-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 
 	function handleFiles(fileList: FileList | null) {
 		if (!fileList) return;
@@ -77,6 +85,7 @@
 
 <div class={cn('hyvui-file-upload', className)}>
 	<button
+		aria-describedby={messageId}
 		type="button"
 		class={cn(
 			'hyvui-file-zone',
@@ -84,7 +93,6 @@
 			error && 'hyvui-file-zone-error',
 			disabled && 'hyvui-file-zone-disabled'
 		)}
-		aria-describedby={message ? `${uploadId}-desc` : undefined}
 		ondrop={onDrop}
 		ondragover={onDragOver}
 		ondragleave={onDragLeave}
@@ -94,6 +102,8 @@
 		<span class="hyvui-file-label">{label}</span>
 	</button>
 	<input
+		{...rest}
+		{id}
 		bind:this={inputEl}
 		type="file"
 		{accept}
@@ -103,7 +113,7 @@
 		tabindex="-1"
 	/>
 	{#if message}
-		<span id="{uploadId}-desc" class={cn('hyvui-file-message', error && 'hyvui-file-message-error')}>
+		<span id={messageId} class={cn('hyvui-file-message', error && 'hyvui-file-message-error')}>
 			{message}
 		</span>
 	{/if}
@@ -153,7 +163,7 @@
 	}
 
 	.hyvui-file-label {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		color: var(--muted);
 		letter-spacing: 0.08em;
@@ -174,7 +184,7 @@
 	}
 
 	.hyvui-file-name {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -182,7 +192,7 @@
 	}
 
 	.hyvui-file-message {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

@@ -8,7 +8,7 @@
 	 * @example
 	 * <ReadoutScene title="mission control">
 	 *   {#snippet header()}<StatusDot status="ok" /><Label>all systems nominal</Label>{/snippet}
-	 *   <Grid minColWidth="14rem" maxCols={4}>
+	 *   <Grid mode="template" cols="repeat(4, minmax(0, 1fr))">
 	 *     <MetricCard label="uptime" value="99.9%" />
 	 *   </Grid>
 	 *   {#snippet sidebar()}<SidebarNav items={navItems} />{/snippet}
@@ -123,7 +123,7 @@
 		min-width: 0;
 	}
 
-	@container (max-width: var(--cq-md)) {
+	@container (max-width: 48rem) {
 		.hyvui-readout-body-sidebar {
 			grid-template-columns: 1fr;
 		}

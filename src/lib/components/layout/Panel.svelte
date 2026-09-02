@@ -2,6 +2,7 @@
 	import { cn } from '../../utils/cn.js';
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * @see surface — add `use:surface` on Panel for an entrance animation on mount.
@@ -12,7 +13,7 @@
 	 * </Panel>
 	 * <Panel withInset>panel with teal inset border</Panel>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Adds a pseudoelement teal inset border. */
 		withInset?: boolean;
 		/** Additional CSS classes. */
@@ -23,10 +24,10 @@
 		children?: Snippet;
 	}
 
-	let { withInset = false, class: className = '', header, children }: Props = $props();
+	let { withInset = false, class: className = '', header, children, ...rest }: Props = $props();
 </script>
 
-<Surface variant="panel" {withInset} class={cn('hyvui-panel', className)}>
+<Surface {...rest} variant="panel" {withInset} class={cn('hyvui-panel', className)}>
 	{#if header}
 		<div class="hyvui-panel-header">
 			{@render header()}

@@ -357,7 +357,7 @@ Pure flexbox layout — no visual treatment, just spacing. Vertical or horizonta
 
 Container-responsive CSS grid. `auto` mode computes columns from the element's available width; `template` mode uses a raw `grid-template-columns` string. For simple vertical/horizontal stacking, Stack is enough.
 
-**Key props:** `mode` (`'auto' | 'template'`), `minColWidth`, `maxCols`, `cols` (template), `gap`, `as`, `class`
+**Key props:** `mode` (`'auto' | 'template'`), `minColWidth`, `cols` (template), `gap`, `as`, `class`
 
 **Example:**
 
@@ -369,7 +369,7 @@ Container-responsive CSS grid. `auto` mode computes columns from the element's a
 </Grid>
 
 <!-- auto mode -->
-<Grid minColWidth="16rem" maxCols={3} gap="var(--space-md)">
+<Grid minColWidth="16rem" gap="var(--space-md)">
 	<Card>one</Card>
 	<Card>two</Card>
 	<Card>three</Card>
@@ -951,14 +951,14 @@ Centered theatrical layout for hero moments and feature reveals. Best when a sec
 
 Uniform cold grid for galleries, catalogs, and indexes. Intentionally uses no stagger offsets — uniformity is the aesthetic. If your items have different visual weights, build from Grid manually instead.
 
-**Key props:** `title` (optional), `minCardWidth`, `maxCols`, `gap`, `class` (`cols` is a deprecated alias for `maxCols`)
+**Key props:** `title` (optional), `minCardWidth`, `template`, `gap`, `class`
 
 **Slots:** `filter`, default
 
 **Example:**
 
 ```svelte
-<ArchiveScene maxCols={3} minCardWidth="18rem" title="all transmissions">
+<ArchiveScene template="repeat(3, minmax(0, 1fr))" minCardWidth="18rem" title="all transmissions">
 	{#each items as item}<Card>{item.title}</Card>{/each}
 </ArchiveScene>
 ```

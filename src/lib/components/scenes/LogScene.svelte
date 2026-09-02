@@ -79,7 +79,7 @@
 	}
 
 	.hyvui-log-content {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		border-left: 2px solid color-mix(in srgb, var(--signal) 18%, transparent);
 		padding-left: var(--space-lg);
 	}

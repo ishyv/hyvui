@@ -4,6 +4,8 @@
 @config '../tailwind.config.js';
 
 @import "./lib/styles.css";
+@import "./lib/themes.css";
+@import "./lib/fonts.css";
 
 /*
   Tailwind v4 @theme block.

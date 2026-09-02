@@ -1,37 +1,413 @@
-/* ── color grades — global film-look filters on <body> ───────────────────
-   Apply via `applyGrade('cold-archive' | 'interrogation' | 'twilight' | 'dailies')`.
-   The body filter does NOT cascade into ::before/::after pseudo-elements, so
-   the texture overlay (body::after) and atmospheric layer (body::before) render
-   independently of the grade. This is the cinematic mood layer above theme.
-   ─────────────────────────────────────────────────────────────────────────── */
+/* generated from src/lib/tokens/source/tokens.json. do not edit by hand. */
 
-body {
-  /* Smooth grade swaps so a change feels like a cut, not an instant flip. */
-  transition: filter 0.6s var(--ease-smooth, cubic-bezier(0.22, 1, 0.36, 1));
+@supports (color: color-mix(in srgb, black, white)) {
+  [data-grade="cold-archive"],
+  [data-grade="cold-archive"] * {
+    --hyv-grade-bg: color-mix(
+      in srgb,
+      var(--hyv-theme-bg, var(--hyv-base-bg)) 88%,
+      #d7e6ea 12%
+    );
+    --hyv-grade-bg-elev: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev, var(--hyv-base-bg-elev)) 86%,
+      #c7d9de 14%
+    );
+    --hyv-grade-bg-elev-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev-soft, var(--hyv-base-bg-elev-soft)) 88%,
+      #d7e6ea 12%
+    );
+    --hyv-grade-text: color-mix(
+      in srgb,
+      var(--hyv-theme-text, var(--hyv-base-text)) 94%,
+      #eef4f4 6%
+    );
+    --hyv-grade-text-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-text-soft, var(--hyv-base-text-soft)) 90%,
+      #dce9eb 10%
+    );
+    --hyv-grade-muted: color-mix(
+      in srgb,
+      var(--hyv-theme-muted, var(--hyv-base-muted)) 82%,
+      #c7d9de 18%
+    );
+    --hyv-grade-muted-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-muted-strong, var(--hyv-base-muted-strong)) 78%,
+      #c7d9de 22%
+    );
+    --hyv-grade-accent: color-mix(
+      in srgb,
+      var(--hyv-theme-accent, var(--hyv-base-accent)) 72%,
+      #a7c1c6 28%
+    );
+    --hyv-grade-accent-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-accent-strong, var(--hyv-base-accent-strong)) 70%,
+      #d7e6ea 30%
+    );
+    --hyv-grade-signal: color-mix(
+      in srgb,
+      var(--hyv-theme-signal, var(--hyv-base-signal)) 76%,
+      #d7e6ea 24%
+    );
+    --hyv-grade-line: color-mix(
+      in srgb,
+      var(--hyv-theme-line, var(--hyv-base-line)) 78%,
+      #c7d9de 22%
+    );
+    --hyv-grade-line-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-line-strong, var(--hyv-base-line-strong)) 76%,
+      #d7e6ea 24%
+    );
+    --hyv-grade-status-ok: color-mix(
+      in srgb,
+      var(--hyv-theme-status-ok, var(--hyv-base-status-ok)) 76%,
+      #d7e6ea 24%
+    );
+    --hyv-grade-status-pend: color-mix(
+      in srgb,
+      var(--hyv-theme-status-pend, var(--hyv-base-status-pend)) 78%,
+      #c7d9de 22%
+    );
+    --hyv-grade-status-warn: color-mix(
+      in srgb,
+      var(--hyv-theme-status-warn, var(--hyv-base-status-warn)) 76%,
+      #d7e6ea 24%
+    );
+    --hyv-grade-status-fail: color-mix(
+      in srgb,
+      var(--hyv-theme-status-fail, var(--hyv-base-status-fail)) 76%,
+      #d7dfe1 24%
+    );
+    --hyv-grade-surface-overlay: rgba(215, 230, 234, 0.08);
+    --bg: var(--hyv-grade-bg);
+    --bg-elev: var(--hyv-grade-bg-elev);
+    --bg-elev-soft: var(--hyv-grade-bg-elev-soft);
+    --text: var(--hyv-grade-text);
+    --text-soft: var(--hyv-grade-text-soft);
+    --muted: var(--hyv-grade-muted);
+    --muted-strong: var(--hyv-grade-muted-strong);
+    --accent: var(--hyv-grade-accent);
+    --accent-strong: var(--hyv-grade-accent-strong);
+    --signal: var(--hyv-grade-signal);
+    --line: var(--hyv-grade-line);
+    --line-strong: var(--hyv-grade-line-strong);
+    --status-ok: var(--hyv-grade-status-ok);
+    --status-pend: var(--hyv-grade-status-pend);
+    --status-warn: var(--hyv-grade-status-warn);
+    --status-fail: var(--hyv-grade-status-fail);
+  }
 }
 
-/* ── cold-archive: blue shift, lifted blacks, washed out ──────────────── */
-[data-grade="cold-archive"] {
-  filter: brightness(0.92) contrast(0.92) hue-rotate(-12deg) saturate(0.78);
+@supports (color: color-mix(in srgb, black, white)) {
+  [data-grade="interrogation"],
+  [data-grade="interrogation"] * {
+    --hyv-grade-bg: color-mix(
+      in srgb,
+      var(--hyv-theme-bg, var(--hyv-base-bg)) 90%,
+      #000000 10%
+    );
+    --hyv-grade-bg-elev: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev, var(--hyv-base-bg-elev)) 90%,
+      #000000 10%
+    );
+    --hyv-grade-bg-elev-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev-soft, var(--hyv-base-bg-elev-soft)) 90%,
+      #000000 10%
+    );
+    --hyv-grade-text: color-mix(
+      in srgb,
+      var(--hyv-theme-text, var(--hyv-base-text)) 80%,
+      #ffffff 20%
+    );
+    --hyv-grade-text-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-text-soft, var(--hyv-base-text-soft)) 82%,
+      #ffffff 18%
+    );
+    --hyv-grade-muted: color-mix(
+      in srgb,
+      var(--hyv-theme-muted, var(--hyv-base-muted)) 88%,
+      #ffffff 12%
+    );
+    --hyv-grade-muted-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-muted-strong, var(--hyv-base-muted-strong)) 86%,
+      #ffffff 14%
+    );
+    --hyv-grade-accent: color-mix(
+      in srgb,
+      var(--hyv-theme-accent, var(--hyv-base-accent)) 82%,
+      #d9ab65 18%
+    );
+    --hyv-grade-accent-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-accent-strong, var(--hyv-base-accent-strong)) 82%,
+      #f0d090 18%
+    );
+    --hyv-grade-signal: color-mix(
+      in srgb,
+      var(--hyv-theme-signal, var(--hyv-base-signal)) 78%,
+      #ffffff 22%
+    );
+    --hyv-grade-line: color-mix(
+      in srgb,
+      var(--hyv-theme-line, var(--hyv-base-line)) 82%,
+      #ffffff 18%
+    );
+    --hyv-grade-line-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-line-strong, var(--hyv-base-line-strong)) 80%,
+      #ffffff 20%
+    );
+    --hyv-grade-status-ok: color-mix(
+      in srgb,
+      var(--hyv-theme-status-ok, var(--hyv-base-status-ok)) 78%,
+      #ffffff 22%
+    );
+    --hyv-grade-status-pend: color-mix(
+      in srgb,
+      var(--hyv-theme-status-pend, var(--hyv-base-status-pend)) 84%,
+      #ffffff 16%
+    );
+    --hyv-grade-status-warn: color-mix(
+      in srgb,
+      var(--hyv-theme-status-warn, var(--hyv-base-status-warn)) 82%,
+      #f0d090 18%
+    );
+    --hyv-grade-status-fail: color-mix(
+      in srgb,
+      var(--hyv-theme-status-fail, var(--hyv-base-status-fail)) 82%,
+      #ffffff 18%
+    );
+    --hyv-grade-surface-overlay: rgba(255, 255, 255, 0.04);
+    --bg: var(--hyv-grade-bg);
+    --bg-elev: var(--hyv-grade-bg-elev);
+    --bg-elev-soft: var(--hyv-grade-bg-elev-soft);
+    --text: var(--hyv-grade-text);
+    --text-soft: var(--hyv-grade-text-soft);
+    --muted: var(--hyv-grade-muted);
+    --muted-strong: var(--hyv-grade-muted-strong);
+    --accent: var(--hyv-grade-accent);
+    --accent-strong: var(--hyv-grade-accent-strong);
+    --signal: var(--hyv-grade-signal);
+    --line: var(--hyv-grade-line);
+    --line-strong: var(--hyv-grade-line-strong);
+    --status-ok: var(--hyv-grade-status-ok);
+    --status-pend: var(--hyv-grade-status-pend);
+    --status-warn: var(--hyv-grade-status-warn);
+    --status-fail: var(--hyv-grade-status-fail);
+  }
 }
 
-/* ── interrogation: high contrast, desaturated mids, slight green push ── */
-[data-grade="interrogation"] {
-  filter: brightness(0.96) contrast(1.18) saturate(0.62) hue-rotate(8deg);
+@supports (color: color-mix(in srgb, black, white)) {
+  [data-grade="twilight"],
+  [data-grade="twilight"] * {
+    --hyv-grade-bg: color-mix(
+      in srgb,
+      var(--hyv-theme-bg, var(--hyv-base-bg)) 86%,
+      #3a162d 14%
+    );
+    --hyv-grade-bg-elev: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev, var(--hyv-base-bg-elev)) 86%,
+      #3a162d 14%
+    );
+    --hyv-grade-bg-elev-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev-soft, var(--hyv-base-bg-elev-soft)) 86%,
+      #3a162d 14%
+    );
+    --hyv-grade-text: color-mix(
+      in srgb,
+      var(--hyv-theme-text, var(--hyv-base-text)) 92%,
+      #ffe4e0 8%
+    );
+    --hyv-grade-text-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-text-soft, var(--hyv-base-text-soft)) 88%,
+      #ffe4e0 12%
+    );
+    --hyv-grade-muted: color-mix(
+      in srgb,
+      var(--hyv-theme-muted, var(--hyv-base-muted)) 82%,
+      #efb5ae 18%
+    );
+    --hyv-grade-muted-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-muted-strong, var(--hyv-base-muted-strong)) 78%,
+      #efb5ae 22%
+    );
+    --hyv-grade-accent: color-mix(
+      in srgb,
+      var(--hyv-theme-accent, var(--hyv-base-accent)) 78%,
+      #e69486 22%
+    );
+    --hyv-grade-accent-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-accent-strong, var(--hyv-base-accent-strong)) 76%,
+      #ffc1b8 24%
+    );
+    --hyv-grade-signal: color-mix(
+      in srgb,
+      var(--hyv-theme-signal, var(--hyv-base-signal)) 82%,
+      #efb5ae 18%
+    );
+    --hyv-grade-line: color-mix(
+      in srgb,
+      var(--hyv-theme-line, var(--hyv-base-line)) 80%,
+      #efb5ae 20%
+    );
+    --hyv-grade-line-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-line-strong, var(--hyv-base-line-strong)) 78%,
+      #ffc1b8 22%
+    );
+    --hyv-grade-status-ok: color-mix(
+      in srgb,
+      var(--hyv-theme-status-ok, var(--hyv-base-status-ok)) 80%,
+      #efb5ae 20%
+    );
+    --hyv-grade-status-pend: color-mix(
+      in srgb,
+      var(--hyv-theme-status-pend, var(--hyv-base-status-pend)) 80%,
+      #efb5ae 20%
+    );
+    --hyv-grade-status-warn: color-mix(
+      in srgb,
+      var(--hyv-theme-status-warn, var(--hyv-base-status-warn)) 78%,
+      #ffc1b8 22%
+    );
+    --hyv-grade-status-fail: color-mix(
+      in srgb,
+      var(--hyv-theme-status-fail, var(--hyv-base-status-fail)) 78%,
+      #ff8b8b 22%
+    );
+    --hyv-grade-surface-overlay: rgba(230, 148, 134, 0.07);
+    --bg: var(--hyv-grade-bg);
+    --bg-elev: var(--hyv-grade-bg-elev);
+    --bg-elev-soft: var(--hyv-grade-bg-elev-soft);
+    --text: var(--hyv-grade-text);
+    --text-soft: var(--hyv-grade-text-soft);
+    --muted: var(--hyv-grade-muted);
+    --muted-strong: var(--hyv-grade-muted-strong);
+    --accent: var(--hyv-grade-accent);
+    --accent-strong: var(--hyv-grade-accent-strong);
+    --signal: var(--hyv-grade-signal);
+    --line: var(--hyv-grade-line);
+    --line-strong: var(--hyv-grade-line-strong);
+    --status-ok: var(--hyv-grade-status-ok);
+    --status-pend: var(--hyv-grade-status-pend);
+    --status-warn: var(--hyv-grade-status-warn);
+    --status-fail: var(--hyv-grade-status-fail);
+  }
 }
 
-/* ── twilight: warm shadows, magenta highlights ───────────────────────── */
-[data-grade="twilight"] {
-  filter: brightness(0.94) saturate(1.1) hue-rotate(18deg) sepia(0.08);
-}
-
-/* ── dailies: flat, slightly green, broadcast look ────────────────────── */
-[data-grade="dailies"] {
-  filter: brightness(1) contrast(0.88) saturate(0.85) hue-rotate(-4deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body {
-    transition: none;
+@supports (color: color-mix(in srgb, black, white)) {
+  [data-grade="dailies"],
+  [data-grade="dailies"] * {
+    --hyv-grade-bg: color-mix(
+      in srgb,
+      var(--hyv-theme-bg, var(--hyv-base-bg)) 94%,
+      #b5c0ad 6%
+    );
+    --hyv-grade-bg-elev: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev, var(--hyv-base-bg-elev)) 94%,
+      #b5c0ad 6%
+    );
+    --hyv-grade-bg-elev-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-bg-elev-soft, var(--hyv-base-bg-elev-soft)) 94%,
+      #b5c0ad 6%
+    );
+    --hyv-grade-text: color-mix(
+      in srgb,
+      var(--hyv-theme-text, var(--hyv-base-text)) 88%,
+      #d6ddd0 12%
+    );
+    --hyv-grade-text-soft: color-mix(
+      in srgb,
+      var(--hyv-theme-text-soft, var(--hyv-base-text-soft)) 88%,
+      #d6ddd0 12%
+    );
+    --hyv-grade-muted: color-mix(
+      in srgb,
+      var(--hyv-theme-muted, var(--hyv-base-muted)) 88%,
+      #c4cdbf 12%
+    );
+    --hyv-grade-muted-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-muted-strong, var(--hyv-base-muted-strong)) 84%,
+      #c4cdbf 16%
+    );
+    --hyv-grade-accent: color-mix(
+      in srgb,
+      var(--hyv-theme-accent, var(--hyv-base-accent)) 88%,
+      #c7cdbb 12%
+    );
+    --hyv-grade-accent-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-accent-strong, var(--hyv-base-accent-strong)) 86%,
+      #e0e5d4 14%
+    );
+    --hyv-grade-signal: color-mix(
+      in srgb,
+      var(--hyv-theme-signal, var(--hyv-base-signal)) 88%,
+      #d6ddd0 12%
+    );
+    --hyv-grade-line: color-mix(
+      in srgb,
+      var(--hyv-theme-line, var(--hyv-base-line)) 86%,
+      #c4cdbf 14%
+    );
+    --hyv-grade-line-strong: color-mix(
+      in srgb,
+      var(--hyv-theme-line-strong, var(--hyv-base-line-strong)) 84%,
+      #d6ddd0 16%
+    );
+    --hyv-grade-status-ok: color-mix(
+      in srgb,
+      var(--hyv-theme-status-ok, var(--hyv-base-status-ok)) 88%,
+      #d6ddd0 12%
+    );
+    --hyv-grade-status-pend: color-mix(
+      in srgb,
+      var(--hyv-theme-status-pend, var(--hyv-base-status-pend)) 88%,
+      #c4cdbf 12%
+    );
+    --hyv-grade-status-warn: color-mix(
+      in srgb,
+      var(--hyv-theme-status-warn, var(--hyv-base-status-warn)) 88%,
+      #d6ddd0 12%
+    );
+    --hyv-grade-status-fail: color-mix(
+      in srgb,
+      var(--hyv-theme-status-fail, var(--hyv-base-status-fail)) 86%,
+      #e0c9c1 14%
+    );
+    --hyv-grade-surface-overlay: rgba(181, 192, 173, 0.04);
+    --bg: var(--hyv-grade-bg);
+    --bg-elev: var(--hyv-grade-bg-elev);
+    --bg-elev-soft: var(--hyv-grade-bg-elev-soft);
+    --text: var(--hyv-grade-text);
+    --text-soft: var(--hyv-grade-text-soft);
+    --muted: var(--hyv-grade-muted);
+    --muted-strong: var(--hyv-grade-muted-strong);
+    --accent: var(--hyv-grade-accent);
+    --accent-strong: var(--hyv-grade-accent-strong);
+    --signal: var(--hyv-grade-signal);
+    --line: var(--hyv-grade-line);
+    --line-strong: var(--hyv-grade-line-strong);
+    --status-ok: var(--hyv-grade-status-ok);
+    --status-pend: var(--hyv-grade-status-pend);
+    --status-warn: var(--hyv-grade-status-warn);
+    --status-fail: var(--hyv-grade-status-fail);
   }
 }

@@ -1,0 +1,57 @@
+/*
+ * Optional self-hosted type preset.
+ *
+ * Import this entrypoint explicitly when the composition depends on ET Book
+ * or the IBM Plex Mono metrics. No library entrypoint loads fonts remotely.
+ *
+ * ET Book is distributed under the MIT license.
+ * IBM Plex Mono is distributed under the SIL Open Font License 1.1.
+ * The corresponding notices ship beside these files in ./fonts/.
+ */
+
+@font-face {
+  font-family: "ET Book";
+  src: url("./fonts/et-book-roman.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ET Book";
+  src: url("./fonts/et-book-italic.woff") format("woff");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("./fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("./fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("./fonts/IBMPlexMono-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Prefer the font's own metrics when the browser exposes that adjustment. */
+@supports (font-size-adjust: from-font) {
+  :root {
+    font-size-adjust: from-font;
+  }
+}

@@ -62,7 +62,7 @@
 	}
 
 	.hyvui-avatar-initials {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-weight: 400;
 		color: var(--muted);
 		letter-spacing: 0.04em;

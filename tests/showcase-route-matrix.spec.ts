@@ -46,6 +46,33 @@ async function verifyEntries(page: Page, entries: RouteMatrixEntry[]) {
   }
 }
 
+async function verifyConsoleHealth(page: Page) {
+  const entries = buildRouteMatrix().filter((entry) => entry.width === 1600);
+
+  for (const entry of entries) {
+    const messages: string[] = [];
+    const onConsole = (message: { type(): string; text(): string }) => {
+      if (message.type() === "error" || message.type() === "warning") {
+        messages.push(`${message.type()}: ${message.text()}`);
+      }
+    };
+    const onPageError = (error: Error) => {
+      messages.push(`pageerror: ${error.message}`);
+    };
+
+    page.on("console", onConsole);
+    page.on("pageerror", onPageError);
+
+    try {
+      await measureRoute(page, entry, "http://127.0.0.1:4173");
+      expect(messages, `${entry.id} browser messages`).toEqual([]);
+    } finally {
+      page.off("console", onConsole);
+      page.off("pageerror", onPageError);
+    }
+  }
+}
+
 test.describe("showcase route matrix", () => {
   test("keeps every route identified and contained at approved widths", async ({
     page,
@@ -59,5 +86,12 @@ test.describe("showcase route matrix", () => {
   }) => {
     test.setTimeout(600_000);
     await verifyEntries(page, buildReducedMotionRouteMatrix());
+  });
+
+  test("keeps every canonical route free of browser messages", async ({
+    page,
+  }) => {
+    test.setTimeout(600_000);
+    await verifyConsoleHealth(page);
   });
 });

@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { cn } from '../../utils/cn.js';
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
+	import { onAppearanceChange, readAppearanceContext, type AppearanceContext } from '../../system/context.js';
 	import {
 		autoUpdate,
 		computePosition,
@@ -12,21 +15,15 @@
 		type Placement
 	} from '@floating-ui/dom';
 
-	// In SSR builds, Svelte strips $effect bodies, which can make these imports appear unused to Rollup.
-	// Keeping a tiny reference avoids noisy build warnings without changing runtime behavior.
-	const _fui = [autoUpdate, computePosition, flip, fuiOffset, shift, fuiSize];
-	void _fui;
+	const floatingUiPrimitives = [autoUpdate, computePosition, flip, fuiOffset, shift, fuiSize];
+	void floatingUiPrimitives;
 
 	/**
-	 * Typically used via DropdownMenu. Use directly only when you need full positioning control.
-	 * Requires an `anchor` HTMLElement ref and a controlled `open` boolean.
-	 * @example
-	 * <button bind:this={anchorEl} onclick={() => open = true}>open</button>
-	 * <Popover {open} anchor={anchorEl} placement="bottom-start" onclose={() => open = false}>
-	 *   <Text variant="caption">popover content</Text>
-	 * </Popover>
+	 * Nonmodal, Floating UI anchored surface. The root receives a snapshot of
+	 * the anchor's appearance context when portalled so material and grade do
+	 * not silently fall back to the document body.
 	 */
-	interface Props {
+	type Props = Omit<LayoutAttributes, 'aria-describedby' | 'aria-labelledby' | 'children' | 'role'> & {
 		/** Controls popover visibility. */
 		open?: boolean;
 		/** Anchor element the popover positions against. */
@@ -37,13 +34,23 @@
 		offset?: number;
 		/** When true, move the popover element to document.body on mount. */
 		portal?: boolean;
+		/** Explicit accessible role. */
+		role?: string;
+		/** Existing element id used as the accessible name. */
+		labelledBy?: string;
+		/** Existing element id used as the accessible description. */
+		describedBy?: string;
+		/** Focus the first focusable descendant on open. */
+		focusOnOpen?: boolean;
+		/** Return focus to the previously active element on close. */
+		restoreFocus?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
 		/** Popover content. */
 		children?: Snippet;
 		/** Fires when the popover should close (outside click, Escape). */
 		onclose?: () => void;
-	}
+	};
 
 	let {
 		open = false,
@@ -51,41 +58,86 @@
 		placement = 'bottom-start',
 		offset = 8,
 		portal = true,
+		role = 'dialog',
+		labelledBy,
+		describedBy,
+		focusOnOpen = true,
+		restoreFocus = true,
 		class: className = '',
 		children,
-		onclose
+		onclose,
+		...rest
 	}: Props = $props();
 
 	let popoverEl: HTMLDivElement | undefined = $state();
+	let appearance = $state<AppearanceContext>({
+		weight: 'default',
+		theme: 'default',
+		grade: 'default'
+	});
+	let previousFocus: Element | null = null;
 
 	function close() {
 		onclose?.();
 	}
 
+	function restorePreviousFocus() {
+		if (
+			typeof document !== 'undefined' &&
+			typeof HTMLElement !== 'undefined' &&
+			restoreFocus &&
+			previousFocus instanceof HTMLElement &&
+			document.contains(previousFocus)
+		) {
+			previousFocus.focus();
+		}
+		previousFocus = null;
+	}
+
+	function focusEntry() {
+		if (!popoverEl || !focusOnOpen) return;
+		const candidate = popoverEl.querySelector<HTMLElement>(
+			'[autofocus], button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
+		);
+		(candidate ?? popoverEl).focus();
+	}
+
 	$effect(() => {
-		if (typeof document === 'undefined') return;
-		if (!portal) return;
-		if (!popoverEl) return;
+		const target = anchor;
+		if (!target) {
+			appearance = { weight: 'default', theme: 'default', grade: 'default' };
+			return;
+		}
+		appearance = readAppearanceContext(target);
+		return onAppearanceChange(target, (next) => (appearance = next));
+	});
 
-		// Manual portal: move the floating node to document.body. Svelte 5's event
-		// delegation supports this (see internal render.js comment re: portals).
-		document.body.appendChild(popoverEl);
+	$effect(() => {
+		if (!open) {
+			restorePreviousFocus();
+			return;
+		}
+		if (!previousFocus) previousFocus = document.activeElement;
+		if (popoverEl && focusOnOpen) queueMicrotask(focusEntry);
+	});
 
+	$effect(() => {
+		if (typeof document === 'undefined' || !portal || !popoverEl) return;
+
+		if (popoverEl.parentElement !== document.body) document.body.appendChild(popoverEl);
 		return () => {
 			popoverEl?.remove();
 		};
 	});
 
 	$effect(() => {
-		if (typeof window === 'undefined') return;
-		if (!open) return;
-		if (!anchor || !popoverEl) return;
-
-		const a = anchor;
-		const el = popoverEl;
+		if (typeof window === 'undefined' || !open || !anchor || !popoverEl) return;
+		const anchorElement = anchor;
+		const floatingElement = popoverEl;
+		let active = true;
 
 		function position() {
-			computePosition(a, el, {
+			computePosition(anchorElement, floatingElement, {
 				placement,
 				strategy: 'fixed',
 				middleware: [
@@ -103,42 +155,56 @@
 					})
 				]
 			}).then(({ x, y }) => {
-				Object.assign(el.style, {
-					left: `${x}px`,
-					top: `${y}px`
-				});
+				if (!active) return;
+				Object.assign(floatingElement.style, { left: `${x}px`, top: `${y}px` });
 			});
 		}
 
 		position();
+		const stop = autoUpdate(anchorElement, floatingElement, position);
 
-		const stop = autoUpdate(a, el, position);
-
-		function onPointerDown(e: PointerEvent) {
-			const t = e.target as Node | null;
-			if (!t) return;
-			if (a.contains(t) || el.contains(t)) return;
+		function onPointerDown(event: PointerEvent) {
+			const target = event.target as Node | null;
+			if (target && (anchorElement.contains(target) || floatingElement.contains(target))) return;
 			close();
 		}
 
-		function onKeyDown(e: KeyboardEvent) {
-			if (e.key === 'Escape') close();
+		function onKeyDown(event: KeyboardEvent) {
+			if (event.key === 'Escape') {
+				event.preventDefault();
+				close();
+			}
 		}
 
-		const pointerOpts: AddEventListenerOptions = { capture: true };
-		window.addEventListener('pointerdown', onPointerDown, pointerOpts);
+		const pointerOptions: AddEventListenerOptions = { capture: true };
+		window.addEventListener('pointerdown', onPointerDown, pointerOptions);
 		window.addEventListener('keydown', onKeyDown);
 
 		return () => {
+			active = false;
 			stop();
-			window.removeEventListener('pointerdown', onPointerDown, pointerOpts);
+			window.removeEventListener('pointerdown', onPointerDown, pointerOptions);
 			window.removeEventListener('keydown', onKeyDown);
 		};
 	});
+
+	onDestroy(() => restorePreviousFocus());
 </script>
 
 {#if open && anchor}
-	<div bind:this={popoverEl} class={cn('hyvui-popover', className)}>
+	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+	<div
+		{...rest}
+		bind:this={popoverEl}
+		class={cn('hyvui-popover', className)}
+		role={role}
+		aria-labelledby={labelledBy}
+		aria-describedby={describedBy}
+		tabindex={focusOnOpen ? -1 : undefined}
+		data-weight={appearance.weight === 'default' ? undefined : appearance.weight}
+		data-theme={appearance.theme === 'default' ? undefined : appearance.theme}
+		data-grade={appearance.grade === 'default' ? undefined : appearance.grade}
+	>
 		<Surface variant="card" class="hyvui-popover-surface">
 			<div class="hyvui-popover-content">
 				{#if children}{@render children()}{/if}
@@ -158,9 +224,7 @@
 		max-inline-size: min(90dvw, 28rem);
 	}
 
-	:global(.hyvui-popover-surface) {
-		padding: 0;
-	}
+	:global(.hyvui-popover-surface) { padding: 0; }
 
 	.hyvui-popover-content {
 		padding: var(--control-pad-y-sm) var(--control-pad-x-sm);
@@ -170,19 +234,11 @@
 	}
 
 	@keyframes popover-in {
-		from {
-			opacity: 0;
-			transform: translateY(4px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		from { opacity: 0; transform: translateY(4px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.hyvui-popover {
-			animation: none;
-		}
+		.hyvui-popover { animation: none; }
 	}
 </style>

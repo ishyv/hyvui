@@ -31,7 +31,6 @@
 		class: className = ''
 	}: Props = $props();
 
-	const pathId = `cd-${Math.random().toString(36).slice(2, 8)}`;
 	const d = $derived(
 		path ??
 			(points && points.length > 0
@@ -45,17 +44,14 @@
 </script>
 
 <svg class={cn('hyvui-conduit', className)} {viewBox} aria-hidden="true">
-	<defs>
-		<path id={pathId} {d} fill="none" />
-	</defs>
 	<path class="hyvui-conduit-line" {d} fill="none" stroke="currentColor" stroke-width="1" />
 	{#if particles && flow !== 'none'}
 		<g class="hyvui-conduit-flow">
 			{#if flow === 'forward' || flow === 'both'}
-				<TravelingParticle mpathId={pathId} {speed} />
+				<TravelingParticle path={d} {speed} />
 			{/if}
 			{#if flow === 'back' || flow === 'both'}
-				<TravelingParticle mpathId={pathId} speed={-speed} />
+				<TravelingParticle path={d} {speed} reverse />
 			{/if}
 		</g>
 	{/if}

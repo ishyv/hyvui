@@ -39,9 +39,9 @@ when `prefers-reduced-motion: reduce` is set, the element is immediately visible
 
 <!-- staggered children — compute delay from index -->
 {#each items as item, i}
-	<Card use:surface={{ delay: i * 120 }}>
-		{item.title}
-	</Card>
+	<div use:surface={{ delay: i * 120 }}>
+		<Card>{item.title}</Card>
+	</div>
 {/each}
 ```
 
@@ -100,9 +100,9 @@ the overlay is not added when `prefers-reduced-motion: reduce` is set.
 <div use:echo role="button" tabindex="0" onclick={handleClick}>click me</div>
 
 <!-- on a card to give it a tactile click response -->
-<Card use:echo onclick={selectCard}>
-	{entry.title}
-</Card>
+<div use:echo onclick={selectCard}>
+	<Card>{entry.title}</Card>
+</div>
 ```
 
 ### Do Not Use On
@@ -150,12 +150,14 @@ when `prefers-reduced-motion: reduce`, the transform is omitted — opacity stil
 </div>
 
 <!-- reveal a metadata footer on hover -->
-<Card use:reveal={{ target: '.meta' }}>
-	<Text as="h3" variant="heading">{item.title}</Text>
-	<div class="meta">
-		<Text variant="caption" color="muted">{item.date}</Text>
-	</div>
-</Card>
+<div use:reveal={{ target: '.meta' }}>
+	<Card>
+		<Text as="h3" variant="heading">{item.title}</Text>
+		<div class="meta">
+			<Text variant="caption" color="muted">{item.date}</Text>
+		</div>
+	</Card>
+</div>
 ```
 
 ### Do Not Use When
@@ -268,19 +270,21 @@ the overlay is skipped entirely. `resolve:start` and `resolve:end` both fire syn
 	}
 </script>
 
-<Panel use:resolve={(a) => (resolveAction = a)}>
-	{#snippet header()}
-		<Text as="h2" variant="heading">send transmission</Text>
-	{/snippet}
+<div use:resolve={(a) => (resolveAction = a)}>
+	<Panel>
+		{#snippet header()}
+			<Text as="h2" variant="heading">send transmission</Text>
+		{/snippet}
 
-	<Stack gap="var(--space-md)">
-		<Input bind:value={subject} label="subject" />
-		<Textarea bind:value={body} label="message" autoresize />
-		<Button variant="primary" loading={submitting} disabled={submitting} onclick={handleSubmit}>
-			{submitting ? 'transmitting' : 'send'}
-		</Button>
-	</Stack>
-</Panel>
+		<Stack gap="var(--space-md)">
+			<Input bind:value={subject} label="subject" />
+			<Textarea bind:value={body} label="message" autoresize />
+			<Button variant="primary" loading={submitting} disabled={submitting} onclick={handleSubmit}>
+				{submitting ? 'transmitting' : 'send'}
+			</Button>
+		</Stack>
+	</Panel>
+</div>
 ```
 
 ### Do Not Use When

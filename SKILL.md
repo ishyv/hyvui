@@ -2,7 +2,7 @@
 
 ## what this is
 
-hyvui is a Svelte 5 component library with a dark, operator-adjacent aesthetic. Visual decisions derive from a set of design constraints (not from taste). The token layer is CSS custom properties, exposed to Tailwind v4 via `@theme`.
+hyvui is a Svelte 5 component library with a dark, operator-adjacent aesthetic. Visual decisions derive from a set of design constraints (not from taste). The token layer is generated CSS custom properties with typed component props.
 
 ## importing components
 
@@ -20,16 +20,18 @@ Tokens live in two places:
 
 - **CSS custom properties** — `src/lib/tokens/tokens.css`, imported by `app.css`. Use `var(--accent)` etc.
 - **TypeScript constants** — `import { tokens } from '$lib'` for canvas/animation/script use.
-- **Tailwind classes** — token colors are available as `text-accent`, `bg-bg-elev`, `border-signal`, etc. via the `@theme` block in `app.css`.
+- **Optional presets** — import `@hyvnt/hyvui/themes.css` for material themes and `@hyvnt/hyvui/fonts.css` for self-hosted type. Neither is loaded implicitly.
 
-Never use raw hex colors or Tailwind's built-in palette names. Always go through the token layer.
+Never use raw hex colors or framework palette names in component code. Always go through the token layer.
 
 ## fonts
 
-Two typefaces. Both must be loaded by the consuming application:
+Two typefaces are supported by the optional self-hosted preset:
 
 - **ET Book** (serif) — self-hosted. Used for all body text and headings. Get it from [edwardtufte/et-book](https://github.com/edwardtufte/et-book).
-- **IBM Plex Mono** — from Google Fonts or self-hosted. Used for all labels, metadata, UI strings.
+- **IBM Plex Mono** — self-hosted regular, medium, and semibold. Used for all labels, metadata, UI strings.
+
+If the preset is omitted, the generated fallback stacks remain usable offline. The base stylesheet never injects a network font request.
 
 Weight is almost always 400. Hierarchy comes from size, tracking, and color — not weight.
 
@@ -61,7 +63,7 @@ request failed or signal lost?               → ErrorState
 ## anti-patterns
 
 - **do not** hardcode hex colors. every color must reference a CSS custom property.
-- **do not** use Tailwind's built-in color names (`text-blue-500`). use token classes (`text-accent`).
+- **do not** use framework color utilities as the consumer contract. use semantic CSS variables (`var(--accent)`).
 - **do not** add `border-radius` without checking the aesthetics guide. the default is no rounding.
 - **do not** introduce new accent hues. only gold (`--accent`) and teal (`--signal`) exist.
 - **do not** use heavy font weights for hierarchy. use size, tracking, and color instead.

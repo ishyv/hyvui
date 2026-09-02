@@ -27,7 +27,7 @@
 
 	let { tabs = [], active = '', class: className = '', onchange }: Props = $props();
 
-	let tabEls: HTMLButtonElement[] = [];
+	let tabEls: HTMLButtonElement[] = $state([]);
 
 	function handleKeyDown(e: KeyboardEvent, idx: number) {
 		let next = -1;
@@ -70,7 +70,7 @@
 
 	.hyvui-tab {
 		position: relative;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;

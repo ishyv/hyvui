@@ -2,6 +2,7 @@
 	import { cn } from '../../utils/cn.js';
 	import StatusLine from '../feedback/StatusLine.svelte';
 	import { onMount } from 'svelte';
+	import { onReducedMotionChange } from '../../system/runtime.js';
 
 	interface BootLine {
 		status: 'ok' | 'pend' | 'warn' | 'fail';
@@ -53,46 +54,50 @@
 	let visibleCount = $state(0);
 
 	onMount(() => {
-		if (lines.length === 0) {
-			oncomplete?.();
-			return;
-		}
+		let reduced = false;
+		let completed = false;
+		let delayTimer: number | undefined;
+		let stepTimer: number | undefined;
 
-		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-		if (instant || prefersReduced) {
+		const clearTimers = () => {
+			if (delayTimer !== undefined) window.clearTimeout(delayTimer);
+			if (stepTimer !== undefined) window.clearInterval(stepTimer);
+			delayTimer = undefined;
+			stepTimer = undefined;
+		};
+		const completeNow = () => {
+			if (completed) return;
+			completed = true;
+			clearTimers();
 			visibleCount = lines.length;
 			oncomplete?.();
-			return;
-		}
+		};
+		const unsubscribeReduced = onReducedMotionChange((value) => {
+			reduced = value;
+			if (value) completeNow();
+		});
 
-		const timers: number[] = [];
-		timers.push(
-			window.setTimeout(() => {
+		if (lines.length === 0 || instant || reduced) completeNow();
+		else {
+			delayTimer = window.setTimeout(() => {
+				if (completed) return;
 				visibleCount = 1;
 
 				if (lines.length === 1) {
-					oncomplete?.();
+					completeNow();
 					return;
 				}
 
-				const stepTimer = window.setInterval(() => {
+				stepTimer = window.setInterval(() => {
 					visibleCount += 1;
-					if (visibleCount >= lines.length) {
-						window.clearInterval(stepTimer);
-						oncomplete?.();
-					}
+					if (visibleCount >= lines.length) completeNow();
 				}, interval);
-
-				timers.push(stepTimer);
-			}, delay)
-		);
+			}, delay);
+		}
 
 		return () => {
-			for (const timer of timers) {
-				window.clearTimeout(timer);
-				window.clearInterval(timer);
-			}
+			clearTimers();
+			unsubscribeReduced();
 		};
 	});
 </script>

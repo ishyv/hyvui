@@ -2,6 +2,7 @@ import type { ActionReturn } from "svelte/action";
 import { animate } from "motion";
 import { currentRegister } from "../motion/registerObserver.js";
 import { presets } from "../motion/presets.js";
+import { onReducedMotionChange } from "../runtime.js";
 
 export type ResolveStatus = "ok" | "warn" | "fail" | "pend";
 
@@ -29,14 +30,19 @@ export function resolve(
   register: (action: ResolveAction) => void,
 ): ActionReturn {
   if (typeof window === "undefined") return {};
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  let prefersReduced = false;
+  let destroyed = false;
+  const animations = new Set<ReturnType<typeof animate>>();
+  const overlays = new Set<HTMLElement>();
+  const unsubscribeReduced = onReducedMotionChange((value) => {
+    prefersReduced = value;
+  });
 
   const position = getComputedStyle(node).position;
   if (position === "static") node.style.position = "relative";
 
   function trigger(status: ResolveStatus) {
+    if (destroyed) return;
     node.dispatchEvent(new CustomEvent("resolve:start", { detail: status }));
 
     if (prefersReduced) {
@@ -54,24 +60,38 @@ export function resolve(
       border-radius: inherit;
     `;
     node.appendChild(overlay);
+    overlays.add(overlay);
 
-    const { register: reg } = currentRegister();
+    const { register: reg } = currentRegister(node);
     const preset = presets[reg]?.flash ?? presets.default.flash;
 
-    animate(
+    const animation = animate(
       overlay,
       preset.keyframes as never,
       preset.options as never,
-    ).finished.then(() => {
-      overlay.remove();
-      node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
-    });
+    );
+    animations.add(animation);
+    void animation.finished
+      .then(() => {
+        if (destroyed) return;
+        overlay.remove();
+        node.dispatchEvent(new CustomEvent("resolve:end", { detail: status }));
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        animations.delete(animation);
+        overlays.delete(overlay);
+      });
   }
 
   register({ trigger });
 
   return {
     destroy() {
+      destroyed = true;
+      unsubscribeReduced();
+      for (const animation of animations) animation.stop();
+      for (const overlay of overlays) overlay.remove();
       if (position === "static") node.style.position = "";
     },
   };

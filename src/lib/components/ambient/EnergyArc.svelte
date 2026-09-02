@@ -1,5 +1,13 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import { onMount } from 'svelte';
+	import {
+		onDocumentVisibilityChange,
+		onIntersectionChange,
+		onReducedMotionChange,
+		scheduleGeometry,
+		type Cleanup
+	} from '../../system/runtime.js';
 
 	/**
 	 * Decorative energy arc (SVG quadratic bezier) between two points.
@@ -42,54 +50,86 @@
 		class: className = ''
 	}: Props = $props();
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
-
 	const dur = $derived(`${speed}s`);
 	const durJitter = $derived(`${speed * 1.4}s`);
-	const shouldAnimate = $derived(animated && !prefersReduced);
+	let reduced = $state(false);
+	let documentVisible = $state(true);
+	let viewportVisible = $state(true);
+	const shouldAnimate = $derived(animated && !reduced && documentVisible && viewportVisible);
+	let svgEl: SVGSVGElement | undefined = $state();
+	let svgHeight = $state(100);
 
-	// We don't know actual px coords until render, so the bezier control point
-	// is expressed as a data attribute and animated via SVG animateTransform.
-	// For the path `d` we use a placeholder that gets overridden by JS,
-	// but since this is a portoflio component, a CSS-only approximation works:
-	// we anchor a <path> using % units for x/y and em for control offset.
+	function percentValue(value: string, fallback: number): number {
+		const parsed = Number.parseFloat(value);
+		return Number.isFinite(parsed) ? parsed : fallback;
+	}
 
-	const filterId = `ea-glow-${Math.random().toString(36).slice(2, 8)}`;
+	onMount(() => {
+		if (!svgEl) return;
+		let cancelResize: Cleanup | undefined;
+		const cleanups: Cleanup[] = [
+			onReducedMotionChange((value) => (reduced = value)),
+			onDocumentVisibilityChange((value) => (documentVisible = value)),
+			onIntersectionChange(svgEl, (value) => (viewportVisible = value), { threshold: 0 })
+		];
+		const resizeObserver =
+			typeof ResizeObserver === 'undefined'
+				? undefined
+				: new ResizeObserver(([entry]) => {
+						if (!entry) return;
+						const height = entry.contentRect.height;
+						if (height <= 0) return;
+						cancelResize?.();
+						cancelResize = scheduleGeometry(() => {
+							svgHeight = height;
+							cancelResize = undefined;
+						});
+					});
+		resizeObserver?.observe(svgEl);
 
-	// Bezier path string: Q cx,cy x2,y2 — control point is midpoint elevated by `bend`
-	// We use computed path as a string and pass it as an attribute.
-	// Since SVG doesn't mix % and px in path d, we keep all in % and treat bend as %.
-	const bendPct = $derived(`${bend}px`);
+		return () => {
+			cancelResize?.();
+			resizeObserver?.disconnect();
+			for (const cleanup of cleanups) cleanup();
+		};
+	});
 
-	// Path using SVG's ability to do absolute coordinates in %. Not directly possible,
-	// so we use a wrapper approach: the SVG has viewBox "0 0 100 100" and we translate %.
-	// Keep it simple: use an SVG with proportional coordinates.
-	// The consumer positions the SVG fill on the parent, so 0 0 100 100 viewBox is fine.
-	const mid = '50%';
-	const path = $derived(`M ${x1} ${y1} Q ${mid} calc(50% + ${bendPct}) ${x2} ${y2}`);
+	// SVG path data only accepts numeric coordinates. Keep the public endpoints
+	// as percentages, then normalize them into a proportional viewBox and scale
+	// the pixel bend against the measured host height.
+	function buildPath(
+		startX: string,
+		startY: string,
+		endX: string,
+		endY: string,
+		bendPx: number,
+		hostHeight: number,
+	): string {
+		const xStart = percentValue(startX, 10);
+		const yStart = percentValue(startY, 50);
+		const xEnd = percentValue(endX, 90);
+		const yEnd = percentValue(endY, 50);
+		const controlX = (xStart + xEnd) / 2;
+		const controlY = (yStart + yEnd) / 2 + (bendPx / hostHeight) * 100;
+		return `M ${xStart} ${yStart} Q ${controlX} ${controlY} ${xEnd} ${yEnd}`;
+	}
+
+	const path = $derived(buildPath(x1, y1, x2, y2, bend, svgHeight));
 </script>
 
-<svg class={cn('hyvui-energy-arc', className)} aria-hidden="true">
-	<defs>
-		<filter id={filterId} x="-50%" y="-100%" width="200%" height="300%">
-			<feGaussianBlur stdDeviation="2" result="blur" />
-			<feMerge>
-				<feMergeNode in="blur" />
-				<feMergeNode in="SourceGraphic" />
-			</feMerge>
-		</filter>
-	</defs>
-
+<svg
+	bind:this={svgEl}
+	class={cn('hyvui-energy-arc', className)}
+	viewBox="0 0 100 100"
+	preserveAspectRatio="none"
+	aria-hidden="true"
+>
 	<!-- glow halo -->
 	<path
 		class="hyvui-ea-halo"
 		d={path}
 		fill="none"
 		stroke-width="5"
-		filter="url(#{filterId})"
 	/>
 
 	<!-- main arc line -->
@@ -154,6 +194,7 @@
 	/* ── hextech: clean cyan arc, single particle ─────────────────────── */
 	:global([data-theme='hextech']) .hyvui-ea-halo {
 		stroke: color-mix(in srgb, var(--htx-cyan-glow) 12%, transparent);
+		filter: drop-shadow(0 0 3px color-mix(in srgb, var(--htx-cyan-glow) 30%, transparent));
 	}
 	:global([data-theme='hextech']) .hyvui-ea-line {
 		stroke: color-mix(in srgb, var(--htx-cyan-glow) 55%, transparent);
@@ -168,6 +209,7 @@
 	/* ── arcane: violet arc, bidirectional particles ──────────────────── */
 	:global([data-theme='arcane']) .hyvui-ea-halo {
 		stroke: color-mix(in srgb, var(--arc-magenta) 20%, transparent);
+		filter: drop-shadow(0 0 4px color-mix(in srgb, var(--arc-magenta) 42%, transparent));
 	}
 	:global([data-theme='arcane']) .hyvui-ea-line {
 		stroke: color-mix(in srgb, var(--arc-magenta) 60%, transparent);

@@ -19,6 +19,8 @@
  * Applied under [data-theme='arcane'].
  * ─────────────────────────────────────────────────────────────────────── */
 
+@import "./theme-values.css";
+
 [data-theme="arcane"] {
   /* ── palette: raw values ──────────────────────────────────────── */
   --arc-void: #0e0818;
@@ -39,23 +41,6 @@
   /* hover/focus aura — magenta with white-hot core */
   --arc-hover-aura: rgba(233, 76, 188, 0.4);
   --arc-hover-border: rgba(233, 76, 188, 0.5);
-
-  /* ── semantic remap ────────────────────────────────────────────── */
-  --bg: #0a0614;
-  --bg-elev: #130920;
-  --bg-elev-soft: #0f071a;
-
-  --accent: #b845c9;
-  --accent-strong: #e94cbc;
-  --signal: #7fb069;
-
-  --line: rgba(184, 69, 201, 0.18);
-  --line-strong: rgba(233, 76, 188, 0.3);
-
-  --status-ok: #7fb069;
-  --status-pend: #5a4a6e;
-  --status-warn: #e94cbc;
-  --status-fail: #ff4060;
 
   /* ── shadow tokens ─────────────────────────────────────────────── */
   --shadow-card:
@@ -174,29 +159,7 @@
 
 /* atmospheric background — 4-radial bleed (white-hot, magenta, cyan, pink)
    over a deep violet void. The "cathedral light" feel. */
-[data-theme="arcane"] body::before,
 body[data-theme="arcane"]::before {
-  background:
-    radial-gradient(
-      circle at 30% 0%,
-      rgba(255, 240, 253, 0.06),
-      transparent 22%
-    ),
-    radial-gradient(circle at top, rgba(184, 69, 201, 0.13), transparent 28%),
-    radial-gradient(
-      circle at 75% 15%,
-      rgba(93, 197, 232, 0.08),
-      transparent 26%
-    ),
-    radial-gradient(
-      circle at 15% 80%,
-      rgba(233, 76, 188, 0.07),
-      transparent 30%
-    ),
-    linear-gradient(180deg, #0a0614 0%, #0d0820 35%, #050309 100%);
-}
-
-html:has(body[data-theme="arcane"]) {
   background:
     radial-gradient(
       circle at 30% 0%,

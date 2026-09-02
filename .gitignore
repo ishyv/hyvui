@@ -1,5 +1,10 @@
 node_modules
 
+# Local agent and browser state
+/.hermes/
+/.claude/
+/.playwright-cli/
+
 # Output
 .output
 .vercel
@@ -17,14 +22,12 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-!.env.test
 .npmrc.publish
 .npmrc
 
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-
 
 .prettier*
 bun.lock
@@ -33,4 +36,14 @@ bun.lock
 /test-results
 /playwright-report
 
+# Coverage and local package artifacts
+/coverage
+/.nyc_output
+*.tgz
 
+# Local command logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

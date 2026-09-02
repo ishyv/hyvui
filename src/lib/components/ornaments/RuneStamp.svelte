@@ -16,6 +16,8 @@
 		radius?: string;
 		direction?: 'cw' | 'ccw';
 		class?: string;
+		/** Stable id namespace used by the SVG text path. */
+		id?: string;
 		children?: Snippet;
 	}
 
@@ -24,10 +26,21 @@
 		radius = '88px',
 		direction = 'cw',
 		class: className = '',
+		id,
 		children
 	}: Props = $props();
 
-	const pathId = `rs-${Math.random().toString(36).slice(2, 8)}`;
+	/** Stable across SSR and hydration. Pass `id` when identical stamps repeat. */
+	function stableId(value: string): string {
+		let hash = 2166136261;
+		for (let index = 0; index < value.length; index += 1) {
+			hash ^= value.charCodeAt(index);
+			hash = Math.imul(hash, 16777619);
+		}
+		return `rs-${(hash >>> 0).toString(36)}`;
+	}
+
+	const pathId = $derived(id ? `${id}-path` : stableId(`${text}|${radius}|${direction}`));
 	/* cw goes clockwise from 12 o'clock; ccw uses a negated arc */
 	const pathD = $derived(
 		direction === 'cw'
@@ -38,6 +51,7 @@
 
 <span
 	class={cn('hyvui-rune-stamp', className)}
+	{id}
 	style:width={radius}
 	style:height={radius}
 >
@@ -70,7 +84,7 @@
 		height: 100%;
 	}
 	.hyvui-rune-stamp-text {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		fill: currentColor;
 		text-transform: uppercase;
 	}

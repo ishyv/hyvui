@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 	import { surface, type SurfaceVariants } from './Surface.tv.js';
 
 	/**
@@ -10,7 +11,7 @@
 	 * <Surface variant="panel" withInset>panel with teal inset border</Surface>
 	 * <Surface variant="base" as="section">base container</Surface>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Surface visual style. */
 		variant?: SurfaceVariants['variant'];
 		/** HTML tag to render. */
@@ -28,12 +29,14 @@
 		as = 'div',
 		withInset = false,
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn(surface({ variant, withInset }), className)}
 >
 	{#if children}{@render children()}{/if}
@@ -42,7 +45,7 @@
 <style>
 	.hyvui-surface {
 		position: relative;
-		overflow: clip;
+		overflow: visible;
 		border-radius: var(--radius-md);
 		isolation: isolate;
 		max-inline-size: 100%;
@@ -56,7 +59,8 @@
 		pointer-events: none;
 		background:
 			linear-gradient(180deg, color-mix(in srgb, var(--text) 4%, transparent), transparent 20%),
-			linear-gradient(90deg, color-mix(in srgb, var(--signal) 3%, transparent), transparent 30%);
+			linear-gradient(90deg, color-mix(in srgb, var(--signal) 3%, transparent), transparent 30%),
+			var(--hyv-grade-surface-overlay, transparent);
 		opacity: 0.8;
 	}
 
@@ -64,6 +68,11 @@
 		background: var(--surface-soft);
 		border: 1px solid var(--line);
 		box-shadow: var(--surface-stroke);
+	}
+
+	.hyvui-surface-base::before {
+		background: none;
+		opacity: 0;
 	}
 
 	.hyvui-surface-card {

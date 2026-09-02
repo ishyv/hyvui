@@ -77,7 +77,7 @@ export { default as DepthPortal } from "./components/patterns/DepthPortal.svelte
 export { default as AppShell } from "./components/system/AppShell.svelte";
 
 // tokens
-export { tokens, themeClasses } from "./tokens/tokens.js";
+export { tokens } from "./tokens/tokens.js";
 
 // system — weight/theme
 export {
@@ -96,6 +96,11 @@ export type {
   ThemeRegister,
   GradeRegister,
 } from "./system/register.js";
+export { readAppearanceContext, onAppearanceChange } from "./system/context.js";
+export type {
+  AppearanceContext,
+  AppearanceContextListener,
+} from "./system/context.js";
 
 // system — expressions
 export type { Expression } from "./components/primitives/text.js";
@@ -140,7 +145,7 @@ export { surface } from "./system/actions/surface.js";
 export { echo } from "./system/actions/echo.js";
 export { reveal } from "./system/actions/reveal.js";
 export { resolve } from "./system/actions/resolve.js";
-export type { ResolveStatus } from "./system/actions/resolve.js";
+export type { ResolveAction, ResolveStatus } from "./system/actions/resolve.js";
 export { track } from "./system/actions/track.js";
 
 // system — motion presets
@@ -152,7 +157,13 @@ export {
   onRegisterChange,
   animateIntent,
 } from "./system/motion/index.js";
-export type { Intent, Preset, RegisterKey } from "./system/motion/index.js";
+export type {
+  Intent,
+  Preset,
+  RegisterKey,
+  RegisterSnapshot,
+  RegisterListener,
+} from "./system/motion/index.js";
 
 // system — variants
 export {
@@ -202,5 +213,5 @@ export { default as LogScene } from "./components/scenes/LogScene.svelte";
 export { default as DepthScene } from "./components/scenes/DepthScene.svelte";
 
 // next — read-only agent discovery
-export { getAgentManifest } from "./next-experiments/capabilities.js";
-export type { AgentManifest } from "./next-experiments/capabilities.js";
+export { getAgentManifest } from "./agent-manifest.js";
+export type { AgentManifest } from "./agent-manifest.js";

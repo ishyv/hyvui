@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * Intrinsic switcher: lays children in a row when the container is wider than
@@ -16,7 +17,7 @@
 	 *   <Card>right</Card>
 	 * </Switcher>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Container width at which children flip from row to stacked column. */
 		threshold?: string;
 		gap?: string;
@@ -30,12 +31,14 @@
 		gap = 'var(--space-md)',
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-switcher', className)}
 	style:gap
 	style:--switcher-threshold={threshold}

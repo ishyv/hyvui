@@ -104,7 +104,7 @@
 	/* statement */
 	.hyvui-manifesto-statement {
 		margin: 0;
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-style: italic;
 		font-size: var(--text-lg);
 		line-height: 1.45;
@@ -158,7 +158,7 @@
 
 	.hyvui-manifesto-cite {
 		font-style: normal;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);

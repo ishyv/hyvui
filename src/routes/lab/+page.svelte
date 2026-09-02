@@ -203,7 +203,7 @@ log(signal.origin);`;
 							<div class="lab-menu-row">
 								<DropdownMenu items={menuItems} onselect={() => {}}>
 									{#snippet trigger()}
-										<Button variant="secondary">[ menu ]</Button>
+										<span>[ menu ]</span>
 									{/snippet}
 								</DropdownMenu>
 								<Badge variant="default">badge</Badge>

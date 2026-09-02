@@ -1,10 +1,13 @@
-export type WeightRegister = "field-notebook" | "mission-control" | "archive";
-export type ThemeRegister = "hextech" | "arcane";
-export type GradeRegister =
-  | "cold-archive"
-  | "interrogation"
-  | "twilight"
-  | "dailies";
+import {
+  gradeRegisters,
+  themeRegisters,
+  weightRegisters,
+  type GradeRegister,
+  type ThemeRegister,
+  type WeightRegister,
+} from "../tokens/registers.generated.js";
+
+export type { GradeRegister, ThemeRegister, WeightRegister };
 
 /**
  * Applies a weight register to an element by setting data-weight.
@@ -50,8 +53,8 @@ export function clearTheme(target: HTMLElement | "body" = "body") {
 }
 
 /**
- * Applies a color grade — film-look filter on <body>. Cinematic mood layer
- * above theme; composes orthogonally with register and theme.
+ * Applies a color grade to an element. The grade remaps semantic color and
+ * material variables without filtering descendant text or bitmap content.
  */
 export function applyGrade(
   grade: GradeRegister,
@@ -71,15 +74,4 @@ export function clearGrade(target: HTMLElement | "body" = "body") {
   delete el.dataset.grade;
 }
 
-export const weightRegisters: WeightRegister[] = [
-  "field-notebook",
-  "mission-control",
-  "archive",
-];
-export const themeRegisters: ThemeRegister[] = ["hextech", "arcane"];
-export const gradeRegisters: GradeRegister[] = [
-  "cold-archive",
-  "interrogation",
-  "twilight",
-  "dailies",
-];
+export { gradeRegisters, themeRegisters, weightRegisters };

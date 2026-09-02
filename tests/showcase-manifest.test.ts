@@ -78,6 +78,17 @@ describe("showcase route manifest", () => {
     assert.equal(getShowcaseManifest("missing"), undefined);
   });
 
+  it("names the biome route as the visual charter", () => {
+    const manifest = getShowcaseManifest("next-biomes");
+    assert.ok(manifest);
+    assert.equal(manifest.title, "visual charter");
+    assert.equal(
+      manifest.premise,
+      "one corpus. six host biomes. the law stays visible.",
+    );
+    assert.equal(manifest.focal, "shared content under six visual laws");
+  });
+
   it("uses only recognized host biomes", () => {
     for (const manifest of showcaseManifests) {
       if (manifest.hostBiome) {

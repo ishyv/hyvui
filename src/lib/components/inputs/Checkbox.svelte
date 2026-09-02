@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	/**
 	 * @example
 	 * <Checkbox label="accept terms" bind:checked={accepted} />
 	 * <Checkbox label="notify me" bind:checked={notify} onchange={handleChange} />
 	 */
-	interface Props {
+	interface Props extends Omit<
+		HTMLInputAttributes,
+		'class' | 'children' | 'checked' | 'disabled' | 'id' | 'onchange' | 'type'
+	> {
 		/** Whether the checkbox is checked (bindable). */
 		checked?: boolean;
 		/** Label text. */
@@ -19,8 +23,10 @@
 		disabled?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id used for the native control and description. */
+		id?: string;
 		/** Change handler. */
-		onchange?: (e: Event) => void;
+		onchange?: HTMLInputAttributes['onchange'];
 	}
 
 	let {
@@ -30,19 +36,23 @@
 		error = '',
 		disabled = false,
 		class: className = '',
-		onchange
+		id,
+		onchange,
+		...rest
 	}: Props = $props();
 
-	const checkboxId = `hyvui-checkbox-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 </script>
 
 <label class={cn('hyvui-checkbox', disabled && 'hyvui-checkbox-disabled', className)}>
 	<input
+		{...rest}
+		{id}
 		type="checkbox"
 		bind:checked
 		{disabled}
-		aria-describedby={message ? `${checkboxId}-desc` : undefined}
+		aria-describedby={messageId}
 		aria-invalid={error ? 'true' : undefined}
 		class="hyvui-checkbox-input"
 		{onchange}
@@ -71,7 +81,7 @@
 			{/if}
 			{#if message}
 				<span
-					id="{checkboxId}-desc"
+					id={messageId}
 					class={cn('hyvui-checkbox-message', error && 'hyvui-checkbox-message-error')}
 				>
 					{message}
@@ -131,7 +141,7 @@
 	}
 
 	.hyvui-checkbox-label {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-sm);
 		color: var(--text-soft);
 		line-height: 1.5;
@@ -144,7 +154,7 @@
 	}
 
 	.hyvui-checkbox-message {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

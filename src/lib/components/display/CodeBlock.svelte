@@ -68,7 +68,7 @@
 	}
 
 	.hyvui-codeblock-code {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		color: var(--text-soft);
 		line-height: 1.6;

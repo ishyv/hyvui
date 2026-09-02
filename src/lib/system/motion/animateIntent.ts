@@ -1,7 +1,7 @@
 /**
  * Plays a register-aware motion preset on an element.
  *
- * Reads the active register from <body data-register> via registerObserver,
+ * Reads the nearest active weight context from the rendered element,
  * looks up the matching preset, and calls Motion's animate(). Respects
  * prefers-reduced-motion automatically — under reduce, all motion collapses
  * to either an instant snap (opacity 1) or no-op.
@@ -18,10 +18,7 @@
 import { animate } from "motion";
 import { currentRegister } from "./registerObserver.js";
 import { presets, type Intent } from "./presets.js";
-
-const reducedMotion =
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+import { reducedMotionNow } from "../runtime.js";
 
 export function animateIntent(
   node: HTMLElement,
@@ -29,10 +26,10 @@ export function animateIntent(
   overrides?: { duration?: number; delay?: number },
 ) {
   if (typeof window === "undefined") return;
-  const { register } = currentRegister();
+  const { register } = currentRegister(node);
   const preset = presets[register]?.[intent] ?? presets.default[intent];
 
-  if (reducedMotion) {
+  if (reducedMotionNow()) {
     // Snap to the final keyframe value without animating
     for (const [key, val] of Object.entries(preset.keyframes)) {
       const final = Array.isArray(val) ? val[val.length - 1] : val;

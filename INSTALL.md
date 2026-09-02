@@ -1,292 +1,115 @@
-## Prerequisites
+# install hyvui v1
 
-- SvelteKit 2.x project
+HyvUI v1 is a Svelte 5 component library with a deliberately opinionated visual language and a browser-native foundation. The consumer contract is CSS, Svelte props, semantic variables, and ordinary DOM attributes. Tailwind is demo tooling only.
+
+## prerequisites
+
 - Svelte 5
-- Tailwind CSS v4
-- Node 18+
+- Node 18 or newer
+- a modern Chromium, Firefox, or WebKit browser
 
----
-
-## Install
-
-from npm:
+## install
 
 ```sh
 npm install @hyvnt/hyvui
 ```
 
-```svelte
-<script lang="ts">
-	import { Button, StatusDot } from '@hyvnt/hyvui';
-</script>
-```
-
-local development (without publishing):
-
-```json
-{
-  "dependencies": {
-    "@hyvnt/hyvui": "file:../path/to/hyvui"
-  }
-}
-```
-
-if you are copying this repo's `src/lib/` into your app instead, import components from `'$lib'` and import styles from `./lib/styles.css` (see below).
-
----
-
-## Configure Tailwind
-
-add or replace `tailwind.config.js` at the project root:
-
-```js
-export default {
-  content: ["./src/**/*.{html,js,svelte,ts}"],
-  theme: {
-    extend: {
-      colors: {
-        bg: "var(--bg)",
-        "bg-elev": "var(--bg-elev)",
-        text: "var(--text)",
-        "text-soft": "var(--text-soft)",
-        muted: "var(--muted)",
-        "muted-strong": "var(--muted-strong)",
-        accent: "var(--accent)",
-        "accent-strong": "var(--accent-strong)",
-        signal: "var(--signal)",
-        "status-ok": "var(--status-ok)",
-        "status-pend": "var(--status-pend)",
-        "status-warn": "var(--status-warn)",
-        "status-fail": "var(--status-fail)",
-      },
-      fontFamily: {
-        body: "var(--font-body)",
-        mono: "var(--font-mono)",
-      },
-      transitionTimingFunction: {
-        smooth: "cubic-bezier(0.22, 1, 0.36, 1)",
-        fast: "cubic-bezier(0.4, 0, 0.2, 1)",
-      },
-      boxShadow: {
-        veil: "var(--shadow-veil)",
-      },
-      borderRadius: {
-        sm: "var(--radius-sm)",
-        md: "var(--radius-md)",
-      },
-    },
-  },
-  plugins: [],
-};
-```
-
----
-
-## Set Up app.css
-
-import the library stylesheet once at the root of your app (order matters):
-
-```css
-@import "tailwindcss";
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
-@config '../tailwind.config.js';
-
-@import "@hyvnt/hyvui/styles.css";
-
-/* if you're copying this repo's src/lib into your app:
-@import './lib/styles.css';
-*/
-
-@theme {
-  --color-bg: var(--bg);
-  --color-bg-elev: var(--bg-elev);
-  --color-text: var(--text);
-  --color-text-soft: var(--text-soft);
-  --color-muted: var(--muted);
-  --color-muted-strong: var(--muted-strong);
-  --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --color-signal: var(--signal);
-  --color-status-ok: var(--status-ok);
-  --color-status-pend: var(--status-pend);
-  --color-status-warn: var(--status-warn);
-  --color-status-fail: var(--status-fail);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
-
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
-
-  --shadow-veil: var(--shadow-veil);
-
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-}
-```
-
-`@hyvnt/hyvui/styles.css` includes tokens, registers, expressions, depth, base rules, and the fixed background layer (no `background-attachment: fixed`).
-
-to avoid the initial white flash on slow loads, add minimal critical CSS to `src/app.html`:
-
-```html
-<style>
-  html {
-    background: #08090b;
-    color: #f0e8da;
-    color-scheme: dark;
-  }
-</style>
-<meta name="theme-color" content="#08090b" />
-```
-
----
-
-## Load Fonts
-
-### ET Book (serif body font)
-
-ET Book is a self-hosted font. add `@font-face` declarations to `app.css`. the font files must be in your project (e.g. `static/fonts/`):
-
-```css
-@font-face {
-  font-family: "ET Book";
-  src: url("/fonts/et-book-roman-line-figures.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "ET Book";
-  src: url("/fonts/et-book-bold-line-figures.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "ET Book";
-  src: url("/fonts/et-book-roman-old-style-figures.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-```
-
-ET Book is available from [edwardtufte/et-book](https://github.com/edwardtufte/et-book) under the MIT license.
-
-### IBM Plex Mono (monospace system font)
-
-**option A — Google Fonts (recommended for development):**
-
-add to `src/app.html` inside `<head>`, before `%sveltekit.head%`:
-
-```html
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link
-  rel="preconnect"
-  href="https://fonts.gstatic.com"
-  crossorigin="anonymous"
-/>
-<link
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-  rel="stylesheet"
-/>
-```
-
-**option B — self-hosted:**
-
-download the font from [IBM/plex](https://github.com/IBM/plex) and add `@font-face` declarations to `app.css`:
-
-```css
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/fonts/IBMPlexMono-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/fonts/IBMPlexMono-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-```
-
----
-
-## Verify Setup
-
-create a minimal `+page.svelte` and confirm it renders without errors:
-
-```svelte
-<script lang="ts">
-	import { Button, StatusDot, Label } from '$lib';
-</script>
-
-<div style="padding: 2rem; background: var(--bg); min-height: 100dvh;">
-	<Label color="accent">system check</Label>
-	<StatusDot status="ok" />
-	<Button variant="primary">signal acquired</Button>
-</div>
-```
-
-if this renders three visible elements (gold label, teal dot, gold button), setup is complete.
-
----
-
-## Optional: Apply a Register
-
-registers shift the overall design weight of the page — from warm and editorial (`field-notebook`) to dense and precise (`mission-control`) to cool and spacious (`archive`). they do not change colors or component behavior.
-
-apply a register to the entire page:
-
-```svelte
-<svelte:body data-weight="field-notebook" />
-```
-
-or apply programmatically:
+Import the base stylesheet once from the application entry point:
 
 ```ts
-import { applyWeight } from "$lib";
-applyWeight("mission-control");
+import "@hyvnt/hyvui/styles.css";
 ```
 
-see [docs/registers.md](docs/registers.md) for the full reference.
+Import optional material themes and the self-hosted font preset explicitly:
 
----
-
-## Project Override Layer
-
-if you need to adjust tokens for your specific project without modifying the library source, create a `src/theme.css` file and import it after the token imports in `app.css`:
-
-```css
-/* in app.css, after all library imports */
-@import "./theme.css";
+```ts
+import "@hyvnt/hyvui/themes.css";
+import "@hyvnt/hyvui/fonts.css";
 ```
 
+The base stylesheet does not load fonts or make network requests. If `fonts.css` is omitted, the browser uses the fallback stacks in `--font-body` and `--font-mono`. See [the font contract](docs/fonts.md).
+
+## first composition
+
+```svelte
+<script lang="ts">
+	import {
+		AppShell,
+		Button,
+		Grid,
+		Text
+	} from '@hyvnt/hyvui';
+</script>
+
+<AppShell weight="mission-control" theme="hextech" grade="dailies">
+	<section data-theme="arcane" data-grade="twilight">
+		<Text as="h1" variant="heading">a page with a pulse</Text>
+		<Grid minColWidth="18rem">
+			<Button variant="primary">continue</Button>
+			<Button variant="secondary">inspect</Button>
+		</Grid>
+	</section>
+</AppShell>
+```
+
+`AppShell` is a document-level convenience. Nested composition should use ordinary `data-weight`, `data-theme`, and `data-grade` attributes so each channel inherits from its nearest context root.
+
+## layout rules
+
+`Grid` automatic mode uses intrinsic CSS tracks. It does not measure itself in JavaScript:
+
+```svelte
+<Grid minColWidth="16rem" gap="var(--space-lg)">
+	{#each records as record}
+		<Card>{record.title}</Card>
+	{/each}
+</Grid>
+```
+
+For an authored cap or asymmetry, use a template:
+
+```svelte
+<Grid mode="template" cols="repeat(3, minmax(0, 1fr))">
+	<!-- intentionally three tracks -->
+</Grid>
+```
+
+Use normal flow for the document, flex for one-dimensional relationships, grid for track relationships, container queries for component-local adaptation, and `gap` for sibling spacing. Absolute positioning is for stage layers and ornaments. Transforms are not a layout system.
+
+## tokens and customization
+
+The canonical token source is generated into the published CSS and TypeScript outputs. Use semantic variables:
+
 ```css
-/* src/theme.css — your project's token overrides */
-:root {
-  --accent: #d4a853; /* shift gold slightly warmer */
-  --font-body: "Freight Text", serif; /* swap the body font */
+.local-panel {
+  background: var(--surface-card);
+  color: var(--text);
+  border-color: var(--line);
 }
 ```
 
-values in `theme.css` take precedence over token defaults. register shifts still apply on top of override values.
+Do not target private `.hyvui-*` classes for normal customization. Put an authored override after the library stylesheet, set a semantic variable on the nearest context root, or use a component prop. Component typography uses `--reg-font-primary` and `--reg-font-ui` so local appearance contexts remain coherent.
 
----
+## forms and overlays
 
-→ next: [docs/tokens.md](docs/tokens.md) — complete token dictionary
+Controls forward family-appropriate native attributes. Provide a stable `id` when an external label or description needs it. Without one, field components use a nested label and avoid inventing an id.
+
+`Modal` and `Drawer` are native modal dialogs. `Popover` is nonmodal and anchored. `Toast` is live-announced and never steals focus. Read [the overlay contract](docs/overlay-contract.md) before composing a custom overlay.
+
+## v1 migration
+
+v1 has no v0.6 compatibility aliases. Replace `data-register` with `data-weight`, `applyRegister` with `applyWeight`, remove `AppShell loadFonts`, replace automatic `Grid maxCols` with an explicit template, and remove `themeClasses` imports. The complete checklist is in [migration-v1.md](docs/migration-v1.md).
+
+## local verification
+
+From the repository checkout:
+
+```sh
+npm run tokens:check
+npm run check
+npm run build
+npm run lint
+npm run test:next
+npm run test:e2e
+npm pack --dry-run
+```

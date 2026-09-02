@@ -52,7 +52,7 @@
 	.hyvui-badge {
 		display: inline-flex;
 		align-items: center;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.12em;

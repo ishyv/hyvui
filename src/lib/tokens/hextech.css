@@ -15,6 +15,8 @@
  * Applied under [data-theme='hextech'].
  * ─────────────────────────────────────────────────────────────────────── */
 
+@import "./theme-values.css";
+
 [data-theme="hextech"] {
   /* ── palette: raw values ──────────────────────────────────────── */
   --htx-cobalt-deep: #0f1f3b;
@@ -40,25 +42,6 @@
   /* hover/focus aura — radiated cyan */
   --htx-hover-aura: rgba(93, 217, 240, 0.32);
   --htx-hover-border: rgba(212, 165, 116, 0.55);
-
-  /* ── semantic remap ────────────────────────────────────────────── */
-  --bg: #080f1c;
-  --bg-elev: #0f1f3b;
-  --bg-elev-soft: #0c1828;
-
-  --accent: #b87333;
-  --accent-strong: #d4a574;
-  --signal: #5dd9f0;
-
-  --line: rgba(93, 217, 240, 0.14);
-  --line-strong: rgba(93, 217, 240, 0.26);
-
-  --status-ok: #5dd9f0;
-  --status-pend: #6b7a8a;
-  --status-warn: #d4a574;
-  --status-fail: #c05040;
-
-  --radius-md: var(--radius-sm);
 
   /* ── shadow tokens ─────────────────────────────────────────────── */
   --shadow-card:
@@ -143,21 +126,7 @@
 }
 
 /* atmospheric background override — cobalt void with cyan and brass radials */
-[data-theme="hextech"] body::before,
 body[data-theme="hextech"]::before {
-  background:
-    radial-gradient(circle at top, rgba(93, 217, 240, 0.07), transparent 26%),
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(184, 115, 51, 0.06),
-      transparent 24%
-    ),
-    linear-gradient(180deg, #080f1c 0%, #0a1428 35%, #050810 100%);
-}
-
-/* root background — same recipe, applied via html:has() so it reaches the
-   element BEHIND body (avoiding the ::after texture layer). */
-html:has(body[data-theme="hextech"]) {
   background:
     radial-gradient(circle at top, rgba(93, 217, 240, 0.07), transparent 26%),
     radial-gradient(

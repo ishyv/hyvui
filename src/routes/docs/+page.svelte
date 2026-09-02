@@ -78,6 +78,7 @@
   const showcaseManifest = getShowcaseManifest("docs");
 
   const sections = [
+    { id: "start-here", label: "start here" },
     { id: "overview", label: "overview" },
     { id: "registers", label: "registers" },
     { id: "primitives", label: "primitives" },
@@ -152,6 +153,13 @@
   <Button variant="primary">activate</Button>
 </Card>`;
 
+  const guideInstallCode = `npm install @hyvnt/hyvui
+import "@hyvnt/hyvui/styles.css";`;
+  const guideCompositionCode = String.raw`<Card>
+  <Text variant="heading" as="h2">operator panel</Text>
+  <Button variant="primary">activate</Button>
+</Card>`;
+
   const tokenCode = String.raw`<Surface variant="panel" withInset>
   <Label color="muted">surface panel</Label>
   <Text variant="body">panel with inset border.</Text>
@@ -217,7 +225,7 @@
   <title>hyvui docs</title>
 </svelte:head>
 
-<ShowcaseShell manifest={showcaseManifest!}>
+<ShowcaseShell manifest={showcaseManifest!} compactShell>
   <div class="docs">
   <Topbar class="docs-topbar">
     {#snippet left()}
@@ -267,10 +275,78 @@
         {/snippet}
 
         {#snippet actions()}
+          <Button variant="secondary" href="/workbench"
+            >open relation workbench</Button
+          >
           <Button variant="secondary" href="/system">[ system pages ]</Button>
           <Button variant="ghost" href="/">[ home ]</Button>
         {/snippet}
       </PageHeader>
+
+      <section
+        id="start-here"
+        class="docs-section docs-field-guide"
+        data-docs-field-guide
+        aria-labelledby="start-here-title"
+      >
+        <div class="docs-section-head">
+          <Label color="accent">field guide / first pass</Label>
+          <Text id="start-here-title" variant="heading" as="h2">start here</Text>
+          <Text variant="body" color="soft">
+            install the floor, place the smallest composition, then add state
+            and a real relation. the catalog below keeps the full component
+            surface available when you need it.
+          </Text>
+        </div>
+        <Grid
+          mode="template"
+          cols="repeat(2, minmax(0, 1fr))"
+          gap="var(--space-md)"
+          class="docs-guide-grid"
+        >
+          <Card>
+            <Stack gap="var(--space-sm)">
+              <Label color="signal">01 / install + import</Label>
+              <Text variant="body" color="soft">one stylesheet. one public barrel.</Text>
+              <CodeBlock code={guideInstallCode} language="shell" />
+            </Stack>
+          </Card>
+          <Card>
+            <Stack gap="var(--space-sm)">
+              <Label color="signal">02 / smallest composition</Label>
+              <Text variant="body" color="soft">a surface gives the parts somewhere to work.</Text>
+              <CodeBlock code={guideCompositionCode} language="svelte" />
+            </Stack>
+          </Card>
+          <Card>
+            <Stack gap="var(--space-sm)">
+              <Label color="signal">03 / props + states</Label>
+              <Text variant="body" color="soft">
+                use the component props for variants. use native attributes for
+                identity, form behavior, and accessibility.
+              </Text>
+              <Button variant="ghost" href="#inputs">read input states</Button>
+            </Stack>
+          </Card>
+          <Card>
+            <Stack gap="var(--space-sm)">
+              <Label color="signal">04 / one relation</Label>
+              <Text variant="body" color="soft">
+                a component is a part. the relation gives it work.
+              </Text>
+              <Button variant="secondary" href="/workbench"
+                >open relation workbench</Button
+              >
+            </Stack>
+          </Card>
+        </Grid>
+        <Stack direction="horizontal" gap="var(--space-sm)" wrap={true} class="docs-guide-next">
+          <Button variant="ghost" href="#advanced-families">advanced families</Button>
+          <Button variant="ghost" href="#scenes">authored scenes</Button>
+        </Stack>
+      </section>
+
+      <Divider />
 
       <section id="overview" class="docs-section">
         <div class="docs-section-head">
@@ -596,7 +672,7 @@
               class="docs-dropdown"
             >
               {#snippet trigger()}
-                <Button variant="secondary">[ menu ]</Button>
+                <span>[ menu ]</span>
               {/snippet}
             </DropdownMenu>
           </div>
@@ -653,6 +729,7 @@
 
       <Divider />
 
+      <div id="advanced-families" class="docs-advanced-anchor" aria-hidden="true"></div>
       <section id="ambient" class="docs-section">
         <div class="docs-section-head">
           <Label color="accent">ambient</Label>
@@ -806,7 +883,10 @@
           </ReadoutScene>
         </div>
         <div class="docs-scene">
-          <ArchiveScene title="archive" cols={2}>
+          <ArchiveScene
+            title="archive"
+            template="repeat(2, minmax(0, 1fr))"
+          >
             {#snippet filter()}
               <Button variant="ghost">[ filter ]</Button>
             {/snippet}
@@ -1131,6 +1211,8 @@
     border: 1px solid var(--line);
     background: var(--surface-panel);
     overflow: hidden;
+    contain: paint;
+    clip-path: inset(0);
   }
 
   :global(.docs-depth-layer) {
@@ -1199,6 +1281,14 @@
       width: 100%;
     }
 
+    :global(.docs-guide-grid) {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    :global(.docs-surface-grid) {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
     :global(.docs .hyvui-codeblock-code) {
       white-space: pre-wrap;
       overflow-wrap: anywhere;
@@ -1212,9 +1302,6 @@
       gap: var(--space-md);
     }
 
-    .docs-scene :global(.hyvui-readout-body-sidebar) {
-      grid-template-columns: minmax(0, 1fr);
-    }
 
     .docs-new-ambient-grid {
       grid-template-columns: 1fr;

@@ -16,6 +16,8 @@
 		x2?: string | number;
 		y2?: string | number;
 		mpathId?: string;
+		path?: string;
+		reverse?: boolean;
 		speed?: number;
 		radius?: number;
 		fill?: string;
@@ -28,6 +30,8 @@
 		x2 = '100%',
 		y2 = '100%',
 		mpathId,
+		path,
+		reverse = false,
 		speed = 3,
 		radius = 2.5,
 		fill = 'currentColor',
@@ -38,9 +42,16 @@
 </script>
 
 <circle r={radius} {fill} class={className}>
-	{#if mpathId}
-		<animateMotion {dur} repeatCount="indefinite">
-			<mpath href="#{mpathId}" />
+	{#if mpathId || path}
+		<animateMotion
+			{dur}
+			repeatCount="indefinite"
+			keyPoints={reverse ? '1;0' : '0;1'}
+			keyTimes="0;1"
+			calcMode="linear"
+			{path}
+		>
+			{#if mpathId}<mpath href="#{mpathId}" />{/if}
 		</animateMotion>
 	{:else}
 		<animate attributeName="cx" from={x1} to={x2} {dur} repeatCount="indefinite" />

@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import { onMount } from 'svelte';
+	import {
+		onDocumentVisibilityChange,
+		onIntersectionChange,
+		onReducedMotionChange,
+		type Cleanup
+	} from '../../system/runtime.js';
 
 	/**
 	 * Decorative scrolling hex character column. Renders `aria-hidden`.
@@ -15,70 +21,94 @@
 		width?: string;
 		/** Scroll speed. */
 		speed?: 'slow' | 'medium';
+		/** Stable seed for the rendered sequence. */
+		seed?: string | number;
 		/** Additional CSS classes. */
 		class?: string;
 	}
 
-	let { active = true, width = '1.2rem', speed = 'slow', class: className = '' }: Props = $props();
+	let {
+		active = true,
+		width = '1.2rem',
+		speed = 'slow',
+		seed = 'default',
+		class: className = ''
+	}: Props = $props();
 
 	const chars = '0123456789ABCDEF.:+-';
 	const lineCount = 32;
 	let rootEl: HTMLDivElement | undefined = $state();
-	let visible = $state(true);
+	let viewportVisible = $state(true);
+	let documentVisible = $state(true);
+	let reduced = $state(false);
+	let mounted = $state(false);
 	let lines = $state<string[]>([]);
-	let intervalId: ReturnType<typeof setInterval> | undefined;
+	let intervalId: number | undefined;
+	let sequenceState = 0;
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
+	function hashSeed(value: string | number): number {
+		let hash = 2166136261;
+		for (const character of String(value)) {
+			hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+		}
+		return hash >>> 0;
+	}
 
-	function randomChar(): string {
-		return chars[Math.floor(Math.random() * chars.length)];
+	function nextState(value: number): number {
+		return (Math.imul(value, 1664525) + 1013904223) >>> 0;
+	}
+
+	function nextChar(): string {
+		sequenceState = nextState(sequenceState);
+		return chars[sequenceState % chars.length];
 	}
 
 	function generateLines(): string[] {
-		return Array.from({ length: lineCount }, () => randomChar());
+		sequenceState = hashSeed(seed);
+		return Array.from({ length: lineCount }, nextChar);
 	}
 
 	function stop() {
 		if (!intervalId) return;
-		clearInterval(intervalId);
+		window.clearInterval(intervalId);
 		intervalId = undefined;
 	}
 
 	function start() {
 		stop();
-		if (!active || prefersReduced || !visible) return;
+		if (!mounted || !active || reduced || !viewportVisible || !documentVisible) return;
 		const ms = speed === 'slow' ? 600 : 350;
-		intervalId = setInterval(() => {
+		intervalId = window.setInterval(() => {
 			// Unkeyed each blocks update in-place, so this is stable DOM churn.
-			lines = [randomChar(), ...lines.slice(0, lineCount - 1)];
+			lines = [nextChar(), ...lines.slice(0, lineCount - 1)];
 		}, ms);
 	}
 
 	onMount(() => {
 		lines = generateLines();
-
-		const io = new IntersectionObserver(
-			(entries) => {
-				const entry = entries[0];
-				if (!entry) return;
-				visible = entry.isIntersecting;
-			},
-			{ root: null, threshold: 0 }
-		);
-
-		if (rootEl) io.observe(rootEl);
+		mounted = true;
+		if (!rootEl) return;
+		const cleanups: Cleanup[] = [
+			onReducedMotionChange((value) => (reduced = value)),
+			onDocumentVisibilityChange((value) => (documentVisible = value)),
+			onIntersectionChange(rootEl, (value) => (viewportVisible = value), { threshold: 0 })
+		];
 
 		return () => {
-			io.disconnect();
+			mounted = false;
+			for (const cleanup of cleanups) cleanup();
 			stop();
 		};
 	});
 
 	$effect(() => {
 		// Restart interval when relevant inputs change.
+		active;
+		speed;
+		mounted;
+		reduced;
+		viewportVisible;
+		documentVisible;
 		start();
 		return stop;
 	});
@@ -95,7 +125,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		line-height: 1.4;
 		letter-spacing: 0.1em;

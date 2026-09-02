@@ -84,7 +84,7 @@
 	}
 
 	.hyvui-pull-quote-bracket {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-lg);
 		line-height: 1.45;
 		color: color-mix(in srgb, var(--accent) 40%, transparent);
@@ -105,7 +105,7 @@
 
 	.hyvui-pull-quote-text {
 		margin: 0;
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-style: italic;
 		font-size: var(--text-lg);
 		line-height: 1.45;
@@ -122,7 +122,7 @@
 
 	.hyvui-pull-quote-attribution {
 		font-style: italic;
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-xs);
 		color: var(--muted-strong);
 		line-height: 1.5;
@@ -131,12 +131,12 @@
 	.hyvui-pull-quote-sep {
 		color: var(--muted);
 		opacity: 0.75;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 	}
 
 	.hyvui-pull-quote-source {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);

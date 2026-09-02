@@ -1,4 +1,4 @@
-## weight and theme system
+## weight, theme, and grade system
 
 ---
 
@@ -7,6 +7,8 @@
 a weight register is a named density and voice preset. weights adjust typographic scale, font selection, spacing, surface opacity, and accent weight. they do not change colors, component behavior, or layout.
 
 a theme is a palette and motif layer. themes can remap semantic color tokens and add ornamental behavior, but they do not own structural density. this lets `mission-control` and `hextech` compose without one silently erasing the other.
+
+a grade is a scoped color-treatment recipe. it remaps semantic colors and material overlays without applying a document-wide filter to text, images, or portals.
 
 ---
 
@@ -25,20 +27,29 @@ a theme is a palette and motif layer. themes can remap semantic color tokens and
 | `hextech` | brass, crystal, mechanical             | `@hyvnt/hyvui/tokens/hextech.css` |
 | `arcane`  | shimmer, shards, unstable organic glow | `@hyvnt/hyvui/tokens/arcane.css`  |
 
+## available grades
+
+| name            | character                                   |
+| --------------- | ------------------------------------------- |
+| `cold-archive`  | lifted blacks and cool, washed mids         |
+| `interrogation` | hard contrast with a restrained green cast  |
+| `twilight`      | warm shadows and magenta-leaning highlights |
+| `dailies`       | flat, slightly green broadcast texture      |
+
 ---
 
-## applying weight and theme
+## applying weight, theme, and grade
 
 ### method 1. svelte body attributes
 
 ```svelte
-<svelte:body data-weight="field-notebook" data-theme="hextech" />
+<svelte:body data-weight="field-notebook" data-theme="hextech" data-grade="dailies" />
 ```
 
 ### method 2. appshell
 
 ```svelte
-<AppShell weight="mission-control" theme="arcane">
+<AppShell weight="mission-control" theme="arcane" grade="interrogation">
   <!-- page content -->
 </AppShell>
 ```
@@ -47,11 +58,19 @@ a theme is a palette and motif layer. themes can remap semantic color tokens and
 
 ```svelte
 <script lang="ts">
-  import { applyTheme, applyWeight, clearTheme, clearWeight } from "$lib";
-  import type { ThemeRegister, WeightRegister } from "$lib";
+  import {
+    applyGrade,
+    applyTheme,
+    applyWeight,
+    clearGrade,
+    clearTheme,
+    clearWeight,
+  } from "$lib";
+  import type { GradeRegister, ThemeRegister, WeightRegister } from "$lib";
 
   applyWeight("mission-control");
   applyTheme("hextech");
+  applyGrade("dailies");
 
   function switchWeight(weight: WeightRegister) {
     applyWeight(weight);
@@ -61,19 +80,24 @@ a theme is a palette and motif layer. themes can remap semantic color tokens and
     applyTheme(theme);
   }
 
+  function switchGrade(grade: GradeRegister) {
+    applyGrade(grade);
+  }
+
   clearWeight();
   clearTheme();
+  clearGrade();
 </script>
 ```
 
 ### method 4. scoped sections
 
-weights and themes can be applied to any element. their variables cascade to descendants:
+weights, themes, and grades can be applied to any element. each channel resolves from the nearest ancestor and cascades to descendants:
 
 ```svelte
 <svelte:body data-weight="field-notebook" />
 
-<section data-weight="archive" data-theme="arcane">
+<section data-weight="archive" data-theme="arcane" data-grade="twilight">
   <ArchiveScene title="reference documents">
     <!-- content here renders with archive weight plus arcane theme -->
   </ArchiveScene>

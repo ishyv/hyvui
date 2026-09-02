@@ -1,5 +1,11 @@
 import type { ActionReturn } from "svelte/action";
 import { scroll, animate } from "motion";
+import {
+  onDocumentVisibilityChange,
+  onIntersectionChange,
+  onReducedMotionChange,
+  type Cleanup,
+} from "../runtime.js";
 
 interface TrackOptions {
   /** Axis the parallax effect runs on. */
@@ -24,24 +30,56 @@ export function track(
   options: TrackOptions = {},
 ): ActionReturn<TrackOptions> {
   if (typeof window === "undefined") return {};
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  if (prefersReduced) return {};
-
   const { axis = "y", strength = 0.2 } = options;
-  const cleanup = scroll(
-    animate(
+  let reduced = false;
+  let documentVisible = true;
+  let viewportVisible = true;
+  let cleanupScroll: (() => void) | undefined;
+
+  function stop() {
+    cleanupScroll?.();
+    cleanupScroll = undefined;
+  }
+
+  function start() {
+    stop();
+    if (reduced || !documentVisible || !viewportVisible) return;
+    cleanupScroll = scroll(
+      animate(
+        node,
+        axis === "y"
+          ? { y: [-40 * strength, 40 * strength] }
+          : { x: [-40 * strength, 40 * strength] },
+      ),
+    );
+  }
+
+  const cleanups: Cleanup[] = [
+    onReducedMotionChange((value) => {
+      reduced = value;
+      if (value) stop();
+      else start();
+    }),
+    onDocumentVisibilityChange((value) => {
+      documentVisible = value;
+      if (value) start();
+      else stop();
+    }),
+    onIntersectionChange(
       node,
-      axis === "y"
-        ? { y: [-40 * strength, 40 * strength] }
-        : { x: [-40 * strength, 40 * strength] },
+      (value) => {
+        viewportVisible = value;
+        if (value) start();
+        else stop();
+      },
+      { threshold: 0 },
     ),
-  );
+  ];
 
   return {
     destroy() {
-      cleanup();
+      stop();
+      for (const cleanup of cleanups) cleanup();
     },
   };
 }

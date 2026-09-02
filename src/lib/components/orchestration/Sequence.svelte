@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { animate } from 'motion';
-	import { currentRegister } from '../../system/motion/registerObserver.js';
+import { onMount } from 'svelte';
+import { animate } from 'motion';
+import { currentRegister } from '../../system/motion/registerObserver.js';
+import { reducedMotionNow } from '../../system/runtime.js';
 	import {
 		presets,
 		cascadeStagger,
@@ -47,18 +48,17 @@
 
 	onMount(() => {
 		if (!host) return;
-		const reduced =
-			typeof window !== 'undefined' &&
-			window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const reduced = reducedMotionNow();
 
 		const kids = Array.from(host.children) as HTMLElement[];
+		const animations: ReturnType<typeof animate>[] = [];
 
 		if (reduced) {
 			for (const k of kids) k.style.opacity = '1';
-			return;
+			return () => undefined;
 		}
 
-		const { register } = currentRegister();
+		const { register } = currentRegister(host);
 		const preset = presets[register]?.[intent] ?? presets.default[intent];
 		const s = staggerOverride ?? cascadeStagger[register] ?? cascadeStagger.default;
 
@@ -73,12 +73,16 @@
 					: kids;
 
 		order.forEach((kid, i) => {
-			animate(
+			animations.push(animate(
 				kid,
 				preset.keyframes as never,
 				{ ...preset.options, delay: delay + i * s } as never
-			);
+			));
 		});
+
+		return () => {
+			for (const animation of animations) animation.stop();
+		};
 	});
 
 	function centerOrder<T>(arr: T[]): T[] {

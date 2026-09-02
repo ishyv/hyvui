@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	/**
 	 * @example
 	 * <Toggle label="enable notifications" bind:checked={enabled} />
 	 * <Toggle label="dark mode" bind:checked={dark} onchange={applyTheme} />
 	 */
-	interface Props {
+	interface Props extends Omit<
+		HTMLButtonAttributes,
+		'aria-checked' | 'aria-describedby' | 'aria-invalid' | 'aria-label' | 'class' | 'children' | 'disabled' | 'id' | 'onclick' | 'role' | 'type'
+	> {
 		/** Whether the toggle is on (bindable). */
 		checked?: boolean;
 		/** Label text. */
@@ -19,6 +23,8 @@
 		disabled?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id used for the switch and description. */
+		id?: string;
 		/** Change handler. */
 		onchange?: (e: Event) => void;
 	}
@@ -30,28 +36,37 @@
 		error = '',
 		disabled = false,
 		class: className = '',
-		onchange
+		id,
+		onchange,
+		...rest
 	}: Props = $props();
+
+	let toggleEl: HTMLButtonElement;
 
 	function toggle() {
 		if (disabled) return;
 		checked = !checked;
-		onchange?.(new Event('change'));
+		const event = new Event('change', { bubbles: true });
+		toggleEl?.dispatchEvent(event);
+		onchange?.(event);
 	}
 
-	const toggleId = `hyvui-toggle-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 </script>
 
 <div class={cn('hyvui-toggle-field', disabled && 'hyvui-toggle-disabled', className)}>
 	<label class="hyvui-toggle">
 		<button
+			bind:this={toggleEl}
+			{...rest}
+			{id}
 			type="button"
 			role="switch"
 			aria-checked={checked}
 			{disabled}
 			aria-label={label || 'toggle'}
-			aria-describedby={message ? `${toggleId}-desc` : undefined}
+			aria-describedby={messageId}
 			aria-invalid={error ? 'true' : undefined}
 			class={cn('hyvui-toggle-track', error && 'hyvui-toggle-track-error')}
 			class:hyvui-toggle-on={checked}
@@ -65,7 +80,7 @@
 	</label>
 	{#if message}
 		<span
-			id="{toggleId}-desc"
+			id={messageId}
 			class={cn('hyvui-toggle-message', error && 'hyvui-toggle-message-error')}
 		>
 			{message}
@@ -142,7 +157,7 @@
 	}
 
 	.hyvui-toggle-label {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-sm);
 		color: var(--text-soft);
 		line-height: 1.5;
@@ -150,7 +165,7 @@
 
 	.hyvui-toggle-message {
 		margin-left: calc(42px + var(--space-sm));
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

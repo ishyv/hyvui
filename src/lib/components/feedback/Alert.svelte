@@ -77,7 +77,7 @@
 	}
 
 	.hyvui-alert-title {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.08em;
@@ -87,7 +87,7 @@
 	}
 
 	.hyvui-alert-body {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-xs);
 		color: var(--text-soft);
 		line-height: 1.5;

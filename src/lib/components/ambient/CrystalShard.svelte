@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import { onMount } from 'svelte';
+	import { onReducedMotionChange } from '../../system/runtime.js';
 
 	/**
 	 * Decorative faceted crystal accent. Adapts per register:
@@ -19,13 +21,10 @@
 	}
 
 	let { size = 48, animated = true, class: className = '' }: Props = $props();
+	let reduced = $state(false);
+	const shouldAnimate = $derived(animated && !reduced);
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
-
-	const shouldAnimate = $derived(animated && !prefersReduced);
+	onMount(() => onReducedMotionChange((value) => (reduced = value)));
 
 	// Pointy-top crystal: two overlapping polygons for faceted look.
 	// Outer shard — tall diamond with offset peak
@@ -57,16 +56,6 @@
 	fill="none"
 	aria-hidden="true"
 >
-	<defs>
-		<filter id="cs-glow" x="-40%" y="-40%" width="180%" height="180%">
-			<feGaussianBlur stdDeviation="3" result="blur" />
-			<feMerge>
-				<feMergeNode in="blur" />
-				<feMergeNode in="SourceGraphic" />
-			</feMerge>
-		</filter>
-	</defs>
-
 	<!-- outer shard body -->
 	<polygon class="hyvui-cs-body" points={outerPoints} />
 	<!-- inner facet face -->
@@ -119,7 +108,7 @@
 		fill: color-mix(in srgb, var(--arc-magenta) 12%, transparent);
 		stroke: color-mix(in srgb, var(--arc-magenta) 65%, transparent);
 		stroke-width: 1;
-		filter: url(#cs-glow);
+		filter: drop-shadow(0 0 3px color-mix(in srgb, var(--arc-magenta) 42%, transparent));
 	}
 	:global([data-theme='arcane']) .hyvui-cs-face {
 		fill: color-mix(in srgb, var(--arc-shimmer) 22%, transparent);

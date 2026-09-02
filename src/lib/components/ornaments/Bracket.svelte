@@ -75,10 +75,10 @@
 		display: inline-flex;
 		align-items: center;
 		gap: var(--space-2xs);
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 	}
 	.hyvui-bracket-mark {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: 1.1em;
 		line-height: 1;
 		opacity: 0.85;

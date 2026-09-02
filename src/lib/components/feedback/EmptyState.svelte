@@ -51,7 +51,7 @@
 	}
 
 	.hyvui-empty-title {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-md);
 		font-weight: 400;
 		line-height: 0.93;
@@ -61,7 +61,7 @@
 	}
 
 	.hyvui-empty-desc {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-xs);
 		color: var(--muted);
 		line-height: 1.5;

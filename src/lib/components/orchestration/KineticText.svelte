@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { animate } from 'motion';
-	import { cn } from '../../utils/cn.js';
-	import { currentRegister } from '../../system/motion/registerObserver.js';
-	import { presets, cascadeStagger } from '../../system/motion/presets.js';
+import { cn } from '../../utils/cn.js';
+import { currentRegister } from '../../system/motion/registerObserver.js';
+import { presets, cascadeStagger } from '../../system/motion/presets.js';
+import { reducedMotionNow } from '../../system/runtime.js';
 
 	/**
 	 * Type that performs. Register-aware timing; theme overlays add scan lines
@@ -37,28 +38,40 @@
 	let host: HTMLElement | null = $state(null);
 
 	const units = $derived(
-		mode === 'word' ? text.split(/(\s+)/) : mode === 'letter' ? Array.from(text) : []
+		mode === 'word' || mode === 'telegraph' || mode === 'letter'
+			? text.split(/(\s+)/)
+			: []
 	);
 
 	onMount(() => {
 		if (!host) return;
-		const reduced =
-			typeof window !== 'undefined' &&
-			window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const reduced = reducedMotionNow();
+		const animations: ReturnType<typeof animate>[] = [];
 
 		if (mode === 'mask') {
-			revealMask(host, reduced);
-			return;
+			if (reduced) {
+				host.style.clipPath = 'inset(0 0 0 0)';
+			} else {
+				host.style.clipPath = 'inset(0 100% 0 0)';
+				animations.push(animate(
+					host,
+					{ clipPath: ['inset(0 100% 0 0)', 'inset(0 0 0 0)'] } as never,
+					{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay } as never
+				));
+			}
+			return () => {
+				for (const animation of animations) animation.stop();
+			};
 		}
 
 		const spans = Array.from(host.querySelectorAll<HTMLElement>('.hyvui-kt-unit'));
 
 		if (reduced) {
 			for (const s of spans) s.style.opacity = '1';
-			return;
+			return () => undefined;
 		}
 
-		const { register } = currentRegister();
+		const { register } = currentRegister(host);
 		const preset = presets[register]?.cascade ?? presets.default.cascade;
 		const stagger =
 			speed ?? cascadeStagger[register] ?? cascadeStagger.default;
@@ -67,29 +80,20 @@
 
 		spans.forEach((span, i) => {
 			const isPause = mode === 'telegraph' && i % 3 === 2;
-			animate(
+			animations.push(animate(
 				span,
 				preset.keyframes as never,
 				{
 					...preset.options,
 					delay: delay + i * stagger + (isPause ? stagger * 1.5 : 0)
 				} as never
-			);
+			));
 		});
-	});
 
-	function revealMask(el: HTMLElement, reduced: boolean) {
-		if (reduced) {
-			el.style.clipPath = 'inset(0 0 0 0)';
-			return;
-		}
-		el.style.clipPath = 'inset(0 100% 0 0)';
-		animate(
-			el,
-			{ clipPath: ['inset(0 100% 0 0)', 'inset(0 0 0 0)'] } as never,
-			{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay } as never
-		);
-	}
+		return () => {
+			for (const animation of animations) animation.stop();
+		};
+	});
 </script>
 
 <svelte:element
@@ -103,7 +107,15 @@
 	{:else}
 		{#each units as unit, i}
 			{#if unit.match(/\s+/)}<!-- preserve whitespace -->{unit}{:else}
-				<span class="hyvui-kt-unit" aria-hidden="true" data-i={i}>{unit}</span>
+				<span class="hyvui-kt-word">
+					{#if mode === 'letter'}
+						{#each Array.from(unit) as character, j}
+							<span class="hyvui-kt-unit" aria-hidden="true" data-i={`${i}-${j}`}>{character}</span>
+						{/each}
+					{:else}
+						<span class="hyvui-kt-unit" aria-hidden="true" data-i={i}>{unit}</span>
+					{/if}
+				</span>
 			{/if}
 		{/each}
 	{/if}
@@ -116,6 +128,10 @@
 	.hyvui-kt-unit {
 		display: inline-block;
 		will-change: opacity, transform;
+	}
+	.hyvui-kt-word {
+		display: inline-block;
+		white-space: nowrap;
 	}
 
 	/* hextech: cyan scan line passing left-to-right during reveal */

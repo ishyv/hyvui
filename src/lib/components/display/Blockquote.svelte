@@ -22,7 +22,7 @@
 
 <style>
 	.hyvui-blockquote {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-style: italic;
 		font-weight: 400;
 		color: var(--text-soft);

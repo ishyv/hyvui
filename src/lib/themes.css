@@ -1,0 +1,4 @@
+/* Optional material entrypoint. The base stylesheet stays theme-neutral. */
+
+@import "./tokens/hextech.css" layer(hyvui.material);
+@import "./tokens/arcane.css" layer(hyvui.material);

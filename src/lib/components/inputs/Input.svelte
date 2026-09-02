@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	/**
 	 * @see resolve — wrap parent `<form>` with `use:resolve` to flash status on submit.
@@ -8,7 +9,10 @@
 	 * <Input label="email" type="email" bind:value={email} error={emailError} />
 	 * <Input label="search" type="search" bind:value={query} description="press enter to search" />
 	 */
-	interface Props {
+	interface Props extends Omit<
+		HTMLInputAttributes,
+		'class' | 'children' | 'disabled' | 'id' | 'onchange' | 'oninput' | 'placeholder' | 'type' | 'value'
+	> {
 		/** Input type. */
 		type?: 'text' | 'number' | 'password' | 'email' | 'search';
 		/** Current value (bindable). */
@@ -25,10 +29,12 @@
 		label?: string;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id. Required when an external label or description association is needed. */
+		id?: string;
 		/** Input handler. */
-		oninput?: (e: Event) => void;
+		oninput?: HTMLInputAttributes['oninput'];
 		/** Change handler. */
-		onchange?: (e: Event) => void;
+		onchange?: HTMLInputAttributes['onchange'];
 	}
 
 	let {
@@ -40,34 +46,47 @@
 		description = '',
 		label = '',
 		class: className = '',
+		id,
 		oninput,
-		onchange
+		onchange,
+		...rest
 	}: Props = $props();
 
-	const inputId = `hyvui-input-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 </script>
 
 <div class={cn('hyvui-input-wrap', className)}>
-	{#if label}
-		<label class="hyvui-input-label" for={inputId}>{label}</label>
+	{#snippet control()}
+		<input
+			{...rest}
+			{id}
+			{type}
+			bind:value
+			{placeholder}
+			{disabled}
+			aria-describedby={messageId}
+			aria-invalid={error ? 'true' : undefined}
+			class={cn('hyvui-input', error && 'hyvui-input-error')}
+			{oninput}
+			{onchange}
+		/>
+	{/snippet}
+	{#if label && !id}
+		<label class="hyvui-input-label hyvui-input-label-nested">
+			<span>{label}</span>
+			{@render control()}
+		</label>
+	{:else}
+		{#if label}
+			<label class="hyvui-input-label" for={id}>{label}</label>
+		{/if}
+		{@render control()}
 	{/if}
-	<input
-		id={inputId}
-		{type}
-		bind:value
-		{placeholder}
-		{disabled}
-		aria-describedby={message ? `${inputId}-desc` : undefined}
-		aria-invalid={error ? 'true' : undefined}
-		class={cn('hyvui-input', error && 'hyvui-input-error')}
-		{oninput}
-		{onchange}
-	/>
 	{#if error}
-		<span id="{inputId}-desc" class="hyvui-input-message hyvui-input-message-error">{error}</span>
+		<span id={messageId} class="hyvui-input-message hyvui-input-message-error">{error}</span>
 	{:else if message}
-		<span id="{inputId}-desc" class="hyvui-input-message">{message}</span>
+		<span id={messageId} class="hyvui-input-message">{message}</span>
 	{/if}
 </div>
 
@@ -80,7 +99,8 @@
 	}
 
 	.hyvui-input-label {
-		font-family: var(--font-mono);
+		display: block;
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
@@ -89,8 +109,14 @@
 		line-height: 1.2;
 	}
 
+	.hyvui-input-label-nested {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
 	.hyvui-input {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
@@ -135,7 +161,7 @@
 	}
 
 	.hyvui-input-message {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

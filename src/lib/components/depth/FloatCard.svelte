@@ -4,6 +4,7 @@
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
+	import { onReducedMotionChange } from '../../system/runtime.js';
 
 	/**
 	 * Self-contained pointer-tilt card. Works standalone or inside a DepthStage.
@@ -28,6 +29,8 @@
 
 	let innerEl: HTMLDivElement | undefined = $state();
 	let tiltEnabled = $state(false);
+	let reduced = $state(false);
+	let finePointer = $state(false);
 	let frame = 0;
 	let lastX = 0;
 	let lastY = 0;
@@ -38,9 +41,26 @@
 	};
 
 	onMount(() => {
-		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+		const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
+		finePointer = pointerMedia.matches;
 		tiltEnabled = !reduced && finePointer;
+		const updatePointer = () => {
+			finePointer = pointerMedia.matches;
+			tiltEnabled = !reduced && finePointer;
+		};
+		pointerMedia.addEventListener?.('change', updatePointer);
+		const unsubscribeReduced = onReducedMotionChange((value) => {
+			reduced = value;
+			tiltEnabled = !value && finePointer;
+			if (value) handlePointerLeave();
+		});
+
+		return () => {
+			pointerMedia.removeEventListener?.('change', updatePointer);
+			unsubscribeReduced();
+			if (frame) cancelAnimationFrame(frame);
+			frame = 0;
+		};
 	});
 
 	function handlePointerMove(e: PointerEvent) {

@@ -34,21 +34,10 @@
 		class: className = ''
 	}: Props = $props();
 
-	const filterId = `av-glow-${Math.random().toString(36).slice(2, 8)}`;
 </script>
 
 <svg class={cn('hyvui-arcane-vein', className)} aria-hidden="true">
-	<defs>
-		<filter id={filterId} x="-50%" y="-50%" width="200%" height="200%">
-			<feGaussianBlur stdDeviation="2.5" result="blur" />
-			<feMerge>
-				<feMergeNode in="blur" />
-				<feMergeNode in="SourceGraphic" />
-			</feMerge>
-		</filter>
-	</defs>
-
-	<line class="hyvui-av-halo" {x1} {y1} {x2} {y2} stroke-width="4" filter="url(#{filterId})" />
+	<line class="hyvui-av-halo" {x1} {y1} {x2} {y2} stroke-width="4" />
 	<line class="hyvui-av-line" {x1} {y1} {x2} {y2} stroke-width="1" />
 
 	{#if animated}
@@ -88,6 +77,7 @@
 	/* ── arcane: glowing crack, violet bleed particle ─────────────────── */
 	:global([data-theme='arcane']) .hyvui-av-halo {
 		stroke: color-mix(in srgb, var(--arc-magenta) 28%, transparent);
+		filter: drop-shadow(0 0 3px color-mix(in srgb, var(--arc-magenta) 42%, transparent));
 	}
 	:global([data-theme='arcane']) .hyvui-av-line {
 		stroke: color-mix(in srgb, var(--arc-magenta) 70%, transparent);

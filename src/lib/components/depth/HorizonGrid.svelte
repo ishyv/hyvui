@@ -1,9 +1,20 @@
 <script lang="ts">
-	import { cn } from '../../utils/cn.js';
 	import { onMount } from 'svelte';
+	import { cn } from '../../utils/cn.js';
+	import { onAppearanceChange } from '../../system/context.js';
+	import {
+		createFrameLoop,
+		readSemanticColor,
+		resizeCanvasBackingStore,
+		scheduleGeometry,
+		type Cleanup,
+		type FrameLoop
+	} from '../../system/runtime.js';
+	import { tokens } from '../../tokens/tokens.js';
 
 	/**
-	 * Canvas-drawn perspective grid with gold-to-teal gradient. Typically placed at ground level in a DepthStage.
+	 * Canvas-drawn perspective grid with semantic accent/signal colors. Typically
+	 * placed at ground level in a DepthStage.
 	 * @example
 	 * <DepthStage>
 	 *   <DepthLayer level="ground">
@@ -34,190 +45,127 @@
 
 	let rootEl: HTMLDivElement | undefined = $state();
 	let canvasEl: HTMLCanvasElement | undefined = $state();
-	let animFrame = 0;
-	let isVisible = $state(true);
-
-	let ctx: CanvasRenderingContext2D | null = null;
+	let context: CanvasRenderingContext2D | null = null;
 	let logicalW = 0;
 	let logicalH = 0;
 	let offset = 0;
 	let lastT = 0;
+	let accent: string = tokens.color.accent;
+	let signal: string = tokens.color.signal;
+	let loop: FrameLoop | undefined;
+	let cancelPendingResize: Cleanup | undefined;
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
+	function refreshColors() {
+		if (!rootEl) return;
+		accent = readSemanticColor(rootEl, '--accent', tokens.color.accent);
+		signal = readSemanticColor(rootEl, '--signal', tokens.color.signal);
+	}
 
-	function draw(t: number) {
-		if (!ctx) return;
-		if (!logicalW || !logicalH) return;
+	function draw(progressOffset: number) {
+		if (!context || !logicalW || !logicalH) return;
 
 		const w = logicalW;
 		const h = logicalH;
 		const vpX = w / 2;
-		const vpY = h * vanishY;
+		const vpY = h * Math.min(1, Math.max(0, vanishY));
+		const horizontalCount = Math.max(1, rows);
+		const verticalCount = Math.max(2, cols);
 
-		ctx.clearRect(0, 0, w, h);
+		context.clearRect(0, 0, w, h);
 
-		// horizontal lines receding toward vanishing point
-		for (let i = 0; i < rows; i++) {
-			const progress = (i + t) / rows;
+		for (let i = 0; i < horizontalCount; i += 1) {
+			const progress = (i + progressOffset) / horizontalCount;
 			if (progress > 1) continue;
 			const y = vpY + (h - vpY) * Math.pow(progress, 1.6);
 			const nearness = Math.pow(progress, 0.8);
+			const alpha = (0.18 * (1 - nearness) + 0.06 * nearness) * Math.min(1, progress * 4);
 
-			// color: gold near, teal far
-			const r = Math.round(199 * (1 - nearness) + 121 * nearness);
-			const g = Math.round(156 * (1 - nearness) + 166 * nearness);
-			const b = Math.round(87 * (1 - nearness) + 163 * nearness);
-			const alpha = 0.18 * (1 - nearness) + 0.06 * nearness;
-
-			// fade at vanishing point
-			const fadeNear = Math.min(1, progress * 4);
-			const finalAlpha = alpha * fadeNear;
-
-			ctx.beginPath();
-			ctx.moveTo(0, y);
-			ctx.lineTo(w, y);
-			ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${finalAlpha})`;
-			ctx.lineWidth = 1;
-			ctx.stroke();
+			context.beginPath();
+			context.moveTo(0, y);
+			context.lineTo(w, y);
+			context.strokeStyle = nearness > 0.55 ? signal : accent;
+			context.globalAlpha = alpha;
+			context.lineWidth = 1;
+			context.stroke();
 		}
 
-		// vertical convergence lines
-		for (let i = 0; i < cols; i++) {
-			const xBottom = (i / (cols - 1)) * w;
-			const progress = Math.abs(i / (cols - 1) - 0.5) * 2; // 0 at center, 1 at edges
+		for (let i = 0; i < verticalCount; i += 1) {
+			const xBottom = (i / (verticalCount - 1)) * w;
+			const distanceFromCenter = Math.abs(i / (verticalCount - 1) - 0.5) * 2;
+			const alpha = 0.1 * (1 - Math.pow(distanceFromCenter, 2) * 0.7);
 
-			// fade at edges
-			const edgeFade = 1 - Math.pow(progress, 2) * 0.7;
-			const alpha = 0.1 * edgeFade;
-
-			ctx.beginPath();
-			ctx.moveTo(vpX, vpY);
-			ctx.lineTo(xBottom, h);
-			ctx.strokeStyle = `rgba(199, 156, 87, ${alpha})`;
-			ctx.lineWidth = 1;
-			ctx.stroke();
-		}
-	}
-
-	function stop() {
-		if (animFrame) cancelAnimationFrame(animFrame);
-		animFrame = 0;
-	}
-
-	function tick(t: number) {
-		if (!animated || prefersReduced || document.hidden || !isVisible) {
-			stop();
-			return;
+			context.beginPath();
+			context.moveTo(vpX, vpY);
+			context.lineTo(xBottom, h);
+			context.strokeStyle = accent;
+			context.globalAlpha = alpha;
+			context.lineWidth = 1;
+			context.stroke();
 		}
 
-		const dt = lastT ? t - lastT : 16;
-		if (lastT && dt < 32) {
-			animFrame = requestAnimationFrame(tick);
-			return;
-		}
-		lastT = t;
-
-		// Drift speed tuned to roughly match the previous "0.003 per frame" feel.
-		offset = (offset + dt * 0.00018) % 1;
-		draw(offset);
-		animFrame = requestAnimationFrame(tick);
+		context.globalAlpha = 1;
 	}
 
-	function start() {
-		if (animFrame) return;
-		lastT = 0;
-		animFrame = requestAnimationFrame(tick);
-	}
-
-	function syncCanvasSize(width: number, height: number) {
-		if (!canvasEl) return;
-		if (!ctx) ctx = canvasEl.getContext('2d');
-		if (!ctx) return;
-
-		const dpr = window.devicePixelRatio || 1;
-		logicalW = width;
-		logicalH = height;
-
-		canvasEl.width = Math.max(1, Math.floor(width * dpr));
-		canvasEl.height = Math.max(1, Math.floor(height * dpr));
-		canvasEl.style.width = `${width}px`;
-		canvasEl.style.height = `${height}px`;
-
-		// Reset transform before applying DPR scaling (avoids cumulative scaling).
-		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+	function resize(width: number, height: number) {
+		if (!canvasEl || !context) return;
+		const resolution = resizeCanvasBackingStore(
+			canvasEl,
+			context,
+			width,
+			height
+		);
+		logicalW = resolution.cssWidth;
+		logicalH = resolution.cssHeight;
 		draw(offset);
 	}
 
 	onMount(() => {
 		if (!rootEl || !canvasEl) return;
+		context = canvasEl.getContext('2d');
+		if (!context) return;
 
-		ctx = canvasEl.getContext('2d');
-
-		const ro = new ResizeObserver((entries) => {
-			const entry = entries[0];
+		refreshColors();
+		const root = rootEl;
+		const canvas = canvasEl;
+		const resizeObserver = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(([entry]) => {
 			if (!entry) return;
-			const { width, height } = entry.contentRect;
-			syncCanvasSize(width, height);
+			cancelPendingResize?.();
+			cancelPendingResize = scheduleGeometry(() => resize(entry.contentRect.width, entry.contentRect.height));
+		});
+		resizeObserver?.observe(root);
+
+		const unsubscribeAppearance = onAppearanceChange(root, () => {
+			refreshColors();
+			draw(offset);
 		});
 
-		ro.observe(rootEl);
-
-		const io = new IntersectionObserver(
-			(entries) => {
-				const entry = entries[0];
-				if (!entry) return;
-				isVisible = entry.isIntersecting;
-			},
-			{ root: null, threshold: 0 }
-		);
-
-		io.observe(rootEl);
-
-		function onVisibility() {
-			if (document.hidden) stop();
-			else if (animated && !prefersReduced && isVisible) start();
-		}
-
-		let scrollTimer = 0;
-		function onScroll() {
-			stop();
-			clearTimeout(scrollTimer);
-			scrollTimer = window.setTimeout(() => {
-				if (animated && !prefersReduced && isVisible && !document.hidden) start();
-			}, 150);
-		}
-
-		document.addEventListener('visibilitychange', onVisibility);
-		window.addEventListener('scroll', onScroll, { passive: true });
+		loop = createFrameLoop(root, (time) => {
+			const delta = lastT ? time - lastT : 16;
+			lastT = time;
+			offset = (offset + delta * 0.00018) % 1;
+			draw(offset);
+		}, { enabled: animated });
 
 		return () => {
-			document.removeEventListener('visibilitychange', onVisibility);
-			window.removeEventListener('scroll', onScroll);
-			clearTimeout(scrollTimer);
-			io.disconnect();
-			ro.disconnect();
-			stop();
+			cancelPendingResize?.();
+			resizeObserver?.disconnect();
+			unsubscribeAppearance();
+			loop?.destroy();
+			loop = undefined;
+			context = null;
 		};
 	});
 
 	$effect(() => {
-		if (!canvasEl) return;
+		loop?.setEnabled(animated);
 		draw(offset);
+	});
 
-		if (
-			animated &&
-			!prefersReduced &&
-			isVisible &&
-			typeof document !== 'undefined' &&
-			!document.hidden
-		) {
-			start();
-		} else {
-			stop();
-		}
+	$effect(() => {
+		rows;
+		cols;
+		vanishY;
+		draw(offset);
 	});
 </script>
 

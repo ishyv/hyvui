@@ -1,0 +1,62 @@
+/* generated from src/lib/tokens/source/tokens.json. do not edit by hand. */
+
+[data-theme="hextech"] {
+  --hyv-theme-bg: #080f1c;
+  --bg: var(--hyv-grade-bg, var(--hyv-theme-bg));
+  --hyv-theme-bg-elev: #0f1f3b;
+  --bg-elev: var(--hyv-grade-bg-elev, var(--hyv-theme-bg-elev));
+  --hyv-theme-bg-elev-soft: #0c1828;
+  --bg-elev-soft: var(--hyv-grade-bg-elev-soft, var(--hyv-theme-bg-elev-soft));
+  --hyv-theme-accent: #b87333;
+  --accent: var(--hyv-grade-accent, var(--hyv-theme-accent));
+  --hyv-theme-accent-strong: #d4a574;
+  --accent-strong: var(
+    --hyv-grade-accent-strong,
+    var(--hyv-theme-accent-strong)
+  );
+  --hyv-theme-signal: #5dd9f0;
+  --signal: var(--hyv-grade-signal, var(--hyv-theme-signal));
+  --hyv-theme-line: rgba(93, 217, 240, 0.14);
+  --line: var(--hyv-grade-line, var(--hyv-theme-line));
+  --hyv-theme-line-strong: rgba(93, 217, 240, 0.26);
+  --line-strong: var(--hyv-grade-line-strong, var(--hyv-theme-line-strong));
+  --hyv-theme-status-ok: #5dd9f0;
+  --status-ok: var(--hyv-grade-status-ok, var(--hyv-theme-status-ok));
+  --hyv-theme-status-pend: #6b7a8a;
+  --status-pend: var(--hyv-grade-status-pend, var(--hyv-theme-status-pend));
+  --hyv-theme-status-warn: #d4a574;
+  --status-warn: var(--hyv-grade-status-warn, var(--hyv-theme-status-warn));
+  --hyv-theme-status-fail: #c05040;
+  --status-fail: var(--hyv-grade-status-fail, var(--hyv-theme-status-fail));
+  --radius-md: var(--radius-sm);
+}
+
+[data-theme="arcane"] {
+  --hyv-theme-bg: #0a0614;
+  --bg: var(--hyv-grade-bg, var(--hyv-theme-bg));
+  --hyv-theme-bg-elev: #130920;
+  --bg-elev: var(--hyv-grade-bg-elev, var(--hyv-theme-bg-elev));
+  --hyv-theme-bg-elev-soft: #0f071a;
+  --bg-elev-soft: var(--hyv-grade-bg-elev-soft, var(--hyv-theme-bg-elev-soft));
+  --hyv-theme-accent: #b845c9;
+  --accent: var(--hyv-grade-accent, var(--hyv-theme-accent));
+  --hyv-theme-accent-strong: #e94cbc;
+  --accent-strong: var(
+    --hyv-grade-accent-strong,
+    var(--hyv-theme-accent-strong)
+  );
+  --hyv-theme-signal: #7fb069;
+  --signal: var(--hyv-grade-signal, var(--hyv-theme-signal));
+  --hyv-theme-line: rgba(184, 69, 201, 0.18);
+  --line: var(--hyv-grade-line, var(--hyv-theme-line));
+  --hyv-theme-line-strong: rgba(233, 76, 188, 0.3);
+  --line-strong: var(--hyv-grade-line-strong, var(--hyv-theme-line-strong));
+  --hyv-theme-status-ok: #7fb069;
+  --status-ok: var(--hyv-grade-status-ok, var(--hyv-theme-status-ok));
+  --hyv-theme-status-pend: #5a4a6e;
+  --status-pend: var(--hyv-grade-status-pend, var(--hyv-theme-status-pend));
+  --hyv-theme-status-warn: #e94cbc;
+  --status-warn: var(--hyv-grade-status-warn, var(--hyv-theme-status-warn));
+  --hyv-theme-status-fail: #ff4060;
+  --status-fail: var(--hyv-grade-status-fail, var(--hyv-theme-status-fail));
+}

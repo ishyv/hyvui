@@ -3,6 +3,7 @@
 	import { lockScroll } from '../../system/scroll-lock.js';
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
 
 	/**
 	 * @example
@@ -14,13 +15,26 @@
 	 *   {/snippet}
 	 * </Modal>
 	 */
-	interface Props {
+	type Props = Omit<
+		HTMLAttributes<HTMLDialogElement>,
+		'class' | 'children' | 'id' | 'onclick' | 'onclose' | 'oncancel'
+	> & {
 		/** Controls modal visibility. */
 		open?: boolean;
 		/** Optional modal title. */
 		title?: string;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable dialog id. */
+		id?: string;
+		/** Existing element id used as the accessible name. */
+		labelledBy?: string;
+		/** Existing element id used as the accessible description. */
+		describedBy?: string;
+		/** Explicit accessible name when no title is supplied. */
+		ariaLabel?: string;
+		/** Optional id for the generated title heading. */
+		titleId?: string;
 		/** Modal header slot. */
 		header?: Snippet;
 		/** Modal body content. */
@@ -29,20 +43,33 @@
 		footer?: Snippet;
 		/** Fires when the modal is dismissed. */
 		onclose?: () => void;
-	}
+	};
 
 	let {
 		open = false,
 		title = '',
 		class: className = '',
+		id,
+		labelledBy,
+		describedBy,
+		ariaLabel,
+		titleId,
 		header,
 		children,
 		footer,
-		onclose
+		onclose,
+		...rest
 	}: Props = $props();
 
 	let dialogEl: HTMLDialogElement | undefined = $state();
 	let previousFocus: Element | null = null;
+
+	function restoreFocus() {
+		if (previousFocus instanceof HTMLElement && document.contains(previousFocus)) {
+			previousFocus.focus();
+		}
+		previousFocus = null;
+	}
 
 	$effect(() => {
 		if (!dialogEl) return;
@@ -51,8 +78,7 @@
 			if (!dialogEl.open) dialogEl.showModal();
 		} else {
 			if (dialogEl.open) dialogEl.close();
-			if (previousFocus instanceof HTMLElement) previousFocus.focus();
-			previousFocus = null;
+			restoreFocus();
 		}
 	});
 
@@ -68,14 +94,21 @@
 	}
 </script>
 
-{#if open}
 	<dialog
+		{...rest}
 		bind:this={dialogEl}
+		{id}
 		class={cn('hyvui-modal-backdrop', className)}
+		aria-labelledby={labelledBy ?? (titleId ? titleId : undefined)}
+		aria-describedby={describedBy}
+		aria-label={labelledBy || titleId ? undefined : ariaLabel ?? (title || undefined)}
 		onclick={handleBackdropClick}
 		oncancel={(e) => {
 			e.preventDefault();
 			onclose?.();
+		}}
+		onclose={() => {
+			if (open) onclose?.();
 		}}
 	>
 		<Surface variant="panel" class="hyvui-modal-surface">
@@ -85,7 +118,7 @@
 				</div>
 			{:else if title}
 				<div class="hyvui-modal-header">
-					<h2 class="hyvui-modal-title">{title}</h2>
+					<h2 id={titleId} class="hyvui-modal-title">{title}</h2>
 				</div>
 			{/if}
 			{#if children}
@@ -100,7 +133,6 @@
 			{/if}
 		</Surface>
 	</dialog>
-{/if}
 
 <style>
 	.hyvui-modal-backdrop {
@@ -121,6 +153,10 @@
 		height: 100%;
 		max-width: 100%;
 		max-height: 100%;
+	}
+
+	.hyvui-modal-backdrop:not([open]) {
+		display: none;
 	}
 
 	.hyvui-modal-backdrop::backdrop {
@@ -145,7 +181,7 @@
 	}
 
 	.hyvui-modal-title {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-md);
 		font-weight: 400;
 		line-height: 0.93;
@@ -155,7 +191,7 @@
 	}
 
 	.hyvui-modal-body {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		color: var(--text-soft);
 		line-height: 1.6;
 		flex: 1;

@@ -56,7 +56,7 @@ Structural containers. these don't display content — they organize it.
 
 ## Grid
 
-> container-responsive CSS grid. `auto` mode computes column count from the element's available width (so it behaves inside panels/modals, not just at viewport breakpoints).
+> intrinsic CSS grid. `auto` mode lets the browser choose tracks from the element's available width, so it behaves inside panels and modals without a measurement probe.
 
 ### Import
 
@@ -68,23 +68,20 @@ Structural containers. these don't display content — they organize it.
 
 ### Props
 
-| prop          | type                   | default             | required | description                                                                                      |
-| ------------- | ---------------------- | ------------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| `mode`        | `'auto' \| 'template'` | `'auto'`            | no       | auto-compute columns or use a raw template                                                       |
-| `minColWidth` | `string`               | `'16rem'`           | no       | minimum column width (auto mode)                                                                 |
-| `maxCols`     | `number`               | `undefined`         | no       | max columns cap (auto mode)                                                                      |
-| `cols`        | `number \| string`     | `1`                 | no       | template mode: raw `grid-template-columns`; auto mode: numeric values are treated as `maxCols`\* |
-| `gap`         | `string`               | `'var(--space-md)'` | no       | CSS gap value                                                                                    |
-| `as`          | `string`               | `'div'`             | no       | the HTML element to render                                                                       |
-| `class`       | `string`               | `''`                | no       | additional CSS classes                                                                           |
-
-\* Back-compat: `cols={3}` in `auto` mode behaves like `maxCols={3}`.
+| prop          | type                   | default             | required | description                                                                             |
+| ------------- | ---------------------- | ------------------- | -------- | --------------------------------------------------------------------------------------- |
+| `mode`        | `'auto' \| 'template'` | `'auto'`            | no       | auto-compute columns or use a raw template                                              |
+| `minColWidth` | `string`               | `'16rem'`           | no       | minimum column width (auto mode)                                                        |
+| `cols`        | `number \| string`     | `1`                 | no       | template mode: raw `grid-template-columns`; numeric values become equal explicit tracks |
+| `gap`         | `string`               | `'var(--space-md)'` | no       | CSS gap value                                                                           |
+| `as`          | `string`               | `'div'`             | no       | the HTML element to render                                                              |
+| `class`       | `string`               | `''`                | no       | additional CSS classes                                                                  |
 
 ### Examples
 
 ```svelte
 <!-- auto: compute columns from container width -->
-<Grid minColWidth="16rem" maxCols={3} gap="var(--space-lg)">
+<Grid minColWidth="16rem" gap="var(--space-lg)">
 	{#each items as item}
 		<Card>
 			<Text as="h3" variant="heading">{item.title}</Text>
@@ -93,7 +90,7 @@ Structural containers. these don't display content — they organize it.
 </Grid>
 
 <!-- template: raw grid-template-columns -->
-<Grid mode="template" cols="repeat(auto-fill, minmax(280px, 1fr))">
+<Grid mode="template" cols="repeat(3, minmax(0, 1fr))">
 	{#each metrics as m}
 		<MetricCard label={m.label} value={m.value} trend={m.trend} />
 	{/each}

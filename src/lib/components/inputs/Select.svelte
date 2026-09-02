@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLSelectAttributes } from 'svelte/elements';
 
 	interface SelectOption {
 		value: string;
@@ -14,9 +15,9 @@
 	 * ]} />
 	 * <Select label="status" bind:value={status} options={statusOptions} error={statusError} />
 	 */
-	interface Props {
+	interface Props extends Omit<HTMLSelectAttributes, 'class' | 'children' | 'disabled' | 'id' | 'onchange' | 'value'> {
 		/** Available options. */
-		options?: SelectOption[];
+		options?: readonly SelectOption[];
 		/** Current selected value (bindable). */
 		value?: string;
 		/** Label text displayed above the select. */
@@ -29,8 +30,10 @@
 		disabled?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id. Required when an external label or description association is needed. */
+		id?: string;
 		/** Change handler. */
-		onchange?: (e: Event) => void;
+		onchange?: HTMLSelectAttributes['onchange'];
 	}
 
 	let {
@@ -41,46 +44,59 @@
 		error = '',
 		disabled = false,
 		class: className = '',
-		onchange
+		id,
+		onchange,
+		...rest
 	}: Props = $props();
 
-	const selectId = `hyvui-select-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 </script>
 
 <div class={cn('hyvui-select-wrap', className)}>
-	{#if label}
-		<label class="hyvui-select-label" for={selectId}>{label}</label>
+	{#snippet control()}
+		<span class="hyvui-select-container">
+			<select
+				{...rest}
+				{id}
+				bind:value
+				{disabled}
+				aria-describedby={messageId}
+				aria-invalid={error ? 'true' : undefined}
+				class={cn('hyvui-select', error && 'hyvui-select-error')}
+				{onchange}
+			>
+				{#each options as opt}
+					<option value={opt.value}>{opt.label}</option>
+				{/each}
+			</select>
+			<svg class="hyvui-select-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+				<path
+					d="M2.5 4.5L6 8L9.5 4.5"
+					stroke="var(--accent)"
+					stroke-width="1.5"
+					fill="none"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+		</span>
+	{/snippet}
+	{#if label && !id}
+		<label class="hyvui-select-label hyvui-select-label-nested">
+			<span>{label}</span>
+			{@render control()}
+		</label>
+	{:else}
+		{#if label}
+			<label class="hyvui-select-label" for={id}>{label}</label>
+		{/if}
+		{@render control()}
 	{/if}
-	<div class="hyvui-select-container">
-		<select
-			id={selectId}
-			bind:value
-			{disabled}
-			aria-describedby={message ? `${selectId}-desc` : undefined}
-			aria-invalid={error ? 'true' : undefined}
-			class={cn('hyvui-select', error && 'hyvui-select-error')}
-			{onchange}
-		>
-			{#each options as opt}
-				<option value={opt.value}>{opt.label}</option>
-			{/each}
-		</select>
-		<svg class="hyvui-select-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-			<path
-				d="M2.5 4.5L6 8L9.5 4.5"
-				stroke="var(--accent)"
-				stroke-width="1.5"
-				fill="none"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
-	</div>
 	{#if error}
-		<span id="{selectId}-desc" class="hyvui-select-message hyvui-select-message-error">{error}</span>
+		<span id={messageId} class="hyvui-select-message hyvui-select-message-error">{error}</span>
 	{:else if message}
-		<span id="{selectId}-desc" class="hyvui-select-message">{message}</span>
+		<span id={messageId} class="hyvui-select-message">{message}</span>
 	{/if}
 </div>
 
@@ -93,13 +109,20 @@
 	}
 
 	.hyvui-select-label {
-		font-family: var(--font-mono);
+		display: block;
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--muted-strong);
 		line-height: 1.2;
+	}
+
+	.hyvui-select-label-nested {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
 	}
 
 	.hyvui-select-container {
@@ -109,7 +132,7 @@
 	}
 
 	.hyvui-select {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
@@ -156,7 +179,7 @@
 	}
 
 	.hyvui-select-message {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

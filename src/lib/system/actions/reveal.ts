@@ -2,6 +2,7 @@ import type { ActionReturn } from "svelte/action";
 import { animate } from "motion";
 import { currentRegister } from "../motion/registerObserver.js";
 import { presets } from "../motion/presets.js";
+import { onReducedMotionChange } from "../runtime.js";
 
 interface RevealOptions {
   /** CSS selector for the child element to reveal on hover. */
@@ -23,9 +24,19 @@ export function reveal(
   options: RevealOptions,
 ): ActionReturn<RevealOptions> {
   if (typeof window === "undefined") return {};
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  let prefersReduced = false;
+  let animation: ReturnType<typeof animate> | undefined;
+  const unsubscribeReduced = onReducedMotionChange((value) => {
+    prefersReduced = value;
+    if (value) {
+      stopAnimation();
+      const target = getTarget();
+      if (target) {
+        target.style.opacity = "1";
+        target.style.transform = "";
+      }
+    }
+  });
 
   function getTarget(): HTMLElement | null {
     return node.querySelector(options.target);
@@ -38,26 +49,39 @@ export function reveal(
     if (!prefersReduced) t.style.transform = "translateY(4px)";
   }
 
+  function stopAnimation() {
+    animation?.stop();
+    animation = undefined;
+  }
+
   function show() {
     const t = getTarget();
     if (!t) return;
+    stopAnimation();
     if (prefersReduced) {
       t.style.opacity = "1";
       return;
     }
-    const { register } = currentRegister();
+    const { register } = currentRegister(node);
     const preset = presets[register]?.hover ?? presets.default.hover;
-    animate(t, { opacity: [0, 1], y: [4, 0] }, preset.options as never);
+    animation = animate(
+      t,
+      { opacity: [0, 1], y: [4, 0] },
+      preset.options as never,
+    );
   }
 
   function hide() {
     const t = getTarget();
     if (!t) return;
+    stopAnimation();
     if (prefersReduced) {
       t.style.opacity = "0";
       return;
     }
-    animate(t, { opacity: [1, 0], y: [0, 4] }, { duration: 0.18 } as never);
+    animation = animate(t, { opacity: [1, 0], y: [0, 4] }, {
+      duration: 0.18,
+    } as never);
   }
 
   init();
@@ -72,6 +96,8 @@ export function reveal(
       node.removeEventListener("mouseleave", hide);
       node.removeEventListener("focusin", show);
       node.removeEventListener("focusout", hide);
+      stopAnimation();
+      unsubscribeReduced();
     },
   };
 }

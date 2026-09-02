@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { echo as echoAction } from '../../system/actions/echo.js';
 	import { button, type ButtonVariants } from './Button.tv.js';
 
@@ -12,7 +13,10 @@
 	 * <Button variant="destructive" loading>deleting...</Button>
 	 * <Button variant="primary" echo onclick={confirm}>confirm</Button>
 	 */
-	interface Props {
+	type Props = Omit<
+		HTMLButtonAttributes,
+		'aria-disabled' | 'class' | 'children' | 'disabled' | 'id' | 'onclick' | 'type'
+	> & {
 		/** Button visual style. */
 		variant?: ButtonVariants['variant'];
 		/** Button size. */
@@ -25,6 +29,8 @@
 		echo?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id. */
+		id?: string;
 		/** Button type attribute. */
 		type?: 'button' | 'submit' | 'reset';
 		/** Optional href to render an anchor instead of a button. */
@@ -33,11 +39,13 @@
 		target?: string;
 		/** Anchor rel. */
 		rel?: string;
+		/** Anchor download behavior. */
+		download?: HTMLAnchorAttributes['download'];
 		/** Click handler. */
 		onclick?: (e: MouseEvent) => void;
 		/** Button label content. */
 		children?: Snippet;
-	}
+	};
 
 	let {
 		variant = 'secondary',
@@ -50,9 +58,14 @@
 		href,
 		target,
 		rel,
+		download,
+		id,
 		onclick,
-		children
+		children,
+		...rest
 	}: Props = $props();
+
+	const nativeRest = $derived(rest as Record<string, unknown>);
 
 	const btnClass = $derived(
 		cn(button({ variant, size, loading, disabled: disabled || loading }), className)
@@ -75,9 +88,12 @@
 
 {#if href}
 	<a
+		{...nativeRest}
 		{href}
+		{id}
 		{target}
 		{rel}
+		{download}
 		use:activeEcho
 		class={btnClass}
 		aria-disabled={disabled || loading}
@@ -92,6 +108,8 @@
 	</a>
 {:else}
 	<button
+		{...nativeRest}
+		{id}
 		{type}
 		use:activeEcho
 		class={btnClass}
@@ -110,7 +128,7 @@
 	.hyvui-btn {
 		position: relative;
 		overflow: clip;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;

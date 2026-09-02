@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import { onMount } from 'svelte';
+	import { onReducedMotionChange } from '../../system/runtime.js';
 
 	/**
 	 * Decorative hex grid overlay. Adapts color and character per active register:
@@ -21,13 +23,10 @@
 	}
 
 	let { animated = true, opacity = undefined, class: className = '' }: Props = $props();
+	let reduced = $state(false);
+	const shouldAnimate = $derived(animated && !reduced);
 
-	const prefersReduced =
-		typeof window !== 'undefined'
-			? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			: false;
-
-	const shouldAnimate = $derived(animated && !prefersReduced);
+	onMount(() => onReducedMotionChange((value) => (reduced = value)));
 </script>
 
 <div

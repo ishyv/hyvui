@@ -20,7 +20,7 @@
 	 *   ]}
 	 *   onselect={(val) => handleAction(val)}
 	 * >
-	 *   {#snippet trigger()}<Button variant="ghost" size="sm">actions</Button>{/snippet}
+	 *   {#snippet trigger()}<span>actions</span>{/snippet}
 	 * </DropdownMenu>
 	 */
 	interface Props {
@@ -74,17 +74,23 @@
 </script>
 
 <div class={cn('hyvui-dropdown-root', className)}>
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_static_element_interactions -->
-	<span class="hyvui-dropdown-trigger" bind:this={triggerEl} onclick={toggle}>
+	<button
+		type="button"
+		class="hyvui-dropdown-trigger"
+		bind:this={triggerEl}
+		aria-haspopup="menu"
+		aria-expanded={isOpen}
+		onclick={toggle}
+	>
 		{#if trigger}{@render trigger()}{/if}
-	</span>
+	</button>
 
 	<Popover
 		open={isOpen}
 		anchor={triggerEl}
 		{placement}
 		{offset}
+		role="menu"
 		onclose={close}
 		class="hyvui-dropdown-popover"
 	>
@@ -121,6 +127,42 @@
 	.hyvui-dropdown-trigger {
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
+		min-height: var(--control-height-md);
+		max-width: 100%;
+		padding: var(--control-pad-y) var(--control-pad-x);
+		font-family: var(--reg-font-ui);
+		font-size: var(--text-2xs);
+		font-weight: 400;
+		letter-spacing: 0.16em;
+		line-height: 1;
+		text-transform: uppercase;
+		color: var(--text-soft);
+		background: var(--surface-card);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-md);
+		box-shadow: var(--surface-stroke);
+		cursor: pointer;
+		transition:
+			color var(--transition-fast),
+			border-color var(--transition-fast),
+			background var(--transition-fast),
+			transform var(--transition-fast);
+	}
+
+	.hyvui-dropdown-trigger:hover {
+		color: var(--text);
+		border-color: color-mix(in srgb, var(--accent) 46%, var(--line-strong));
+		transform: translateY(-1px);
+	}
+
+	.hyvui-dropdown-trigger:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	.hyvui-dropdown-trigger:active {
+		transform: translateY(0);
 	}
 
 	:global(.hyvui-dropdown-popover) {
@@ -135,7 +177,7 @@
 		display: block;
 		width: 100%;
 		text-align: left;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.14em;
@@ -168,6 +210,10 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.hyvui-dropdown-trigger {
+			transition: none;
+		}
+
 		.hyvui-dropdown-item {
 			transition: none;
 		}

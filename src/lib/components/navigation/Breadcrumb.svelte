@@ -43,7 +43,7 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: var(--space-xs);
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.16em;
 		text-transform: uppercase;

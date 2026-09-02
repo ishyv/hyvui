@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * @see surface — add `use:surface` on Stack for an entrance animation on mount.
@@ -14,7 +15,7 @@
 	 *   <Button variant="ghost">cancel</Button>
 	 * </Stack>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Stack direction. */
 		direction?: 'vertical' | 'horizontal';
 		/** Gap between items (CSS size string). */
@@ -41,12 +42,14 @@
 		wrap = false,
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-stack', className)}
 	style:flex-direction={direction === 'horizontal' ? 'row' : 'column'}
 	style:gap

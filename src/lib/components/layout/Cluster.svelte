@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * Horizontal flex container that wraps when out of space. Use for chip rows,
@@ -14,7 +15,7 @@
 	 *   <Badge>hextech</Badge>
 	 * </Cluster>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		gap?: string;
 		align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
 		justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
@@ -45,12 +46,14 @@
 		justify = 'start',
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-cluster', className)}
 	style:gap
 	style:align-items={alignMap[align]}

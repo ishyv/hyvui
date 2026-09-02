@@ -1,181 +1,176 @@
 <script lang="ts">
-  import { cn } from "../../utils/cn.js";
-  import { onMount } from "svelte";
+	import { onMount } from 'svelte';
+	import { cn } from '../../utils/cn.js';
+	import { onAppearanceChange, readAppearanceContext } from '../../system/context.js';
+	import {
+		createFrameLoop,
+		readSemanticColor,
+		resizeCanvasBackingStore,
+		scheduleGeometry,
+		type Cleanup,
+		type FrameLoop
+	} from '../../system/runtime.js';
+	import { tokens } from '../../tokens/tokens.js';
 
-  /**
-   * Particle-smoke ambient effect using canvas.
-   * Under `data-theme="hextech"`: slow blue-mist dots, precise motion.
-   * Under `data-theme="arcane"`: pink/violet shimmer drift, chaotic.
-   * Parent must have `position: relative`. Renders `aria-hidden`.
-   *
-   * @example
-   * <div style="position: relative;">
-   *   <ShimmerCloud />
-   *   content
-   * </div>
-   */
-  interface Props {
-    /** Particle count. */
-    count?: number;
-    /** Additional CSS classes. */
-    class?: string;
-  }
+	/**
+	 * Particle-smoke ambient effect using a DPR-capped canvas. Theme colors come
+	 * from the nearest appearance context. Parent must have `position: relative`.
+	 * Renders `aria-hidden`.
+	 *
+	 * @example
+	 * <div style="position: relative;">
+	 *   <ShimmerCloud />
+	 *   content
+	 * </div>
+	 */
+	interface Props {
+		/** Particle count. */
+		count?: number;
+		/** Additional CSS classes. */
+		class?: string;
+	}
 
-  let { count = 28, class: className = "" }: Props = $props();
+	let { count = 28, class: className = '' }: Props = $props();
 
-  const prefersReduced =
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
+	let canvas: HTMLCanvasElement | undefined = $state();
+	let context: CanvasRenderingContext2D | null = null;
+	let logicalW = 0;
+	let logicalH = 0;
+	let colorA: string = tokens.color.accent;
+	let colorB: string = tokens.color.accent;
+	let particles: Particle[] = [];
+	let loop: FrameLoop | undefined;
+	let cancelPendingResize: Cleanup | undefined;
+	let lastT = 0;
 
-  let canvas: HTMLCanvasElement | undefined = $state();
-  let rafId: number | undefined;
+	type Particle = {
+		x: number;
+		y: number;
+		r: number;
+		vx: number;
+		vy: number;
+		alpha: number;
+		alphaDir: number;
+		alphaSpeed: number;
+	};
 
-  type Particle = {
-    x: number;
-    y: number;
-    r: number;
-    vx: number;
-    vy: number;
-    alpha: number;
-    alphaDir: number;
-    alphaSpeed: number;
-  };
+	function refreshColors() {
+		if (!canvas) return;
+		colorA = readSemanticColor(canvas, '--signal', tokens.color.signal);
+		colorB = readSemanticColor(canvas, '--accent', tokens.color.accent);
+	}
 
-  function getTheme(): string {
-    if (typeof document === "undefined") return "";
-    return document.body.dataset.theme ?? "";
-  }
+	function isArcane() {
+		return canvas ? readAppearanceContext(canvas).theme === 'arcane' : false;
+	}
 
-  function getParticleColor(theme: string): string {
-    if (theme === "hextech") return "93, 217, 240";
-    if (theme === "arcane") return "184, 69, 201";
-    return "199, 156, 87";
-  }
+	function spawn(): Particle {
+		const fast = isArcane();
+		return {
+			x: Math.random() * Math.max(logicalW, 400),
+			y: Math.random() * Math.max(logicalH, 300),
+			r: 1 + Math.random() * (fast ? 3 : 2),
+			vx: (Math.random() - 0.5) * (fast ? 0.45 : 0.2),
+			vy: -(Math.random() * (fast ? 0.5 : 0.3) + 0.05),
+			alpha: Math.random() * 0.3,
+			alphaDir: 1,
+			alphaSpeed: 0.003 + Math.random() * (fast ? 0.008 : 0.004)
+		};
+	}
 
-  function getParticleColorB(theme: string): string {
-    // Second color for arcane (two-color particles add richness)
-    if (theme === "arcane") return "233, 76, 188";
-    return getParticleColor(theme);
-  }
+	function resize(width: number, height: number) {
+		if (!canvas || !context) return;
+		const resolution = resizeCanvasBackingStore(canvas, context, width, height);
+		logicalW = resolution.cssWidth;
+		logicalH = resolution.cssHeight;
+		if (particles.length === 0) particles = Array.from({ length: Math.max(0, count) }, spawn);
+	}
 
-  onMount(() => {
-    if (prefersReduced || !canvas) return;
+	function draw(delta: number) {
+		if (!context || !canvas || !logicalW || !logicalH) return;
+		const fast = isArcane();
+		context.clearRect(0, 0, logicalW, logicalH);
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+		for (const [index, particle] of particles.entries()) {
+			particle.alpha += particle.alphaDir * particle.alphaSpeed * (delta / 16.667);
+			if (particle.alpha >= (fast ? 0.38 : 0.22)) particle.alphaDir = -1;
+			if (particle.alpha <= 0.02) particle.alphaDir = 1;
 
-    let particles: Particle[] = [];
+			particle.x += particle.vx * (delta / 16.667);
+			particle.y += particle.vy * (delta / 16.667);
+			if (particle.y < -10) particle.y = logicalH + 10;
+			if (particle.x < -10) particle.x = logicalW + 10;
+			if (particle.x > logicalW + 10) particle.x = -10;
 
-    function resize() {
-      if (!canvas || !canvas.parentElement) return;
-      const { width, height } = canvas.parentElement.getBoundingClientRect();
-      canvas.width = width;
-      canvas.height = height;
-    }
+			context.beginPath();
+			context.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+			context.fillStyle = index % 2 === 0 ? colorA : colorB;
+			context.globalAlpha = particle.alpha;
+			context.fill();
+		}
 
-    function spawn(): Particle {
-      const w = canvas?.width ?? 400;
-      const h = canvas?.height ?? 300;
-      const theme = getTheme();
-      const fast = theme === "arcane";
-      return {
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: 1 + Math.random() * (fast ? 3 : 2),
-        vx: (Math.random() - 0.5) * (fast ? 0.45 : 0.2),
-        vy: -(Math.random() * (fast ? 0.5 : 0.3) + 0.05),
-        alpha: Math.random() * 0.3,
-        alphaDir: 1,
-        alphaSpeed: 0.003 + Math.random() * (fast ? 0.008 : 0.004),
-      };
-    }
+		context.globalAlpha = 1;
+	}
 
-    resize();
-    particles = Array.from({ length: count }, spawn);
+	onMount(() => {
+		if (!canvas) return;
+		context = canvas.getContext('2d');
+		if (!context) return;
 
-    const ro = new ResizeObserver(resize);
-    if (canvas.parentElement) ro.observe(canvas.parentElement);
+		const canvasRoot = canvas;
+		const resizeTarget = canvas.parentElement;
+		const resizeObserver = typeof ResizeObserver === 'undefined' || !resizeTarget
+			? undefined
+			: new ResizeObserver(([entry]) => {
+				if (!entry) return;
+				cancelPendingResize?.();
+				cancelPendingResize = scheduleGeometry(() => resize(entry.contentRect.width, entry.contentRect.height));
+			});
+		if (resizeObserver && resizeTarget) resizeObserver.observe(resizeTarget);
 
-    let io_visible = true;
-    const io = new IntersectionObserver((entries) => {
-      io_visible = entries[0]?.isIntersecting ?? true;
-    });
-    io.observe(canvas);
+		refreshColors();
+		const unsubscribeAppearance = onAppearanceChange(canvasRoot, () => refreshColors());
+		loop = createFrameLoop(canvasRoot, (time) => {
+			const delta = lastT ? Math.min(100, time - lastT) : 16.667;
+			lastT = time;
+			draw(delta);
+		}, { enabled: true });
 
-    function draw() {
-      if (!ctx || !canvas) return;
-      const activeCanvas = canvas;
-      const theme = getTheme();
-      const colorA = getParticleColor(theme);
-      const colorB = getParticleColorB(theme);
-
-      ctx.clearRect(0, 0, activeCanvas.width, activeCanvas.height);
-
-      if (io_visible) {
-        particles.forEach((p, i) => {
-          // breathing alpha
-          p.alpha += p.alphaDir * p.alphaSpeed;
-          if (p.alpha >= (theme === "arcane" ? 0.38 : 0.22)) p.alphaDir = -1;
-          if (p.alpha <= 0.02) p.alphaDir = 1;
-
-          // drift
-          p.x += p.vx;
-          p.y += p.vy;
-
-          // wrap
-          if (p.y < -10) p.y = activeCanvas.height + 10;
-          if (p.x < -10) p.x = activeCanvas.width + 10;
-          if (p.x > activeCanvas.width + 10) p.x = -10;
-
-          const color = i % 2 === 0 ? colorA : colorB;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${color}, ${p.alpha})`;
-          ctx.fill();
-        });
-      }
-
-      rafId = requestAnimationFrame(draw);
-    }
-
-    rafId = requestAnimationFrame(draw);
-
-    return () => {
-      if (rafId !== undefined) cancelAnimationFrame(rafId);
-      ro.disconnect();
-      io.disconnect();
-    };
-  });
+		return () => {
+			cancelPendingResize?.();
+			resizeObserver?.disconnect();
+			unsubscribeAppearance();
+			loop?.destroy();
+			loop = undefined;
+			context = null;
+			particles = [];
+		};
+	});
 </script>
 
-<canvas
-  bind:this={canvas}
-  class={cn("hyvui-shimmer-cloud", className)}
-  aria-hidden="true"
-></canvas>
+<canvas bind:this={canvas} class={cn('hyvui-shimmer-cloud', className)} aria-hidden="true"></canvas>
 
 <style>
-  .hyvui-shimmer-cloud {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0.7;
-  }
+	.hyvui-shimmer-cloud {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		opacity: 0.7;
+	}
 
-  :global([data-theme="hextech"]) .hyvui-shimmer-cloud {
-    opacity: 0.55;
-  }
+	:global([data-theme='hextech']) .hyvui-shimmer-cloud {
+		opacity: 0.55;
+	}
 
-  :global([data-theme="arcane"]) .hyvui-shimmer-cloud {
-    opacity: 0.85;
-  }
+	:global([data-theme='arcane']) .hyvui-shimmer-cloud {
+		opacity: 0.85;
+	}
 
-  @media (prefers-reduced-motion: reduce) {
-    .hyvui-shimmer-cloud {
-      display: none;
-    }
-  }
+	@media (prefers-reduced-motion: reduce) {
+		.hyvui-shimmer-cloud {
+			display: none;
+		}
+	}
 </style>

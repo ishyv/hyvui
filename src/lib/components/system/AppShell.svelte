@@ -1,17 +1,28 @@
+<script lang="ts" module>
+  const APP_SHELL_DEPTH = Symbol("hyvui-app-shell-depth");
+</script>
+
 <script lang="ts">
+  import { getContext, onMount, setContext } from "svelte";
   import type { Snippet } from "svelte";
-  import {
-    applyTheme,
-    applyWeight,
-    clearTheme,
-    clearWeight,
+  import type {
+    GradeRegister,
+    ThemeRegister,
+    WeightRegister,
   } from "../../system/register.js";
-  import type { ThemeRegister, WeightRegister } from "../../system/register.js";
+  import {
+    claimBodyAppearance,
+    releaseBodyAppearance,
+  } from "../../system/app-shell-ownership.js";
   import Vignette from "../ambient/Vignette.svelte";
 
+  const parentDepth = getContext<number>(APP_SHELL_DEPTH);
+  const depth = (parentDepth ?? -1) + 1;
+  setContext(APP_SHELL_DEPTH, depth);
+
   /**
-   * Zero-config app wrapper. Handles IBM Plex Mono font injection, weight/theme application
-   * to `<body>`, and the global Vignette overlay.
+   * Document-level convenience wrapper. It owns only the appearance channels
+   * supplied by this instance and restores the previous body state on unmount.
    *
    * Import `@hyvnt/hyvui/styles.css` separately in your app entry point.
    *
@@ -22,65 +33,36 @@
    * </AppShell>
    *
    * @example
-   * <!-- opt out of automatic font + vignette -->
-   * <AppShell loadFonts={false} vignette={false}>
+   * <!-- opt out of the global vignette -->
+   * <AppShell vignette={false}>
    *   <slot />
    * </AppShell>
    */
   interface Props {
-    /** Weight register applied to `<body>`. Controls font weighting and surface density. Omit for base styles. */
+    /** Weight register applied to `<body>`. Omit to leave the current owner intact. */
     weight?: WeightRegister | null;
-    /** Theme applied to `<body>`. Controls palette and motif. Omit for base theme. */
+    /** Theme applied to `<body>`. Omit to leave the current owner intact. */
     theme?: ThemeRegister | null;
-    /** Inject IBM Plex Mono (400) from Google Fonts via `<head>`. Default: true. */
-    loadFonts?: boolean;
+    /** Grade applied to `<body>`. Omit to leave the current owner intact. */
+    grade?: GradeRegister | null;
     /** Render the global Vignette overlay. Default: true. */
     vignette?: boolean;
     children?: Snippet;
   }
 
-  let {
-    weight = null,
-    theme = null,
-    loadFonts = true,
-    vignette = true,
-    children,
-  }: Props = $props();
+  let { weight, theme, grade, vignette = true, children }: Props = $props();
+
+  const owner = Symbol("hyvui-app-shell");
+
+  onMount(() => {
+    claimBodyAppearance(owner, depth, weight, theme, grade);
+    return () => releaseBodyAppearance(owner);
+  });
 
   $effect(() => {
-    if (weight) {
-      applyWeight(weight);
-    } else {
-      clearWeight();
-    }
-
-    if (theme) {
-      applyTheme(theme);
-    } else {
-      clearTheme();
-    }
-
-    return () => {
-      clearWeight();
-      clearTheme();
-    };
+    claimBodyAppearance(owner, depth, weight, theme, grade);
   });
 </script>
-
-<svelte:head>
-  {#if loadFonts}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap"
-      rel="stylesheet"
-    />
-  {/if}
-</svelte:head>
 
 {#if vignette}
   <Vignette />

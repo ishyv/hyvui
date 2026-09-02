@@ -6,7 +6,7 @@
 	/**
 	 * @remarks Use for galleries, catalogs, index pages. Responsive card grid with optional filter controls.
 	 * @example
-	 * <ArchiveScene title="all projects" minCardWidth="22rem" maxCols={3}>
+	 * <ArchiveScene title="all projects" minCardWidth="22rem">
 	 *   {#snippet filter()}<SearchBar bind:value={query} />{/snippet}
 	 *   {#each filtered as item}
 	 *     <Card><Text variant="heading">{item.name}</Text></Card>
@@ -18,12 +18,10 @@
 		title?: string;
 		/** Minimum card width used for responsive auto layout. */
 		minCardWidth?: string;
-		/** Maximum number of columns (auto layout). */
-		maxCols?: number;
 		/** Gap between items. */
 		gap?: string;
-		/** Deprecated alias for maxCols. */
-		cols?: number;
+		/** Optional explicit grid template for authored asymmetry or caps. */
+		template?: string;
 		/** Additional CSS classes. */
 		class?: string;
 		/** Filter controls area above the grid. */
@@ -35,15 +33,13 @@
 	let {
 		title = '',
 		minCardWidth = '18rem',
-		maxCols,
 		gap = 'var(--space-inline)',
-		cols,
+		template,
 		class: className = '',
 		filter,
 		children
 	}: Props = $props();
 
-	const effectiveMaxCols = $derived(maxCols ?? cols ?? 3);
 </script>
 
 <section class={cn('hyvui-archive', className)}>
@@ -60,7 +56,13 @@
 				{/if}
 			</div>
 		{/if}
-		<Grid maxCols={effectiveMaxCols} minColWidth={minCardWidth} {gap} class="hyvui-archive-grid">
+		<Grid
+			mode={template ? 'template' : 'auto'}
+			cols={template ?? 1}
+			minColWidth={minCardWidth}
+			{gap}
+			class="hyvui-archive-grid"
+		>
 			{#if children}{@render children()}{/if}
 		</Grid>
 	</div>
@@ -87,7 +89,7 @@
 	}
 
 	.hyvui-archive-title {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-lg);
 		font-weight: 400;
 		line-height: var(--reg-heading-lh);

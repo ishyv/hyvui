@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * Content shell. Caps width at --shell-max, pads inline with --shell-pad,
@@ -15,7 +16,7 @@
 	 *
 	 * <Shell max="56rem" pad="var(--space-lg)">narrow long-form content</Shell>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Override --shell-max for this instance (any CSS length, clamp(), etc.). */
 		max?: string;
 		/** Override --shell-pad inline padding. */
@@ -34,12 +35,14 @@
 		padY = '0',
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-shell', className)}
 	style:--shell-max-local={max}
 	style:--shell-pad-local={pad}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * Aspect-ratio container with object-fit children. Use for images, video, or
@@ -16,7 +17,7 @@
 	 *   <svg viewBox="0 0 100 100">...</svg>
 	 * </Frame>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** CSS aspect-ratio. E.g. "16/9", "1/1", "3/2". */
 		ratio?: string;
 		fit?: 'cover' | 'contain';
@@ -30,12 +31,14 @@
 		fit = 'cover',
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-frame', className)}
 	style:aspect-ratio={ratio}
 	style:--frame-fit={fit}

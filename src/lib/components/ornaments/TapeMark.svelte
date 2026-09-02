@@ -52,7 +52,7 @@
 	.hyvui-tape-mark {
 		position: absolute;
 		z-index: var(--z-raised, 10);
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		text-transform: uppercase;
 		letter-spacing: 0.18em;

@@ -52,7 +52,7 @@
 	.hyvui-ticker {
 		overflow: hidden;
 		white-space: nowrap;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

@@ -19,9 +19,18 @@
   interface Props {
     manifest: ShowcaseManifest;
     children?: Snippet;
+    contextPlacement?: "before" | "after";
+    showContext?: boolean;
+    compactShell?: boolean;
   }
 
-  let { manifest, children }: Props = $props();
+  let {
+    manifest,
+    children,
+    contextPlacement = "before",
+    showContext = true,
+    compactShell: compactShellProp,
+  }: Props = $props();
 
   const familyRoutes = $derived(listShowcaseFamily(manifest.family));
   const adjacent = $derived(getAdjacentShowcaseRoutes(manifest.id));
@@ -33,7 +42,10 @@
   );
   const familyLabel = $derived(manifest.family.replaceAll("-", " "));
   const compactShell = $derived(
-    manifest.family === "research-archive" || manifest.family === "material-study",
+    compactShellProp ??
+      (contextPlacement === "before" &&
+        (manifest.family === "research-archive" ||
+          manifest.family === "material-study")),
   );
   const statusLabel = $derived(
     manifest.status === "published"
@@ -61,42 +73,11 @@
   });
 </script>
 
-<div
-  class="showcase-shell"
-  class:compact={compactShell}
-  data-showcase-shell
-  data-showcase-id={manifest.id}
-  data-showcase-family={manifest.family}
-  data-showcase-density={compactShell ? "compact" : "full"}
-  data-showcase-layout={compactShell ? "overlay" : "flow"}
-  data-showcase-status={manifest.status}
-  data-showcase-host={manifest.hostBiome}
-  data-showcase-viewer={manifest.viewerRole}
-  data-showcase-relation={manifest.primaryRelation}
->
-  <a class="showcase-skip" href="#showcase-content">skip to content</a>
+<svelte:head>
+  <title>{manifest.id === "home" ? "hyvui" : `hyvui / ${manifest.title}`}</title>
+</svelte:head>
 
-  <header class="showcase-header">
-    <div class="showcase-identity">
-      <a class="showcase-brand" href="/">hyvui</a>
-      <span>anthology / {familyLabel}</span>
-    </div>
-
-    <nav class="showcase-nav" data-showcase-nav aria-label="showcase routes">
-      {#each familyRoutes as route}
-        <a
-          href={route.href}
-          aria-current={route.id === manifest.id ? "page" : undefined}
-          class:current={route.id === manifest.id}
-        >
-          {route.title}
-        </a>
-      {/each}
-    </nav>
-
-    <span class="showcase-status" data-showcase-status-label>{statusLabel}</span>
-  </header>
-
+{#snippet routeContext()}
   <details
     class="showcase-context"
     open={!compactShell}
@@ -146,10 +127,62 @@
       </dl>
     </div>
   </details>
+{/snippet}
 
-  <div id="showcase-content" class="showcase-content" data-showcase-content tabindex="-1">
+<div
+  class="showcase-shell"
+  class:compact={compactShell}
+  data-showcase-shell
+  data-showcase-id={manifest.id}
+  data-showcase-family={manifest.family}
+  data-showcase-density={compactShell ? "compact" : "full"}
+  data-showcase-layout={compactShell ? "overlay" : "flow"}
+  data-showcase-status={manifest.status}
+  data-showcase-host={manifest.hostBiome}
+  data-showcase-viewer={manifest.viewerRole}
+  data-showcase-relation={manifest.primaryRelation}
+  data-showcase-context-placement={contextPlacement}
+>
+  <a class="showcase-skip" href="#showcase-content">skip to content</a>
+
+  <header class="showcase-header">
+    <div class="showcase-identity">
+      <a class="showcase-brand" href="/">hyvui</a>
+      <span>anthology / {familyLabel}</span>
+    </div>
+
+    <nav class="showcase-nav" data-showcase-nav aria-label="showcase routes">
+      {#each familyRoutes as route}
+        <a
+          href={route.href}
+          aria-current={route.id === manifest.id ? "page" : undefined}
+          class:current={route.id === manifest.id}
+        >
+          {route.title}
+        </a>
+      {/each}
+    </nav>
+
+    <span class="showcase-status" data-showcase-status-label>{statusLabel}</span
+    >
+  </header>
+
+  {#if showContext && contextPlacement === "before"}
+    {@render routeContext()}
+  {/if}
+
+  <div
+    id="showcase-content"
+    class="showcase-content"
+    data-showcase-content
+    tabindex="-1"
+  >
     {@render children?.()}
   </div>
+
+  {#if showContext && contextPlacement === "after"}
+    {@render routeContext()}
+  {/if}
 
   <footer class="showcase-footer">
     <div>
@@ -473,6 +506,32 @@
       grid-column: 1 / -1;
       grid-row: 2;
       justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+      touch-action: pan-x;
+      white-space: nowrap;
+      mask-image: linear-gradient(
+        to right,
+        currentColor 0,
+        currentColor calc(100% - 2rem),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        currentColor 0,
+        currentColor calc(100% - 2rem),
+        transparent 100%
+      );
+    }
+
+    .showcase-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .showcase-nav a {
+      flex: 0 0 auto;
     }
 
     .showcase-context-body {

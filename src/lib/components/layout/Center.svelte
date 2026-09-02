@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * Centers content horizontally within a max width. Unlike Shell, Center has
@@ -12,7 +13,7 @@
 	 *   <p>long-form prose stays at a comfortable reading measure</p>
 	 * </Center>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** Max content width. Defaults to a 38rem reading measure. */
 		max?: string;
 		/** Also center text content. */
@@ -27,12 +28,14 @@
 		andText = false,
 		as = 'div',
 		class: className = '',
-		children
+		children,
+		...rest
 	}: Props = $props();
 </script>
 
 <svelte:element
 	this={as}
+	{...rest}
 	class={cn('hyvui-center', andText && 'hyvui-center--text', className)}
 	style:max-width={max}
 >

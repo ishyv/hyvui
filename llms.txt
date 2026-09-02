@@ -1,6 +1,6 @@
 # hyvui
 
-> Svelte 5 component library. Dark operator aesthetic. 96 components across primitives, inputs, feedback, layout, navigation, display, ambient, patterns, depth, and scenes. Tokens via CSS custom properties and Tailwind v4 @theme.
+> Svelte 5 component library. Dark operator aesthetic. 96 components across primitives, inputs, feedback, layout, navigation, display, ambient, patterns, depth, and scenes. Tokens via generated CSS custom properties and typed Svelte props.
 
 ## install
 
@@ -16,12 +16,19 @@ Import the base stylesheet once in your app entry point:
 import "@hyvnt/hyvui/styles.css";
 ```
 
-Fonts must be loaded by the consuming app:
+The optional font preset is self-hosted and explicit:
 
-- ET Book (serif) — self-hosted from https://github.com/edwardtufte/et-book — used for headings and body
-- IBM Plex Mono — Google Fonts or self-hosted — used for labels, metadata, UI strings
+```js
+import "@hyvnt/hyvui/fonts.css";
+```
 
-Use AppShell to handle fonts, weight/theme, and vignette automatically:
+Themes are explicit too:
+
+```js
+import "@hyvnt/hyvui/themes.css";
+```
+
+Use AppShell for document-level weight, theme, grade, and vignette behavior:
 
 ```svelte
 <script>
@@ -36,42 +43,41 @@ Use AppShell to handle fonts, weight/theme, and vignette automatically:
 
 ```svelte
 <script lang="ts">
-  import { Button, Card, StageScene, toastStore, surface, tokens, themeClasses } from '@hyvnt/hyvui';
+  import { Button, Card, StageScene, toastStore, surface, tokens } from '@hyvnt/hyvui';
 </script>
 ```
 
 ## critical rules
 
 - NEVER use hex colors. Use CSS custom properties: `var(--accent)`, `var(--text-soft)`, etc.
-- NEVER use Tailwind built-in colors (`text-blue-500`). Use token classes: `text-accent`, `bg-bg`, `border-line`.
+- NEVER use framework color utilities as the consumer contract. Use semantic CSS variables such as `var(--accent)`, `var(--bg)`, and `var(--line)`.
 - ALWAYS use lowercase for UI strings, labels, button text, copy.
 - NEVER use em-dashes. Use commas or periods instead.
-- Font weight is almost always 400. Use size, tracking, and color for hierarchy — not weight.
+- Font weight is almost always 400. Use size, tracking, and color for hierarchy, not weight.
 - NEVER use "Error" or "Warning" as title text. Describe the condition: "signal lost", "connection refused".
 - No border-radius without intent — the default is no rounding.
-- Only two accent hues exist: gold (`--accent: #c79c57`) and teal (`--signal: #79a6a3`). No other hues.
+- The base language has two semantic accent channels: warm action (`--accent`) and cool signal (`--signal`). Themes may remap them.
 
-## token classes (Tailwind)
+## semantic tokens
 
-Available via `themeClasses` import or as class strings:
+The public contract is semantic CSS variables and component props. Tailwind classes are not required:
 
 ```
-Background:  bg-bg, bg-bg-elev
-Text:        text-text, text-text-soft, text-muted, text-muted-strong,
-             text-accent, text-accent-strong, text-signal
-Border:      border-line, border-line-strong
-Font:        font-body, font-mono
-Shadow:      shadow-veil
-Status text: text-status-ok, text-status-pend, text-status-warn, text-status-fail
+Background:  --bg, --bg-elev, --bg-elev-soft
+Text:        --text, --text-soft, --muted, --muted-strong,
+             --accent, --accent-strong, --signal
+Border:      --line, --line-strong
+Font roles:  --reg-font-primary, --reg-font-ui
+Shadow:      --shadow-veil, --shadow-card
+Status:      --status-ok, --status-pend, --status-warn, --status-fail
 ```
 
 TypeScript reference:
 
 ```ts
-import { themeClasses } from "@hyvnt/hyvui";
-themeClasses.text.accent; // 'text-accent'
-themeClasses.bg.elevated; // 'bg-bg-elev'
-themeClasses.border.strong; // 'border-line-strong'
+import { tokens } from "@hyvnt/hyvui";
+tokens.color.accent;
+tokens.color.signal;
 ```
 
 ## token CSS custom properties
@@ -121,7 +127,7 @@ Transition: --transition-smooth, --transition-fast
 ### layout
 
 - **Stack** — flexbox wrapper. Props: `direction` (vertical|horizontal), `gap`, `align`, `justify`, `wrap`, `as`.
-- **Grid** — responsive/template grid. Props: `mode` (auto|template), `cols`, `minColWidth`, `maxCols`, `gap`, `as`.
+- **Grid** — intrinsic/template grid. Props: `mode` (auto|template), `cols`, `minColWidth`, `gap`, `as`.
 - **Card** — surface card. Slots: `header`, `children`, `footer`. Props: `staggerOffset`.
 - **Panel** — heavier surface. Props: `withInset`. Slots: `header`, `children`.
 - **Modal** — dialog overlay. Props: `open`, `title`, `onclose`. Slots: `header`, `children`, `footer`.
@@ -361,7 +367,7 @@ Apply to `Text` via the `expression` prop. Declares compositional intent.
       <StatusDot status="ok" />
       <Label color="signal">all systems nominal</Label>
     {/snippet}
-    <Grid minColWidth="14rem" maxCols={4}>
+    <Grid minColWidth="14rem">
       <MetricCard label="uptime" value="99.9%" trend="up" trendValue="+0.1%" />
       <MetricCard label="active nodes" value="1,284" trend="neutral" />
       <MetricCard label="error rate" value="0.02%" trend="down" trendValue="-0.01%" />

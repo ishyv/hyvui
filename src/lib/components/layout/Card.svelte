@@ -2,6 +2,7 @@
 	import { cn } from '../../utils/cn.js';
 	import Surface from '../primitives/Surface.svelte';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 
 	/**
 	 * @see surface — add `use:surface` on Card for an entrance animation on mount.
@@ -14,7 +15,7 @@
 	 * </Card>
 	 * <Card staggerOffset="1.2rem">offset card in a grid</Card>
 	 */
-	interface Props {
+	interface Props extends LayoutAttributes {
 		/** TranslateY offset for staggered card grids. */
 		staggerOffset?: string;
 		/** Additional CSS classes. */
@@ -27,12 +28,24 @@
 		footer?: Snippet;
 	}
 
-	let { staggerOffset = '', class: className = '', header, children, footer }: Props = $props();
+	let {
+		staggerOffset = '',
+		class: className = '',
+		header,
+		children,
+		footer,
+		style: styleAttribute,
+		...rest
+	}: Props = $props();
 
-	const style = $derived(staggerOffset ? `transform: translateY(${staggerOffset})` : '');
+	const style = $derived(
+		[styleAttribute, staggerOffset ? `transform: translateY(${staggerOffset})` : '']
+			.filter(Boolean)
+			.join('; ')
+	);
 </script>
 
-<div class={cn('hyvui-card-wrap', className)} {style}>
+<div {...rest} class={cn('hyvui-card-wrap', className)} style={style || undefined}>
 	<Surface variant="card" class="hyvui-card-inner">
 		{#if header}
 			<div class="hyvui-card-header">
@@ -55,6 +68,7 @@
 <style>
 	.hyvui-card-wrap {
 		display: block;
+		min-width: 0;
 	}
 
 	:global(.hyvui-card-inner) {

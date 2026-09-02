@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { showcaseManifests } from "../src/lib/showcase/showcaseManifest.js";
 
 test.describe("showcase curatorial shell", () => {
   test("orients the witness route without replacing its inner composition", async ({
@@ -74,5 +75,15 @@ test.describe("showcase curatorial shell", () => {
       "experimental",
     );
     await expect(page.locator("[data-showcase-content]")).toBeVisible();
+  });
+
+  test("gives every showcase route a document title", async ({ page }) => {
+    for (const manifest of showcaseManifests) {
+      await page.goto(manifest.href, { waitUntil: "networkidle" });
+
+      const title = await page.title();
+      expect(title, manifest.href).toContain("hyvui");
+      expect(title.trim(), manifest.href).not.toBe("");
+    }
   });
 });

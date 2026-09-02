@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
 	import type { Snippet } from 'svelte';
+	import type { LayoutAttributes } from '../../system/dom.js';
 	import type { Expression } from './text.js';
 	import { text, type TextVariants } from './Text.tv.js';
 
@@ -11,7 +12,7 @@
 	 * <Text expression="title-card" as="h1">deep signal</Text>
 	 * <Text expression="readout">sys.uptime: 99.9%</Text>
 	 */
-	interface Props {
+	interface Props extends Omit<LayoutAttributes, 'class' | 'children' | 'style'> {
 		/** HTML tag to render. */
 		as?: string;
 		/** Typographic style variant. */
@@ -22,6 +23,8 @@
 		expression?: Expression;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Additional inline styles. */
+		style?: string;
 		/** Text content. */
 		children?: Snippet;
 	}
@@ -32,7 +35,9 @@
 		color = variant === 'heading' ? 'primary' : 'soft',
 		expression,
 		class: className = '',
-		children
+		children,
+		style: styleAttr,
+		...rest
 	}: Props = $props();
 
 	const colorMap: Record<string, string> = {
@@ -49,7 +54,12 @@
 	);
 </script>
 
-<svelte:element this={as} class={variantClass} style:color={colorMap[color]}>
+<svelte:element
+	this={as}
+		{...rest}
+		class={variantClass}
+		style={`${styleAttr ? `${styleAttr}; ` : ''}color: ${colorMap[color]}`}
+>
 	{#if children}{@render children()}{/if}
 </svelte:element>
 
@@ -62,7 +72,7 @@
 	}
 
 	.hyvui-text-heading {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-3xl);
 		font-weight: 400;
 		line-height: 0.95;
@@ -71,16 +81,15 @@
 	}
 
 	.hyvui-text-body {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-sm);
 		font-weight: 400;
 		line-height: 1.62;
-		max-width: 36rem;
 		text-wrap: pretty;
 	}
 
 	.hyvui-text-caption {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
@@ -89,7 +98,7 @@
 	}
 
 	.hyvui-text-italic {
-		font-family: var(--font-body);
+		font-family: var(--reg-font-primary);
 		font-size: var(--text-sm);
 		font-style: italic;
 		font-weight: 400;

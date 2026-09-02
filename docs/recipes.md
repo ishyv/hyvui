@@ -254,35 +254,37 @@ Input and Textarea with a loading Button, `use:resolve` on the form, and a Toast
   }
 </script>
 
-<Panel use:resolve={(a) => (resolveAction = a)}>
-  {#snippet header()}
-    <Text as="h2" variant="heading">new field entry</Text>
-  {/snippet}
+<div use:resolve={(a) => (resolveAction = a)}>
+  <Panel>
+    {#snippet header()}
+      <Text as="h2" variant="heading">new field entry</Text>
+    {/snippet}
 
-  <form onsubmit|preventDefault={handleSubmit}>
-    <Stack gap="var(--space-md)">
-      <Input
-        bind:value={callsign}
-        label="callsign"
-        placeholder="enter designation"
-      />
-      <Textarea
-        bind:value={notes}
-        label="field notes"
-        placeholder="record observations..."
-        autoresize
-      />
-      <Button
-        type="submit"
-        variant="primary"
-        loading={submitting}
-        disabled={submitting}
-      >
-        {submitting ? "archiving" : "archive entry"}
-      </Button>
-    </Stack>
-  </form>
-</Panel>
+    <form onsubmit|preventDefault={handleSubmit}>
+      <Stack gap="var(--space-md)">
+        <Input
+          bind:value={callsign}
+          label="callsign"
+          placeholder="enter designation"
+        />
+        <Textarea
+          bind:value={notes}
+          label="field notes"
+          placeholder="record observations..."
+          autoresize
+        />
+        <Button
+          type="submit"
+          variant="primary"
+          loading={submitting}
+          disabled={submitting}
+        >
+          {submitting ? "archiving" : "archive entry"}
+        </Button>
+      </Stack>
+    </form>
+  </Panel>
+</div>
 ```
 
 ---
@@ -634,7 +636,8 @@ the canonical entry gate pattern — `TerminalBoot` runs, fires `oncomplete`, a 
     />
   </div>
 {:else}
-  <StageScene use:surface>
+  <div use:surface>
+    <StageScene>
     {#snippet ambient()}
       <GridOverlay />
       <Vignette />
@@ -656,7 +659,8 @@ the canonical entry gate pattern — `TerminalBoot` runs, fires `oncomplete`, a 
     {#snippet actions()}
       <Button variant="primary" href="/dashboard">proceed</Button>
     {/snippet}
-  </StageScene>
+    </StageScene>
+  </div>
 {/if}
 ```
 

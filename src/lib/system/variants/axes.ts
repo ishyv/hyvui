@@ -1,21 +1,25 @@
 /**
  * Shared variant axes — types every register- or theme-aware component should
- * reuse. Centralizing these means a new register or tone propagates to all
- * components by editing one file.
- *
- * Components don't need to expose every axis — pick the ones that mean
- * something for that component. e.g. Divider exposes `tone` but not `size`.
+ * reuse. The generated appearance unions come from the canonical token source.
  */
 
-export const REGISTERS = [
-  "field-notebook",
-  "mission-control",
-  "archive",
-] as const;
-export type Register = (typeof REGISTERS)[number];
+import {
+  gradeRegisters,
+  themeRegisters,
+  weightRegisters,
+  type GradeRegister,
+  type ThemeRegister,
+  type WeightRegister,
+} from "../../tokens/registers.generated.js";
 
-export const THEMES = ["default", "hextech", "arcane"] as const;
-export type Theme = (typeof THEMES)[number];
+export const REGISTERS = weightRegisters;
+export type Register = WeightRegister;
+
+export const THEMES = ["default", ...themeRegisters] as const;
+export type Theme = "default" | ThemeRegister;
+
+export const GRADES = ["default", ...gradeRegisters] as const;
+export type Grade = "default" | GradeRegister;
 
 export const TONES = [
   "neutral",

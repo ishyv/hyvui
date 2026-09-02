@@ -13,7 +13,7 @@
 </pre>
 
 <p align="center">
-  <sub><code>svelte 5 · typescript · tailwind v4 · dark by default</code></sub>
+  <sub><code>svelte 5 · typescript · css-native layout · dark by default</code></sub>
 </p>
 
 <br/>
@@ -70,6 +70,15 @@ import the styles once at the root of your app:
 // app.css or root layout
 import "@hyvnt/hyvui/styles.css";
 ```
+
+Themes and the optional self-hosted font preset are explicit imports:
+
+```ts
+import "@hyvnt/hyvui/themes.css";
+import "@hyvnt/hyvui/fonts.css";
+```
+
+Tailwind is internal demo tooling, not part of the consumer setup. `Grid` uses intrinsic CSS tracks, appearance is nearest-scope based, and the v1 breaking changes are documented in [INSTALL.md](INSTALL.md) and [docs/migration-v1.md](docs/migration-v1.md).
 
 ---
 

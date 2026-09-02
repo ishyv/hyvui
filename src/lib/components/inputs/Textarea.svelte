@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '../../utils/cn.js';
+	import type { HTMLTextareaAttributes } from 'svelte/elements';
 
 	/**
 	 * @see resolve — wrap parent `<form>` with `use:resolve` to flash status on submit.
@@ -7,7 +8,10 @@
 	 * <Textarea label="notes" bind:value={notes} placeholder="enter notes..." />
 	 * <Textarea label="message" rows={6} bind:value={msg} autoresize error={msgError} />
 	 */
-	interface Props {
+	interface Props extends Omit<
+		HTMLTextareaAttributes,
+		'class' | 'children' | 'disabled' | 'id' | 'onchange' | 'oninput' | 'placeholder' | 'rows' | 'value'
+	> {
 		/** Current value (bindable). */
 		value?: string;
 		/** Number of visible rows. */
@@ -26,8 +30,12 @@
 		disabled?: boolean;
 		/** Additional CSS classes. */
 		class?: string;
+		/** Stable DOM id. Required when an external label or description association is needed. */
+		id?: string;
 		/** Input handler. */
 		oninput?: (e: Event) => void;
+		/** Change handler. */
+		onchange?: HTMLTextareaAttributes['onchange'];
 	}
 
 	let {
@@ -40,11 +48,14 @@
 		autoresize = false,
 		disabled = false,
 		class: className = '',
-		oninput
+		id,
+		oninput,
+		onchange,
+		...rest
 	}: Props = $props();
 
-	const textareaId = `hyvui-textarea-${Math.random().toString(36).slice(2, 8)}`;
 	const message = $derived(error || description);
+	const messageId = $derived(id ? `${id}-desc` : undefined);
 
 	let textareaEl: HTMLTextAreaElement | undefined = $state();
 
@@ -58,25 +69,37 @@
 </script>
 
 <div class={cn('hyvui-textarea-wrap', className)}>
-	{#if label}
-		<label class="hyvui-textarea-label" for={textareaId}>{label}</label>
+	{#snippet control()}
+		<textarea
+			{...rest}
+			{id}
+			bind:this={textareaEl}
+			bind:value
+			{rows}
+			{placeholder}
+			{disabled}
+			aria-describedby={messageId}
+			aria-invalid={error ? 'true' : undefined}
+			class={cn('hyvui-textarea', error && 'hyvui-textarea-error')}
+			oninput={handleInput}
+			{onchange}
+		></textarea>
+	{/snippet}
+	{#if label && !id}
+		<label class="hyvui-textarea-label hyvui-textarea-label-nested">
+			<span>{label}</span>
+			{@render control()}
+		</label>
+	{:else}
+		{#if label}
+			<label class="hyvui-textarea-label" for={id}>{label}</label>
+		{/if}
+		{@render control()}
 	{/if}
-	<textarea
-		id={textareaId}
-		bind:this={textareaEl}
-		bind:value
-		{rows}
-		{placeholder}
-		{disabled}
-		aria-describedby={message ? `${textareaId}-desc` : undefined}
-		aria-invalid={error ? 'true' : undefined}
-		class={cn('hyvui-textarea', error && 'hyvui-textarea-error')}
-		oninput={handleInput}
-	></textarea>
 	{#if error}
-		<span id="{textareaId}-desc" class="hyvui-textarea-message hyvui-textarea-message-error">{error}</span>
+		<span id={messageId} class="hyvui-textarea-message hyvui-textarea-message-error">{error}</span>
 	{:else if message}
-		<span id="{textareaId}-desc" class="hyvui-textarea-message">{message}</span>
+		<span id={messageId} class="hyvui-textarea-message">{message}</span>
 	{/if}
 </div>
 
@@ -89,7 +112,8 @@
 	}
 
 	.hyvui-textarea-label {
-		font-family: var(--font-mono);
+		display: block;
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		font-weight: 400;
 		letter-spacing: 0.16em;
@@ -98,8 +122,14 @@
 		line-height: 1.2;
 	}
 
+	.hyvui-textarea-label-nested {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
 	.hyvui-textarea {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		font-weight: 400;
 		color: var(--text);
@@ -142,7 +172,7 @@
 	}
 
 	.hyvui-textarea-message {
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-2xs);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

@@ -1,6 +1,7 @@
 import type { ActionReturn } from "svelte/action";
 import { animate } from "motion";
 import { currentRegister } from "../motion/registerObserver.js";
+import { onReducedMotionChange } from "../runtime.js";
 import {
   presets,
   themeAccent,
@@ -17,9 +18,15 @@ import {
  */
 export function echo(node: HTMLElement): ActionReturn {
   if (typeof window === "undefined") return {};
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  let prefersReduced = false;
+  let destroyed = false;
+  const animations = new Set<ReturnType<typeof animate>>();
+  const overlays = new Set<HTMLElement>();
+  const originalPosition = node.style.position;
+  const originalOverflow = node.style.overflow;
+  const unsubscribeReduced = onReducedMotionChange((value) => {
+    prefersReduced = value;
+  });
 
   function handleClick(e: MouseEvent) {
     if (prefersReduced) return;
@@ -28,7 +35,7 @@ export function echo(node: HTMLElement): ActionReturn {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    const { register, theme } = currentRegister();
+    const { register, theme } = currentRegister(node);
     const accent = themeAccent[theme] ?? themeAccent.default;
     const mult = themePressMultiplier[theme] ?? 1;
     const baseDuration = (presets[register]?.press.options.duration ??
@@ -48,16 +55,35 @@ export function echo(node: HTMLElement): ActionReturn {
     if (position === "static") node.style.position = "relative";
     node.style.overflow = "hidden";
     node.appendChild(overlay);
+    overlays.add(overlay);
 
-    animate(overlay, { opacity: [0, 1, 0] }, {
+    const animation = animate(overlay, { opacity: [0, 1, 0] }, {
       duration: baseDuration * mult * 2,
-    } as never).finished.then(() => overlay.remove());
+    } as never);
+    animations.add(animation);
+    void animation.finished
+      .then(() => {
+        if (!destroyed) overlay.remove();
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        animations.delete(animation);
+        overlays.delete(overlay);
+      });
   }
 
   node.addEventListener("click", handleClick);
   return {
     destroy() {
+      destroyed = true;
       node.removeEventListener("click", handleClick);
+      unsubscribeReduced();
+      for (const animation of animations) animation.stop();
+      for (const overlay of overlays) overlay.remove();
+      if (node.style.position === "relative" && originalPosition === "")
+        node.style.position = "";
+      else node.style.position = originalPosition;
+      node.style.overflow = originalOverflow;
     },
   };
 }

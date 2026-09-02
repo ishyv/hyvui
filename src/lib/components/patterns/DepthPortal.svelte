@@ -107,7 +107,7 @@
 		position: absolute;
 		bottom: 0.65rem;
 		left: 0.8rem;
-		font-family: var(--font-mono);
+		font-family: var(--reg-font-ui);
 		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
 		color: var(--muted);

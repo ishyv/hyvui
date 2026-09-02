@@ -24,9 +24,9 @@
     /** Which theme to apply on first load if no localStorage entry exists. */
     defaultTheme?: ThemeRegister | null;
     /** Subset of weights to expose. */
-    weights?: WeightRegister[];
+    weights?: readonly WeightRegister[];
     /** Subset of themes to expose. */
-    themes?: ThemeRegister[];
+    themes?: readonly ThemeRegister[];
     /** Additional CSS classes. */
     class?: string;
   }
@@ -68,10 +68,10 @@
         THEME_KEY,
       ) as ThemeRegister | null;
 
-      if (savedWeight && (weightRegisters as string[]).includes(savedWeight)) {
+      if (savedWeight && weightRegisters.includes(savedWeight)) {
         currentWeight = savedWeight;
       }
-      if (savedTheme && (themeRegisters as string[]).includes(savedTheme)) {
+      if (savedTheme && themeRegisters.includes(savedTheme)) {
         currentTheme = savedTheme;
       }
     }
@@ -178,7 +178,7 @@
   }
 
   .hyvui-reg-btn {
-    font-family: var(--font-mono);
+    font-family: var(--reg-font-ui);
     font-size: var(--text-2xs);
     letter-spacing: 0.1em;
     text-transform: uppercase;

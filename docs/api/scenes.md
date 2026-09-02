@@ -103,7 +103,7 @@ Full-page layout structures. Scenes are opinionated compositions of layout zones
   {/snippet}
 
   <!-- main content -->
-  <Grid minColWidth="16rem" maxCols={3} gap="var(--space-md)">
+  <Grid minColWidth="16rem" gap="var(--space-md)">
     <MetricCard
       label="active signals"
       value="142"
@@ -215,14 +215,13 @@ Full-page layout structures. Scenes are opinionated compositions of layout zones
 
 ### Props
 
-| prop           | type     | default                 | required | description                                        |
-| -------------- | -------- | ----------------------- | -------- | -------------------------------------------------- |
-| `title`        | `string` | `undefined`             | no       | archive section title                              |
-| `minCardWidth` | `string` | `'18rem'`               | no       | minimum card width used for responsive auto layout |
-| `maxCols`      | `number` | `3`                     | no       | maximum number of columns (auto layout)            |
-| `gap`          | `string` | `'var(--space-inline)'` | no       | gap between items                                  |
-| `cols`         | `number` | `undefined`             | no       | deprecated alias for `maxCols`                     |
-| `class`        | `string` | `''`                    | no       | additional CSS classes                             |
+| prop           | type     | default                 | required | description                                           |
+| -------------- | -------- | ----------------------- | -------- | ----------------------------------------------------- |
+| `title`        | `string` | `undefined`             | no       | archive section title                                 |
+| `minCardWidth` | `string` | `'18rem'`               | no       | minimum card width used for responsive auto layout    |
+| `template`     | `string` | `undefined`             | no       | explicit grid template for authored caps or asymmetry |
+| `gap`          | `string` | `'var(--space-inline)'` | no       | gap between items                                     |
+| `class`        | `string` | `''`                    | no       | additional CSS classes                                |
 
 ### Slots
 
@@ -238,7 +237,7 @@ Full-page layout structures. Scenes are opinionated compositions of layout zones
   let activeFilter = $state("all");
 </script>
 
-<ArchiveScene title="signal archive" maxCols={3} minCardWidth="18rem">
+<ArchiveScene title="signal archive" minCardWidth="18rem">
   {#snippet filter()}
     <Stack direction="horizontal" gap="var(--space-xs)" align="center">
       <Tabs
